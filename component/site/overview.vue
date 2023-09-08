@@ -70,18 +70,18 @@
 <!--              Charger 线-->
 <!--              <div class="posa" :class="{middleBottomRight: base.pilePower}"></div>-->
               <div class="posr" style="z-index: 2">
-                <img class="middle-bg" :src="require('./img/inverter.svg')" alt="">
+                <img class="middle-bg" :src="require('@img/site/inverter.svg')" alt="">
                 <div class="middle-text posa">Inverter</div>
               </div>
               <common-flex direction="column" justify="center" align="center" class="circle top posa">
 <!--              <common-flex direction="column" justify="center" align="center" class="circle top posa" v-if="+base.pvExist">-->
-                <img :src="require('./img/pv.svg')" alt="">
+                <img :src="require('@img/site/pv.svg')" alt="">
                 <div v-if="+base.solarPower < 1000">{{ base.solarPower }}<br><span>kW</span></div>
                 <div v-else>{{ (+base.solarPower / 1000).toFixed(2) }}<br><span>MW</span></div>
               </common-flex>
               <common-flex direction="column" justify="center" align="center" class="circle left posa">
                 <div class="posa soc">{{ base.soc || 0 }}%<br><span style="color: #666">SOC</span></div>
-                <img :src="require('./img/battery.svg')" alt="">
+                <img :src="require('@img/site/battery.svg')" alt="">
                 <template v-if="+base.storeConnectStatus === 1">
                   <div v-if="+base.storePower < 1000">{{ base.storePower }}<br><span>kW</span></div>
                   <div v-else>{{ (+base.storePower / 1000).toFixed(2) }}<br><span>MW</span></div>
@@ -89,18 +89,18 @@
                 <div v-else>0<br><span>kW</span></div>
               </common-flex>
               <common-flex direction="column" justify="center" align="center" class="circle right posa">
-                <img :src="require('./img/grid.svg')" alt="">
+                <img :src="require('@img/site/grid.svg')" alt="">
                 <div v-if="+base.electricPower < 1000">{{ base.electricPower }}<br><span>kW</span></div>
                 <div v-else>{{ (+base.electricPower / 1000).toFixed(2) }}<br><span>MW</span></div>
               </common-flex>
               <common-flex direction="column" justify="center" align="center" class="circle bottom-left posa">
-                <img :src="require('./img/load.svg')" alt="">
+                <img :src="require('@img/site/load.svg')" alt="">
                 <div v-if="+base.devicePower < 1000">{{ base.devicePower }}<br><span>kW</span></div>
                 <div v-else>{{ (+base.devicePower / 1000).toFixed(2) }}<br><span>MW</span></div>
               </common-flex>
               <common-flex v-if="+base.pileNum" direction="column" justify="center" align="center" class="circle bottom-right posa">
                 <div v-if="base.pilePower" class="bottom-right-dot posa"></div>
-                <img :src="require('./img/pile.svg')" alt="">
+                <img :src="require('@img/site/pile.svg')" alt="">
                 <div v-if="+base.pilePower < 1000">{{ base.pilePower }}<br><span>kW</span></div>
                 <div v-else>{{ (+base.pilePower / 1000).toFixed(2) }}<br><span>MW</span></div>
               </common-flex>
@@ -117,12 +117,12 @@
             <common-flex class="comp-overview-row-col-card-content" direction="column" justify="space-around">
               <common-flex direction="column" align="center">
                 <div class="num">{{ base.emissionSaved }} <span class="unit">kg</span></div>
-                <img :src="require('./img/house.svg')" alt="">
+                <img :src="require('@img/site/house.svg')" alt="">
                 <div class="des">CO2 Emission Saved</div>
               </common-flex>
               <common-flex direction="column" align="center">
                 <div class="num">{{ base.trees }}</div>
-                <img :src="require('./img/tree.svg')" alt="">
+                <img :src="require('@img/site/tree.svg')" alt="">
                 <div class="des">Equivalent Trees Planted</div>
               </common-flex>
             </common-flex>
@@ -1174,7 +1174,7 @@ export default {
              }
            }
            .middle-right-left {
-             background-color: #3EBCD4;
+             background-color: $commonColor;
              width: 50%;
              height: 2px;
              right: 0;
@@ -1183,7 +1183,7 @@ export default {
              z-index: 1;
            }
            .gridExport {
-             background-color: #FFB968;
+             background-color: $commonColor;
              width: 50%;
              height: 2px;
              right: 0;
@@ -1199,11 +1199,11 @@ export default {
                width: 0;
                height: 0;
                border: 6px solid;
-               border-color: transparent #FFB968 transparent transparent;
+               border-color: transparent $commonColor transparent transparent;
              }
            }
            .gridImport {
-             background-color: #FFB968;
+             background-color: $commonColor;
              width: 50%;
              height: 2px;
              right: 0;
@@ -1219,13 +1219,13 @@ export default {
                width: 0;
                height: 0;
                border: 6px solid;
-               border-color: transparent transparent transparent #FFB968;
+               border-color: transparent transparent transparent $commonColor;
              }
            }
            .circle {
              @include wh(80);
              border-radius: 50%;
-             border: 1px solid #3EBCD4;
+             border: 1px solid $commonColor;
              @media screen and (max-width: 1334px) {
                @include wh(60);
              }

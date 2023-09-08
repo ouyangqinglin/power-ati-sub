@@ -379,7 +379,7 @@ export default {
     right: 10px;
     top: 0;
     font-size: 12px;
-    color: #3EBCD4;
+    color: $commonColor;
   }
 }
 </style>

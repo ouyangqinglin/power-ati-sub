@@ -1778,7 +1778,7 @@ export default {
               left: -78px;
               top: 0;
               @include wh(72 24);
-              background: #3EBCD4;
+              background: $commonColor;
               text-indent: 8px;
               @include nFont(14 #fff 600 24)
             }
@@ -1933,8 +1933,8 @@ export default {
       border-bottom: 3px solid #fff;
     }
     .curClick {
-      border-bottom: 3px solid #3EBCD4;
-      color: #3EBCD4;
+      border-bottom: 3px solid $commonColor;
+      color: $commonColor;
       transition: all .3s;
     }
   }

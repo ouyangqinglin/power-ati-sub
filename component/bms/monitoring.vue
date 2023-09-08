@@ -782,7 +782,7 @@ export default {
       }
     }
     .activeBorder {
-      border: 2px solid $commonColor;
+      border: 1px solid $commonColor;
     }
     >:nth-child(4n+1) {
       margin-left: 0;

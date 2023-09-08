@@ -20,7 +20,7 @@
             <el-form-item label="Firmware package:" prop="name" label-width="160px">
               <el-tooltip :content="base.name" placement="top">
                 <el-link :href="`${baseUrl}${base.path}`" :underline="false" target="_blank">
-                  <div style="width: 400px; color: #3EBCD4" class="ellipsis">{{base.name}}</div>
+                  <div style="width: 400px" class="ellipsis themeColor">{{base.name}}</div>
                 </el-link>
               </el-tooltip>
             </el-form-item>
@@ -68,7 +68,7 @@
             <el-table-column label="Task Name" prop="name"></el-table-column>
             <el-table-column label="QTY of Site" prop="num">
               <template slot-scope="{row}">
-                <span style="color: #3EBCD4; cursor: pointer" @click="lookNum(row.code)">{{row.num}}</span>
+                <span style="cursor: pointer" class="themeColor" @click="lookNum(row.code)">{{row.num}}</span>
               </template>
             </el-table-column>
             <el-table-column label="Status" prop="status">
@@ -163,16 +163,16 @@
       <el-form>
         <el-row>
           <el-col :span="5">
-            <el-form-item label="Success:"><span style="color: #3EBCD4">{{ successNum }}</span></el-form-item>
+            <el-form-item label="Success:"><span class="themeColor">{{ successNum }}</span></el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="Waiting:"><span style="color: #3EBCD4">{{ waitingNum }}</span></el-form-item>
+            <el-form-item label="Waiting:"><span class="themeColor">{{ waitingNum }}</span></el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="Upgrading:"><span style="color: #3EBCD4">{{ upgradingNum }}</span></el-form-item>
+            <el-form-item label="Upgrading:"><span class="themeColor">{{ upgradingNum }}</span></el-form-item>
           </el-col>
           <el-col :span="9">
-            <el-form-item label="Fail:"><span style="color: #3EBCD4">{{ failNum }}</span>  <el-link :disabled="!failNum" @click="againUpgradeTask" type="primary" style="margin-bottom: 3px">  Click here to Upgrade again</el-link></el-form-item>
+            <el-form-item label="Fail:"><span class="themeColor">{{ failNum }}</span>  <el-link :disabled="!failNum" @click="againUpgradeTask" type="primary" style="margin-bottom: 3px">  Click here to Upgrade again</el-link></el-form-item>
           </el-col>
         </el-row>
       </el-form>

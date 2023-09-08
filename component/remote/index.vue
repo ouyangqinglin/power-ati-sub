@@ -43,7 +43,7 @@
         <el-table-column label="Firmware package" prop="name" show-overflow-tooltip min-width="140">
           <template slot-scope="{ row }">
             <el-link :href="`${baseUrl}${row.path}`" :underline="false" target="_blank">
-              <span style="color: #3EBCD4">{{ row.name }}</span>
+              <span class="themeColor">{{ row.name }}</span>
             </el-link>
           </template>
         </el-table-column>
@@ -100,7 +100,7 @@
             <el-col :span="10">
               <el-form-item label="Firmware package" class="posr fileType" prop="file">
                 <div class="upload-wrap posa"
-                     :style="{cursor: fileName ? 'not-allowed' : 'pointer', backgroundColor: fileName ? 'rgba(62, 188, 212, .6)' : 'rgba(62, 188, 212, 1)'}">
+                     :style="{cursor: fileName ? 'not-allowed' : 'pointer'}">
                   <input @change="changeFile" id="file" class="file-ele" type="file"
                          :style="{display: fileName ? 'none': 'block', cursor: fileName ? 'not-allow' : 'pointer'}">
                   upload
@@ -311,6 +311,7 @@ export default {
     cursor: pointer;
     text-align: center;
     color: #fff;
+    background-color: $commonColor;
     .file-ele {
       position: absolute;
       top: 0;
@@ -326,12 +327,12 @@ export default {
       top: 0;
       width: 160px;
       height: 36px;
-      color: #3EBCD4;
+      color: $commonColor;
       text-align: left;
       cursor: default;
       .file-name {
         max-width: 120px;
-        color: #3EBCD4;
+        color: $commonColor;
         opacity: 1;
         cursor: default;
       }
@@ -340,6 +341,10 @@ export default {
         @include wh(16);
         cursor: pointer;
       }
+    }
+    .uploaded {
+      background-color: $commonColor;
+      opacity: .6;
     }
   }
   .fileType {
