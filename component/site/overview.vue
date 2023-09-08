@@ -1203,7 +1203,7 @@ export default {
              }
            }
            .gridImport {
-             background-color: $commonColor;
+             background-color: #ffb968;
              width: 50%;
              height: 2px;
              right: 0;
@@ -1219,7 +1219,7 @@ export default {
                width: 0;
                height: 0;
                border: 6px solid;
-               border-color: transparent transparent transparent $commonColor;
+               border-color: transparent transparent transparent #ffb968;
              }
            }
            .circle {
