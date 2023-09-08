@@ -49,8 +49,7 @@ export default {
       loading: '',
       active: false,
       params: {
-        id: '',
-        // weather: 2,
+        id: ''
       },
       details: {},
       activeName: 'overview'
