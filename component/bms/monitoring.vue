@@ -58,7 +58,7 @@
         <common-flex align="center" class="left">
           <div class="container-battery posr">
             <div class="posa dynamicSoc" :style="{height: base.soc * 68 / 100 + 'px'}"></div>
-            <img class="battery posa" style="z-index: 1" :src="require('@/views/components/site-details/img/device-battery.svg')" alt="">
+            <img class="battery posa" style="z-index: 1" :src="require('@img/site/device-battery.svg')" alt="">
           </div>
         </common-flex>
         <div style="flex: 1">
