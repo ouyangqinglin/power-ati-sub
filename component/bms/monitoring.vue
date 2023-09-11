@@ -199,7 +199,7 @@ const option = {
     position: function (pt, params) {
       let xDis
       if (pt[0] > 960) {
-        if (params[0].value === 'NaN') xDis = pt[0] - 100
+        if (params[0]?.value === 'NaN') xDis = pt[0] - 100
         else xDis = pt[0] - 150
       }
       else xDis = pt[0] + 20
