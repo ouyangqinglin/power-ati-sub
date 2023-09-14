@@ -111,7 +111,18 @@
                       <el-form-item prop="25" label="Battery awaken"><el-switch v-model="deviceBase[25]" @change="setDevice(25)" /></el-form-item>
                     </el-col>
                     <el-col :span="4">
-                      <el-form-item prop="13" label="Anti reflux/Grid Sell"><el-switch v-model="deviceBase[13]" @change="setDevice(13)" /></el-form-item>
+                      <el-form-item prop="13" label="Anti reflux/Grid Sell">
+                        <common-flex slot="label">
+                          <span>Anti reflux/Grid Sell</span>
+                          <el-tooltip effect="dark" placement="top">
+                          <span slot="content">
+                            Enable Anti reflux/Grid Sell: indicates that electricity sales are not allowed
+                          </span>
+                            <img class="question" :src="require('@img/question.svg')" alt="">
+                          </el-tooltip>
+                        </common-flex>
+                        <el-switch v-model="deviceBase[13]" @change="setDevice(13)" />
+                      </el-form-item>
                     </el-col>
                     <el-col :span="4">
                       <el-form-item prop="31" label="ARC enable"><el-switch v-model="deviceBase[31]" @change="setDevice(31)" /></el-form-item>
@@ -1056,6 +1067,11 @@ export default {
         }
       }
     }
+  }
+  .question {
+    margin-left: 3px;
+    width: 18px;
+    cursor: pointer;
   }
 }
 </style>

@@ -67,6 +67,7 @@
             <dict-tag :options="dict.type.device_install_status" :value="row.installStatus"></dict-tag>
           </template>
         </el-table-column>
+        <el-table-column label="Rated Power (kW)" prop="nameplateCapacity" min-width="140" v-if="+deviceType === 1" />
         <el-table-column label="Capacity (kWh)" prop="nameplateCapacity" min-width="120" v-if="+deviceType === 2" />
         <el-table-column label="Capacity (kW)" prop="nameplateCapacity" min-width="120" v-if="+deviceType === 6" />
         <el-table-column label="Site" prop="siteName" min-width="120" show-overflow-tooltip>

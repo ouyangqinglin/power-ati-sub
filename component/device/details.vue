@@ -19,10 +19,13 @@
           <el-form-item label="Networking Status" prop="net" v-if="+base.installStatus === 1">
             <el-input v-model="netStatus[base.net]"></el-input>
           </el-form-item>
-          <el-form-item label="Capacity(kWh)" prop="capacity" v-if="[2, 6].includes(+base.deviceType)">
+          <el-form-item :label="dyLabel" prop="capacity" v-if="[1, 2, 6].includes(+base.deviceType)">
             <el-input v-model="base.capacity"></el-input>
           </el-form-item>
         </common-flex>
+        <el-row type="flex" justify="end" v-if="[1, 2, 6].includes(+base.deviceType)">
+          <el-button type="primary" :disabled="false" @click="openShow">Edit</el-button>
+        </el-row>
       </el-form>
     </el-card>
     <el-card style="margin-top: 20px" v-if="+base.installStatus === 0">
@@ -120,16 +123,46 @@
       />
     </el-card>
     <common-flex style="margin-top: 20px" justify="center"><el-button @click="cancel">Cancel</el-button></common-flex>
+    <el-dialog
+      title="Device Info"
+      :before-close="beforeClose"
+      :close-on-click-modal="false"
+      width="46%"
+      :visible.sync="show">
+      <el-form :model="modal" :rules="rules" ref="editRef">
+        <el-row>
+          <el-col :span="14">
+            <el-form-item :label="dyLabel" prop="capacity">
+              <el-input v-model.trim="modal.capacity"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <el-row type="flex" justify="center">
+        <el-button type="primary" :disabled="!modal.capacity" @click="editDevice">Save</el-button>
+        <el-button @click="beforeClose">Cancel</el-button>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { baseDevice } from '@/api/device'
+import { baseDevice, updateDevice } from '@/api/device'
 import { versionRecord, versionUpgrade} from "@/api/remote"
 export default {
   name: "comp-details",
   dicts: ['file_type'],
   data() {
+    const validate = (rule, value, callback) => {
+      const reg = /^(?!^\.)(\d*(\.\d{0,3})?)?$/
+      if (value === '') {
+        callback(new Error('Please enter'))
+      } else {
+        if (!reg.test(value)) {
+          callback(new Error('At most three significant decimals'))
+        } else callback()
+      }
+    }
     return {
       currentApk: {
         version: '',
@@ -137,6 +170,14 @@ export default {
         upgradeTime: ''
       },
       total: 0,
+      modal: {
+        capacity: 0
+      },
+      rules: {
+        capacity: [
+          {required: true, trigger: ['blur', 'change'], validator: validate}
+        ]
+      },
       loading: false,
       list: [],
       queryParams: {
@@ -145,6 +186,7 @@ export default {
         sn: ''
       },
       base: {},
+      show: false,
       deviceType: {
         '1': 'Inverter',
         '2': 'Battery',
@@ -160,6 +202,16 @@ export default {
         '0': 'Off-line',
         '1': 'On-line'
       }
+    }
+  },
+  computed: {
+    dyLabel() {
+      let map = {
+        1: 'Rated Power (kW)',
+        2: 'Capacity (kWh)',
+        6: 'Total Component capacity(kW) ',
+      }
+      return map[+this.base.deviceType]
     }
   },
   mounted() {
@@ -179,6 +231,34 @@ export default {
     })
   },
   methods: {
+    editDevice() {
+      let data = {
+        id: this.$route.params.id,
+        nameplateCapacity: this.modal.capacity,
+        deviceType: this.base.deviceType
+      }
+      this.$refs.editRef.validate(v => {
+        if (v) {
+          this.$modal.loading()
+          updateDevice(data).then(res => {
+            if (+res.code === 200) {
+              this.$modal.msgSuccess('Succeed')
+              this.base.capacity = data.nameplateCapacity
+              this.beforeClose()
+            }
+          }).finally(() => this.$modal.closeLoading())
+        }
+      })
+
+    },
+    openShow() {
+      this.show = true
+      this.modal.capacity = this.base.capacity
+    },
+    beforeClose() {
+      this.show = false
+      this.modal.capacity = this.base.capacity
+    },
     cancel() {
       history.go(-1)
     },

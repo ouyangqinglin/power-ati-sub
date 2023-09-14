@@ -478,10 +478,10 @@ export default {
     let info = JSON.parse(localStorage.getItem(`info${this.$route.params.id}`))
     let analyV = [info.highVoltage, info.lowVoltage, info.avgVoltage, info.differVoltage], analyT = [info.maxTemplate, info.minTemplate, info.differTemplate]
     this.zooList.forEach((i, index) => {
-      i.value = analyV[index].toFixed(3)
+      i.value = analyV[index]?.toFixed(3)
     })
     this.oneList.forEach((i, index) => {
-      i.value = analyT[index].toFixed(3)
+      i.value = analyT[index]?.toFixed(3)
     })
     this.voltageList = info.cellVList || []
     if (this.voltageList.length) {

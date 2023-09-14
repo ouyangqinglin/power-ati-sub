@@ -1,23 +1,50 @@
 <template>
   <div class="pages-remote app-container">
     <el-card>
-      <el-form :inline="true" :model="queryParams" label-width="100px" ref="queryForm">
-        <common-flex>
-          <common-flex style="flex-grow: 1">
+      <el-form :inline="true" :model="queryParams" label-width="140px" ref="queryForm">
+        <el-row>
+          <el-col :span="8">
             <el-form-item label="Version：" prop="versionNum">
               <el-input clearable placeholder="Please enter" v-model="queryParams.versionNum"></el-input>
             </el-form-item>
-            <el-form-item label="File Type：" prop="fileType">
-              <el-select placeholder="All" v-model="queryParams.fileType" style="width: 300px">
-                <el-option v-for="i of fileTypeOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Component M：" prop="fileType">
+              <el-select placeholder="All" v-model="queryParams.fileType">
+                <el-option v-for="i of compMOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
               </el-select>
             </el-form-item>
-          </common-flex>
-          <el-form-item>
-            <el-button type="primary" @click="handleQuery">Query</el-button>
-            <el-button @click="resetQuery">Reset</el-button>
-          </el-form-item>
-        </common-flex>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Manufacturer：" prop="manufacturer">
+              <el-select placeholder="All" v-model="queryParams.manufacturer" :disabled="queryManuDisabled">
+                <el-option v-for="i of manufacturerQueryOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="8">
+            <el-form-item label="Sub-module：" prop="subModule">
+              <el-select placeholder="All" v-model="queryParams.subModule" :disabled="querySubDisabled">
+                <el-option v-for="i of submoduleQueryOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Application Type：" prop="applicationType" label-width="140px">
+              <el-select placeholder="All" v-model="queryParams.applicationType">
+                <el-option v-for="i of appOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <common-flex justify="flex-end">
+              <el-button type="primary" @click="handleQuery">Query</el-button>
+              <el-button @click="resetQuery">Reset</el-button>
+            </common-flex>
+          </el-col>
+        </el-row>
       </el-form>
     </el-card>
     <el-card style="margin-top: 24px">
@@ -33,9 +60,29 @@
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="File Type" prop="fileType" min-width="260">
+        <el-table-column label="Component M" prop="fileType" min-width="120">
           <template slot-scope="{ row }">
             <dict-tag :options="dict.type.file_type" :value="row.fileType"></dict-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="Component S" prop="component" min-width="120">
+          <template slot-scope="{ row }">
+            <span>{{['V1.5', 'Mini', 'V1.0'][+row.component]}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Manufacturer" prop="manufacturer" min-width="120">
+          <template slot-scope="{ row }">
+            <span>{{manuLabel(row)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Sub-module" prop="subModule" min-width="120">
+          <template slot-scope="{ row }">
+            <span>{{submoduleLabel(row)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Application Type" prop="applicationType" min-width="140">
+          <template slot-scope="{ row }">
+            <span>{{['Boot', 'App'][+row.applicationType]}}</span>
           </template>
         </el-table-column>
         <el-table-column label="Version" prop="versionNum" min-width="130"></el-table-column>
@@ -48,7 +95,7 @@
           </template>
         </el-table-column>
         <el-table-column label="Version description" prop="remark" min-width="150" show-tooltip-when-overflow />
-        <el-table-column label="Upload Time" prop="updateTime" min-width="140">
+        <el-table-column label="Upload Time" prop="updateTime" min-width="150">
           <template slot-scope="{ row }">
             <span v-if="row.updateTime && row.updateTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', row.updateTime) }}</span>
             <span v-else>--</span>
@@ -79,9 +126,42 @@
         <el-form @submit.native.prevent label-position="top" label-width="100" :model="base" :rules="rules" ref="formRef">
           <el-row :gutter="24">
             <el-col :span="10">
-              <el-form-item label="File Type" prop="fileType">
-                <el-select style="width: 100%" v-model="base.fileType" placeholder="please select">
-                  <el-option v-for="i of fileTypeOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+              <el-form-item label="Component M" prop="fileType">
+                <el-select style="width: 100%" v-model="base.fileType" placeholder="Please select">
+                  <el-option v-for="i of compMOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+<!--            111-->
+            <el-col :span="10">
+              <el-form-item label="Component S" prop="component">
+                <el-select style="width: 100%" v-model="base.component" placeholder="Please select" :disabled="disabledComp">
+                  <el-option v-for="i of compSOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="24">
+            <el-col :span="10">
+              <el-form-item label="Manufacturer" prop="manufacturer">
+                <el-select style="width: 100%" v-model="base.manufacturer" placeholder="Please select" :disabled="disabledManu">
+                  <el-option v-for="i of manufacturerOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="Sub-module" prop="subModule">
+                <el-select style="width: 100%" v-model="base.subModule" placeholder="Please select" :disabled="disabledSubmodule">
+                  <el-option v-for="i of submoduleOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="24">
+            <el-col :span="10">
+              <el-form-item label="Application Type" prop="applicationType">
+                <el-select style="width: 100%" v-model="base.applicationType" placeholder="Please select">
+                  <el-option v-for="i of appOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -156,32 +236,51 @@ export default {
         pageNum: 1,
         pageSize: 10,
         versionNum: '',
-        fileType: ''
+        fileType: '',
+        component: '',
+        subModule: '',
+        manufacturer: '',
+        applicationType: ''
       },
-      fileTypeOptions: [
+      // 1111
+      compMOptions: [
         {
-          value: 0,
-          label: 'Communication module software upgrade package'
+          label: 'T-box',
+          value: 0
         },
         {
-          value: 18,
-          label: 'Hybrid_app*'
+          label: 'BMS',
+          value: 1
         },
         {
-          value: 19,
-          label: 'Hybrid_boot*'
+          label: 'PCS',
+          value: 2
+        },
+        // {
+        //   label: 'EV Charger',
+        //   value: 3
+        // },
+        // {
+        //   label: 'HMI',
+        //   value: 4
+        // }
+      ],
+      appOptions: [
+        {
+          label: 'Boot',
+          value: 0
         },
         {
-          value: 20,
-          label: 'HybridInverter5K_app*'
-        },
-        {
-          value: 21,
-          label: 'HybridInverter5K_flash*'
-        },
+          label: 'App',
+          value: 1
+        }
       ],
       base: {
         fileType: '',
+        component: '',
+        subModule: '',
+        manufacturer: '',
+        applicationType: '',
         versionNum: '',
         file: '',
         name: '',
@@ -189,6 +288,18 @@ export default {
       },
       rules: {
         fileType: [
+          { required: true, message: 'Please select', trigger: ['change', 'blur']}
+        ],
+        component: [
+          { required: true, message: 'Please select', trigger: ['change', 'blur']}
+        ],
+        subModule: [
+          { required: true, message: 'Please select', trigger: ['change', 'blur']}
+        ],
+        manufacturer: [
+          { required: true, message: 'Please select', trigger: ['change', 'blur']}
+        ],
+        applicationType: [
           { required: true, message: 'Please select', trigger: ['change', 'blur']}
         ],
         versionNum: [
@@ -200,6 +311,179 @@ export default {
         file: [
           { required: true, message: 'Please upload', trigger: ['change', 'blur']}
         ]
+      },
+      disabledComp: false,
+      disabledManu: false,
+      disabledSubmodule: false,
+      queryManuDisabled: true,
+      querySubDisabled: true,
+    }
+  },
+  computed: {
+    compSOptions() {
+      let arrBox = [
+        {
+          label: 'V1.5',
+          value: 0
+        },
+        {
+          label: 'Mini',
+          value: 1
+        },
+        {
+          label: 'V1.0',
+          value: 2
+        }
+      ]
+      return +this.base.fileType === 0 ? arrBox : []
+    },
+    manufacturerQueryOptions() {
+      let arrBox = [
+        {
+          label: 'Yotai',
+          value: 0
+        }
+      ]
+      let arrBms = [
+        {
+          label: 'TIANBDA',
+          value: 1
+        },
+        {
+          label: 'PACEEX',
+          value: 2
+        }
+      ]
+      let arrPcs = [
+        {
+          label: 'MEGAREVO',
+          value: 1
+        },
+        {
+          label: 'LUXPOWER',
+          value: 2
+        }
+      ]
+      return +this.queryParams.fileType === 0 ? arrBox : +this.queryParams.fileType === 1 ? arrBms : +this.queryParams.fileType === 2 ? arrPcs : []
+    },
+    manufacturerOptions() {
+      let arrBox = [
+        {
+          label: 'Yotai',
+          value: 0
+        }
+      ]
+      let arrBms = [
+        {
+          label: 'TIANBDA',
+          value: 1
+        },
+        {
+          label: 'PACEEX',
+          value: 2
+        }
+      ]
+      let arrPcs = [
+        {
+          label: 'MEGAREVO',
+          value: 1
+        },
+        {
+          label: 'LUXPOWER',
+          value: 2
+        }
+      ]
+      return +this.base.fileType === 0 ? arrBox : +this.base.fileType === 1 ? arrBms : +this.base.fileType === 2 ? arrPcs : []
+    },
+    submoduleQueryOptions() {
+      let arrBms = [
+        {
+          label: 'BAU',
+          value: 1
+        },
+        {
+          label: 'BCU',
+          value: 2
+        },
+        {
+          label: 'BMU',
+          value: 3
+        }
+      ]
+      let arrPcs = [
+        {
+          label: 'ARM',
+          value: 1
+        },
+        {
+          label: 'DSP',
+          value: 2
+        },
+      ]
+      return +this.queryParams.fileType === 0 ? [] : +this.queryParams.fileType === 1 ? arrBms : +this.queryParams.fileType === 2 ? arrPcs : []
+    },
+    submoduleOptions() {
+      let arrBms = [
+        {
+          label: 'BAU',
+          value: 1
+        },
+        {
+          label: 'BCU',
+          value: 2
+        },
+        {
+          label: 'BMU',
+          value: 3
+        }
+      ]
+      let arrPcs = [
+        {
+          label: 'ARM',
+          value: 1
+        },
+        {
+          label: 'DSP',
+          value: 2
+        },
+      ]
+      return +this.base.fileType === 0 ? [] : +this.base.fileType === 1 ? arrBms : +this.base.fileType === 2 ? arrPcs : []
+    }
+  },
+  watch: {
+    disabledComp(v) {
+      this.rules.component[0].required = !v
+    },
+    disabledManu(v) {
+      this.rules.manufacturer[0].required = !v
+    },
+    disabledSubmodule(v) {
+      this.rules.subModule[0].required = !v
+    },
+    'queryParams.fileType': {
+      handler(v) {
+        this.queryManuDisabled = false
+        this.querySubDisabled = false
+        this.queryParams.manufacturer = ''
+        this.queryParams.subModule = ''
+      }
+    },
+    'base.fileType': {
+      handler(v) {
+        if (+v === 0) {
+          this.disabledComp = false
+          this.disabledManu = true
+          this.disabledSubmodule = true
+          this.base.manufacturer = 0
+          this.base.subModule = null
+        } else {
+          this.disabledComp = true
+          this.disabledManu = false
+          this.disabledSubmodule = false
+          this.base.manufacturer = null
+          this.base.component = ''
+          this.base.subModule = null
+        }
       }
     }
   },
@@ -207,6 +491,21 @@ export default {
     this.getList()
   },
   methods: {
+    manuLabel(row) {
+      if (+row.manufacturer === 0) return 'Yotai'
+      if (+row.fileType === 1 && +row.manufacturer === 1) return 'TIANBDA'
+      if (+row.fileType === 1 && +row.manufacturer === 2) return 'PACEEX'
+      if (+row.fileType === 2 && +row.manufacturer === 1) return 'MEGAREVO'
+      if (+row.fileType === 2 && +row.manufacturer === 2) return 'LUXPOWER'
+    },
+    submoduleLabel(row) {
+      if (+row.fileType === 0) return '--'
+      if (+row.fileType === 1 && +row.subModule === 1) return 'BAU'
+      if (+row.fileType === 1 && +row.subModule === 2) return 'BCU'
+      if (+row.fileType === 1 && +row.subModule === 3) return 'BMU'
+      if (+row.fileType === 2 && +row.subModule === 1) return 'ARM'
+      if (+row.fileType === 2 && +row.subModule === 2) return 'DSP'
+    },
     handleDelete(row) {
       const ids = row.id
       this.$modal.confirm(`Please confirm whether to delete`).then(() => {
@@ -228,7 +527,6 @@ export default {
       this.base.file = this.fileItem.files[0]
       if (this.base.file) this.rules.file[0].message = ''
       else this.rules.file[0].message = 'Please upload'
-      this.rules = {...this.rules}
     },
     submit() {
       this.$refs.formRef.validate(v => {

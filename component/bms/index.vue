@@ -56,12 +56,16 @@
             </el-tooltip>
           </common-flex>
           <template slot-scope="scope">
+<!--            // 设备类型 1-1.5 2-mini  3-1.0-->
             <common-flex justify="center" align="center">
               <router-link :to="{name: 'monitoring-view', params: {id: scope.row.id, info: scope.row.extInfo, sn: scope.row.serialNumber, siteCode: scope.row.siteCode}}">
-                <el-button type="text">Monitoring</el-button>
+                <el-button type="text" :disabled="+scope.row.type !== 1">Monitoring</el-button>
               </router-link>
-              <img @click="follow(2, scope.row.id)" v-if="+scope.row.followBms === 1" class="follow" :src="require('@img/followed.svg')" alt="">
-              <img title="Follow" @click="follow(1, scope.row.id)" v-else class="follow" :src="require('@img/follow.svg')" alt="Follow">
+              <template v-if="+scope.row.type === 1">
+                <img @click="follow(2, scope.row.id)" v-if="+scope.row.followBms === 1" class="follow" :src="require('@img/followed.svg')" alt="">
+                <img title="Follow" @click="follow(1, scope.row.id)" v-else class="follow" :src="require('@img/follow.svg')" alt="Follow">
+              </template>
+              <div v-else class="follow"></div>
             </common-flex>
           </template>
         </el-table-column>

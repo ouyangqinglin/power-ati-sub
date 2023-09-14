@@ -2,8 +2,8 @@
   <div class="pages-fault app-container">
     <el-card class="pages-fault-card pane">
       <el-tabs v-model="queryParams.recoveryStatus" @tab-click="getList()">
-        <el-tab-pane name="0" label="Active Fault"></el-tab-pane>
-        <el-tab-pane name="1" label="Fault History"></el-tab-pane>
+        <el-tab-pane name="0" label="Open"></el-tab-pane>
+        <el-tab-pane name="1" label="Closed"></el-tab-pane>
       </el-tabs>
     </el-card>
     <el-card style="margin-top: 24px">
@@ -55,7 +55,31 @@
       </el-form>
     </el-card>
     <el-card style="margin-top: 24px">
-      <p>Alarm List</p>
+      <common-flex justify="space-between" align="center">
+        <p>Alarm List</p>
+        <common-flex>
+          <el-checkbox-group v-model="queryParams.alarmTypes" class="my-check" @change="getList">
+            <el-checkbox label="2">
+              <common-flex align="center">
+                <img :src="require('@subImg/fault.svg')" alt="">
+                <span>Fault</span>
+              </common-flex>
+            </el-checkbox>
+            <el-checkbox label="1">
+              <common-flex align="center">
+                <img :src="require('@subImg/warning.svg')" alt="">
+                <span>Warning</span>
+              </common-flex>
+            </el-checkbox>
+            <el-checkbox label="3">
+              <common-flex align="center">
+                <img :src="require('@subImg/notice.svg')" alt="">
+                <span>Notice</span>
+              </common-flex>
+            </el-checkbox>
+          </el-checkbox-group>
+        </common-flex>
+      </common-flex>
       <!--      <el-table-->
       <!--        class="my-expanded"-->
       <!--        ref="multipleTable"-->
@@ -98,26 +122,39 @@
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="Site Name" prop="siteName" min-width="120">
+        <el-table-column label="Importance" prop="type" width="120">
+          <template slot-scope="{ row }">
+            <common-flex justify="center" align="center" class="level" :style="{backgroundColor: ['', '#FFF4C9', '#FCD5D9', '#C4F8E2'][+row.type], color: ['', '#F99600', '#F0142F', '#06A561'][+row.type]}">
+              <img :src="require('@subImg/warning.svg')" alt="" v-if="+row.type === 1">
+              <img :src="require('@subImg/fault.svg')" alt="" v-if="+row.type === 2">
+              <img :src="require('@subImg/notice.svg')" alt="" v-if="+row.type === 3">
+              <span>{{ ['--', 'Warning', 'Fault', 'Notice'][+row.type] }}</span>
+            </common-flex>
+          </template>
+        </el-table-column>
+        <el-table-column label="Alarm" prop="fault" min-width="180" show-overflow-tooltip>
+          <template slot-scope="{row}">
+            <span>{{ deviceType[+row.deviceType] }}：{{row.fault}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Site Name" prop="siteName" min-width="160" show-overflow-tooltip>
           <template slot-scope="{ row }">
             <span class="themeColor">{{ row.siteName }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Device" prop="deviceErrorInfo">
-          <template slot-scope="{row}">
-            <span>{{ deviceType[+row.deviceType] }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="Device SN" prop="sn" show-overflow-tooltip min-width="120" />
-        <el-table-column label="Alarm" prop="fault" min-width="180" show-overflow-tooltip />
-        <el-table-column label="Importance" prop="type" width="120">
-          <template slot-scope="{ row }"><span>{{ ['--', 'Warning', 'Fault', 'Notice'][+row.type] }}</span></template>
-        </el-table-column>
         <el-table-column label="Fault code" prop="faultCode" min-width="120" />
         <el-table-column label="Collection Source" prop="collectionSource" min-width="140" />
-        <el-table-column label="Source SN" prop="sn" show-overflow-tooltip min-width="120" />
+        <el-table-column label="Collection Source SN" prop="sn" show-overflow-tooltip min-width="160" />
         <el-table-column label="Status" prop="recoveryStatus" width="120">
-          <template slot-scope="{ row }"><span>{{ ['Open', 'Closed'][+row.recoveryStatus] }}</span></template>
+          <template slot-scope="{ row }">
+            <common-flex justify="center" align="center">
+              <span class="dot" :style="{backgroundColor: ['#06A561', '#F0142F'][+row.recoveryStatus]}"></span>
+              <span>{{ ['Open', 'Closed'][+row.recoveryStatus] }}</span>
+            </common-flex>
+          </template>
+        </el-table-column>
+        <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Alarm Clearing Type" prop="cleanType" width="160">
+          <template slot-scope="{ row }"><span>{{ ['Automatic', 'Manual'][+row.cleanType] }}</span></template>
         </el-table-column>
         <el-table-column label="Occurrence Time" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
@@ -129,6 +166,11 @@
           <template slot-scope="{ row }">
             <span v-if="row.recoveryTime && row.recoveryTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.recoveryTime*1000) }}</span>
             <span v-else>--</span>
+          </template>
+        </el-table-column>
+        <el-table-column v-if="+queryParams.recoveryStatus === 0" label="Operat" prop="" fixed="right">
+          <template slot-scope="{ row }">
+            <img :src="require('@subImg/clear.svg')" @click="cleanFault(row.id)" style="cursor: pointer" alt="">
           </template>
         </el-table-column>
       </el-table>
@@ -144,7 +186,8 @@
 </template>
 
 <script>
-import {alarmList} from "@/api/site";
+import {alarmList, editAlarm} from "@/api/site";
+import {background} from "quill/ui/icons";
 
 let storage_id = ''
 export default {
@@ -156,7 +199,7 @@ export default {
         '2': 'Battery',
         '3': 'EV Charger',
         '4': 'Stick Logger',
-        '6': 'Photovoltaic'
+        '6': 'PV'
       },
       total: 0,
       loading: false,
@@ -170,7 +213,8 @@ export default {
         pageNum: 1,
         pageSize: 10,
         type: '',
-        status: ''
+        status: '',
+        alarmTypes: []
       },
       impOptions: [
         {
@@ -192,12 +236,27 @@ export default {
     this.getList()
   },
   methods: {
+    background,
+    cleanFault(id) {
+      let data = {
+        recoveryStatus: 1,
+        id
+      }
+      this.$modal.loading()
+      editAlarm(data).then(res => {
+        if (+res.code === 200) {
+          this.$modal.msgSuccess('Succeed')
+          this.getList()
+        }
+      }).finally(() => this.$modal.closeLoading())
+    },
     handleQuery() {
-      this.queryParams.pageNum = 1
       this.getList()
     },
     resetQuery() {
       this.resetForm("queryForm")
+      this.queryParams.alarmTypes = []
+      this.queryParams.pageNum = 1
       this.handleQuery()
     },
     getList() {
@@ -281,6 +340,23 @@ export default {
   .my-expanded {
     .el-table__expand-icon {
       display: none;
+    }
+  }
+  .level {
+    @include wh(80 24);
+    border-radius: 4px;
+  }
+  .dot {
+    margin-right: 4px;
+    @include wh(6);
+    border-radius: 50%;
+  }
+  .my-check {
+    img {
+      margin: 0 3px 2px 0;
+    }
+    .el-checkbox__input {
+      margin-bottom: 6px;
     }
   }
 }

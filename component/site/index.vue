@@ -132,15 +132,15 @@
         <el-table-column label="City" align="center" prop="city" show-overflow-tooltip />
         <el-table-column label="Province" align="center" prop="province" min-width="120" show-overflow-tooltip />
         <el-table-column label="Country/Area" align="center" prop="country" min-width="140" show-overflow-tooltip />
-        <el-table-column label="Time of Installed" align="center" prop="createTime" min-width="130">
+        <el-table-column label="Time of Installed" align="center" prop="createTime" min-width="125">
           <template slot-scope="{ row }">
-            <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(+row.createTime, row.timeZone) }}</span>
+            <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(+row.createTime, row.timeZone) }} {{row.utcTime}}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Local time" align="center" prop="createTime" min-width="140">
+        <el-table-column label="Local time" align="center" prop="createTime" min-width="125">
           <template slot-scope="{ row }">
-            <span v-if="row.createTime && row.createTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.createTime * 1000) }}</span>
+            <span v-if="row.createTime && row.createTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.createTime * 1000) }} {{localUTC}}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
@@ -245,6 +245,15 @@ export default {
         city: '', // 2 城市
       }
     };
+  },
+  computed: {
+    localUTC() {
+      let offNum = this.GET_LOCAL_UTC() / 60
+      if (offNum > 0 && offNum < 10) return `UTC+0${offNum}:00`
+      else if (offNum < 0 && offNum > -10) return `UTC-0${offNum}:00`
+      else if (offNum < -10) return `UTC-${offNum}:00`
+      else return `UTC+${offNum}:00`
+    }
   },
   watch: {
     queryTime(v) {
@@ -371,26 +380,6 @@ export default {
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-    },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.id != null) {
-            updateSite(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addSite(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
-      });
     },
     /** 删除按钮操作 */
     handleDelete(row) {

@@ -32,6 +32,16 @@
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
+        <el-table-column label="Importance" prop="type" width="120">
+          <template slot-scope="{ row }">
+            <common-flex justify="center" align="center" class="level" :style="{backgroundColor: ['', '#FFF4C9', '#FCD5D9', '#C4F8E2'][+row.type], color: ['', '#F99600', '#F0142F', '#06A561'][+row.type]}">
+              <img :src="require('@subImg/warning.svg')" alt="" v-if="+row.type === 1">
+              <img :src="require('@subImg/fault.svg')" alt="" v-if="+row.type === 2">
+              <img :src="require('@subImg/notice.svg')" alt="" v-if="+row.type === 3">
+              <span>{{ ['--', 'Warning', 'Fault', 'Notice'][+row.type] }}</span>
+            </common-flex>
+          </template>
+        </el-table-column>
         <el-table-column label="Alarm" prop="fault" min-width="180" show-overflow-tooltip>
           <template slot-scope="{ row }">
             <span v-if="row.deviceErrorInfo">{{ row.deviceErrorInfo }}：</span>
@@ -154,6 +164,10 @@ export default {
 .comp-alarm {
   p {
     font-weight: 600;
+  }
+  .level {
+    @include wh(80 24);
+    border-radius: 4px;
   }
 }
 </style>

@@ -1633,6 +1633,7 @@ export default {
         this.curDevInfo.gridList = arrGrid
         this.curDevInfo.loadList = arrLoad
         this.inverterInfo = this.curDevInfo
+        if (this.inverterInfo.upgradeTime) this.inverterInfo.upgradeTime = this.DATE_FORMAT('M/d/yyyy hh:mm', this.inverterInfo.upgradeTime * 1000)
         if (+this.curDevInfo.installation === 2) {
           this.inverterInfo.lifetime = '--'
         } else {
