@@ -111,15 +111,15 @@
             </el-col>
             <el-col :span="10">
               <el-form-item label="Firmware Name" prop="name">
-                <el-input placeholder="Please enter" v-model="toastData.name" maxlength="50"></el-input>
+                <el-input placeholder="Please enter" v-model="toastData.name" maxlength="50" readonly></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row :gutter="24">
             <el-col :span="10">
               <el-form-item label="Version" prop="newVersion">
-                <el-select v-model="toastData.newVersion" style="width: 300px;">
-                  <el-option v-for="(i, k) of newVersionList" :value="i" :label="i" :key="k"></el-option>
+                <el-select style="width: 100%" v-model="toastData.newVersion" @change="getVersion">
+                  <el-option v-for="(i, k) of newVersionList" :value="i.versionNum" :label="i.versionNum" :key="k"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import {versionNew, versionRecord, versionUpgrade} from "@/api/remote";
+import {versionList, versionRecord, versionUpgrade} from "@/api/remote";
 
 export default {
   name: "comp-site-firmware",
@@ -302,6 +302,12 @@ export default {
     }
   },
   watch: {
+    toastData: {
+      deep: true,
+      handler(v) {
+        this.getVersionList()
+      },
+    },
     disabledComp(v) {
       this.rules.component[0].required = !v
     },
@@ -313,7 +319,6 @@ export default {
     },
     'toastData.fileType': {
       handler(v) {
-        console.log(v)
         if (+v === 0) {
           this.disabledComp = false
           this.disabledManu = true
@@ -336,6 +341,12 @@ export default {
     this.getList()
   },
   methods: {
+    getVersion(v) {
+      if (v) {
+        let item = this.newVersionList.find(i => i.versionNum === v)
+        this.toastData.name = item.name
+      } else this.toastData.name = null
+    },
     manuLabel(row) {
       if (+row.manufacturer === 0) return 'Yotai'
       if (+row.fileType === 1 && +row.manufacturer === 1) return 'TIANBDA'
@@ -351,20 +362,15 @@ export default {
       if (+row.fileType === 2 && +row.subModule === 1) return 'ARM'
       if (+row.fileType === 2 && +row.subModule === 2) return 'DSP'
     },
-    changeFileType() {
-      this.getVersionList()
-      this.toastData.newVersion = ''
-    },
+
     submit() {
       this.$refs.toastRef.validate(v => {
         if (v) {
           this.$modal.loading("Upgrading")
           let data = {
             siteCode: this.$route.query?.siteCode,
-            version: this.toastData.newVersion,
-            fileType: this.toastData.fileType
           }
-          versionUpgrade(data).then(res => {
+          versionUpgrade({...data, ...this.toastData}).then(res => {
             console.log('Upgrade', res)
             if (+res.code === 200) {
               this.$modal.msgSuccess("Succeeded")
@@ -379,15 +385,13 @@ export default {
     },
     openShow() {
       this.show = true
-      this.getVersionList()
     },
     getVersionList() {
       let version = {
         versionNum: this.currentApk.currentVersion || '0.0.0',
-        fileType: this.toastData.fileType,
         siteCode: this.$route.query?.siteCode
       }
-      versionNew(version).then(res => {
+      versionList({...version, ...this.toastData}).then(res => {
         this.newVersionList = res.data
       })
     },
@@ -402,8 +406,9 @@ export default {
     },
     beforeClose() {
       this.show = false
-      this.toastData.newVersion = ''
-      this.toastData.fileType = 0
+      Object.keys(this.toastData).forEach(i => {
+        this.toastData[i] = null
+      })
     },
     abort() {
       this.beforeClose()

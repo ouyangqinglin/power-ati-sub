@@ -4,7 +4,7 @@
       <el-form>
         <el-row>
           <el-col :span="10">
-            <el-form-item label="File Type:" prop="fileType" label-width="160px">
+            <el-form-item label="Component M:" prop="fileType" label-width="160px">
               <dict-tag :options="dict.type.file_type" :value="base.fileType"></dict-tag>
             </el-form-item>
           </el-col>
