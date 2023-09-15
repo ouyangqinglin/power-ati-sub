@@ -57,24 +57,27 @@
     <el-card style="margin-top: 24px">
       <common-flex justify="space-between" align="center">
         <p>Alarm List</p>
-        <common-flex>
+        <common-flex style="margin-right: 6px">
           <el-checkbox-group v-model="queryParams.alarmTypes" class="my-check" @change="getList">
             <el-checkbox label="2">
               <common-flex align="center">
                 <img :src="require('@subImg/fault.svg')" alt="">
                 <span>Fault</span>
+                <span style="margin-left: 4px">{{faultItem}}</span>
               </common-flex>
             </el-checkbox>
             <el-checkbox label="1">
               <common-flex align="center">
                 <img :src="require('@subImg/warning.svg')" alt="">
                 <span>Warning</span>
+                <span style="margin-left: 4px">{{warnItem}}</span>
               </common-flex>
             </el-checkbox>
             <el-checkbox label="3">
               <common-flex align="center">
                 <img :src="require('@subImg/notice.svg')" alt="">
                 <span>Notice</span>
+                <span style="margin-left: 4px">{{noticeItem}}</span>
               </common-flex>
             </el-checkbox>
           </el-checkbox-group>
@@ -187,7 +190,7 @@
 
 <script>
 import {alarmList, editAlarm} from "@/api/site";
-import {background} from "quill/ui/icons";
+import {pileNum} from "@/api/fault";
 
 let storage_id = ''
 export default {
@@ -229,26 +232,72 @@ export default {
           label: "Notice",
           value: 3,
         },
-      ]
+      ],
+      noticeItem: 0,
+      warnItem: 0,
+      faultItem: 0,
     }
   },
   mounted() {
     this.getList()
+    this.getPileNum()
   },
   methods: {
-    background,
+    getPileNum() {
+      pileNum().then(res => {
+        console.log(res)
+        // 故障类型 1-Warning 2-Fault 3-Notice
+        this.noticeItem = res.data.find(i => +i.type === 3)?.num
+        this.warnItem = res.data.find(i => +i.type === 1)?.num
+        this.faultItem = res.data.find(i => +i.type === 2)?.num
+      })
+    },
     cleanFault(id) {
-      let data = {
-        recoveryStatus: 1,
-        id
-      }
-      this.$modal.loading()
-      editAlarm(data).then(res => {
-        if (+res.code === 200) {
-          this.$modal.msgSuccess('Succeed')
-          this.getList()
+      const that = this
+      const h = this.$createElement
+      this.$msgbox({
+        message: h('p', null, [
+          h('i', { style: 'color: #fa8c15, fontSize: 20px', class: 'el-icon-warning'}),
+          h('span', { style: 'fontWeight: 600'}, 'It is possible that this alarm has not been truly cleared yet. Please confirm whether to manually clear this alarm.'),
+          h('br'),
+          h('p', {style: 'fontSize: 12px'}, 'Note:After manual clearing, the site will no longer report this alarm within 24 hours')
+        ]),
+        showCancelButton: true,
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = 'Loading...'
+            let data = {
+              recoveryStatus: 1,
+              id
+            }
+            editAlarm(data).then(res => {
+              if (+res.code === 200) {
+                done()
+                instance.confirmButtonLoading = false
+                that.$modal.msgSuccess("Deleted!")
+              }
+            })
+          } else {
+            done()
+          }
         }
-      }).finally(() => this.$modal.closeLoading())
+      }).then(action => {
+        console.log(action)
+      })
+      // let data = {
+      //   recoveryStatus: 1,
+      //   id
+      // }
+      // this.$modal.confirm(`It is possible that this alarm has not been truly cleared yet. Please confirm whether to manually clear this alarm.`).then(() => {
+      //   this.$modal.loading()
+      //   return editAlarm(data)
+      // }).then(() => {
+      //   this.getList();
+      //   this.$modal.msgSuccess("Deleted!");
+      // }).finally(() => this.$modal.closeLoading());
     },
     handleQuery() {
       this.getList()
