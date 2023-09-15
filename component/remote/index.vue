@@ -538,6 +538,10 @@ export default {
           formData.append("versionNum", this.base.versionNum)
           formData.append("remark", this.base.remark)
           formData.append("name", this.base.name)
+          formData.append("component", this.base.component)
+          formData.append("subModule", this.base.subModule)
+          formData.append("manufacturer", this.base.manufacturer)
+          formData.append("applicationType", this.base.applicationType)
           uploadFile(formData).then(res => {
             if (+res.code === 200) {
               this.$modal.closeLoading()

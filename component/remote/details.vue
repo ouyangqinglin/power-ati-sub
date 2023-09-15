@@ -1,44 +1,67 @@
 <template>
   <div class="pages-remote-details app-container">
     <el-card>
-      <el-form>
+      <el-form label-width="160px">
         <el-row>
-          <el-col :span="10">
-            <el-form-item label="Component M:" prop="fileType" label-width="160px">
+          <el-col :span="8">
+            <el-form-item label="Component M:" prop="fileType">
               <dict-tag :options="dict.type.file_type" :value="base.fileType"></dict-tag>
             </el-form-item>
           </el-col>
-          <el-col :span="9">
-            <el-form-item label="Version:" prop="versionNum" label-width="140px"><span>{{base.versionNum}}</span></el-form-item>
+          <el-col :span="8">
+            <el-form-item label="Component S:" prop="component">
+              <span>{{['V1.5', 'Mini', 'V1.0'][+base.component]}}</span>
+            </el-form-item>
           </el-col>
-          <el-col :span="5">
-            <el-form-item label="Upload Time:" prop="versionNum" label-width="120px"><span>{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(base.updateTime)) }}</span></el-form-item>
+          <el-col :span="8">
+            <el-form-item label="Manufacturer:" prop="manufacturer">
+              <span>{{manuLabel(base)}}</span>
+            </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="10">
-            <el-form-item label="Firmware package:" prop="name" label-width="160px">
+          <el-col :span="8">
+            <el-form-item label="Sub-module:" prop="subModule">
+              <span>{{submoduleLabel(base)}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Application Type:" prop="applicationType">
+              <span>{{base.applicationType}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Version:" prop="versionNum"><span>{{base.versionNum}}</span></el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="Firmware Name:" prop="name">
+              <div class="ellipsis" style="max-width: 400px" :title="base.name">{{base.name}}</div>
+<!--              <el-tooltip :content="base.name" placement="top" style="max-width: 400px">-->
+<!--                <div class="ellipsis" style="max-width: 400px">{{base.name}}</div>-->
+<!--              </el-tooltip>-->
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Firmware package:" prop="name">
               <el-tooltip :content="base.name" placement="top">
                 <el-link :href="`${baseUrl}${base.path}`" :underline="false" target="_blank">
-                  <div style="width: 400px" class="ellipsis themeColor">{{base.name}}</div>
+                  <div style="max-width: 400px" class="ellipsis themeColor">{{base.name}}</div>
                 </el-link>
               </el-tooltip>
             </el-form-item>
           </el-col>
-          <el-col :span="9">
-            <el-form-item label="Firmware Name:" prop="name" label-width="140px">
-              <el-tooltip :content="base.name" placement="top">
-                <div style="width: 360px" class="ellipsis">{{base.name}}</div>
-              </el-tooltip>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="Upload by:" prop="updateBy" label-width="120px"><span>{{ base.updateBy }}</span></el-form-item>
+          <el-col :span="8">
+            <el-form-item label="Upload by:" prop="updateBy"><span>{{ base.updateBy }}</span></el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col>
-            <el-form-item label="Version description:" prop="remark" label-width="160px">
+          <el-col :span="8">
+            <el-form-item label="Upload Time:" prop="versionNum"><span>{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(base.updateTime)) }}</span></el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Version description:" prop="remark">
               <span>{{ base.remark }}</span>
             </el-form-item>
           </el-col>
@@ -361,6 +384,21 @@ export default {
     this.getUpgradeTaskList()
   },
   methods: {
+    manuLabel(row) {
+      if (+row.manufacturer === 0) return 'Yotai'
+      if (+row.fileType === 1 && +row.manufacturer === 1) return 'TIANBDA'
+      if (+row.fileType === 1 && +row.manufacturer === 2) return 'PACEEX'
+      if (+row.fileType === 2 && +row.manufacturer === 1) return 'MEGAREVO'
+      if (+row.fileType === 2 && +row.manufacturer === 2) return 'LUXPOWER'
+    },
+    submoduleLabel(row) {
+      if (+row.fileType === 0) return '--'
+      if (+row.fileType === 1 && +row.subModule === 1) return 'BAU'
+      if (+row.fileType === 1 && +row.subModule === 2) return 'BCU'
+      if (+row.fileType === 1 && +row.subModule === 3) return 'BMU'
+      if (+row.fileType === 2 && +row.subModule === 1) return 'ARM'
+      if (+row.fileType === 2 && +row.subModule === 2) return 'DSP'
+    },
     closeAdd() {
       this.addShow = false
       this.addModal.name = ''
