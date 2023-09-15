@@ -10,7 +10,7 @@
       </el-tabs>
     </el-card>
     <el-card style="margin-top: 24px">
-      <el-form :inline="true" :model="queryParams" ref="queryForm" label-width="200px">
+      <el-form :inline="true" :model="queryParams" ref="queryForm">
         <common-flex justify="space-between">
           <common-flex style="flex-grow: 4" wrap="wrap">
             <el-form-item label="SN：" prop="serialNumber">

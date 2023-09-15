@@ -3,7 +3,7 @@
     <el-card class="pages-site-header" >
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
         <el-row>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="Site Name：" prop="siteName" label-width="100px">
               <el-input
                 v-model="queryParams.siteName"
@@ -13,8 +13,8 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="Site Code：" prop="siteCode">
+          <el-col :span="5">
+            <el-form-item label="Site Code：" prop="siteCode" label-width="100px">
               <el-input
                 v-model="queryParams.siteCode"
                 placeholder="Please enter"
@@ -23,8 +23,8 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="5">
-            <el-form-item label="Local time：">
+          <el-col :span="7">
+            <el-form-item label="Local Time：">
               <el-date-picker
                 clearable
                 v-model="queryTime"
@@ -161,7 +161,7 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Local time" align="center" prop="createTime" min-width="125">
+        <el-table-column label="Local Time" align="center" prop="createTime" min-width="125">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.createTime * 1000) }} {{localUTC}}</span>
             <span v-else>--</span>

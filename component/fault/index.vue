@@ -19,7 +19,7 @@
               <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.fault"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="11">
             <el-form-item label="Occurrence Time" label-width="140px">
               <el-date-picker
                 size="small"
@@ -35,17 +35,17 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="6">
+            <el-form-item label-width="100px" label="Fault Code：" prop="faultCode">
+              <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.faultCode"></el-input>
+            </el-form-item>
+          </el-col>
           <el-col :span="3">
             <el-form-item>
               <el-button type="primary" @click="handleQuery">Query</el-button>
               <el-button @click="resetQuery">Reset</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label-width="100px" label="Fault Code：" prop="faultCode">
-              <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.faultCode"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

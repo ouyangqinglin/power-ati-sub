@@ -371,7 +371,6 @@ export default {
             siteCode: this.$route.query?.siteCode,
           }
           versionUpgrade({...data, ...this.toastData}).then(res => {
-            console.log('Upgrade', res)
             if (+res.code === 200) {
               this.$modal.msgSuccess("Succeeded")
               this.getList()
@@ -388,11 +387,10 @@ export default {
     },
     getVersionList() {
       let version = {
-        versionNum: this.currentApk.currentVersion || '0.0.0',
         siteCode: this.$route.query?.siteCode
       }
       versionList({...version, ...this.toastData}).then(res => {
-        this.newVersionList = res.data
+        this.newVersionList = res.rows
       })
     },
     getList() {
