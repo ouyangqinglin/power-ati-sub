@@ -5,17 +5,16 @@
         <el-tab-pane name="0" label="Open"></el-tab-pane>
         <el-tab-pane name="1" label="Closed"></el-tab-pane>
       </el-tabs>
-      <el-divider></el-divider>
-      <el-form :inline="true" :model="queryParams" label-width="140px" ref="queryForm" size="small">
+      <el-form :inline="true" :model="queryParams" ref="queryForm" size="small" style="margin-top: 12px">
         <common-flex>
           <common-flex style="flex-grow: 1">
             <el-form-item label="Alarm：" prop="fault">
               <el-input v-model="queryParams.fault" placeholder="Please enter"></el-input>
             </el-form-item>
-            <el-form-item label="Fault Code：" prop="faultCode">
+            <el-form-item label="Fault Code：" prop="faultCode" label-width="100px">
               <el-input v-model="queryParams.faultCode" placeholder="Please enter"></el-input>
             </el-form-item>
-            <el-form-item label="Occurrence Time">
+            <el-form-item label="Occurrence Time" label-width="140px">
               <el-date-picker
                 size="small"
                 ref="dataEnd"
@@ -74,7 +73,7 @@
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="Importance" prop="type" width="120">
+        <el-table-column label="Importance" prop="type" width="120" align="center">
           <template slot-scope="{ row }">
             <common-flex justify="center" align="center" class="level" :style="{backgroundColor: ['', '#FFF4C9', '#FCD5D9', '#C4F8E2'][+row.type], color: ['', '#F99600', '#F0142F', '#06A561'][+row.type]}">
               <img :src="require('@subImg/warning.svg')" alt="" v-if="+row.type === 1">
@@ -96,7 +95,12 @@
           <template slot-scope="{ row }"><span>{{ ['--', 'Warning', 'Fault', 'Notice'][+row.type] }}</span></template>
         </el-table-column>
         <el-table-column label="Status" prop="recoveryStatus" width="120">
-          <template slot-scope="{ row }"><span>{{ ['Open', 'Closed'][+row.recoveryStatus] }}</span></template>
+          <template slot-scope="{ row }">
+            <common-flex justify="center" align="center">
+              <span class="dot" :style="{backgroundColor: ['#06A561', '#F0142F'][+row.recoveryStatus]}"></span>
+              <span>{{ ['Open', 'Closed'][+row.recoveryStatus] }}</span>
+            </common-flex>
+          </template>
         </el-table-column>
         <el-table-column label="Alarm Start Time" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
@@ -200,7 +204,10 @@ export default {
       this.getList()
     },
     getPileNum() {
-      pileNum().then(res => {
+      let data = {
+        siteCode: this.$route.query?.siteCode
+      }
+      pileNum(data).then(res => {
         // 故障类型 1-Warning 2-Fault 3-Notice
         this.noticeItem = res.data.find(i => +i.type === 3)?.num
         this.warnItem = res.data.find(i => +i.type === 1)?.num
@@ -251,9 +258,6 @@ export default {
     .el-checkbox__input {
       margin-bottom: 6px;
     }
-  }
-  .el-divider--horizontal {
-    margin: 12px 0;
   }
 }
 </style>
