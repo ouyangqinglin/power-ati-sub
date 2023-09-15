@@ -8,20 +8,31 @@
     </el-card>
     <el-card style="margin-top: 24px">
       <el-form :inline="true" :model="queryParams" label-width="100px" ref="queryForm" size="small">
-        <el-row :gutter="1">
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="Site Name：" prop="siteName">
+              <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.siteName"></el-input>
+            </el-form-item>
+          </el-col>
           <el-col :span="7">
             <el-form-item label="Alarm：" prop="fault">
               <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.fault"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label-width="160px" label="Fault Code：" prop="faultCode">
-              <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.faultCode"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="Site Name：" prop="siteName">
-              <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.siteName"></el-input>
+            <el-form-item label="Occurrence Time" label-width="140px">
+              <el-date-picker
+                size="small"
+                ref="dataEnd"
+                @change="sureDate"
+                v-model="dateVal"
+                type="daterange"
+                range-separator="->"
+                :format="displayFormat"
+                :value-format="dateFormat"
+                start-placeholder="start time"
+                end-placeholder="end time">
+              </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="3">
@@ -31,24 +42,10 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="1">
-          <el-col :span="7">
-            <el-form-item label="Importance：" prop="type">
-              <el-select placeholder="All" v-model="queryParams.type">
-                <el-option v-for="i of impOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="9">
-            <el-form-item label-width="160px" placeholder="Please select" label="Occurrence Time：" prop="createTime">
-              <el-date-picker
-                clearable
-                v-model="queryParams.createTime"
-                type="date"
-                format="M/d/yyyy"
-                value-format="yyyy-M-d"
-                placeholder="Please select">
-              </el-date-picker>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label-width="100px" label="Fault Code：" prop="faultCode">
+              <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.faultCode"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -207,11 +204,15 @@ export default {
       total: 0,
       loading: false,
       list: [],
+      dateFormat: 'yyyy-M-d',
+      displayFormat: 'MM-dd-yyyy',
+      dateVal: '',
       queryParams: {
+        startTime: '',
+        endTime: '',
         siteName: '',
         fault: '',
         faultCode: '',
-        createTime: '',
         recoveryStatus: 0,
         pageNum: 1,
         pageSize: 10,
@@ -243,9 +244,13 @@ export default {
     this.getPileNum()
   },
   methods: {
+    sureDate(v) {
+      this.queryParams.startTime = new Date((`${v[0]} 00:00:00`)).getTime() / 1000
+      this.queryParams.endTime = new Date((`${v[1]} 23:59:59`)).getTime() / 1000
+      this.getList()
+    },
     getPileNum() {
       pileNum().then(res => {
-        console.log(res)
         // 故障类型 1-Warning 2-Fault 3-Notice
         this.noticeItem = res.data.find(i => +i.type === 3)?.num
         this.warnItem = res.data.find(i => +i.type === 1)?.num
@@ -257,7 +262,7 @@ export default {
       const h = this.$createElement
       this.$msgbox({
         message: h('p', null, [
-          h('i', { style: 'color: #fa8c15, fontSize: 20px', class: 'el-icon-warning'}),
+          h('i', { style: 'color: #fa8c15', class: 'el-icon-warning'}),
           h('span', { style: 'fontWeight: 600'}, 'It is possible that this alarm has not been truly cleared yet. Please confirm whether to manually clear this alarm.'),
           h('br'),
           h('p', {style: 'fontSize: 12px'}, 'Note:After manual clearing, the site will no longer report this alarm within 24 hours')
@@ -287,17 +292,6 @@ export default {
       }).then(action => {
         console.log(action)
       })
-      // let data = {
-      //   recoveryStatus: 1,
-      //   id
-      // }
-      // this.$modal.confirm(`It is possible that this alarm has not been truly cleared yet. Please confirm whether to manually clear this alarm.`).then(() => {
-      //   this.$modal.loading()
-      //   return editAlarm(data)
-      // }).then(() => {
-      //   this.getList();
-      //   this.$modal.msgSuccess("Deleted!");
-      // }).finally(() => this.$modal.closeLoading());
     },
     handleQuery() {
       this.getList()
@@ -306,6 +300,9 @@ export default {
       this.resetForm("queryForm")
       this.queryParams.alarmTypes = []
       this.queryParams.pageNum = 1
+      this.queryParams.startTime = ''
+      this.queryParams.endTime = ''
+      this.dateVal = ''
       this.handleQuery()
     },
     getList() {

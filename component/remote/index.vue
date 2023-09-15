@@ -475,14 +475,14 @@ export default {
           this.disabledManu = true
           this.disabledSubmodule = true
           this.base.manufacturer = 0
-          this.base.subModule = null
+          this.base.subModule = ''
         } else {
           this.disabledComp = true
           this.disabledManu = false
           this.disabledSubmodule = false
-          this.base.manufacturer = null
+          this.base.manufacturer = ''
           this.base.component = ''
-          this.base.subModule = null
+          this.base.subModule = ''
         }
       }
     }

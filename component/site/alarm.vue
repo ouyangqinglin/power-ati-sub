@@ -1,18 +1,33 @@
 <template>
   <div class="comp-alarm">
     <el-card>
-      <el-form :inline="true" :model="queryParams" label-width="100px" ref="queryForm" size="small">
+      <el-tabs v-model="queryParams.recoveryStatus" @tab-click="getList">
+        <el-tab-pane name="0" label="Open"></el-tab-pane>
+        <el-tab-pane name="1" label="Closed"></el-tab-pane>
+      </el-tabs>
+      <el-divider></el-divider>
+      <el-form :inline="true" :model="queryParams" label-width="140px" ref="queryForm" size="small">
         <common-flex>
           <common-flex style="flex-grow: 1">
-            <el-form-item label="Importance：" prop="type">
-              <el-select placeholder="All" v-model="queryParams.type">
-                <el-option v-for="i of impOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
-              </el-select>
+            <el-form-item label="Alarm：" prop="fault">
+              <el-input v-model="queryParams.fault" placeholder="Please enter"></el-input>
             </el-form-item>
-            <el-form-item label="Status：" prop="recoveryStatus">
-              <el-select placeholder="All" v-model="queryParams.recoveryStatus">
-                <el-option v-for="i of statusOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
-              </el-select>
+            <el-form-item label="Fault Code：" prop="faultCode">
+              <el-input v-model="queryParams.faultCode" placeholder="Please enter"></el-input>
+            </el-form-item>
+            <el-form-item label="Occurrence Time">
+              <el-date-picker
+                size="small"
+                ref="dataEnd"
+                @change="sureDate"
+                v-model="dateVal"
+                type="daterange"
+                range-separator="->"
+                :format="displayFormat"
+                :value-format="dateFormat"
+                start-placeholder="start time"
+                end-placeholder="end time">
+              </el-date-picker>
             </el-form-item>
           </common-flex>
           <el-form-item>
@@ -23,7 +38,34 @@
       </el-form>
     </el-card>
     <el-card style="margin-top: 24px; padding-bottom: 20px">
-      <p>Alarm List</p>
+      <common-flex justify="space-between" align="center">
+        <p>Alarm List</p>
+        <common-flex style="margin-right: 6px">
+          <el-checkbox-group v-model="queryParams.alarmTypes" class="my-check" @change="getList">
+            <el-checkbox label="2">
+              <common-flex align="center">
+                <img :src="require('@subImg/fault.svg')" alt="">
+                <span>Fault</span>
+                <span style="margin-left: 4px">{{faultItem}}</span>
+              </common-flex>
+            </el-checkbox>
+            <el-checkbox label="1">
+              <common-flex align="center">
+                <img :src="require('@subImg/warning.svg')" alt="">
+                <span>Warning</span>
+                <span style="margin-left: 4px">{{warnItem}}</span>
+              </common-flex>
+            </el-checkbox>
+            <el-checkbox label="3">
+              <common-flex align="center">
+                <img :src="require('@subImg/notice.svg')" alt="">
+                <span>Notice</span>
+                <span style="margin-left: 4px">{{noticeItem}}</span>
+              </common-flex>
+            </el-checkbox>
+          </el-checkbox-group>
+        </common-flex>
+      </common-flex>
       <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
                 v-loading="loading" :data="list"
       >
@@ -82,6 +124,7 @@
 
 <script>
 import { alarmList } from '@/api/site'
+import {pileNum} from "@/api/fault";
 export default {
   name: "comp-alarm",
   props: {
@@ -94,9 +137,15 @@ export default {
   },
   data() {
     return {
+      dateFormat: 'yyyy-M-d',
+      displayFormat: 'MM-dd-yyyy',
+      dateVal: '',
       total: 0,
       loading: false,
       list: [],
+      noticeItem: 0,
+      warnItem: 0,
+      faultItem: 0,
       impOptions: [
         {
           label: "Warning",
@@ -122,11 +171,15 @@ export default {
         },
       ],
       queryParams: {
+        startTime: '',
+        endTime: '',
         siteCode: '',
         pageNum: 1,
         pageSize: 10,
-        type: '',
-        recoveryStatus: ''
+        fault: '',
+        faultCode: '',
+        recoveryStatus: 0,
+        alarmTypes: []
       }
     }
   },
@@ -135,11 +188,25 @@ export default {
       handler(v) {
         this.queryParams.siteCode = this.$route.query?.siteCode
         this.getList()
+        this.getPileNum()
       },
       immediate: true
     }
   },
   methods: {
+    sureDate(v) {
+      this.queryParams.startTime = new Date((`${v[0]} 00:00:00`)).getTime() / 1000
+      this.queryParams.endTime = new Date((`${v[1]} 23:59:59`)).getTime() / 1000
+      this.getList()
+    },
+    getPileNum() {
+      pileNum().then(res => {
+        // 故障类型 1-Warning 2-Fault 3-Notice
+        this.noticeItem = res.data.find(i => +i.type === 3)?.num
+        this.warnItem = res.data.find(i => +i.type === 1)?.num
+        this.faultItem = res.data.find(i => +i.type === 2)?.num
+      })
+    },
     handleQuery() {
       this.queryParams.pageNum = 1
       this.getList()
@@ -154,6 +221,9 @@ export default {
     },
     resetQuery() {
       this.resetForm("queryForm")
+      this.queryParams.startTime = ''
+      this.queryParams.endTime = ''
+      this.dateVal = ''
       this.handleQuery()
     },
   }
@@ -168,6 +238,22 @@ export default {
   .level {
     @include wh(80 24);
     border-radius: 4px;
+  }
+  .dot {
+    margin-right: 4px;
+    @include wh(6);
+    border-radius: 50%;
+  }
+  .my-check {
+    img {
+      margin: 0 3px 2px 0;
+    }
+    .el-checkbox__input {
+      margin-bottom: 6px;
+    }
+  }
+  .el-divider--horizontal {
+    margin: 12px 0;
   }
 }
 </style>

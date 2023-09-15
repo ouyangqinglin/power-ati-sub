@@ -4,7 +4,7 @@
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="Site Name：" prop="siteName">
+            <el-form-item label="Site Name：" prop="siteName" label-width="100px">
               <el-input
                 v-model="queryParams.siteName"
                 placeholder="Please enter"
@@ -47,7 +47,7 @@
       <el-form :inline="true" size="small">
         <el-row type="flex" justify="space-between">
           <el-col :span="20">
-            <el-form-item class="region" label="Region：" prop="province">
+            <el-form-item class="region" label="Region：" prop="province" label-width="100px">
               <el-select
                 :disabled="!(queryParams.province && queryParams.country)"
                 v-model="queryParams.city"
@@ -106,16 +106,39 @@
     </el-card>
     <div style="height: 20px"></div>
     <el-card>
-      <div class="table-title">Site List</div>
+      <common-flex justify="space-between" align="center">
+        <p class="table-title">Site List</p>
+        <common-flex>
+          <common-flex align="center" class="item">
+            <span class="dot" style="background-color: #06A561"></span>
+            <span>On line</span>
+          </common-flex>
+          <common-flex align="center" class="item">
+            <span class="dot" style="background-color: #F0142F"></span>
+            <span>Alarm</span>
+          </common-flex>
+          <common-flex align="center" class="item" style="margin-right: 4px">
+            <span class="dot" style="background-color: #92929D"></span>
+            <span>Off line</span>
+          </common-flex>
+        </common-flex>
+      </common-flex>
       <el-table v-loading="loading" :data="siteList" @selection-change="handleSelectionChange">
         <el-table-column label="No" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="Site Name" align="center" prop="siteName" min-width="140" show-overflow-tooltip>
+        <el-table-column label="Site Name" align="center" prop="siteName" min-width="150">
           <template slot-scope="{ row }">
-            <span>{{ row.siteName }}</span>
+            <common-flex align="center" justify="center">
+              <span class="dot" v-if="+row.netStatus === 0" style="background-color: #92929D"></span>
+              <span class="dot" v-if="+row.netStatus === 1 && +row.alarmStatus === 1" style="background-color: #F0142F"></span>
+              <span class="dot" v-if="+row.netStatus === 1 && +row.alarmStatus === 0" style="background-color: #06A561"></span>
+              <el-tooltip :content="row.siteName" placement="top">
+                <span class="ellipsis" style="max-width: 125px">{{ row.siteName }}</span>
+              </el-tooltip>
+            </common-flex>
           </template>
         </el-table-column>
         <el-table-column label="Site Code" align="center" prop="siteCode" min-width="130" />
@@ -325,7 +348,7 @@ export default {
       listSite(this.queryParams).then(response => {
         response.rows.forEach(i => {
           Object.keys(i).forEach(k => {
-            if (!i[k] && k !== 'loggerExist') i[k] = '--'
+            if (!i[k] && !['loggerExist', 'netStatus', 'alarmStatus'].includes(k)) i[k] = '--'
           })
         })
         this.siteList = response.rows;
@@ -418,6 +441,16 @@ export default {
     .el-input__inner {
       min-width: 240px;
     }
+  }
+  .dot {
+    margin-right: 6px;
+    flex-shrink: 0;
+    @include wh(8);
+    border-radius: 50%;
+  }
+  .item {
+    margin-left: 24px;
+    color: #606266;
   }
 }
 </style>
