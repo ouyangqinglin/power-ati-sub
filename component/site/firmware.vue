@@ -324,14 +324,14 @@ export default {
           this.disabledManu = true
           this.disabledSubmodule = true
           this.toastData.manufacturer = 0
-          this.toastData.subModule = null
+          this.toastData.subModule = ''
         } else {
           this.disabledComp = true
           this.disabledManu = false
           this.disabledSubmodule = false
-          this.toastData.manufacturer = null
+          this.toastData.manufacturer = ''
           this.toastData.component = ''
-          this.toastData.subModule = null
+          this.toastData.subModule = ''
         }
       }
     }
@@ -345,7 +345,7 @@ export default {
       if (v) {
         let item = this.newVersionList.find(i => i.versionNum === v)
         this.toastData.name = item.name
-      } else this.toastData.name = null
+      } else this.toastData.name = ''
     },
     manuLabel(row) {
       if (+row.manufacturer === 0) return 'Yotai'
@@ -407,7 +407,7 @@ export default {
     beforeClose() {
       this.show = false
       Object.keys(this.toastData).forEach(i => {
-        this.toastData[i] = null
+        this.toastData[i] = ''
       })
     },
     abort() {
