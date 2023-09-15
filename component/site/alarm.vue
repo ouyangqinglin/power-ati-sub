@@ -97,7 +97,7 @@
         <el-table-column label="Status" prop="recoveryStatus" width="120">
           <template slot-scope="{ row }">
             <common-flex justify="center" align="center">
-              <span class="dot" :style="{backgroundColor: ['#06A561', '#F0142F'][+row.recoveryStatus]}"></span>
+              <span class="dot" :style="{backgroundColor: ['#06A561', '#92929D'][+row.recoveryStatus]}"></span>
               <span>{{ ['Open', 'Closed'][+row.recoveryStatus] }}</span>
             </common-flex>
           </template>

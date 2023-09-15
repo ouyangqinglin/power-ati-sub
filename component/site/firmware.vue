@@ -140,6 +140,14 @@ import {versionList, versionRecord, versionUpgrade} from "@/api/remote";
 export default {
   name: "comp-site-firmware",
   dicts: ['file_type'],
+  props: {
+    base: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       toastData: {
@@ -302,9 +310,16 @@ export default {
     }
   },
   watch: {
+    base: {
+      handler() {
+        this.queryParams.siteCode = this.$route.query?.siteCode
+        this.getList()
+      },
+      immediate: true
+    },
     toastData: {
       deep: true,
-      handler(v) {
+      handler() {
         this.getVersionList()
       },
     },
@@ -335,10 +350,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    this.queryParams.siteCode = this.$route.query?.siteCode
-    this.getList()
   },
   methods: {
     getVersion(v) {

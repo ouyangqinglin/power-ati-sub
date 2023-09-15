@@ -134,7 +134,7 @@
         </el-table-column>
         <el-table-column label="Alarm" prop="fault" min-width="180" show-overflow-tooltip>
           <template slot-scope="{row}">
-            <span>{{ deviceType[+row.deviceType] }}：{{row.fault}}</span>
+            <span>{{ row.deviceErrorInfo }}：{{row.fault}}</span>
           </template>
         </el-table-column>
         <el-table-column label="Site Name" prop="siteName" min-width="160" show-overflow-tooltip>
@@ -148,7 +148,7 @@
         <el-table-column label="Status" prop="recoveryStatus" width="120">
           <template slot-scope="{ row }">
             <common-flex justify="center" align="center">
-              <span class="dot" :style="{backgroundColor: ['#06A561', '#F0142F'][+row.recoveryStatus]}"></span>
+              <span class="dot" :style="{backgroundColor: ['#06A561', '#92929D'][+row.recoveryStatus]}"></span>
               <span>{{ ['Open', 'Closed'][+row.recoveryStatus] }}</span>
             </common-flex>
           </template>
