@@ -27,7 +27,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="Application Type:" prop="applicationType">
-              <span>{{base.applicationType}}</span>
+              <span>{{['Boot', 'App'][+base.applicationType]}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
