@@ -369,6 +369,7 @@ export default {
           this.$modal.loading("Upgrading")
           let data = {
             siteCode: this.$route.query?.siteCode,
+            version: this.toastData.newVersion
           }
           versionUpgrade({...data, ...this.toastData}).then(res => {
             if (+res.code === 200) {
