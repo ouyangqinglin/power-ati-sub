@@ -1,7 +1,7 @@
 <template>
   <div class="comp-alarm">
     <el-card>
-      <el-tabs v-model="queryParams.recoveryStatus" @tab-click="getList">
+      <el-tabs v-model="queryParams.recoveryStatus" @tab-click="changePane">
         <el-tab-pane name="0" label="Open"></el-tab-pane>
         <el-tab-pane name="1" label="Closed"></el-tab-pane>
       </el-tabs>
@@ -198,6 +198,10 @@ export default {
     }
   },
   methods: {
+    changePane() {
+      this.getList()
+      this.getPileNum()
+    },
     sureDate(v) {
       this.queryParams.startTime = new Date((`${v[0]} 00:00:00`)).getTime() / 1000
       this.queryParams.endTime = new Date((`${v[1]} 23:59:59`)).getTime() / 1000
@@ -205,9 +209,10 @@ export default {
     },
     getPileNum() {
       let data = {
-        siteCode: this.$route.query?.siteCode
+        siteCode: this.$route.query?.siteCode,
+        recoveryStatus: this.queryParams.recoveryStatus
       }
-      pileNum({...data, ...this.queryParams}).then(res => {
+      pileNum(data).then(res => {
         // 故障类型 1-Warning 2-Fault 3-Notice
         this.noticeItem = res.data.find(i => +i.type === 3)?.num
         this.warnItem = res.data.find(i => +i.type === 1)?.num
