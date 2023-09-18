@@ -207,7 +207,7 @@ export default {
       let data = {
         siteCode: this.$route.query?.siteCode
       }
-      pileNum(data).then(res => {
+      pileNum({...data, ...this.queryParams}).then(res => {
         // 故障类型 1-Warning 2-Fault 3-Notice
         this.noticeItem = res.data.find(i => +i.type === 3)?.num
         this.warnItem = res.data.find(i => +i.type === 1)?.num
