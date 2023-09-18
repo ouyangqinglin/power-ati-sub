@@ -209,7 +209,7 @@ export default {
       const h = this.$createElement
       this.$msgbox({
         message: h('p', null, [
-          h('i', { style: 'color: #fa8c15', class: 'el-icon-warning'}),
+          h('i', { style: 'color: #fa8c15; fontSize: 18px; marginRight: 4px', class: 'el-icon-warning'}),
           h('span', { style: 'fontWeight: 600'}, 'It is possible that this alarm has not been truly cleared yet. Please confirm whether to manually clear this alarm.'),
           h('br'),
           h('p', {style: 'fontSize: 12px'}, 'Note:After manual clearing, the site will no longer report this alarm within 24 hours')

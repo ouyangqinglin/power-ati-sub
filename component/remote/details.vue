@@ -481,6 +481,7 @@ export default {
     },
     beforeClose() {
       this.show = false
+      this.addShow = false
     },
     searchList() {
       clearTimeout(timer)
