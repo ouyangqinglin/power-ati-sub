@@ -90,10 +90,8 @@
           </template>
         </el-table-column>
         <el-table-column label="Fault code" prop="faultCode"></el-table-column>
-        <el-table-column label="SN" prop="sn"></el-table-column>
-        <el-table-column label="Importance" prop="type" width="120">
-          <template slot-scope="{ row }"><span>{{ ['--', 'Warning', 'Fault', 'Notice'][+row.type] }}</span></template>
-        </el-table-column>
+        <el-table-column label="Collection Source" prop="collectionSource" min-width="140" />
+        <el-table-column label="Collection Source SN" prop="sn" show-overflow-tooltip min-width="160" />
         <el-table-column label="Status" prop="recoveryStatus" width="120">
           <template slot-scope="{ row }">
             <common-flex justify="center" align="center">
@@ -102,16 +100,24 @@
             </common-flex>
           </template>
         </el-table-column>
-        <el-table-column label="Alarm Start Time" prop="createTime" min-width="160">
+        <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Alarm Clearing Type" prop="cleanType" width="160">
+          <template slot-scope="{ row }"><span>{{ ['Automatic', 'Manual'][+row.cleanType] }}</span></template>
+        </el-table-column>
+        <el-table-column label="Occurrence Time" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(+row.createTime , base.timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Alarm Recovery Time" prop="" min-width="160">
+        <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Alarm Recovery Time" prop="" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.recoveryTime && row.recoveryTime !== '--'">{{ UTC_DATE_FORMAT(+row.recoveryTime , base.timeZone) }}</span>
             <span v-else>--</span>
+          </template>
+        </el-table-column>
+        <el-table-column v-if="+queryParams.recoveryStatus === 0" label="Operation" prop="" fixed="right">
+          <template slot-scope="{ row }">
+            <img :src="require('@subImg/clear.svg')" @click="cleanFault(row.id)" style="cursor: pointer" alt="">
           </template>
         </el-table-column>
       </el-table>
@@ -127,7 +133,7 @@
 </template>
 
 <script>
-import { alarmList } from '@/api/site'
+import {alarmList, editAlarm} from '@/api/site'
 import {pileNum} from "@/api/fault";
 export default {
   name: "comp-alarm",
@@ -183,7 +189,7 @@ export default {
         fault: '',
         faultCode: '',
         recoveryStatus: 0,
-        alarmTypes: []
+        alarmTypes: ['1', '2', '3']
       }
     }
   },
@@ -198,6 +204,44 @@ export default {
     }
   },
   methods: {
+    cleanFault(id) {
+      const that = this
+      const h = this.$createElement
+      this.$msgbox({
+        message: h('p', null, [
+          h('i', { style: 'color: #fa8c15', class: 'el-icon-warning'}),
+          h('span', { style: 'fontWeight: 600'}, 'It is possible that this alarm has not been truly cleared yet. Please confirm whether to manually clear this alarm.'),
+          h('br'),
+          h('p', {style: 'fontSize: 12px'}, 'Note:After manual clearing, the site will no longer report this alarm within 24 hours')
+        ]),
+        showCancelButton: true,
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = 'Loading...'
+            let data = {
+              recoveryStatus: 1,
+              id
+            }
+            editAlarm(data).then(res => {
+              if (+res.code === 200) {
+                done()
+                instance.confirmButtonLoading = false
+                that.$modal.msgSuccess("Deleted!")
+                this.getList()
+                this.getPileNum()
+              }
+            })
+          } else {
+            done()
+          }
+        }
+      }).then(action => {
+        console.log(action)
+      })
+    },
     changePane() {
       this.getList()
       this.getPileNum()

@@ -168,7 +168,7 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.recoveryStatus === 0" label="Operat" prop="" fixed="right">
+        <el-table-column v-if="+queryParams.recoveryStatus === 0" label="Operation" prop="" fixed="right">
           <template slot-scope="{ row }">
             <img :src="require('@subImg/clear.svg')" @click="cleanFault(row.id)" style="cursor: pointer" alt="">
           </template>
@@ -218,7 +218,7 @@ export default {
         pageSize: 10,
         type: '',
         status: '',
-        alarmTypes: []
+        alarmTypes: ['1', '2', '3']
       },
       impOptions: [
         {
@@ -290,6 +290,8 @@ export default {
                 done()
                 instance.confirmButtonLoading = false
                 that.$modal.msgSuccess("Deleted!")
+                this.getList()
+                this.getPileNum()
               }
             })
           } else {
