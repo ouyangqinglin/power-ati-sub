@@ -136,8 +136,8 @@
         @pagination="getList"
       />
     </el-card>
-    <AccountAdd v-if="show" :show.sync="show" :type="+queryParams.type" @refresh="getList" />
-    <AccountModify :show.sync="showModify" :type="+queryParams.type" :id="userId" @refresh="getList" />
+    <AccountAdd v-if="show" :show.sync="show" :type="+queryParams.type" :active="activeName" @refresh="getList" />
+    <AccountModify :show.sync="showModify" :type="+queryParams.type" :active="activeName" :id="userId" @refresh="getList" />
   </div>
 </template>
 

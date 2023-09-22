@@ -1,28 +1,94 @@
 <template>
-  <div style="width: 100%">
-    <el-tabs v-model="sn" @tab-click="changeCurPile">
+  <div style="width: 100%" class="comp-device-card-content-right">
+    <el-radio-group v-model="sn">
       <template v-for="i of pileList">
-        <el-tab-pane :name="i.serialNumber" :label="i.serialNumber"></el-tab-pane>
+        <el-radio-button :label="i.serialNumber">{{ i.serialNumber }}</el-radio-button>
       </template>
-    </el-tabs>
-    <common-flex auto class="comp-device-card-content-right">
-      <common-flex direction="column" align="center">
-        <img class="device-battery" :src="require('./img/device-discharge.svg')" alt=""><br>
-        <el-button type="primary" size="mini" v-if="+curDevInfo.status === 1" @click="stopCharge">Stop Charging</el-button>
-        <span class="status-tips" v-else>Not connected</span>
+    </el-radio-group>
+    <div class="part">
+      <div class="part-title">Basic Info</div>
+      <common-flex>
+        <common-flex direction="column" class="part-img-box" align="center">
+          <img class="device-img" :src="require('./img/device-discharge.svg')" alt=""><br>
+          <el-button type="primary" size="mini" v-if="+curDevInfo.status === 1" @click="stopCharge">Stop Charging</el-button>
+          <span class="status-tips" v-else>Not connected</span>
+        </common-flex>
+        <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Status"><el-input v-model="['Off-line', 'On-line'][+curDevInfo.net]"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Session Started"><el-input v-model="curDevInfo.startTime"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Duration"><el-input v-model="curDevInfo.duration"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Energy Added"><el-input v-model="curDevInfo.energy"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Serial number"><el-input v-model="curDevInfo.serialNumber"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="New installation"><el-input v-model="['', 'Yes', 'No'][+curDevInfo.installation]"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Lifetime"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
+          </el-row>
+        </el-form>
       </common-flex>
-      <common-flex direction="column" auto class="comp-device-card-content-right-container">
-        <div class="item" v-for="i of dataInfo">
-          <div class="item-title">{{ i.title }}</div>
-          <common-flex class="item-body" wrap="wrap">
-            <div class="item-body-item charge" v-for="(v, k) of i.info">
-              <div class="item-body-item-key">{{ k }}</div>
-              <div class="item-body-item-value">{{ v || '--' }}</div>
-            </div>
+    </div>
+
+    <div style="margin-top: 24px">
+      <div class="part">
+        <div class="part-title">Real-Time Data</div>
+        <common-flex style="margin-top: 24px">
+          <common-flex class="part-img-box" justify="flex-end">
+            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Import:</div>
           </common-flex>
-        </div>
-      </common-flex>
-    </common-flex>
+          <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+            <div class="part-title" style="border: none; line-height: 35px; text-indent: 0; margin-bottom: 0; color: #606266">Power(kW) {{ curDevInfo.extInfo.powerImport }}</div>
+            <el-row type="flex" :gutter="60">
+              <el-col :span="20">
+                <el-table class="table" :data="curDevInfo.importList">
+                  <el-table-column label="" prop="pvNum"></el-table-column>
+                  <el-table-column label="Voltage(V)" prop="v"></el-table-column>
+                  <el-table-column label="Current(A)" prop="A"></el-table-column>
+                </el-table>
+              </el-col>
+            </el-row>
+          </el-form>
+        </common-flex>
+        <common-flex style="margin-top: 24px">
+          <common-flex class="part-img-box" justify="flex-end">
+            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Export:</div>
+          </common-flex>
+          <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+            <div class="part-title" style="border: none; line-height: 35px; text-indent: 0; margin-bottom: 0; color: #606266">Power(kW) {{ curDevInfo.extInfo.powerExport }}</div>
+            <el-row type="flex" :gutter="60">
+              <el-col :span="20">
+                <el-table class="table" :data="curDevInfo.exportList">
+                  <el-table-column label="" prop="pvNum"></el-table-column>
+                  <el-table-column label="Voltage(V)" prop="v"></el-table-column>
+                  <el-table-column label="Current(A)" prop="A"></el-table-column>
+                </el-table>
+              </el-col>
+            </el-row>
+          </el-form>
+        </common-flex>
+
+        <common-flex style="margin-top: 24px">
+          <common-flex class="part-img-box" justify="flex-end">
+            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Charging Energy:</div>
+          </common-flex>
+          <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10"><el-form-item label="Today(kWh)"><el-input v-model="curDevInfo.dayEnergy"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item label="This Month(kWh)"><el-input v-model="curDevInfo.monthEnergy"></el-input></el-form-item></el-col>
+            </el-row>
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10"><el-form-item label="This Year(kWh)"><el-input v-model="curDevInfo.yearEnergy"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item label="Lifetime(kWh)"><el-input v-model="curDevInfo.allEnergy"></el-input></el-form-item></el-col>
+            </el-row>
+          </el-form>
+        </common-flex>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -36,12 +102,6 @@ export default {
       type: Object,
       default: () => {
         return {}
-      }
-    },
-    dataInfo: {
-      type: Array,
-      default: () => {
-        return []
       }
     },
     pileList: {
@@ -59,25 +119,19 @@ export default {
         }
       },
       immediate: true
-    }
+    },
+    sn() {
+      this.changeCurPile()
+    },
   },
   data() {
     return {
-      sn: '',
-      waitLoading: '',
+      sn: ''
     }
   },
   methods: {
     changeCurPile() {
       this.$emit('common', this.sn)
-    },
-    requestLoading() {
-      this.waitLoading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
     },
     stopCharge() {
       let data = {
@@ -87,7 +141,7 @@ export default {
       stopCharge(data).then(res => {
         let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
         if (+res.data === 3) {
-          this.requestLoading()
+          this.$modal.loading()
           this.getOrderRes()
         } else this.$modal.msg(statusList[+res.data])
       })
@@ -106,7 +160,7 @@ export default {
               times = 1
               clearInterval(timerInter)
               this.getList()
-              this.waitLoading.close()
+              this.$modal.closeLoading()
               return this.$modal.msgError('timeout')
             }
             this.getOrderRes()
@@ -117,7 +171,7 @@ export default {
               this.getList()
             } else this.$modal.msgError(statusList[+res.data])
             clearInterval(timerInter)
-            this.waitLoading.close()
+            this.$modal.closeLoading()
           }
         })
       }, 1000)

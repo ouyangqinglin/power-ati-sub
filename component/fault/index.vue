@@ -30,8 +30,8 @@
                 range-separator="->"
                 :format="displayFormat"
                 :value-format="dateFormat"
-                start-placeholder="start time"
-                end-placeholder="end time">
+                start-placeholder="Start Time"
+                end-placeholder="End Time">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -139,7 +139,7 @@
         </el-table-column>
         <el-table-column label="Site Name" prop="siteName" min-width="160" show-overflow-tooltip>
           <template slot-scope="{ row }">
-            <span class="themeColor">{{ row.siteName }}</span>
+            <router-link v-hasPermi="['ati:site:view']" :to="`/site/details/${row.siteId}?tab=${1}&siteCode=${row.siteCode}`"><span class="themeColor">{{ row.siteName }}</span></router-link>
           </template>
         </el-table-column>
         <el-table-column label="Fault code" prop="faultCode" min-width="120" />
@@ -168,7 +168,7 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.recoveryStatus === 0" label="Operation" prop="" fixed="right">
+        <el-table-column v-if="+queryParams.recoveryStatus === 0" label="Operation" prop="" fixed="right" min-width="90px">
           <template slot-scope="{ row }">
             <img :src="require('@subImg/clear.svg')" @click="cleanFault(row.id)" style="cursor: pointer" alt="">
           </template>

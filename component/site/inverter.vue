@@ -1,136 +1,149 @@
 <template>
-  <common-flex auto class="comp-device-card-content-right">
-    <common-flex direction="column" align="center">
-      <img class="device-battery" :src="require('./img/device-inverter.svg')" alt=""><br>
-      <!--            <span class="status-tips" v-if="+curDevInfo.net === 1">on-line</span>-->
-      <!--            <span class="status-tips" v-else>off-line</span>-->
-    </common-flex>
-    <common-flex direction="column" auto class="comp-device-card-content-right-container">
-      <div class="item">
-        <div class="item-title">Inverter Basic Info</div>
-        <common-flex class="item-body" wrap="wrap">
-          <div class="item-body-item charge">
-            <div class="item-body-item-key">Serial Number</div>
-            <div class="item-body-item-value">{{ inverterInfo.serialNumber }}</div>
-          </div>
-          <div class="item-body-item charge">
-            <div class="item-body-item-key">New installation or not</div>
-            <div class="item-body-item-value">{{ ['', 'Yes', 'No'][inverterInfo.installation] || '--' }}</div>
-          </div>
-          <div class="item-body-item charge">
-            <div class="item-body-item-key">Rated Power (kW)</div>
-            <div class="item-body-item-value">{{ inverterInfo.nameplateCapacity }}</div>
-          </div>
-          <div class="item-body-item charge">
-            <div class="item-body-item-key">Lifetime</div>
-            <div class="item-body-item-value">{{ inverterInfo.lifetime }}</div>
-          </div>
+  <div class="comp-device-card-content-right">
+    <div class="part">
+      <div class="part-title">Basic Info</div>
+      <common-flex>
+        <common-flex class="part-img-box" justify="center">
+          <img class="device-img" :src="require('./img/device-inverter.svg')" alt="">
+        </common-flex>
+        <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Current working mode"><el-input v-model="['Off-line', 'On-line'][+curDevInfo.net]"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="New installation"><el-input v-model="['', 'Yes', 'No'][+curDevInfo.installation]"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Lifetime"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
+          </el-row>
+        </el-form>
+      </common-flex>
+
+      <common-flex style="background-color: #F5F7FA; border-top: 1px solid #D8DCE6">
+        <common-flex class="part-img-box" justify="center"></common-flex>
+        <el-form style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Serial number"><el-input readonly v-model="curDevInfo.serialNumber"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Rated power (kW)"><el-input readonly v-model="curDevInfo.nameplateCapacity"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Hardware version"><el-input readonly v-model="curDevInfo.hardVersion"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Software version"><el-input readonly v-model="curDevInfo.version"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Last version upgrade time"><el-input readonly v-model="curDevInfo.upgradeTime"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Inverter phase"><el-input readonly v-model="curDevInfo.phase"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Manufacturer"><el-input readonly v-model="curDevInfo.manufacturer"></el-input></el-form-item></el-col>
+          </el-row>
+        </el-form>
+      </common-flex>
+    </div>
+    <div style="margin-top: 24px">
+      <el-radio-group v-model="name">
+        <el-radio-button label="grid">Grid</el-radio-button>
+        <el-radio-button label="load">Load</el-radio-button>
+      </el-radio-group>
+      <div class="part" v-if="name === 'grid'">
+        <div class="part-title">Real-Time Data</div>
+        <common-flex>
+          <common-flex class="part-img-box" justify="center">
+            <img class="device-img" :src="require('./img/device-grid.svg')" alt="">
+          </common-flex>
+          <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10"><el-form-item label="Status"><el-input v-model="gridStatus"></el-input></el-form-item></el-col>
+            </el-row>
+            <el-row type="flex" :gutter="60">
+              <el-col :span="20">
+                <el-table class="table" :data="curDevInfo.gridList">
+                  <el-table-column label="" prop="pvNum"></el-table-column>
+                  <el-table-column label="Voltage(V)" prop="v"></el-table-column>
+                  <el-table-column label="Current(A)" prop="c"></el-table-column>
+                  <el-table-column label="Power(kW)" prop="p"></el-table-column>
+                </el-table>
+              </el-col>
+            </el-row>
+          </el-form>
+        </common-flex>
+
+        <common-flex style="margin-top: 24px">
+          <common-flex class="part-img-box" justify="flex-end">
+            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Export Energy:</div>
+          </common-flex>
+          <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10"><el-form-item label="Today(kWh)"><el-input v-model="curDevInfo.dayGridExportEnergy"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item label="This Month(kWh)"><el-input v-model="curDevInfo.monthGridExportEnergy"></el-input></el-form-item></el-col>
+            </el-row>
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10"><el-form-item label="This Year(kWh)"><el-input v-model="curDevInfo.yearGridExportEnergy"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item label="Lifetime(kWh)"><el-input v-model="curDevInfo.allGridExportEnergy"></el-input></el-form-item></el-col>
+            </el-row>
+          </el-form>
+        </common-flex>
+
+        <common-flex style="margin-top: 24px">
+          <common-flex class="part-img-box" justify="flex-end">
+            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Import Energy:</div>
+          </common-flex>
+          <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10"><el-form-item label="Today(kWh)"><el-input v-model="curDevInfo.dayGridImportEnergy"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item label="This Month(kWh)"><el-input v-model="curDevInfo.monthGridImportEnergy"></el-input></el-form-item></el-col>
+            </el-row>
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10"><el-form-item label="This Year(kWh)"><el-input v-model="curDevInfo.yearGridImportEnergy"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item label="Lifetime(kWh)"><el-input v-model="curDevInfo.allGridImportEnergy"></el-input></el-form-item></el-col>
+            </el-row>
+          </el-form>
         </common-flex>
       </div>
-      <div class="item">
-        <div class="item-title">Device Current Version</div>
-        <common-flex class="item-body" wrap="wrap">
-          <div class="item-body-item">
-            <div class="item-body-item-key">Software Version</div>
-            <div class="item-body-item-value">{{ inverterInfo.version || '--' }}</div>
-          </div>
-          <div class="item-body-item">
-            <div class="item-body-item-key">Hardware Version</div>
-            <div class="item-body-item-value">{{ ['', 'Yes', 'No'][inverterInfo.hardVersion] || '--' }}</div>
-          </div>
-          <div class="item-body-item">
-            <div class="item-body-item-key">Upgrade Time</div>
-            <div class="item-body-item-value">{{ inverterInfo.upgradeTime || '--' }}</div>
-          </div>
+      <div class="part" v-else>
+        <div class="part-title">Real-Time Data</div>
+        <common-flex>
+          <common-flex class="part-img-box" justify="center">
+            <img class="device-img" :src="require('./img/device-load.svg')" alt="">
+          </common-flex>
+          <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+            <el-row type="flex" :gutter="60">
+              <el-col :span="20">
+                <el-table class="table" :data="curDevInfo.loadList">
+                  <el-table-column label="" prop="pvNum"></el-table-column>
+                  <el-table-column label="Voltage(V)" prop="v"></el-table-column>
+                  <el-table-column label="Current(A)" prop="c"></el-table-column>
+                  <el-table-column label="Power(kW)" prop="p"></el-table-column>
+                </el-table>
+              </el-col>
+            </el-row>
+          </el-form>
         </common-flex>
       </div>
-      <div class="table posr">
-        <div class="table-before posa">Grid</div>
-        <div class="table-export posa" v-if="+base.gridStatus === 1">Export</div>
-        <div class="table-export posa" v-if="+base.gridStatus === 2">Import</div>
-        <div class="table-title">Real-Time Data</div>
-        <el-table :data="inverterInfo.gridList">
-          <el-table-column label="" prop="pvNum"></el-table-column>
-          <el-table-column label="Voltage(V)" prop="v"></el-table-column>
-          <el-table-column label="Current(A)" prop="c"></el-table-column>
-          <el-table-column label="Power(kW)" prop="p"></el-table-column>
-        </el-table>
-      </div>
-      <div class="item">
-        <div class="item-title">Export Energy</div>
-        <common-flex class="item-body" wrap="wrap">
-          <div class="item-body-item">
-            <div class="item-body-item-key">Today</div>
-            <div class="item-body-item-value">{{ inverterInfo.dayGridExportEnergy || '--' }}kWh</div>
-          </div>
-          <div class="item-body-item">
-            <div class="item-body-item-key">This Month</div>
-            <div class="item-body-item-value">{{ inverterInfo.monthGridExportEnergy || '--' }}kWh</div>
-          </div>
-          <div class="item-body-item">
-            <div class="item-body-item-key">This Year</div>
-            <div class="item-body-item-value">{{ inverterInfo.yearGridExportEnergy || '--' }}kWh</div>
-          </div>
-          <div class="item-body-item">
-            <div class="item-body-item-key">Lifetime</div>
-            <div class="item-body-item-value">{{ inverterInfo.allGridExportEnergy || '--' }}kWh</div>
-          </div>
-        </common-flex>
-      </div>
-      <div class="item">
-        <div class="item-title">Import Energy This Month</div>
-        <common-flex class="item-body" wrap="wrap">
-          <div class="item-body-item">
-            <div class="item-body-item-key">On-Peak</div>
-            <div class="item-body-item-value">{{ inverterInfo.gridOnPeak }}kWh</div>
-          </div>
-          <div class="item-body-item">
-            <div class="item-body-item-key">Mid-Peak</div>
-            <div class="item-body-item-value">{{ inverterInfo.gridMidPeak }}kWh</div>
-          </div>
-          <div class="item-body-item">
-            <div class="item-body-item-key">Off-Peak</div>
-            <div class="item-body-item-value">{{ inverterInfo.gridOffPeak }}kWh</div>
-          </div>
-        </common-flex>
-      </div>
-      <div class="table posr">
-        <div class="table-before posa">Load</div>
-        <div class="table-title">Real-Time Data</div>
-        <el-table :data="inverterInfo.loadList">
-          <el-table-column label="" prop="pvNum"></el-table-column>
-          <el-table-column label="Voltage(V)" prop="v"></el-table-column>
-          <el-table-column label="Current(A)" prop="c"></el-table-column>
-          <el-table-column label="Power(kW)" prop="p"></el-table-column>
-        </el-table>
-      </div>
-    </common-flex>
-  </common-flex>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'comp-inverter',
   props: {
-    base: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    },
     curDevInfo: {
       type: Object,
       default: () => {
         return {}
       }
     },
-    inverterInfo: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    },
   },
+  watch: {
+    curDevInfo(v) {
+      console.log('inverter', v)
+    }
+  },
+  data() {
+    return {
+      name: 'grid',
+      gridStatus: 'Export'
+    }
+  }
 }
 </script>
 

@@ -538,7 +538,7 @@ export default {
       navBar: {
         'Remote Set': '1',
         'Set Record': '2',
-        'Multi-time': '3',
+        // 'Multi-time': '3',
       },
       active: '1',
       setLoading: '',

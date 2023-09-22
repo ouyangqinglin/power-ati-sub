@@ -46,7 +46,6 @@ export default {
   data() {
     return {
       refreshDate: '',
-      loading: '',
       active: false,
       params: {
         id: ''
@@ -68,20 +67,13 @@ export default {
       return arr[this.activeName] || 'overview'
     }
   },
-  created() {
+  mounted() {
     this.params.id = this.$route.params?.id
     this.getDetails()
     this.refreshDate = this.DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date())
+
   },
   methods: {
-    openLoading() {
-      this.loading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-    },
     getDetails() {
       getSite(this.params).then(res => {
         res.data.installTime = this.UTC_DATE_FORMAT(res.data.installTime, res.data.timeZone)
@@ -91,16 +83,17 @@ export default {
         if (res.data.country) regionStr += res.data.country
         res.data.region = regionStr
         this.details = res.data
+        if (this.$route.query?.tab) this.activeName = 'Alarm'
       })
     },
     refresh() {
       this.refreshDate = this.DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date())
       this.getDetails()
-      this.openLoading()
       this.active = true
+      this.$modal.loading()
       setTimeout(() => {
         this.active = false
-        this.loading.close()
+        this.$modal.closeLoading()
       }, 500)
     }
   }

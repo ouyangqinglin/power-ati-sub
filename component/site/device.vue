@@ -12,116 +12,11 @@
         <div class="comp-device-card-content-nav">
           <div class="comp-device-card-content-nav-item" @click="changeNav(v)" :class="{ opacityTrans: active === v,  themeBackColor: active === v}" v-for="(v, k) in navBar">{{ k }}</div>
         </div>
-        <StickLogger :curDevInfo="curDevInfo" :dataInfo="stickInfo" v-if="+active === 4" />
-        <Battery :base="base" :curDevInfo="curDevInfo" :dataInfo="batteryInfo" :batList="batList" v-else-if="+active === 2" :dynamicSoc="dynamicSoc" @common="emitCommon" />
-        <ChargerPile :curDevInfo="curDevInfo" :dataInfo="chargeInfo" :pileList="pileList" v-else-if="+active === 3" @common="emitCommon" />
-        <div v-else-if="+active === 6" style="flex-grow: 1">
-          <el-tabs v-model="activePv">
-            <el-tab-pane label="Details" name="first"></el-tab-pane>
-            <el-tab-pane label="Historical Information" name="second"></el-tab-pane>
-          </el-tabs>
-          <common-flex auto class="comp-device-card-content-right" v-if="activePv === 'first'">
-            <common-flex direction="column" align="center">
-              <img class="device-battery" :src="require('./img/device-pv.svg')" alt=""><br>
-              <span class="status-tips" v-if="+curDevInfo.net === 1">on-line</span>
-              <span class="status-tips" v-else>off-line</span>
-            </common-flex>
-            <common-flex direction="column" auto class="comp-device-card-content-right-container">
-              <div class="table posr">
-                <div class="table-title">Real-Time Data</div>
-                <el-table :data="pvInfo.pvList">
-                  <el-table-column label="" prop="pvNum"></el-table-column>
-                  <el-table-column label="Voltage(V)" prop="v"></el-table-column>
-                  <el-table-column label="Current(A)" prop="c"></el-table-column>
-                  <el-table-column label="Power(kW)" prop="p"></el-table-column>
-                </el-table>
-              </div>
-              <div class="item">
-                <div class="item-title">PV Energy Produced</div>
-                <common-flex class="item-body" wrap="wrap">
-                  <div class="item-body-item">
-                    <div class="item-body-item-key">Today</div>
-                    <div class="item-body-item-value">{{ pvInfo.dayPvEnergyProduce || '--' }}kWh</div>
-                  </div>
-                  <div class="item-body-item">
-                    <div class="item-body-item-key">This Month</div>
-                    <div class="item-body-item-value">{{ pvInfo.monthPvEnergyProduce || '--' }}kWh</div>
-                  </div>
-                  <div class="item-body-item">
-                    <div class="item-body-item-key">This Year</div>
-                    <div class="item-body-item-value">{{ pvInfo.yearPvEnergyProduce || '--' }}kWh</div>
-                  </div>
-                  <div class="item-body-item">
-                    <div class="item-body-item-key">Lifetime</div>
-                    <div class="item-body-item-value">{{ pvInfo.allPvEnergyProduce || '--' }}kWh</div>
-                  </div>
-                </common-flex>
-              </div>
-              <div class="item">
-                <div class="item-title">PV Operation Time</div>
-                <common-flex class="item-body" wrap="wrap">
-                  <div class="item-body-item">
-                    <div class="item-body-item-key">Lifetime</div>
-                    <div class="item-body-item-value">{{ pvInfo.Lifetime || '--' }}</div>
-                  </div>
-                </common-flex>
-              </div>
-              <div class="item">
-                <div class="item-title">Photovoltaic  Basic Info</div>
-                <common-flex class="item-body" wrap="wrap">
-                  <div class="item-body-item charge">
-                    <div class="item-body-item-key">Serial Number</div>
-                    <div class="item-body-item-value">{{ pvInfo.sn }}</div>
-                  </div>
-                  <div class="item-body-item">
-                    <div class="item-body-item-key">Capacity (kW)</div>
-                    <div class="item-body-item-value">{{ pvInfo.nameplateCapacity }}</div>
-                  </div>
-                  <div class="item-body-item">
-                    <div class="item-body-item-key">New installation or not</div>
-                    <div class="item-body-item-value">{{ ['', 'Yes', 'No'][pvInfo.installation] || '--' }}</div>
-                  </div>
-                </common-flex>
-              </div>
-            </common-flex>
-          </common-flex>
-          <common-flex auto class="comp-device-card-content-right" direction="column" v-if="activePv === 'second'">
-            <div class="posr">
-              <common-flex class="pv-nav posa" justify="flex-end">
-                <el-radio-group v-model="pvHis.pvType" size="small" @change="changePvType">
-                  <el-radio-button label="Voltage"></el-radio-button>
-                  <el-radio-button label="Current"></el-radio-button>
-                  <el-radio-button label="Power"></el-radio-button>
-                </el-radio-group>
-                <el-date-picker
-                  size="small"
-                  style="margin: 0 40px 0 10px"
-                  format="MM-dd-yyyy"
-                  value-format="yyyy-MM-dd"
-                  @change="changePvDate"
-                  v-model="pvHis.dateVal"
-                />
-              </common-flex>
-              <div class="pvChart" v-if="!this.navBar['Inverter']">
-                <no-data />
-              </div>
-              <template v-else>
-                <el-skeleton style="width: 100%; height: 55vh" :loading="loading" animated>
-                  <template slot="template">
-                    <el-skeleton-item
-                      variant="rect"
-                      style="width: 100%; height: 55vh;"
-                    />
-                  </template>
-                  <template slot="default">
-                    <div id="pvChart" class="pvChart"></div>
-                  </template>
-                </el-skeleton>
-              </template>
-            </div>
-          </common-flex>
-        </div>
-        <Inverter :base="base" :curDevInfo="curDevInfo" :inverterInfo="inverterInfo" v-else />
+        <StickLogger :curDevInfo="curDevInfo" :base="base" v-if="+active === 4" />
+        <Battery :base="base" :batList="batList" :curDevInfo="curDevInfo" v-else-if="+active === 2"  />
+        <ChargerPile :curDevInfo="curDevInfo" :pileList="pileList" v-else-if="+active === 3" @common="emitCommon" />
+        <Pv v-else-if="+active === 6" :base="base" :curDevInfo="curDevInfo" :navBar="navBar" :sn="sn"></Pv>
+        <Inverter :curDevInfo="curDevInfo" v-else />
       </common-flex>
     </el-card>
     <el-dialog v-if="addShow" :visible.sync="addShow" title="Add Device"
@@ -301,13 +196,13 @@
 <script>
 import * as echarts from 'echarts'
 import StickLogger from './stickLogger.vue'
+import Pv from './pv.vue'
 import Battery from './battery.vue'
 import ChargerPile from './chargerPile.vue'
 import Inverter from './inverter.vue'
 import { listDevice, infoDevice, addBatchDevice, delDevice, pvHistoryData, netList } from '@/api/device'
 let deviceNavInfo = {}
-let pvInstance = null
-let timer = null
+
 
 let arr = []
 let arrX1 = [], arrX2 = [], pv1 = [], pv2 = [], pv3 = [], pv4 = []
@@ -316,251 +211,7 @@ for (let i = 0; i < 24; i++) {
   arr.push(i)
   arrX1.push(i)
 }
-const optionPv = {
-  tooltip: {
-    trigger: 'axis',
-    position: function (pt, param) {
-      if (pt[0] > 960) {
-        if (param[0].value === 'NaN') return [pt[0] - 100, pt[1] - 10];
-        else return [pt[0] - 140, pt[1] - 10];
-      }
-      return [pt[0] + 20, pt[1] - 10];
-    },
-    formatter(v) {
-      if (v[0].value === 'NaN') return 'No data'
-      let v0, v1, v2, v3, t1, t2, t3, t4, res, unit1, unit2, unit3, unit4
-      if (optionPv.yAxis.name === 'kW') {
-        if (v[0]) {
-          if (v[0].value < 1) {
-            t1 = `${(v[0].value * 1000).toFixed(2)}`
-            unit1 = 'W'
-          } else if (v[0].value > 1 && v[0].value < 1000) {
-            t1 = `${(+v[0].value).toFixed(2)}`
-            unit1 = 'kW'
-          } else {
-            t1 = `${(+v[0].value / 1000).toFixed(2)}`
-            unit1 = 'MW'
-          }
-          v0 = `${v[0].marker}${v[0].seriesName}: ${t1}${unit1}`
-        }
-        if (v[1]) {
-          if (v[1].value < 1) {
-            t2 = `${(v[1].value * 1000).toFixed(2)}`
-            unit2 = 'W'
-          } else if (v[1].value > 1 && v[1].value < 1000) {
-            t2 = `${(+v[1].value).toFixed(2)}`
-            unit2 = 'kW'
-          } else {
-            t2 = `${(+v[1].value / 1000).toFixed(2)}`
-            unit2 = 'MW'
-          }
-          v1 = `${v[1].marker}${v[1].seriesName}：${t2}${unit2}`
-        }
-        if (v[2]) {
-          if (v[2].value < 1) {
-            t3 = `${(v[2].value * 1000).toFixed(2)}`
-            unit3 = 'W'
-          } else if (v[2].value > 1 && v[2].value < 1000) {
-            t3 = `${(+v[2].value).toFixed(2)}`
-            unit3 = 'kW'
-          } else {
-            t3 = `${(+v[2].value / 1000).toFixed(2)}`
-            unit3 = 'MW'
-          }
-          v2 = `${v[2].marker}${v[2].seriesName}：${t3}${unit3}`
-        }
-        if (v[3]) {
-          if (v[3].value < 1) {
-            t4 = `${(v[3].value * 1000).toFixed(2)}`
-            unit4 = 'W'
-          } else if (v[3].value > 1 && v[3].value < 1000) {
-            t4 = `${(+v[3].value).toFixed(2)}`
-            unit4 = 'kW'
-          } else {
-            t4 = `${(+v[3].value / 1000).toFixed(2)}`
-            unit4 = 'MW'
-          }
-          v3 = `${v[3].marker}${v[3].seriesName}：${t4}${unit4}`
-        }
-        if (v0) res = `${v0}<br>`
-        if (v1) res += `${v1}<br>`
-        if (v2) res += `${v2}<br>`
-        if (v3) res += `${v3}<br>`
-        return `${v[0].name}<br>${res}`
-      } else {
-        if (v[0]) {
-          t1 = `${(+v[0].value).toFixed(2)}`
-          v0 = `${v[0].marker}${v[0].seriesName}: ${t1}`
-        }
-        if (v[1]) {
-          t2 = `${(+v[1].value).toFixed(2)}`
-          v1 = `${v[1].marker}${v[1].seriesName}: ${t2}`
-        }
-        if (v[2]) {
-          t3 = `${(+v[2].value).toFixed(2)}`
-          v2 = `${v[2].marker}${v[2].seriesName}: ${t3}`
-        }
-        if (v[3]) {
-          t4 = `${(+v[3].value).toFixed(2)}`
-          v3 = `${v[3].marker}${v[3].seriesName}: ${t4}`
-        }
-        if (v0) res = `${v0}<br>`
-        if (v1) res += `${v1}<br>`
-        if (v2) res += `${v2}<br>`
-        if (v3) res += `${v3}<br>`
-        return `${v[0].name}<br>${res}`
-      }
-    }
-  },
-  legend: {
-    data: ['PV1', 'PV2', 'PV3', 'PV4'],
-    icon: 'circle',
-    top: '10%',
-    left: '5%'
-  },
-  grid: {
-    left: '5%',
-    right: '5%',
-    top: '30%'
-  },
-  xAxis: [
-    {
-      type: 'category',
-      show: false,
-      boundaryGap: true,
-      data: [], // 接受接口时间点
-      position: 'bottom',
-      axisPointer: {
-        show: true
-      },
-    },
-    {
-      type: 'category',
-      boundaryGap: true,
-      data: arrX1,
-      position: 'bottom',
-      axisLine: {
-        lineStyle: {
-          color: '#E7E7E7'
-        }
-      },
-      axisLabel: {
-        textStyle: {
-          color: '#000'
-        }
-      },
-      axisPointer: {
-        type: 'none'
-      },
-    }
 
-  ],
-  yAxis: {
-    name: 'V',
-    type: 'value',
-    axisLine: {
-      show: false,
-    },
-    axisTick: {
-      show: false
-    },
-    splitLine: {
-      lineStyle: {
-        type: 'dashed'
-      }
-    }
-  },
-  dataZoom: [
-    {
-      showDetail: true,
-      type: 'inside',
-      height: 26,
-      bottom: 2,
-      left: '5%',
-      right: '5%',
-      start: 0,
-      // zoomOnMouseWheel: false,
-      end: 1999
-    },
-    {
-      height: 22,
-      bottom: 15,
-      left: '5%',
-      right: '5%',
-      start: 0,
-      end: 1999,
-      backgroundColor: 'white',
-      dataBackground: {
-        lineStyle: {
-          color: '#E67A73'
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-            offset: 0,
-            color: 'rgba(252, 219, 218, 0.1)'
-          }, {
-            offset: 1,
-            color: 'rgb(255, 255, 255)'
-          }])
-        }
-      },
-      fillerColor: 'rgba(51, 149, 250, 0.06)',
-      handleStyle: {
-        color: '#7A84B0'
-      }
-    }
-  ],
-  series: [
-    {
-      symbol: "none",
-      name: 'PV1',
-      type: 'line',
-      smooth: true,
-      itemStyle: {
-        color: '#FFB968'
-      },
-      data: [],
-      zlevel: 1,
-      z: 1
-    },
-    {
-      symbol: "none",
-      name: 'PV2',
-      type: 'line',
-      smooth: true,
-      itemStyle: {
-        color: '#3DAABF'
-      },
-      data: [],
-      zlevel: 2,
-      z: 2
-    },
-    {
-      symbol: "none",
-      name: 'PV3',
-      type: 'line',
-      smooth: true,
-      itemStyle: {
-        color: '#8BEA91'
-      },
-      data: [],
-      zlevel: 3,
-      z: 3
-    },
-    {
-      symbol: "none",
-      name: 'PV4',
-      type: 'line',
-      smooth: true,
-      itemStyle: {
-        color: '#638AE3'
-      },
-      data: [],
-      zlevel: 4,
-      z: 4
-    }
-  ]
-}
 
 
 export default {
@@ -576,6 +227,7 @@ export default {
   components: {
     StickLogger,
     Battery,
+    Pv,
     ChargerPile,
     Inverter
   },
@@ -613,7 +265,6 @@ export default {
       pileList: [],
       curPv: '',
 
-      activePv: 'first',
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -660,100 +311,8 @@ export default {
       active: '',
       inverterInfo: {},
       pvInfo: {},
-      batteryInfo: [
-        {
-          'title': 'Battery Operation Time',
-          'info': {
-            'Lifetime': '',
-          },
-        },
-        {
-          'title': 'Basic Info',
-          'info': {
-            'Serial Number': '',
-            'Nameplate capacity (kWh)': '',
-            'Connected Inverter': '',
-            'New installation or not': ''
-          },
-        },
-        {
-          'title': 'Device Current Version',
-          'info': {
-            'Software Version': 'version',
-            'Hardware Version': 'hardVersion',
-            'Upgrade Time': 'upgradeTime',
-          },
-        },
-      ],
-      chargeInfo: [
-        {
-          'title': 'Real-Time Data',
-          'info': {
-            'Session Started': '',
-            'Duration': '',
-            'Energy Added': '',
-            'L1-Voltage': '',
-            'L2-Voltage': '',
-          },
-        },
-        {
-          'title': 'Import',
-          'info': {
-            'Power': '',
-            'L1-Current': '',
-            'L2-Current': '',
-          },
-        },
-        {
-          'title': 'Export',
-          'info': {
-            'Power': '',
-            'L1-Current': '',
-            'L2-Current': '',
-          },
-        },
-        {
-          'title': 'Charging Energy',
-          'info': {
-            'Today': '',
-            'This Month': '',
-            'This Year': '',
-            'Lifetime': ''
-          },
-        },
-        {
-          'title': 'EV Charger Operation Time',
-          'info': {
-            'Lifetime': '',
-            'New installation or not': ''
-          },
-        },
-        {
-          'title': 'Basic Info',
-          'info': {
-            'Serial Number': '',
-          },
-        },
-      ],
-      stickInfo: [
-        {
-          'title': 'Basic Info',
-          'info': {
-            'Serial Number': '',
-          },
-        },
-        {
-          'title': 'Device Current Version',
-          'info': {
-            'Software Version': 'version',
-            'Hardware Version': 'hardVersion',
-            'Upgrade Time': 'upgradeTime',
-          },
-        },
-      ],
       delSubType: '',
       localChangeList: {},
-      waitLoading: '',
       loading: true,
       addSubType: true,
       dynamicSoc: 0
@@ -767,31 +326,10 @@ export default {
         this.getList()
       },
       immediate: true
-    },
-
-    activePv (v) {
-      if (v === 'second') {
-        if (!this.navBar['Inverter']) return
-        this.$nextTick(() => {
-          this.getPvHisData()
-          window.addEventListener('resize', this.changeSize)
-        })
-      }
     }
   },
-  beforeDestroy() {
-    clearTimeout(timer)
-    window.removeEventListener('resize', this.changeSize)
-  },
+
   methods: {
-    requestLoading() {
-      this.waitLoading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-    },
     addSn(deviceType) {
       let item = {
         deviceType,
@@ -826,7 +364,7 @@ export default {
     },
     findDevice(str) {
       let item = this.listDev.find(i => +i.deviceType === 4)
-      this.requestLoading()
+      this.$modal.loading()
       this[`active${str}`] = true
       if (item && item.serialNumber) {
         let params = {
@@ -854,10 +392,10 @@ export default {
           this.$modal.alert('Device not found')
         }).finally(() => {
           this[`active${str}`] = false
-          this.waitLoading.close()
+          this.$modal.closeLoading()
         })
       } else {
-        this.waitLoading.close()
+        this.$modal.closeLoading()
         this.$modal.alert('Device not found')
         this[`active${str}`] = false
       }
@@ -870,81 +408,7 @@ export default {
       this.currentItem = this.listDev.find(i => i.serialNumber === sn)
       if (deviceNavInfo[sn]) {
         this.curDevInfo = deviceNavInfo[sn]
-        this.tempInfo()
       } else this.getDeviceInfo()
-    },
-    changeCurPv() {
-      this.sn = this.curPv
-      this.activePv = 'first'
-      this.commonStore(this.sn)
-    },
-
-    changePvDate() {
-      if (!this.navBar['Inverter']) return
-      this.getPvHisData()
-    },
-    changePvType() {
-      if (!this.navBar['Inverter']) return
-      pv1 = []
-      pv2 = []
-      pv3 = []
-      pv4 = []
-      for(let i = 0; i < pvData.length; i++) {
-        pv1.push((+pvData[i][`pv1${this.pvHis.pvType}`]).toFixed(2))
-        pv2.push((+pvData[i][`pv2${this.pvHis.pvType}`]).toFixed(2))
-        pv3.push((+pvData[i][`pv3${this.pvHis.pvType}`]).toFixed(2))
-        pv4.push((+pvData[i][`pv4${this.pvHis.pvType}`]).toFixed(2))
-      }
-      const weakMap = {
-        'Voltage' : 'V',
-        'Current' : 'A',
-        'Power' : 'kW',
-      }
-      optionPv.yAxis.name = weakMap[this.pvHis.pvType]
-      optionPv.series[0].data = pv1
-      optionPv.series[1].data = pv2
-      optionPv.series[2].data = pv3
-      optionPv.series[3].data = pv4
-      if (pvInstance) {
-        pvInstance.dispose()
-        pvInstance = null
-      }
-      this.$nextTick(() => {
-        pvInstance = echarts.init(document.getElementById('pvChart'))
-        pvInstance.setOption(optionPv)
-      })
-
-      console.log('changePv')
-    },
-    getPvHisData() {
-      this.loading = true
-      if (pvInstance) {
-        pvInstance.dispose()
-        pvInstance = null
-      }
-      let formatTime = this.DATE_FORMAT('yyyy-MM-dd', this.pvHis.dateVal)
-      let params = {
-        sn: this.sn,
-        siteCode: this.queryParams.siteCode,
-        startTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 00:00:00`, this.base.timeZone)) / 1000,
-        endTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 23:59:59`, this.base.timeZone)) / 1000,
-      }
-      pvHistoryData(params).then(res => {
-        this.loading = false
-        arrX2 = []
-        pvData = res.data
-        for(let i = 0; i < pvData.length; i++) {
-          arrX2.push(res.data[i].timestamp)
-        }
-        optionPv.xAxis[0].data = arrX2
-        this.changePvType()
-      })
-    },
-    changeSize() {
-      clearTimeout(timer)
-      timer = setTimeout(() => {
-        if (pvInstance) pvInstance.resize()
-      }, 500)
     },
     cancelDelete() {
       this.delShow = false
@@ -1104,7 +568,7 @@ export default {
         }
       }
       data.deviceList = deviceList
-      this.requestLoading()
+      this.$modal.loading()
       addBatchDevice(data).then(res => {
         if (+res.code === 200) {
           this.$message({
@@ -1114,7 +578,7 @@ export default {
           this.beforeClose()
           this.getList()
         }
-      }).finally(() => this.waitLoading.close())
+      }).finally(() => this.$modal.closeLoading())
     },
     checkInstall(deviceType, index) {
       let mapInstall = {
@@ -1303,15 +767,19 @@ export default {
         if (this.pvList.length) this.curPv = this.pvList[0].serialNumber
         if (this.pileList.length) this.curPile = this.pileList[0].serialNumber
         for(let i = 0; i < this.batList.length; i++) {
-          this.batList[i]['soc'] = JSON.parse(this.batList[i].extInfo)['soc']
-          this.batList[i]['curEnergy'] = JSON.parse(this.batList[i].extInfo)['soc']
-          this.batList[i]['capacity'] = 100
-          if (!this.batList[i]['curEnergy'] || !this.batList[i]['capacity']) this.batList[i]['soc'] = 0
+          if (+this.batList[i].installation === 2) {
+            this.batList[i].lifetime = '--'
+          } else {
+            let resStr = ''
+            resStr += `${this.batList[i].periodDay || '0'} Days ${this.batList[i].periodMonth || '0'} Months ${this.batList[i].periodYear || '0'} Year`
+            this.batList[i].lifetime = resStr
+          }
+          if (this.batList[i].upgradeTime) this.batList[i].upgradeTime = this.DATE_FORMAT('M/d/yyyy hh:mm', this.batList[i].upgradeTime * 1000)
+          if (!this.batList[i]['curEnergy']) this.batList[i]['soc'] = 0
         }
       })
     },
     changeNav(v) {
-      this.activePv = 'first'
       this.active = v
       if ([2, 3, 6].includes(+v)) {
         let list
@@ -1323,9 +791,7 @@ export default {
       this.sn = this.currentItem.serialNumber
       if (deviceNavInfo[this.sn]) {
         this.curDevInfo = deviceNavInfo[this.sn]
-        this.tempInfo()
       } else this.getDeviceInfo()
-      if (pvInstance) pvInstance.dispose()
     },
     getDeviceInfo() {
       let data = {
@@ -1340,217 +806,67 @@ export default {
       })
     },
     tempInfo() {
-      if (+this.active === 2) {
-        let arr = [
-          [
-            {
-              key: 'Lifetime',
-              value: ''
-            }
-          ],
-          [
-            {
-              key: 'Serial Number',
-              value: 'serialNumber'
-            },
-            {
-              key: 'Nameplate capacity (kWh)',
-              value: 'nameplateCapacity'
-            },
-            {
-              key: 'Connected Inverter',
-              value: 'connectedInverter'
-            },
-            {
-              key: 'New installation or not',
-              value: 'installation'
-            },
-          ],
-          [
-            {
-              key: 'Software Version',
-              value: 'version'
-            },      {
-            key: 'Hardware Version',
-            value: 'hardVersion'
-          },      {
-            key: 'Upgrade Time',
-            value: 'upgradeTime'
+      if (+this.active === 3) {
+        let arrImport = [
+          {
+            pvNum: 'L1',
+            v: '',
+            A: ''
           },
-          ]
+          {
+            pvNum: 'L2',
+            v: '',
+            A: ''
+          },
+          {
+            pvNum: 'L3',
+            v: '',
+            A: ''
+          },
         ]
-        arr.forEach((i, index) => {
-          i.forEach(k => {
-            if (k.key === 'New installation or not') {
-              this.batteryInfo[index]['info'][k.key] = ['', 'Yes', 'No'][this.curDevInfo[k.value]] || '--'
-            } else if (k.key === 'Lifetime') {
-              if (+this.curDevInfo.installation === 2) this.batteryInfo[index]['info'][k.key] = '--'
-              else {
-                let resStr = ''
-                resStr = `${+(this.curDevInfo.periodDay)} Days ${+(this.curDevInfo.periodMonth)} Months ${+(this.curDevInfo.periodYear)} Year`
-                this.batteryInfo[index]['info'][k.key] = resStr
-              }
-            } else if (k.key === 'Upgrade Time') this.batteryInfo[index]['info'][k.key] = this.curDevInfo[k.value] ? this.DATE_FORMAT('M/d/yyyy hh:mm', this.curDevInfo[k.value] * 1000) : '--'
-            else this.batteryInfo[index]['info'][k.key] = this.curDevInfo[k.value]
-          })
-        })
-      } else if (+this.active === 3) {
-        let arr = [
-          [
-            {
-              key: 'Session Started',
-              value: 'startTime'
-            },
-            {
-              key: 'Duration',
-              value: 'duration'
-            },
-            {
-              key: 'Energy Added',
-              value: 'energy' // 没有
-            },
-            {
-              key: 'L1-Voltage',
-              value: 'l1Voltage'
-            },
-            {
-              key: 'L2-Voltage',
-              value: 'l2Voltage'
-            },
-          ],
-          [
-            {
-              key: 'Power',
-              value: 'powerImport'
-            },
-            {
-              key: 'L1-Current',
-              value: 'l1CurrentImport'
-            },
-            {
-              key: 'L2-Current',
-              value: 'l2CurrentImport'
-            }
-          ],
-          [
-            {
-              key: 'Power',
-              value: 'powerExport'
-            },
-            {
-              key: 'L1-Current',
-              value: 'l1CurrentExport'
-            },
-            {
-              key: 'L2-Current',
-              value: 'l2CurrentExport'
-            }
-          ],
-          [
-            {
-              key: 'Today',
-              value: 'dayEnergy'
-            },
-            {
-              key: 'This Month',
-              value: 'monthEnergy'
-            },
-            {
-              key: 'This Year',
-              value: 'yearEnergy'
-            },
-            {
-              key: 'Lifetime',
-              value: 'allEnergy'
-            },
-          ],
-          [
-            {
-              key: 'Lifetime',
-              value: 'createTime'
-            },
-            {
-              key: 'New installation or not',
-              value: 'installation'
-            }
-          ],
-          [
-            {
-              key: 'Serial Number',
-              value: 'serialNumber'
-            },
-          ],
+        let arrExport = [
+          {
+            pvNum: 'L1',
+            v: '',
+            A: ''
+          },
+          {
+            pvNum: 'L2',
+            v: '',
+            A: ''
+          },
+          {
+            pvNum: 'L3',
+            v: '',
+            A: ''
+          },
         ]
-        arr.forEach((i, index) => {
-          i.forEach(k => {
-            if (k.key === 'Session Started') {
-              if (+this.curDevInfo.status === 1) {
-                if (this.curDevInfo[k.value]) this.chargeInfo[index]['info'][k.key] = this.UTC_DATE_FORMAT(this.curDevInfo[k.value], this.base.timeZone)
-                else this.chargeInfo[index]['info'][k.key] = '--'
-              } else {
-                this.chargeInfo[index]['info'][k.key] = '--'
-              }
-            }
-            else if (k.key.includes('Current')) this.chargeInfo[index]['info'][k.key] = this.curDevInfo[k.value] ? this.curDevInfo[k.value] + 'A' : 0
-            else if (k.key === 'Duration') {
-              if (+this.curDevInfo.status === 1) this.chargeInfo[index]['info'][k.key] = this.curDevInfo[k.value] + ' Hours'
-              else this.chargeInfo[index]['info'][k.key] = 0
-            }
-            else if (k.key.includes('Voltage')) this.chargeInfo[index]['info'][k.key] = this.curDevInfo[k.value] ? this.curDevInfo[k.value] + 'V' : 0
-            else if (k.key === 'Power' || k.key === 'Energy Added') {
-              if (k.key === 'Energy Added') {
-                if (+this.curDevInfo.status === 1) this.chargeInfo[index]['info'][k.key] = this.curDevInfo[k.value] + 'kWh'
-                else this.chargeInfo[index]['info'][k.key] = 0
-              } else this.chargeInfo[index]['info'][k.key] = this.curDevInfo[k.value] ? this.curDevInfo[k.value] + 'kWh' : 0
-            }
-            else if (k.key === 'New installation or not') {
-              this.chargeInfo[index]['info'][k.key] = ['', 'Yes', 'No'][this.curDevInfo[k.value]] || '--'
-            }
-            else if (index === 4) {
-              if (+this.curDevInfo.installation === 2) {
-                this.chargeInfo[index]['info'][k.key] = '--'
-              } else {
-                let resStr = ''
-                resStr += `${+(this.curDevInfo.periodDay)} Days ${+(this.curDevInfo.periodMonth)} Months ${+(this.curDevInfo.periodYear)} Year`
-                this.chargeInfo[index]['info'][k.key] = resStr
-              }
-            } else if (index === 5) {
-              this.chargeInfo[index]['info'][k.key] = this.curDevInfo[k.value]
-            } else this.chargeInfo[index]['info'][k.key] = this.curDevInfo[k.value] ? (+this.curDevInfo[k.value]).toFixed(2) + 'kWh' : 0
-          })
+        let extInfo
+        if (this.curDevInfo.extInfo) {
+          extInfo = JSON.parse(this.curDevInfo.extInfo)
+          this.curDevInfo.extInfo = extInfo
+        }
+        arrImport.forEach((i, index) => {
+          let prefix = i.pvNum.toLowerCase()
+          i.v = extInfo[`${prefix}Voltage`]
+          i.A = extInfo[`${prefix}CurrentImport`]
         })
-      } else if (+this.active === 4) {
-        let arr = [
-          [
-            {
-              key: 'Serial Number',
-              value: 'serialNumber'
-            },
-            // {
-            //   key: 'Wifi',
-            //   value: 'wifiName'
-            // },
-          ],
-          [
-            {
-              key: 'Software Version',
-              value: 'version'
-            },      {
-              key: 'Hardware Version',
-              value: 'hardVersion'
-            },      {
-              key: 'Upgrade Time',
-              value: 'upgradeTime'
-            },
-          ]
-        ]
-        arr.forEach((i, index) => {
-          i.forEach(k => {
-          if (k.key === 'Upgrade Time') this.stickInfo[index]['info'][k.key] = this.curDevInfo[k.value] ? this.DATE_FORMAT('M/d/yyyy hh:mm', this.curDevInfo[k.value] * 1000) : '--'
-          else this.stickInfo[index]['info'][k.key] = this.curDevInfo[k.value]
-          })
+        arrExport.forEach((i, index) => {
+          let prefix = i.pvNum.toLowerCase()
+          i.v = extInfo[`${prefix}Voltage`]
+          i.A = extInfo[`${prefix}CurrentExport`]
         })
-      } else if (+this.active === 1) {
+        if (+this.curDevInfo.status === 1) {
+          this.curDevInfo.duration += 'Hours'
+          if (this.curDevInfo['startTime']) this.curDevInfo['startTime'] = this.UTC_DATE_FORMAT(this.curDevInfo['startTime'], this.base.timeZone)
+          else this.curDevInfo['startTime'] = '--'
+        } else {
+          this.curDevInfo['startTime'] = '--'
+          this.curDevInfo.duration = 0
+        }
+        this.curDevInfo.importList = arrImport
+        this.curDevInfo.exportList = arrExport
+      } else if (+this.active === 6) {
         let arr = [
           {
             pvNum: 'pv1',
@@ -1577,6 +893,15 @@ export default {
             p: ''
           },
         ]
+        let obj = this.curDevInfo.pvEntity
+        arr.forEach((item, index) => {
+          let prefix = `pv${index + 1}`
+          item.v = obj[`${prefix}Voltage`] ? obj[`${prefix}Voltage`] : +obj[`${prefix}Voltage`] === 0 ? 0 : '--'
+          item.c = obj[`${prefix}Current`] ? obj[`${prefix}Current`] : +obj[`${prefix}Current`] === 0 ? 0 : '--'
+          item.p = obj[`${prefix}Power`] ? obj[`${prefix}Power`] : +obj[`${prefix}Power`] === 0 ? 0 : '--'
+        })
+        this.curDevInfo.pvList = arr
+      } else if (+this.active === 1) {
         let arrGrid = [
           {
             pvNum: 'A',
@@ -1632,60 +957,15 @@ export default {
         })
         this.curDevInfo.gridList = arrGrid
         this.curDevInfo.loadList = arrLoad
-        this.inverterInfo = this.curDevInfo
-        if (this.inverterInfo.upgradeTime) this.inverterInfo.upgradeTime = this.DATE_FORMAT('M/d/yyyy hh:mm', this.inverterInfo.upgradeTime * 1000)
-        if (+this.curDevInfo.installation === 2) {
-          this.inverterInfo.lifetime = '--'
-        } else {
-          let resStr = ''
-          resStr += `${+(this.curDevInfo.periodDay)} Days ${+(this.curDevInfo.periodMonth)} Months ${+(this.curDevInfo.periodYear)} Year`
-          this.inverterInfo.lifetime = resStr
-        }
-      } else if (+this.active === 6) {
-        let arr = [
-          {
-            pvNum: 'pv1',
-            v: '',
-            c: '',
-            p: ''
-          },
-          {
-            pvNum: 'pv2',
-            v: '',
-            c: '',
-            p: ''
-          },
-          {
-            pvNum: 'pv3',
-            v: '',
-            c: '',
-            p: ''
-          },
-          {
-            pvNum: 'pv4',
-            v: '',
-            c: '',
-            p: ''
-          },
-        ]
-        let obj = this.curDevInfo.pvEntity
-        arr.forEach((item, index) => {
-          let prefix = `pv${index + 1}`
-          item.v = obj[`${prefix}Voltage`] ? obj[`${prefix}Voltage`] : +obj[`${prefix}Voltage`] === 0 ? 0 : '--'
-          item.c = obj[`${prefix}Current`] ? obj[`${prefix}Current`] : +obj[`${prefix}Current`] === 0 ? 0 : '--'
-          item.p = obj[`${prefix}Power`] ? obj[`${prefix}Power`] : +obj[`${prefix}Power`] === 0 ? 0 : '--'
-        })
-
-        this.curDevInfo.pvList = arr
-        this.pvInfo = this.curDevInfo
-        if (+this.curDevInfo.installation === 2) {
-          this.pvInfo.Lifetime = '--'
-        } else {
-          let resStr = ''
-          resStr += `${this.curDevInfo.periodDay} Days ${this.curDevInfo.periodMonth} Months ${this.curDevInfo.periodYear} Year`
-          this.pvInfo.Lifetime = resStr
-        }
       }
+      if (+this.curDevInfo.installation === 2) {
+        this.curDevInfo.lifetime = '--'
+      } else {
+        let resStr = ''
+        resStr += `${this.curDevInfo.periodDay} Days ${this.curDevInfo.periodMonth} Months ${this.curDevInfo.periodYear} Year`
+        this.curDevInfo.lifetime = resStr
+      }
+      if (this.curDevInfo.upgradeTime) this.curDevInfo.upgradeTime = this.DATE_FORMAT('M/d/yyyy hh:mm', this.curDevInfo.upgradeTime * 1000)
     }
   }
 }
@@ -1718,17 +998,40 @@ export default {
         }
       }
       &-right {
-        padding-bottom: 28px;
-        border: 1px solid #D8DCE6;
-        border-radius: 2px 2px 2px 2px;
-        .device-battery {
-          margin: 40px 45px 0 45px;
+        // 99999
+        flex-grow: 1;
+        .part {
+          border: 1px solid #D8DCE6;
+          border-radius: 2px 2px 2px 2px;
+          &-title {
+            margin-bottom: 10px;
+            height: 41px;
+            @include nFont(14 #000 54 700);
+            text-indent: 16px;
+            border-bottom: 1px solid #D8DCE6;
+          }
+          &-img-box {
+            width: 200px;
+          }
+          .table {
+            .el-table__row, .el-table__cell {
+              border-bottom: none
+            }
+          }
+          .wifi-img {
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+          }
+        }
+        .device-img {
+          margin-top: 36px;
           @include wh(80);
         }
         .dynamicSoc {
           z-index: 0;
           width: 50px;
-          bottom: 6px;
+          bottom: -34px;
           left: 50%;
           transform: translateX(-50%);
           background-color: #8be186;
@@ -1762,32 +1065,6 @@ export default {
                 flex-grow: 0;
                 width: calc(100% / 4);
               }
-            }
-          }
-          .table {
-            margin: 60px 0 10px 0;
-            max-width: 1190px;
-            .el-table td.el-table__cell {
-              border-bottom: none;
-            }
-            &-title {
-              font-weight: 700;
-              line-height: 26px;
-              border-bottom: 1px solid #D8DCE6;
-            }
-            &-before {
-              left: -78px;
-              top: 0;
-              @include wh(72 24);
-              background: $commonColor;
-              text-indent: 8px;
-              @include nFont(14 #fff 600 24)
-            }
-            &-export {
-              left: -78px;
-              top: 24px;
-              @include wh(72 24);
-              @include nFont(14 #828282 24)
             }
           }
         }

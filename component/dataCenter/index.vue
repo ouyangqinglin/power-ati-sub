@@ -1,6 +1,6 @@
 <template>
   <div class="pages-data-center app-container">
-    <el-card style="margin-top: 24px">
+    <el-card>
       <common-flex justify="space-between">
         <p>List</p>
         <div v-hasPermi="['ati:data:add']"><el-button type="primary" @click="addShow = true">Add</el-button></div>

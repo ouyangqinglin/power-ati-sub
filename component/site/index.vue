@@ -4,7 +4,7 @@
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
         <el-row>
           <el-col :span="5">
-            <el-form-item label="Site Name：" prop="siteName" label-width="100px">
+            <el-form-item label="Site Name：" prop="siteName" label-width="96px">
               <el-input
                 v-model="queryParams.siteName"
                 placeholder="Please enter"
@@ -14,7 +14,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="Site Code：" prop="siteCode" label-width="100px">
+            <el-form-item label="Site Code：" prop="siteCode">
               <el-input
                 v-model="queryParams.siteCode"
                 placeholder="Please enter"
@@ -23,7 +23,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="5">
             <el-form-item label="Local Time：">
               <el-date-picker
                 clearable
@@ -47,7 +47,7 @@
       <el-form :inline="true" size="small">
         <el-row type="flex" justify="space-between">
           <el-col :span="20">
-            <el-form-item class="region" label="Region：" prop="province" label-width="100px">
+            <el-form-item class="region" label="Region：" prop="province" label-width="96px">
               <el-select
                 :disabled="!(queryParams.province && queryParams.country)"
                 v-model="queryParams.city"
@@ -152,7 +152,7 @@
             <span>{{['Unbound', 'Bound'][+row.loggerExist]}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="City" align="center" prop="city" show-overflow-tooltip />
+        <el-table-column label="City" align="center" prop="city" min-width="100" show-overflow-tooltip />
         <el-table-column label="Province" align="center" prop="province" min-width="120" show-overflow-tooltip />
         <el-table-column label="Country/Area" align="center" prop="country" min-width="140" show-overflow-tooltip />
         <el-table-column label="Time of Installed" align="center" prop="createTime" min-width="125">
@@ -168,6 +168,11 @@
           </template>
         </el-table-column>
         <el-table-column label="Agency" align="center" prop="agentName" min-width="140" show-overflow-tooltip />
+        <el-table-column v-if="brandShow" label="Product brand" align="center" prop="brand" min-width="120" show-overflow-tooltip>
+          <template slot-scope="{ row }">
+            <span>{{ ['', 'Yoho', 'Jasper'][+row.brand] }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="Last update Time" align="center" prop="updateTime" min-width="130">
           <template slot-scope="{ row }">
             <span v-if="row.updateTime && row.updateTime !== '--'">{{ UTC_DATE_FORMAT(+row.updateTime, row.timeZone) }}</span>
@@ -210,6 +215,7 @@ export default {
   dicts: ['site_status'],
   data() {
     return {
+      brandShow: process.env.VUE_APP_TITLE === 'ASPIRE TECH',
       queryTime: '',
       // 遮罩层
       loading: true,

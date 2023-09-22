@@ -24,8 +24,8 @@
                 range-separator="->"
                 :format="displayFormat"
                 :value-format="dateFormat"
-                start-placeholder="start time"
-                end-placeholder="end time">
+                start-placeholder="Start Time"
+                end-placeholder="End Time">
               </el-date-picker>
             </el-form-item>
           </common-flex>
@@ -89,7 +89,7 @@
             <span>{{ row.fault || '--' }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Fault code" prop="faultCode"></el-table-column>
+        <el-table-column label="Fault code" prop="faultCode" min-width="120"></el-table-column>
         <el-table-column label="Collection Source" prop="collectionSource" min-width="140" />
         <el-table-column label="Collection Source SN" prop="sn" show-overflow-tooltip min-width="160" />
         <el-table-column label="Status" prop="recoveryStatus" width="120">
@@ -115,7 +115,7 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.recoveryStatus === 0" label="Operation" prop="" fixed="right">
+        <el-table-column v-if="+queryParams.recoveryStatus === 0" label="Operation" prop="" fixed="right" min-width="90px">
           <template slot-scope="{ row }">
             <img :src="require('@subImg/clear.svg')" @click="cleanFault(row.id)" style="cursor: pointer" alt="">
           </template>
@@ -227,12 +227,13 @@ export default {
             }
             editAlarm(data).then(res => {
               if (+res.code === 200) {
-                done()
-                instance.confirmButtonLoading = false
                 that.$modal.msgSuccess("Deleted!")
                 this.getList()
                 this.getPileNum()
               }
+            }).finally(() => {
+              instance.confirmButtonLoading = false
+              done()
             })
           } else {
             done()

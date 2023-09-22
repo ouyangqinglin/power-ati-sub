@@ -11,16 +11,16 @@
           <el-form-item :prop="i.prop">
             <template slot="label"><span>{{ i.label }}</span></template>
             <template v-if="i.prop === 'remark'">
-              <el-input style="width: 40vw" type="textarea" show-word-limit maxlength="200" v-model="base[i.prop]"></el-input>
+              <el-input style="width: 40vw" type="textarea" show-word-limit maxlength="200" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
             </template>
             <template v-else-if="i.prop === 'userName'">
-              <el-input maxlength="50" v-model="base[i.prop]"></el-input>
+              <el-input maxlength="50" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
             </template>
             <template v-else-if="i.prop === 'email'">
-              <el-input maxlength="50" v-model="base[i.prop]"></el-input>
+              <el-input maxlength="50" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
             </template>
             <template v-else-if="i.prop === 'status'">
-              <el-select style="width: 100%" v-model="base[i.prop]">
+              <el-select style="width: 100%" v-model="base[i.prop]" :placeholder="i.placeholder">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -37,9 +37,10 @@
               </div>
             </template>
             <template v-else-if="i.prop === 'roleIds'">
-              <el-select style="width: 100%" value-key="value" v-model="base.roleIds" multiple :placeholder="i.placeholder">
+              <el-select style="width: 100%" value-key="value" v-model="base.roleIds" multiple :placeholder="i.placeholder" @change="changeSelect">
                 <el-option v-for="item of roleList"
                            :key="item.value"
+                           :disabled="item.disabled"
                            :label="item.label"
                            :value="item.value">
                 </el-option>
@@ -55,7 +56,7 @@
               </el-select>
             </template>
             <template v-else-if="i.prop === 'phone'">
-              <el-input @input="checkPhone" maxlength="20" v-model="base[i.prop]"></el-input>
+              <el-input @input="checkPhone" maxlength="20" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
             </template>
             <template v-else>
               <el-input :class="{smallPlace: i.prop === 'password'}" @input="verifyPsw"  :placeholder="i.placeholder" v-model.trim="base[i.prop]"></el-input>
@@ -104,7 +105,8 @@ export default {
   components: { siteList, agentList },
   props: {
     show: Boolean,
-    type: Number
+    type: Number,
+    active: String
   },
   watch: {
     type: {
@@ -184,7 +186,7 @@ export default {
         {
           label: 'User Account',
           prop: 'email',
-          placeholder: 'Please enter'
+          placeholder: 'Please enter email'
         },
         {
           label: 'User Name',
@@ -226,18 +228,35 @@ export default {
   },
   computed: {
     authorityList() {
-      const userApp = [
-        {
-          label: 'EasyPower Storage',
-          value: '1'
-        }
-      ]
-      const installApp = [
-        {
-          label: 'EasyPower Install',
-          value: '2'
-        }
-      ]
+      let userApp, installApp
+      if (process.env.VUE_APP_TITLE === 'EASY POWER') {
+        userApp = [
+          {
+            label: 'EasyPower Storage',
+            value: '1'
+          }
+        ]
+        installApp = [
+          {
+            label: 'EasyPower Install',
+            value: '2'
+          }
+        ]
+      } else {
+        userApp = [
+          {
+            label: 'ATI Storage',
+            value: '1'
+          }
+        ]
+        installApp = [
+          {
+            label: 'ATI Install',
+            value: '2'
+          }
+        ]
+      }
+
       return +this.type === 2 ?  installApp : userApp
     }
   },
@@ -247,8 +266,16 @@ export default {
       this.base.agencyId = this.$store.state.user.agencyId
       this.base.agentName = this.$store.state.user.agency || '--'
     }
+    if (+this.active === 3) this.base.roleIds = [2, 104, 105]
   },
   methods: {
+    changeSelect() {
+      if (+this.active === 3) {
+        [2, 104, 105].forEach(i => {
+          if (!this.base.roleIds.includes(i)) this.base.roleIds.push(i)
+        })
+      }
+    },
     verifyPsw(v) {
       this.base.password = v.replace(/\s+/g,"")
     },
@@ -265,6 +292,7 @@ export default {
       listRole(data).then(res => {
         if (res.rows.length) {
           res.rows.forEach(i => {
+            if ([2, 104, 105].includes(+i.roleId) && +this.active === 3) i.disabled = true
             i.label = i.roleName
             i.value = i.roleId
           })

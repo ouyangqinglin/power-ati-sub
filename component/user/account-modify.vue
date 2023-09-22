@@ -11,13 +11,13 @@
           <el-form-item :prop="i.prop">
             <template slot="label"><span>{{ i.label }}</span></template>
             <template v-if="i.prop === 'remark'">
-              <el-input style="width: 40vw" type="textarea" maxlength="200" show-word-limit v-model="base[i.prop]"></el-input>
+              <el-input style="width: 40vw" type="textarea" maxlength="200" show-word-limit v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
             </template>
             <template v-else-if="i.prop === 'phone'">
-              <el-input @input="checkPhone" maxlength="20" v-model="base[i.prop]"></el-input>
+              <el-input @input="checkPhone" maxlength="20" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
             </template>
             <template v-else-if="i.prop === 'status'">
-              <el-select style="width: 100%" v-model="base[i.prop]" :disabled="+id === +$store.state.user.userId">
+              <el-select style="width: 100%" v-model="base[i.prop]" :disabled="+id === +$store.state.user.userId" :placeholder="i.placeholder">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -34,9 +34,10 @@
               </div>
             </template>
             <template v-else-if="i.prop === 'roleIds'">
-              <el-select :disabled="+id === +$store.state.user.userId" value-key="value" style="width: 100%" v-model="base.roleIds" multiple :placeholder="i.placeholder">
+              <el-select :disabled="+id === +$store.state.user.userId" value-key="value" style="width: 100%" v-model="base.roleIds" multiple :placeholder="i.placeholder" @change="changeSelect">
                 <el-option v-for="item of roleList"
                            :key="item.value"
+                           :disabled="item.disabled"
                            :label="item.label"
                            :value="item.value">
                 </el-option>
@@ -98,7 +99,8 @@ export default {
   props: {
     show: Boolean,
     type: Number,
-    id: String
+    id: String,
+    active: String
   },
   watch: {
     show(r) {
@@ -112,7 +114,7 @@ export default {
             if (res.data.relationRolesList.length) {
               res.data.relationRolesList.forEach(i => {
                 let item = this.roleList.find(k => +k.roleId === +i.roleId)
-                if (item) a.roleIds.push(i.roleId + '')
+                if (item) a.roleIds.push(i.roleId)
               })
             }
           }
@@ -215,18 +217,34 @@ export default {
   },
   computed: {
     authorityList() {
-      const userApp = [
-        {
-          label: 'EasyPower Storage',
-          value: '1'
-        }
-      ]
-      const installApp = [
-        {
-          label: 'EasyPower Install',
-          value: '2'
-        }
-      ]
+      let userApp, installApp
+      if (process.env.VUE_APP_TITLE === 'EASY POWER') {
+        userApp = [
+          {
+            label: 'EasyPower Storage',
+            value: '1'
+          }
+        ]
+        installApp = [
+          {
+            label: 'EasyPower Install',
+            value: '2'
+          }
+        ]
+      } else {
+        userApp = [
+          {
+            label: 'ATI Storage',
+            value: '1'
+          }
+        ]
+        installApp = [
+          {
+            label: 'ATI Install',
+            value: '2'
+          }
+        ]
+      }
       return +this.type === 2 ?  installApp : userApp
     }
   },
@@ -234,6 +252,13 @@ export default {
     this.getRoleList()
   },
   methods: {
+    changeSelect() {
+      if (+this.active === 3) {
+        [2, 104, 105].forEach(i => {
+          if (!this.base.roleIds.includes(i)) this.base.roleIds.push(i)
+        })
+      }
+    },
     checkPhone() {
       this.base.phone = this.PHONE_REG(this.base.phone)
     },
@@ -247,8 +272,9 @@ export default {
       listRole(data).then(res => {
         if (res.rows.length) {
           res.rows.forEach(i => {
+            if ([2, 104, 105].includes(+i.roleId) && +this.active === 3) i.disabled = true
             i.label = i.roleName
-            i.value = i.roleId + ''
+            i.value = i.roleId
           })
         }
         this.roleList = res.rows

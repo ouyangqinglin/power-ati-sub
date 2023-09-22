@@ -1,161 +1,85 @@
 <template>
-  <div class="comp-battery" style="flex-grow: 1">
-    <div class="total-box">
-      <div class="item" style="width: 100%">
-        <div class="item-title">Real Time Data</div>
-        <common-flex class="item-body" justify="space-between" style="max-width: 100%">
-          <div class="item-body-item real">
-            <div class="item-body-item-key">SOC</div>
-            <div class="item-body-item-value">{{ batEnergy.soc || '--' }}%</div>
-          </div>
-          <div class="item-body-item real">
-            <div class="item-body-item-key">Voltage</div>
-            <div class="item-body-item-value">{{ batEnergy.voltage || '--' }}V</div>
-          </div>
-          <div class="item-body-item real">
-            <div class="item-body-item-key">Temperature</div>
-            <div class="item-body-item-value">{{ batEnergy.temperature || '--' }}℃</div>
-          </div>
-          <div class="item-body-item real">
-            <div class="item-body-item-key">Power</div>
-            <div class="item-body-item-value">{{ batEnergy.power || '--' }}kW</div>
-          </div>
-          <div class="item-body-item real">
-            <div class="item-body-item-key">Current</div>
-            <div class="item-body-item-value">{{ batEnergy.current || '--' }}A</div>
-          </div>
-          <div class="item-body-item real">
-            <div class="item-body-item-key">Total Capacity</div>
-            <div class="item-body-item-value">{{ batEnergy.totalCapacity || '--' }}kWh</div>
-          </div>
-          <div class="item-body-item real">
-            <div class="item-body-item-key">Status</div>
-            <div class="item-body-item-value">{{ ['', 'Not charge-discharge', 'Charging', 'Discharging'][+batEnergy.batteryStatus] }}</div>
+  <div class="comp-device-card-content-right comp-battery">
+    <div class="part">
+      <div class="part-title">Basic Info</div>
+      <common-flex>
+        <common-flex class="part-img-box" justify="center">
+          <div class="posr" style="width: 80px; height: 80px">
+            <div v-if="+base.storeConnectStatus === 1 && +curDevInfo.net === 1" class="posa dynamicSoc" :style="{height: dynamicSoc * 68 + 'px'}"></div>
+            <img v-if="+curDevInfo.net === 1" class="device-img posr" style="z-index: 1" :src="require('./img/device-battery.svg')" alt="">
+            <img v-else class="device-img posr" style="z-index: 1" :src="require('./img/device-battery-offline.svg')" alt="">
           </div>
         </common-flex>
-      </div>
-      <common-flex justify="space-between">
-        <div class="item">
-          <div class="item-title">Total Charging Energy</div>
-          <common-flex class="item-body">
-            <div class="item-body-item">
-              <div class="item-body-item-key">Today</div>
-              <div class="item-body-item-value">{{ batEnergy.dayChargeEnergy }}kWh</div>
-            </div>
-            <div class="item-body-item">
-              <div class="item-body-item-key">This Month</div>
-              <div class="item-body-item-value">{{ batEnergy.monthChargeEnergy }}kWh</div>
-            </div>
-          </common-flex>
-          <common-flex class="item-body">
-            <div class="item-body-item">
-              <div class="item-body-item-key">This Year</div>
-              <div class="item-body-item-value">{{ batEnergy.yearChargeEnergy }}kWh</div>
-            </div>
-            <div class="item-body-item">
-              <div class="item-body-item-key">Lifetime</div>
-              <div class="item-body-item-value">{{ batEnergy.allChargeEnergy }}kWh</div>
-            </div>
-          </common-flex>
-        </div>
-        <div class="item">
-          <div class="item-title">Total Discharging Energy</div>
-          <common-flex class="item-body">
-            <div class="item-body-item">
-              <div class="item-body-item-key">Today</div>
-              <div class="item-body-item-value">{{ batEnergy.dayDisChargeEnergy }}kWh</div>
-            </div>
-            <div class="item-body-item">
-              <div class="item-body-item-key">This Month</div>
-              <div class="item-body-item-value">{{ batEnergy.monthDisChargeEnergy }}kWh</div>
-            </div>
-          </common-flex>
-          <common-flex class="item-body">
-            <div class="item-body-item">
-              <div class="item-body-item-key">This Year</div>
-              <div class="item-body-item-value">{{ batEnergy.yearDisChargeEnergy }}kWh</div>
-            </div>
-            <div class="item-body-item">
-              <div class="item-body-item-key">Lifetime</div>
-              <div class="item-body-item-value">{{ batEnergy.allDisChargeEnergy }}kWh</div>
-            </div>
-          </common-flex>
-        </div>
+        <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Communication"><el-input v-model="['Off-line', 'On-line'][+curDevInfo.net]"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Status">
+              <el-input v-if="+base.storeConnectStatus === 1" v-model="['', 'Not charge-discharge', 'Charging', 'Discharging'][+curDevInfo.storeStatus]"></el-input>
+              <el-input v-else></el-input>
+            </el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Battery quantity of this site"><el-input v-model="batList.length"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Total Capacity (kwh)"><el-input v-model="curDevInfo.nameplateCapacity"></el-input></el-form-item></el-col>
+          </el-row>
+        </el-form>
       </common-flex>
     </div>
-    <common-flex style="border-bottom: 1px solid #D8DCE6; margin-bottom: 15px;" wrap="wrap">
-      <div class="bat-item" v-for="(i, k) of batList" :key="k" @click="changeCurBat(i.serialNumber)">
-        <div class="posr">
-          <div class="posa offline"><el-tag size="mini" style="background-color: #F8696A; border-color: #F8696A" effect="dark" v-if="!i.net">Off line</el-tag></div>
-          <div class="bat-pile" :id="`batPile${k}`"></div>
-          <div class="posa bat-title">
-            <div>SOC</div>
-            <div style="text-align: center; line-height: 20px">{{ i.soc }}%</div>
-          </div>
-        </div>
-        <div class="bat-sn" :class="{curClick: batCur === i.serialNumber}">{{ i.serialNumber }}</div>
-      </div>
-    </common-flex>
-    <el-tabs v-model="activeBattery">
-<!--      非1.5通信盒（1.0通信棒或1.5mini盒）则Details该模块不显-->
-      <el-tab-pane label="Details" name="first" v-if="detailsFlag"></el-tab-pane>
-      <el-tab-pane label="Basic Info" name="second"></el-tab-pane>
-    </el-tabs>
-    <common-flex auto class="comp-device-card-content-right" v-if="activeBattery === 'second'">
-      <common-flex direction="column" auto class="comp-device-card-content-right-container" style="padding: 0 24px">
-        <div class="item" v-for="i of dataInfo">
-          <div class="item-title">{{ i.title }}</div>
-          <common-flex class="item-body">
-            <div class="item-body-item" v-for="(v, k) of i.info">
-              <div class="item-body-item-key">{{ k }}</div>
-              <div class="item-body-item-value">{{ v || '--' }}</div>
-            </div>
-          </common-flex>
-        </div>
+
+    <div class="part" style="margin-top: 24px">
+      <div class="part-title">Real-Time Data</div>
+      <common-flex>
+        <common-flex class="part-img-box" justify="flex-end"></common-flex>
+        <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="SOC(%)"><el-input v-model="batEnergy.soc"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Power (kW)"><el-input v-model="batEnergy.power"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Voltage (V)"><el-input v-model="batEnergy.voltage"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Current (A)"><el-input v-model="batEnergy.current"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Temperature (°C)"><el-input v-model="batEnergy.temperature"></el-input></el-form-item></el-col>
+          </el-row>
+        </el-form>
       </common-flex>
-    </common-flex>
-    <common-flex auto class="comp-device-card-content-right" direction="column" v-if="activeBattery === 'first'">
-      <common-flex style="border-bottom: 1px solid #D8DCE6">
-        <common-flex direction="column" align="center">
-          <div class="posr">
-            <div v-if="+base.storeConnectStatus === 1" class="posa dynamicSoc" :style="{height: dynamicSoc * 68 + 'px'}"></div>
-            <img class="device-battery posr" style="z-index: 1" :src="require('./img/device-battery.svg')" alt=""><br>
-          </div>
-          <template v-if="+base.storeConnectStatus === 1">
-            <span class="status-tips" v-if="+curDevInfo.storeStatus === 1">Not charge-discharge</span>
-            <span class="status-tips" v-else-if="+curDevInfo.storeStatus === 2">Charging</span>
-            <span class="status-tips" v-else-if="+curDevInfo.storeStatus === 3">Discharging</span>
-          </template>
-          <router-link :to="{name: 'monitoring-view', params: {id: curDevInfo.id, info: curDevInfo.extInfo, sn: curDevInfo.sn, siteCode: $route.query.siteCode}}">
-            <el-button type="text">Go to BMS</el-button>
-          </router-link>
+      <common-flex>
+        <common-flex class="part-img-box" justify="flex-end">
+          <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Total Charging Energy:</div>
         </common-flex>
-        <common-flex class="comp-device-card-content-right-container" style="flex-grow: 1">
-          <div class="item" style="flex-grow: 1">
-            <div class="item-title">Real-Time Data</div>
-            <common-flex class="item-body">
-              <div class="item-body-item">
-                <div class="item-body-item-key">Soc</div>
-                <div class="item-body-item-value">{{ curDevInfo.soc }}%</div>
-              </div>
-              <div class="item-body-item">
-                <div class="item-body-item-key">Current</div>
-                <div class="item-body-item-value">{{ curDevInfo.current }}A</div>
-              </div>
-              <div class="item-body-item">
-                <div class="item-body-item-key">Voltage</div>
-                <div class="item-body-item-value">{{ curDevInfo.voltage }}V</div>
-              </div>
-              <div class="item-body-item">
-                <div class="item-body-item-key">Power</div>
-                <div class="item-body-item-value">{{ curDevInfo.power }}kW</div>
-              </div>
-            </common-flex>
-          </div>
-        </common-flex>
+        <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Today(kWh)"><el-input v-model="batEnergy.dayChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="This Month(kWh)"><el-input v-model="batEnergy.monthChargeEnergy"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="This Year(kWh)"><el-input v-model="batEnergy.yearChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Lifetime(kWh)"><el-input v-model="batEnergy.allChargeEnergy"></el-input></el-form-item></el-col>
+          </el-row>
+        </el-form>
       </common-flex>
+      <common-flex>
+        <common-flex class="part-img-box" justify="flex-end">
+          <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Total DischargingEnergy:</div>
+        </common-flex>
+        <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="Today(kWh)"><el-input v-model="batEnergy.dayDisChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="This Month(kWh)"><el-input v-model="batEnergy.monthDisChargeEnergy"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item label="This Year(kWh)"><el-input v-model="batEnergy.yearDisChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Lifetime(kWh)"><el-input v-model="batEnergy.allDisChargeEnergy"></el-input></el-form-item></el-col>
+          </el-row>
+        </el-form>
+      </common-flex>
+    </div>
+
+    <div class="part" style="margin-top: 24px">
+      <div class="part-title">Historical Information</div>
       <common-flex justify="space-between" align="center">
-        <strong style="text-indent: 16px">Historical Information</strong>
+        <div></div>
         <common-flex justify="flex-end" style="margin: 40px 0 20px 0">
           <el-radio-group size="small" v-model="batteryHis.batteryType" @change="changeBatType">
             <el-radio-button label="Voltage"></el-radio-button>
@@ -165,12 +89,12 @@
             <el-radio-button label="Temperature"></el-radio-button>
           </el-radio-group>
           <el-date-picker
-            size="small"
-            style="margin: 0 40px 0 10px"
-            format="MM-dd-yyyy"
-            value-format="yyyy-MM-dd"
-            @change="changeBatDate"
-            v-model="batteryHis.dateVal"
+              size="small"
+              style="margin: 0 40px 0 10px"
+              format="MM-dd-yyyy"
+              value-format="yyyy-MM-dd"
+              @change="changeBatDate"
+              v-model="batteryHis.dateVal"
           >
           </el-date-picker>
         </common-flex>
@@ -178,21 +102,47 @@
       <el-skeleton style="width: 100%; height: 45vh" :loading="loading" animated>
         <template slot="template">
           <el-skeleton-item
-            variant="rect"
-            style="width: 100%; height: 45vh;"
+              variant="rect"
+              style="width: 100%; height: 45vh;"
           />
         </template>
         <template slot="default">
           <div id="batteryChart" class="batteryChart"></div>
         </template>
       </el-skeleton>
-    </common-flex>
+    </div>
+
+    <div class="part" style="margin-top: 24px">
+      <div class="part-title">Battery List</div>
+      <el-form disabled style="padding: 0 24px 24px; flex-grow: 1" label-width="260px" label-position="top">
+        <el-table :data="batList">
+          <el-table-column label="SN" prop="serialNumber">
+            <template slot-scope="{ row }">
+              <common-flex align="center" @click.native="+row.type === 1 ? details(row.serialNumber) : ''" :style="{cursor: +row.type === 1 ? 'pointer' : 'not-allowed'}">
+                <span class="dot" :style="{backgroundColor: ['#AAB2BC', '#8BEA91'][+curDevInfo.net]}"></span>
+                <span class="themeColor">{{ row.serialNumber }}</span>
+              </common-flex>
+            </template>
+          </el-table-column>
+          <el-table-column label="Capacity(kWh)" prop="nameplateCapacity"></el-table-column>
+          <el-table-column label="New installation" prop="installation">
+            <template slot-scope="{ row }">
+              <span>{{ ['', 'Yes', 'No'][+row.installation] }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="Lifetime" prop="lifetime"></el-table-column>
+        </el-table>
+      </el-form>
+    </div>
+    <BatteryDetails :base="base" :show.sync="show" :batteryInfo="batteryInfo" :dialogHisData="dialogHisData" @date="changeDate" />
   </div>
 </template>
 
 <script>
-import { batEnergy, stopCharge, batHistoryData, pvHistoryData, orderRes } from '@/api/device'
-import * as echarts from "echarts";
+import BatteryDetails from "./batteryDetails.vue";
+import {batEnergy, batHistoryData, infoDevice} from '@/api/device'
+import * as echarts from "echarts"
+let batteryStorage = {}
 let batteryInstance = null
 let arr = [], arr1 = [], arr5 = [], batData = []
 for (let i = 0; i < 24; i++) {
@@ -227,7 +177,7 @@ const optionBat = {
         }
         return `${v[0].name}<br>${v[0].marker} ${t1}${unit1}`
       } else {
-        if (v.length > 1) return `${v[0].name}<br>${v[0].marker}${v[0].seriesName} ${v[0].value}<br>${v[1].marker}${v[1].seriesName} ${v[1].value}`
+        if (v.length > 1) return `${v[0].name}<br>${v[0].marker}${v[0].seriesName}: ${v[0].value}<br>${v[1].marker}${v[1].seriesName}: ${v[1].value}`
         else return `${v[0].name}<br>${v[0].marker} ${v[0].value}`
       }
     }
@@ -323,25 +273,10 @@ const optionBat = {
   series: []
 }
 
-const optionBatSoc = {
-  color: ['#98e69f', '#f3f3f3'],
-  series: [
-    {
-      type: 'pie',
-      radius: ['70%', '90%'],
-      labelLine: {
-        show: false
-      },
-      data: [
-        { value: 0, name: '' },
-        { value: 0, name: '' }
-      ]
-    }
-  ]
-}
 
 export default {
   name: 'comp-battery',
+  components: { BatteryDetails },
   props: {
     base: {
       type: Object,
@@ -353,12 +288,6 @@ export default {
       type: Object,
       default: () => {
         return {}
-      }
-    },
-    dataInfo: {
-      type: Array,
-      default: () => {
-        return []
       }
     },
     batList: {
@@ -377,42 +306,33 @@ export default {
     const that = this
     return {
       loading: false,
-      batListInstance: [],
       batEnergy: {},
-      batCur: '',
-      detailsFlag: true,
-      activeBattery: 'first',
+      sn: '',
       batteryHis: {
         batteryType: 'Voltage',
         dateVal: new Date(that.UTC_START_OF(this.base.timeZone))
       },
+      show: false,
+      batteryInfo: {},
+      dialogHisData: []
     }
   },
   watch: {
     batList: {
       handler(v) {
+        console.log('batList', v)
         // 设备类型 1-1.5 2-mini  3-1.0
         if (v.length) {
-          this.batCur = v[0].serialNumber
-          let curBat = this.batList.find(i => i.serialNumber === this.batCur)
-          this.detailsFlag = +curBat.type === 1
-          this.activeBattery = +curBat.type === 1 ? 'first' : 'second'
-          this.$nextTick(() => this.initBatInstance())
+          this.sn = v[0].serialNumber
+          this.getBatHisData()
+          window.addEventListener('resize', this.changeSize)
         }
       },
       immediate: true
     },
-    activeBattery: {
-      handler(v) {
-        if (v === 'first') {
-          this.$nextTick(() => {
-            this.getBatHisData()
-            window.addEventListener('resize', this.changeSize)
-          })
-        }
-      },
-      immediate: true
-    },
+    curDevInfo(v) {
+      console.log('battery', v)
+    }
   },
   mounted() {
     this.getBatEnergy()
@@ -421,22 +341,30 @@ export default {
     window.removeEventListener('resize', this.changeSize)
   },
   methods: {
+    changeDate(date) {
+      this.getDialogHisData(date)
+    },
+    getDialogHisData(date) {
+      let formatTime = this.DATE_FORMAT('yyyy-MM-dd', date)
+      let params = {
+        sn: this.sn,
+        siteCode: this.$route.query?.siteCode,
+        startTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 00:00:00`, this.base.timeZone)) / 1000,
+        endTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 23:59:59`, this.base.timeZone)) / 1000,
+      }
+      batHistoryData(params).then(res => {
+        this.dialogHisData = res.data
+      })
+    },
+    beforeClose() {
+      this.show = false
+    },
+    details(sn) {
+      this.show = true
+      this.changeCurBat(sn)
+    },
     changeSize() {
       if (batteryInstance) batteryInstance.resize()
-    },
-    initBatInstance() {
-      this.batListInstance = []
-      for(let i = 0; i < this.batList.length; i++) {
-        this.batListInstance.push(echarts.init(document.getElementById(`batPile${i}`)))
-        if (!this.batList[i]['curEnergy'] || !this.batList[i]['capacity']) {
-          optionBatSoc.series[0].data[0].value = 0
-          optionBatSoc.series[0].data[1].value = 1
-        } else {
-          optionBatSoc.series[0].data[0].value = this.batList[i]['curEnergy'] / this.batList[i]['capacity']
-          optionBatSoc.series[0].data[1].value = 1 - (this.batList[i]['curEnergy'] / this.batList[i]['capacity'])
-        }
-        this.batListInstance[i].setOption(optionBatSoc)
-      }
     },
     changeBatDate() {
       this.getBatHisData()
@@ -471,11 +399,16 @@ export default {
       }
       if (this.batteryHis.batteryType === 'Temperature') {
         optionBat.yAxis.name = '℃'
+        optionBat.legend = {
+          left: 40,
+          data: ['minTemperature', 'maxTemperature'],
+          icon: 'circle'
+        }
         for(let i = 0; i < batData.length; i++) {
           arr1.push((+batData[i].maxTemperature).toFixed(2))
           arr2.push((+batData[i].minTemperature).toFixed(2))
         }
-      }
+      } else optionBat.legend = {}
       let itemOne = {
         symbol: "none",
         // name: 'A相',
@@ -488,7 +421,7 @@ export default {
       }
       if (this.batteryHis.batteryType === 'Temperature') {
         let itemTwo = {
-          name: 'minTemperature:',
+          name: 'minTemperature',
           symbol: 'none',
           type: 'line',
           smooth: true,
@@ -497,7 +430,7 @@ export default {
           },
           data: arr2
         }
-        itemOne.name = 'maxTemperature:'
+        itemOne.name = 'maxTemperature'
         optionBat.series.push(itemTwo)
       }
       optionBat.series.push(itemOne)
@@ -518,7 +451,7 @@ export default {
       }
       let formatTime = this.DATE_FORMAT('yyyy-MM-dd', this.batteryHis.dateVal)
       let params = {
-        sn: this.batCur,
+        sn: this.sn,
         siteCode: this.$route.query?.siteCode,
         startTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 00:00:00`, this.base.timeZone)) / 1000,
         endTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 23:59:59`, this.base.timeZone)) / 1000,
@@ -542,13 +475,31 @@ export default {
         this.batEnergy = res.data
       })
     },
+    getDeviceInfo() {
+      let data = {
+        sn: this.sn,
+        siteCode: this.$route.query?.siteCode
+      }
+      infoDevice(data).then(res => {
+        let item = this.batList.find(i => i.serialNumber === this.sn)
+        let data = {...res.data, ...item}
+        if (+data.installation === 2) {
+          data.lifetime = '--'
+        } else {
+          let resStr = ''
+          resStr += `${data.periodDay} Days ${data.periodMonth} Months ${data.periodYear} Year`
+          data.lifetime = resStr
+        }
+        if (data.upgradeTime) data.upgradeTime = this.DATE_FORMAT('M/d/yyyy hh:mm', data.upgradeTime * 1000)
+        batteryStorage[this.sn] = data
+        this.batteryInfo = batteryStorage[this.sn]
+      })
+    },
     changeCurBat(sn) {
-      this.batCur = sn
-      let curBat = this.batList.find(i => i.serialNumber === this.batCur)
-      this.detailsFlag = +curBat.type === 1
-      this.activeBattery = +curBat.type === 1 ? 'first' : 'second'
-      if (this.detailsFlag) this.getBatHisData()
-      this.$emit('common', sn)
+      this.sn = sn
+      if (batteryStorage[this.sn]) this.batteryInfo = batteryStorage[this.sn]
+      else this.getDeviceInfo()
+      this.getDialogHisData(this.batteryHis.dateVal)
     },
   }
 }
@@ -556,11 +507,10 @@ export default {
 
 <style lang="scss">
 .comp-battery {
-  .offline {
-    left: 50%;
-    top: 6px;
-    transform: translateX(-50%);
-    z-index: 2;
+  .dot {
+    margin-right: 4px;
+    @include wh(10);
+    border-radius: 50%;
   }
 }
 </style>

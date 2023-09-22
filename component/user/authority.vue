@@ -263,7 +263,7 @@ export default {
       this.modifyShow = false
     },
     deleteRole(ids) {
-      this.$modal.confirm(`Please confirm whether to delete`).then(function() {
+      this.$modal.confirm(`Please confirm whether to delete`).then(() => {
         this.$modal.loading()
         return delRole(ids)
       }).then(() => {
