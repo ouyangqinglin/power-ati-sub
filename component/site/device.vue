@@ -12,7 +12,7 @@
         <div class="comp-device-card-content-nav">
           <div class="comp-device-card-content-nav-item" @click="changeNav(v)" :class="{ opacityTrans: active === v,  themeBackColor: active === v}" v-for="(v, k) in navBar">{{ k }}</div>
         </div>
-        <StickLogger :curDevInfo="curDevInfo" :base="base" v-if="+active === 4" />
+        <StickLogger :curDevInfo="curDevInfo" :base="base" v-if="+active === 4" :sn="sn" />
         <Battery :base="base" :batList="batList" :curDevInfo="curDevInfo" v-else-if="+active === 2"  />
         <ChargerPile :curDevInfo="curDevInfo" :pileList="pileList" v-else-if="+active === 3" @common="emitCommon" />
         <Pv v-else-if="+active === 6" :base="base" :curDevInfo="curDevInfo" :navBar="navBar" :sn="sn"></Pv>

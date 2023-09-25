@@ -235,7 +235,8 @@ export default {
       default: () => {
         return {}
       }
-    }
+    },
+    sn: String
   },
   data() {
     const that = this
@@ -248,9 +249,13 @@ export default {
     }
   },
   watch: {
-    curDevInfo(v) {
-      console.log('stick logger', v)
-      this.getWifiData()
+    sn: {
+      immediate: true,
+      handler(v) {
+        if (v) {
+          this.getWifiData()
+        }
+      }
     }
   },
   beforeDestroy() {
@@ -271,7 +276,7 @@ export default {
       }
       let formatTime = this.DATE_FORMAT('yyyy-MM-dd', this.dataHis.dateVal)
       let params = {
-        sn: this.curDevInfo.sn,
+        sn: this.sn,
         siteCode: this.$route.query?.siteCode,
         startTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 00:00:00`, this.base.timeZone)) / 1000,
         endTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 23:59:59`, this.base.timeZone)) / 1000,
