@@ -209,7 +209,7 @@ export default {
         this.atiUserList = response.rows
         this.total = response.total
         this.loading = false
-        this.selected = [...this.haveSiteList]
+        this.selected = [...this.selected, ...this.haveSiteList]
         this.handleCurrentChange()
       })
     },
