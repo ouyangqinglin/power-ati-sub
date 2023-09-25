@@ -22,7 +22,7 @@
         </el-form>
       </common-flex>
 
-      <common-flex style="background-color: #F5F7FA; border-top: 1px solid #D8DCE6">
+      <common-flex style="padding-top: 12px; background-color: #F5F7FA; border-top: 1px solid #D8DCE6">
         <common-flex class="part-img-box" justify="center"></common-flex>
         <el-form style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
@@ -40,43 +40,45 @@
       </common-flex>
     </div>
 
-<!--    <div class="part" style="margin-top: 24px">-->
-<!--      <div class="part-title">Historical Information</div>-->
-<!--      <common-flex justify="space-between" align="center">-->
-<!--        <div></div>-->
-<!--        <common-flex justify="flex-end" style="margin: 40px 0 20px 0">-->
-<!--          <el-date-picker-->
-<!--              size="small"-->
-<!--              style="margin: 0 40px 0 10px"-->
-<!--              format="MM-dd-yyyy"-->
-<!--              value-format="yyyy-MM-dd"-->
-<!--              @change="changeDate"-->
-<!--              v-model="dataHis.dateVal"-->
-<!--          >-->
-<!--          </el-date-picker>-->
-<!--        </common-flex>-->
-<!--      </common-flex>-->
-<!--      <el-skeleton style="width: 100%; height: 45vh" :loading="loading" animated>-->
-<!--        <template slot="template">-->
-<!--          <el-skeleton-item-->
-<!--              variant="rect"-->
-<!--              style="width: 100%; height: 45vh;"-->
-<!--          />-->
-<!--        </template>-->
-<!--        <template slot="default">-->
-<!--          <div id="batteryChart" class="batteryChart"></div>-->
-<!--        </template>-->
-<!--      </el-skeleton>-->
-<!--    </div>-->
+    <div class="part" style="margin-top: 24px">
+      <div class="part-title">Historical Information</div>
+      <common-flex justify="space-between" align="center">
+        <div></div>
+        <common-flex justify="flex-end" style="margin: 40px 0 20px 0">
+          <el-date-picker
+              size="small"
+              style="margin: 0 40px 0 10px"
+              format="MM-dd-yyyy"
+              value-format="yyyy-MM-dd"
+              @change="changeDate"
+              v-model="dataHis.dateVal"
+          >
+          </el-date-picker>
+        </common-flex>
+      </common-flex>
+      <el-skeleton style="width: 100%; height: 45vh" :loading="loading" animated>
+        <template slot="template">
+          <el-skeleton-item
+              variant="rect"
+              style="width: 100%; height: 45vh;"
+          />
+        </template>
+        <template slot="default">
+          <div id="batteryChart" class="batteryChart"></div>
+        </template>
+      </el-skeleton>
+    </div>
 
   </div>
 </template>
 
 <script>
+import {wifiChart} from "@/api/index"
+
 import * as echarts from "echarts"
 
 let batteryInstance = null
-let arr = [], arr1 = []
+let arr = [], arr1 = [], arrSeries = []
 for (let i = 0; i < 24; i++) {
   arr.push(i)
 }
@@ -129,7 +131,7 @@ const optionBat = {
       type: 'category',
       show: false,
       boundaryGap: true,
-      data: arr, // 接受接口时间点
+      data: [], // 接受接口时间点
       position: 'bottom',
     },
     {
@@ -212,7 +214,7 @@ const optionBat = {
     {
       type: 'line',
       name: 'Wireless Signal Strength',
-      data: arr,
+      data: [],
       smooth: true,
       symbol: 'none'
     }
@@ -248,14 +250,8 @@ export default {
   watch: {
     curDevInfo(v) {
       console.log('stick logger', v)
+      this.getWifiData()
     }
-  },
-  mounted() {
-    // this.$nextTick(() => {
-    //   batteryInstance = echarts.init(document.getElementById('batteryChart'))
-    //   window.addEventListener('resize', this.changeSize)
-    //   batteryInstance.setOption(optionBat)
-    // })
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.changeSize)
@@ -265,8 +261,38 @@ export default {
       if (batteryInstance) batteryInstance.resize()
     },
     changeDate() {
-
-    }
+      this.getWifiData()
+    },
+    getWifiData() {
+      this.loading = true
+      if (batteryInstance) {
+        batteryInstance.dispose()
+        batteryInstance= null
+      }
+      let formatTime = this.DATE_FORMAT('yyyy-MM-dd', this.dataHis.dateVal)
+      let params = {
+        sn: this.curDevInfo.sn,
+        siteCode: this.$route.query?.siteCode,
+        startTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 00:00:00`, this.base.timeZone)) / 1000,
+        endTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 23:59:59`, this.base.timeZone)) / 1000,
+      }
+      wifiChart(params).then(res => {
+        this.loading = false
+        arr1 = []
+        arrSeries = []
+        for(let i = 0; i < res.data.length; i++) {
+          arr1.push(res.data[i].timestamp.slice(11))
+          arrSeries.push((+res.data[i]).toFixed(3))
+        }
+        optionBat.xAxis[0].data = arr1
+        optionBat.series[0].data = arrSeries
+        this.$nextTick(() => {
+          batteryInstance = echarts.init(document.getElementById('batteryChart'))
+          window.addEventListener('resize', this.changeSize)
+          batteryInstance.setOption(optionBat)
+        })
+      })
+    },
   }
 }
 </script>

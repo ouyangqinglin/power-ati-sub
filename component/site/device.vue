@@ -1004,7 +1004,7 @@ export default {
           border: 1px solid #D8DCE6;
           border-radius: 2px 2px 2px 2px;
           &-title {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             height: 41px;
             @include nFont(14 #000 54 700);
             text-indent: 16px;

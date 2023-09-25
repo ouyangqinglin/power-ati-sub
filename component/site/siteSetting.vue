@@ -7,7 +7,111 @@
         </div>
         <div style="flex-grow: 1; min-height: 650px">
           <template v-if="+active === 1">
-            <div class="remote">
+            <div v-if="+userType === 1" class="remote">
+              <div class="set-part">
+                <div class="set-type">System Setting</div>
+                <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
+                  <el-row :gutter="16">
+                    <el-col :span="8">
+                      <el-form-item label="Work Mode" prop="0">
+                        <el-select v-model="deviceBase[0]">
+                          <el-option v-for="(i, k) of workOption" :value="i.label" :label="i.label" :key="k"></el-option>
+                        </el-select>
+                        <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(0)">Set</el-button>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <div class="peak-box" v-if="deviceBase[0] === 'Peak Shaving'">
+                    <span>Peak Shaving</span>
+                    <el-button style="margin-left: 10px" type="primary" plain @click="setTimeList" size="small">Set</el-button>
+                    <el-row :gutter="12" style="margin-top: 12px">
+                      <el-col :span="8">
+                        <common-flex class="time-range" align="center">
+                          <div class="time-range-label">Charging time1</div>
+                          <common-flex class="time-range-picker" align="center">
+                            <el-time-select size="small" v-model="peakShaving.chargeS1" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                            <div>-</div>
+                            <el-time-select size="small" v-model="peakShaving.chargeE1" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                          </common-flex>
+                        </common-flex>
+                      </el-col>
+                      <el-col :span="8">
+                        <common-flex class="time-range" align="center">
+                          <div class="time-range-label">Charging time2</div>
+                          <common-flex class="time-range-picker" align="center">
+                            <el-time-select size="small" v-model="peakShaving.chargeS2" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                            <div>-</div>
+                            <el-time-select size="small" v-model="peakShaving.chargeE2" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                          </common-flex>
+                        </common-flex>
+                      </el-col>
+                      <el-col :span="8">
+                        <common-flex class="time-range" align="center">
+                          <div class="time-range-label">Charging time3</div>
+                          <common-flex class="time-range-picker" align="center">
+                            <el-time-select size="small" v-model="peakShaving.chargeS3" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                            <div>-</div>
+                            <el-time-select size="small" v-model="peakShaving.chargeE3" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                          </common-flex>
+                        </common-flex>
+                      </el-col>
+                    </el-row>
+                    <el-row :gutter="12" style="margin-top: 12px">
+                      <el-col :span="8">
+                        <common-flex class="time-range" align="center">
+                          <div class="time-range-label">discharging time1</div>
+                          <common-flex class="time-range-picker" align="center">
+                            <el-time-select size="small" v-model="peakShaving.dischargeS1" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                            <div>-</div>
+                            <el-time-select size="small" v-model="peakShaving.dischargeE1" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                          </common-flex>
+                        </common-flex>
+                      </el-col>
+                      <el-col :span="8">
+                        <common-flex class="time-range" align="center">
+                          <div class="time-range-label">discharging time2</div>
+                          <common-flex class="time-range-picker" align="center">
+                            <el-time-select size="small" v-model="peakShaving.dischargeS2" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                            <div>-</div>
+                            <el-time-select size="small" v-model="peakShaving.dischargeE2" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                          </common-flex>
+                        </common-flex>
+                      </el-col>
+                      <el-col :span="8">
+                        <common-flex class="time-range" align="center">
+                          <div class="time-range-label">discharging time3</div>
+                          <common-flex class="time-range-picker" align="center">
+                            <el-time-select size="small" v-model="peakShaving.dischargeS3" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                            <div>-</div>
+                            <el-time-select size="small" v-model="peakShaving.dischargeE3" :picker-options="{start: '00:00', step: '00:01', end: '24:00'}"></el-time-select>
+                          </common-flex>
+                        </common-flex>
+                      </el-col>
+                    </el-row>
+                  </div>
+                </el-form>
+              </div>
+              <div class="set-part">
+                <div class="set-type">Battery parameters</div>
+                <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
+                  <el-row :gutter="16">
+                    <el-col :span="8">
+                      <el-form-item prop="1" label="Battery grid DOD(%)">
+                        <el-input style="width: auto" @blur="inputVerify(0, 100, 1)" v-model.trim="deviceBase[1]" placeholder="[10,90]"></el-input>
+                        <el-button type="primary" plain style="margin-left: 10px" :disabled="!deviceBase[1]" @click="setDevice(1)">Set</el-button>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-form-item prop="30" label="Battery Off-grid DOD(%)">
+                        <el-input style="width: auto" @blur="inputVerify(0, 100, 30)" v-model.trim="deviceBase[30]" placeholder="[10,90]"></el-input>
+                        <el-button type="primary" plain style="margin-left: 10px" :disabled="!deviceBase[30]" @click="setDevice(30)">Set</el-button>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                </el-form>
+              </div>
+            </div>
+            <div v-else class="remote">
               <div class="set-part">
                 <div class="set-type">System Setting</div>
                 <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
@@ -356,6 +460,7 @@
 <script>
 import { siteSetting, siteSettingSubmit } from '@/api/site'
 import {setRecodeList, getSettingInfo, deviceSet, orderRes} from '@/api/device'
+import {mapState} from "vuex";
 
 let timerInter = null
 let times = 1
@@ -382,6 +487,11 @@ export default {
       },
       immediate: true
     },
+  },
+  computed: {
+    ...mapState({
+      'userType': (state) => state.user.userType
+    })
   },
   data() {
     return {

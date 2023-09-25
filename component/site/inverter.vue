@@ -17,7 +17,7 @@
         </el-form>
       </common-flex>
 
-      <common-flex style="background-color: #F5F7FA; border-top: 1px solid #D8DCE6">
+      <common-flex style="padding-top: 12px; background-color: #F5F7FA; border-top: 1px solid #D8DCE6">
         <common-flex class="part-img-box" justify="center"></common-flex>
         <el-form style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
