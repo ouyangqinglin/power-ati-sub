@@ -9,7 +9,7 @@
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
             <el-col :span="10"><el-form-item label="Status"><el-input v-model="['Off-line', 'On-line'][+curDevInfo.net]"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Wireless Signal Strength">
+            <el-col :span="10" v-if="historyShow"><el-form-item label="Wireless Signal Strength">
               <div class="posr">
                 <el-input v-model="curDevInfo.net"></el-input>
                 <img class="posa wifi-img" :src="require('./img/device-wifi.svg')" alt="">
@@ -40,7 +40,7 @@
       </common-flex>
     </div>
 
-    <div class="part" style="margin-top: 24px">
+    <div class="part" style="margin-top: 24px" v-if="historyShow">
       <div class="part-title">Historical Information</div>
       <common-flex justify="space-between" align="center">
         <div></div>
@@ -241,6 +241,7 @@ export default {
   data() {
     const that = this
     return {
+      historyShow: process.env.VUE_APP_TITLE === 'EASY POWER',
       loading: false,
       dataHis: {
         batteryType: 'Voltage',
@@ -253,7 +254,7 @@ export default {
       immediate: true,
       handler(v) {
         if (v) {
-          this.getWifiData()
+          if (process.env.VUE_APP_TITLE === 'EASY POWER') this.getWifiData()
         }
       }
     }
