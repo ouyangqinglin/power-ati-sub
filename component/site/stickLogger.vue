@@ -33,7 +33,7 @@
             <el-col :span="10"><el-form-item label="Hardware version"><el-input readonly v-model="curDevInfo.hardVersion"></el-input></el-form-item></el-col>
             <el-col :span="10"><el-form-item label="Last version upgrade time"><el-input readonly v-model="curDevInfo.upgradeTime"></el-input></el-form-item></el-col>
           </el-row>
-          <el-row type="flex" :gutter="60">
+          <el-row type="flex" :gutter="60" v-if="historyShow">
             <el-col :span="10"><el-form-item label="Device Model"><el-input readonly v-model="['', '1.5', 'Mini', '1.0'][+curDevInfo.type]"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
