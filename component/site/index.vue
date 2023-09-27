@@ -35,7 +35,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="7" v-if="!brandShow">
             <el-form-item label="Communication Module：" prop="loggerExist" label-width="200px">
               <el-select v-model="queryParams.loggerExist" placeholder="All">
                 <el-option v-for="i of boundOption" :label="i.label" :value="i.value" :key="i.value"></el-option>
@@ -147,7 +147,7 @@
             <dict-tag :options="dict.type.site_status" :value="row.status" />
           </template>
         </el-table-column>
-        <el-table-column label="Communication Module" align="center" prop="" min-width="180">
+        <el-table-column label="Communication Module" align="center" prop="" min-width="180" v-if="!brandShow">
           <template slot-scope="{ row }">
             <span>{{['Unbound', 'Bound'][+row.loggerExist]}}</span>
           </template>
