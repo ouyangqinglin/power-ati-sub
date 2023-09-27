@@ -533,7 +533,8 @@ export default {
       this.params.siteCode = this.$route.query?.siteCode
       let params = {
         latitude: v.latitude,
-        longitude: v.longitude
+        longitude: v.longitude,
+        siteCode: this.params.siteCode
       }
       this.getWeatherData(params)
       this.getOnline()
