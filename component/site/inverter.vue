@@ -24,17 +24,20 @@
             <el-col :span="10"><el-form-item label="Serial number"><el-input readonly v-model="curDevInfo.serialNumber"></el-input></el-form-item></el-col>
             <el-col :span="10"><el-form-item label="Rated power (kW)"><el-input readonly v-model="curDevInfo.nameplateCapacity"></el-input></el-form-item></el-col>
           </el-row>
-          <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Hardware version"><el-input readonly v-model="curDevInfo.hardVersion"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Software version"><el-input readonly v-model="curDevInfo.version"></el-input></el-form-item></el-col>
-          </el-row>
-          <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Last version upgrade time"><el-input readonly v-model="curDevInfo.upgradeTime"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Inverter phase"><el-input readonly v-model="curDevInfo.phase"></el-input></el-form-item></el-col>
-          </el-row>
-          <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Manufacturer"><el-input readonly v-model="curDevInfo.manufacturer"></el-input></el-form-item></el-col>
-          </el-row>
+<!--          // 设备类型 1-1.5 2-mini  3-1.0-->
+          <template v-if="+curDevInfo.type === 1">
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10"><el-form-item label="Hardware version"><el-input readonly v-model="curDevInfo.hardVersion"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item label="Software version"><el-input readonly v-model="curDevInfo.version"></el-input></el-form-item></el-col>
+            </el-row>
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10"><el-form-item label="Last version upgrade time"><el-input readonly v-model="curDevInfo.upgradeTime"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item label="Inverter phase"><el-input readonly v-model="curDevInfo.phase"></el-input></el-form-item></el-col>
+            </el-row>
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10"><el-form-item label="Manufacturer"><el-input readonly v-model="curDevInfo.manufacturer"></el-input></el-form-item></el-col>
+            </el-row>
+          </template>
         </el-form>
       </common-flex>
     </div>
