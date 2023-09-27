@@ -739,22 +739,16 @@ export default {
       homeChart(data).then(res => {
         const lineData = res.data.list
 
-        const firstToatl = (lineData.reduce((sum, i) => {
-          return sum + i.selfConsumption
-        }, 0)).toFixed(2)
+        const firstToatl = res.data.balance.selfConsumption
 
-        const secondTotal = (lineData.reduce((sum, i) => {
-          return sum + i.netBuyEnergy
-        }, 0)).toFixed(2)
+        // const secondTotal = res.data.balance.netBuyEnergy
 
-        const totalPvGenerateEnergy = (lineData.reduce((sum, i) => {
-          return sum + i.consumption
-        }, 0)).toFixed(2)
+        const totalPvGenerateEnergy = res.data.balance.consumption
 
-        this.consumpeTotal = totalPvGenerateEnergy
+        this.consumpeTotal = res.data.balance.consumption
         if (totalPvGenerateEnergy && totalPvGenerateEnergy !== '0.00') {
           const firstToatlPercent = ((firstToatl / totalPvGenerateEnergy) * 100).toFixed(0)
-          const secondTotalPercent = ((secondTotal / totalPvGenerateEnergy) * 100).toFixed(0)
+          const secondTotalPercent = 100 - firstToatlPercent
           this.optionTwo.legend.formatter = (name) => {
             return name === 'Self Consumption' ? `${name}（${firstToatlPercent}%）` : `${name}（${secondTotalPercent}%）`
           }
