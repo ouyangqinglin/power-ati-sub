@@ -499,7 +499,7 @@ export default {
       this.sn = sn
       if (batteryStorage[this.sn]) this.batteryInfo = batteryStorage[this.sn]
       else this.getDeviceInfo()
-      this.getDialogHisData(this.batteryHis.dateVal)
+      this.getDialogHisData(new Date(this.UTC_START_OF(this.base.timeZone)))
     },
   }
 }
