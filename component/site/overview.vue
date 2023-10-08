@@ -695,16 +695,12 @@ export default {
       }
       homeChart(data).then(res => {
         const lineData = res.data.list
-        this.totalPvGenerateEnergy = (lineData.reduce((sum, i) => {
-          return sum + i.systemProduction
-        }, 0)).toFixed(2)
+        this.totalPvGenerateEnergy = res.data.balance.systemProduction
 
-        const netDischargeEnergyTotal = (lineData.reduce((sum, i) => {
-          return sum + i.export / 1000
-        }, 0)).toFixed(2)
+        const netDischargeEnergyTotal = res.data.balance.export
 
         if (this.totalPvGenerateEnergy && this.totalPvGenerateEnergy !== '0.00') {
-          const exportPercent = ((netDischargeEnergyTotal / (+this.totalPvGenerateEnergy / 1000)) * 100).toFixed(0)
+          const exportPercent = ((netDischargeEnergyTotal / (+this.totalPvGenerateEnergy)) * 100).toFixed(0)
 
           const userPercent = 100 - exportPercent
 

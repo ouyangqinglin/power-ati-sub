@@ -234,13 +234,13 @@ export default {
       } else {
         userApp = [
           {
-            label: 'ATI Storage',
+            label: 'JPEnegiMagic',
             value: '1'
           }
         ]
         installApp = [
           {
-            label: 'ATI Install',
+            label: 'RESS-Jasper Installer',
             value: '2'
           }
         ]
