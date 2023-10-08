@@ -118,7 +118,7 @@
               <common-flex direction="column" align="center">
                 <div class="num">{{ base.emissionSaved }} <span class="unit">kg</span></div>
                 <img :src="require('@img/site/house.svg')" alt="">
-                <div class="des">CO2 Emission Saved</div>
+                <div class="des">CO₂ Emission Saved</div>
               </common-flex>
               <common-flex direction="column" align="center">
                 <div class="num">{{ base.trees }}</div>
