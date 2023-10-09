@@ -253,10 +253,12 @@ const emphasisStyle = {
     shadowColor: 'rgba(0,0,0,0.3)'
   }
 }
-let xAxisData = [];
+let xAxisData = [], arrX = []
 let data1 = [];
 let data2 = [];
-
+for (let i = 0; i < 25; i++) {
+  arrX.push(i)
+}
 let xAxisDataConsu = []
 let data3 = [], data4 = []
 const weatherCodeEnum = {
@@ -720,6 +722,7 @@ export default {
           data1.push(lineData[i].export / 1000)
           data2.push(lineData[i].used / 1000)
         }
+        if (+this.params.dataType === 1) xAxisData = arrX
         this.initOption()
       })
     },
@@ -761,6 +764,7 @@ export default {
           data3.push(i.selfConsumption / 1000)
           data4.push(i.netBuyEnergy / 1000)
         })
+        if (+this.params.dataType === 1) xAxisDataConsu = arrX
         this.initConsuOption()
       })
     },
