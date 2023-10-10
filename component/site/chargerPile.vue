@@ -157,20 +157,17 @@ export default {
         orderRes(data).then(res => {
           if (+res.data === 3) {
             if(times > 15) {
-              times = 1
               clearInterval(timerInter)
-              this.getList()
+              times = 1
               this.$modal.closeLoading()
               return this.$modal.msgError('timeout')
-            }
-            this.getOrderRes()
+            } else this.getOrderRes()
           } else {
+            clearInterval(timerInter)
             times = 1
             if (+res.data === 1) {
               this.$modal.msgSuccess('SUCCESS')
-              this.getList()
             } else this.$modal.msgError(statusList[+res.data])
-            clearInterval(timerInter)
             this.$modal.closeLoading()
           }
         })
