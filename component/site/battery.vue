@@ -76,64 +76,67 @@
       </common-flex>
     </div>
 
-    <div class="part" style="margin-top: 24px">
-      <div class="part-title">Historical Information</div>
-      <common-flex justify="space-between" align="center">
-        <div></div>
-        <common-flex justify="flex-end" style="margin: 40px 0 20px 0">
-          <el-radio-group size="small" v-model="batteryHis.batteryType" @change="changeBatType">
-            <el-radio-button label="Voltage"></el-radio-button>
-            <el-radio-button label="Current"></el-radio-button>
-            <el-radio-button label="Power"></el-radio-button>
-            <el-radio-button label="SOC"></el-radio-button>
-            <el-radio-button label="Temperature"></el-radio-button>
-          </el-radio-group>
-          <el-date-picker
+    <template v-if="easyShow && [1, 2].includes(+curDevInfo.type)">
+      <div class="part" style="margin-top: 24px">
+        <div class="part-title">Historical Information</div>
+        <common-flex justify="space-between" align="center">
+          <div></div>
+          <common-flex justify="flex-end" style="margin: 40px 0 20px 0">
+            <el-radio-group size="small" v-model="batteryHis.batteryType" @change="changeBatType">
+              <el-radio-button label="Voltage"></el-radio-button>
+              <el-radio-button label="Current"></el-radio-button>
+              <el-radio-button label="Power"></el-radio-button>
+              <el-radio-button label="SOC"></el-radio-button>
+              <el-radio-button label="Temperature"></el-radio-button>
+            </el-radio-group>
+            <el-date-picker
               size="small"
               style="margin: 0 40px 0 10px"
               format="MM-dd-yyyy"
               value-format="yyyy-MM-dd"
               @change="changeBatDate"
               v-model="batteryHis.dateVal"
-          >
-          </el-date-picker>
+            >
+            </el-date-picker>
+          </common-flex>
         </common-flex>
-      </common-flex>
-      <el-skeleton style="width: 100%; height: 45vh" :loading="loading" animated>
-        <template slot="template">
-          <el-skeleton-item
+        <el-skeleton style="width: 100%; height: 45vh" :loading="loading" animated>
+          <template slot="template">
+            <el-skeleton-item
               variant="rect"
               style="width: 100%; height: 45vh;"
-          />
-        </template>
-        <template slot="default">
-          <div id="batteryChart" class="batteryChart"></div>
-        </template>
-      </el-skeleton>
-    </div>
+            />
+          </template>
+          <template slot="default">
+            <div id="batteryChart" class="batteryChart"></div>
+          </template>
+        </el-skeleton>
+      </div>
 
-    <div class="part" style="margin-top: 24px">
-      <div class="part-title">Battery List</div>
-      <el-form disabled style="padding: 0 24px 24px; flex-grow: 1" label-width="260px" label-position="top">
-        <el-table :data="batList">
-          <el-table-column label="SN" prop="serialNumber">
-            <template slot-scope="{ row }">
-              <common-flex align="center" @click.native="+row.type === 1 ? details(row.serialNumber) : ''" :style="{cursor: +row.type === 1 ? 'pointer' : 'not-allowed'}">
-                <span class="dot" :style="{backgroundColor: ['#AAB2BC', '#8BEA91'][+curDevInfo.net]}"></span>
-                <span class="themeColor">{{ row.serialNumber }}</span>
-              </common-flex>
-            </template>
-          </el-table-column>
-          <el-table-column label="Capacity(kWh)" prop="nameplateCapacity"></el-table-column>
-          <el-table-column label="New installation" prop="installation">
-            <template slot-scope="{ row }">
-              <span>{{ ['', 'Yes', 'No'][+row.installation] }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="Lifetime" prop="lifetime"></el-table-column>
-        </el-table>
-      </el-form>
-    </div>
+      <div class="part" style="margin-top: 24px">
+        <div class="part-title">Battery List</div>
+        <el-form disabled style="padding: 0 24px 24px; flex-grow: 1" label-width="260px" label-position="top">
+          <el-table :data="batList">
+            <el-table-column label="SN" prop="serialNumber">
+              <template slot-scope="{ row }">
+                <common-flex align="center" @click.native="+row.type === 1 ? details(row.serialNumber) : ''" :style="{cursor: +row.type === 1 ? 'pointer' : 'not-allowed'}">
+                  <span class="dot" :style="{backgroundColor: ['#AAB2BC', '#8BEA91'][+curDevInfo.net]}"></span>
+                  <span class="themeColor">{{ row.serialNumber }}</span>
+                </common-flex>
+              </template>
+            </el-table-column>
+            <el-table-column label="Capacity(kWh)" prop="nameplateCapacity"></el-table-column>
+            <el-table-column label="New installation" prop="installation">
+              <template slot-scope="{ row }">
+                <span>{{ ['', 'Yes', 'No'][+row.installation] }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="Lifetime" prop="lifetime"></el-table-column>
+          </el-table>
+        </el-form>
+      </div>
+    </template>
+
     <BatteryDetails :base="base" :show.sync="show" :batteryInfo="batteryInfo" :dialogHisData="dialogHisData" @date="changeDate" />
   </div>
 </template>
@@ -305,6 +308,7 @@ export default {
   data() {
     const that = this
     return {
+      easyShow: process.env.VUE_APP_TITLE === 'EASY POWER',
       loading: false,
       batEnergy: {},
       sn: '',
@@ -445,6 +449,7 @@ export default {
     },
     getBatHisData() {
       this.loading = true
+      if (!this.easyShow) return
       if (batteryInstance) {
         batteryInstance.dispose()
         batteryInstance= null
