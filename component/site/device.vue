@@ -72,7 +72,7 @@
       <template v-if="addDialogInfo[2]">
         <common-flex align="center">
           <strong>Battery</strong>
-          <common-flex v-if="!easyShow && !addDialogInfo[2].length">
+          <common-flex v-if="easyShow|| addDialogInfo[2].length < 1">
             <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
               <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(2)">
             </el-tooltip>
@@ -105,7 +105,7 @@
       <el-form @submit.native.prevent v-if="addDialogInfo[3]" style="margin-top: 16px">
         <common-flex align="center">
           <strong>EV Charger</strong>
-          <common-flex v-if="!easyShow && !addDialogInfo[3].length">
+          <common-flex v-if="easyShow || addDialogInfo[3].length < 1">
             <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
               <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(3)">
             </el-tooltip>
