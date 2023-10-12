@@ -70,6 +70,7 @@
 <script>
 import { getTaskInfo, createTask } from '@/api/task'
 import AddDialog from "@subComp/task/install/add-dialog.vue"
+import {mapState} from "vuex";
 
 
 export default {
@@ -117,10 +118,15 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapState({
+      'timeZone': state => state.user.timeZone,
+    })
+  },
   created() {
     this.id = this.$route.params?.id
     getTaskInfo(this.id).then(res => {
-      if (res.data.appointTime) res.data.appointTime = this.DATE_FORMAT('M/d/yyyy hh:mm', +res.data.appointTime * 1000)
+      if (res.data.appointTime) res.data.appointTime = this.UTC_DATE_FORMAT(res.data.appointTime, this.timeZone)
       this.base = res.data
     })
   },

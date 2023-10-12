@@ -303,6 +303,7 @@ import {
   addUpgradeTask
 } from '@/api/remote'
 import siteList from '@subComp/remote/siteList.vue'
+import {mapState} from "vuex";
 let timer = null
 export default {
   dicts: ['file_type'],
@@ -360,6 +361,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      'timeZone': state => state.user.timeZone,
+    }),
     //1-成功 2-失败 3-升级中 4-waiting
     successNum() {
       let item = this.upgradeNumber.find(i => +i.status === 1)

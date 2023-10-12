@@ -149,6 +149,7 @@
 <script>
 import { baseDevice, updateDevice } from '@/api/device'
 import { versionRecord, versionUpgrade} from "@/api/remote"
+import {mapState} from "vuex";
 export default {
   name: "comp-details",
   dicts: ['file_type'],
@@ -205,6 +206,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      'timeZone': state => state.user.timeZone,
+    }),
     dyLabel() {
       let map = {
         1: 'Rated Power (kW)',
@@ -216,8 +220,8 @@ export default {
   },
   mounted() {
     baseDevice(this.$route.params.id).then(res => {
-      if (res.data.installTime) res.data.installTime = this.DATE_FORMAT('M/d/yyyy hh:mm', (+res.data.installTime) * 1000)
-      if (res.data.unBindTime) res.data.unBindTime = this.DATE_FORMAT('M/d/yyyy hh:mm', (+res.data.unBindTime) * 1000)
+      if (res.data.installTime) res.data.installTime = this.UTC_DATE_FORMAT(res.data.installTime, this.timeZone)
+      if (res.data.unBindTime) res.data.unBindTime = this.UTC_DATE_FORMAT(res.data.unBindTime, this.timeZone)
       res.data.region = ''
       if (res.data.city) res.data.region = `${res.data.city}`
       if (res.data.province) res.data.region = `${res.data.region}${res.data.province}`
@@ -225,7 +229,7 @@ export default {
       this.queryParams.sn = res.data.sn
       this.base = res.data
       this.getList()
-      if (res.data.upgradeTime) this.currentApk.upgradeTime = this.DATE_FORMAT('M/d/yyyy hh:mm:ss', (+res.data.upgradeTime) * 1000)
+      if (res.data.upgradeTime) this.currentApk.upgradeTime = this.UTC_DATE_FORMAT(res.data.upgradeTime, this.timeZone)
       this.currentApk.version = res.data.version
       this.currentApk.hardVersion = res.data.hardVersion
     })

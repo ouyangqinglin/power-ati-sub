@@ -29,7 +29,7 @@
           <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
             <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(4)">
           </el-tooltip>
-          <img class="device-refresh" :class="{rotateAni: activeStick}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Stick')">
+          <img v-if="easyShow" class="device-refresh" :class="{rotateAni: activeStick}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Stick')">
         </common-flex>
       </common-flex>
       <el-form @submit.native.prevent v-if="addDialogInfo[4]">
@@ -47,7 +47,7 @@
           <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
             <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(1)">
           </el-tooltip>
-          <img class="device-refresh" :class="{rotateAni: activeInverter}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Inverter')">
+          <img v-if="easyShow" class="device-refresh" :class="{rotateAni: activeInverter}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Inverter')">
         </common-flex>
       </common-flex>
       <el-form @submit.native.prevent v-if="addDialogInfo[1]" style="margin-top: 16px">
@@ -72,10 +72,12 @@
       <template v-if="addDialogInfo[2]">
         <common-flex align="center">
           <strong>Battery</strong>
-          <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
-            <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(2)">
-          </el-tooltip>
-          <img class="device-refresh" :class="{rotateAni: activeBat}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Bat')">
+          <common-flex v-if="!easyShow && !addDialogInfo[2].length">
+            <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
+              <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(2)">
+            </el-tooltip>
+            <img v-if="easyShow" class="device-refresh" :class="{rotateAni: activeBat}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Bat')">
+          </common-flex>
         </common-flex>
         <template v-for="(i, k) of addDialogInfo[2]">
           <el-form @submit.native.prevent :model="i">
@@ -103,10 +105,12 @@
       <el-form @submit.native.prevent v-if="addDialogInfo[3]" style="margin-top: 16px">
         <common-flex align="center">
           <strong>EV Charger</strong>
-          <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
-            <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(3)">
-          </el-tooltip>
-          <img class="device-refresh" :class="{rotateAni: activeCharger}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Charger')">
+          <common-flex v-if="!easyShow && !addDialogInfo[3].length">
+            <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
+              <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(3)">
+            </el-tooltip>
+            <img v-if="easyShow" class="device-refresh" :class="{rotateAni: activeCharger}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Charger')">
+          </common-flex>
         </common-flex>
         <div class="dialog-form" v-for="(i, k) of addDialogInfo[3]">
           <el-form-item label="SN">
@@ -129,7 +133,7 @@
             <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
               <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(6)">
             </el-tooltip>
-            <img class="device-refresh" :class="{rotateAni: activePhotovoltaic}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Photovoltaic')">
+            <img v-if="easyShow" class="device-refresh" :class="{rotateAni: activePhotovoltaic}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Photovoltaic')">
           </template>
         </common-flex>
         <template v-for="(i, k) of addDialogInfo[6]">
@@ -234,6 +238,7 @@ export default {
   data() {
     const that = this
     return {
+      easyShow: process.env.VUE_APP_TITLE === 'EASY POWER',
       inverterCapacityMsg: {},
       batCapacityMsg: {},
       pvCapacityMsg: {},

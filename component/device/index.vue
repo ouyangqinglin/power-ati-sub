@@ -80,13 +80,13 @@
         <el-table-column label="Agency" prop="agency" min-width="140" show-overflow-tooltip />
         <el-table-column label="Time of Device Installed" prop="bindTime" min-width="170">
           <template slot-scope="{ row }">
-            <span v-if="row.bindTime && row.bindTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.bindTime * 1000) }}</span>
+            <span v-if="row.bindTime && row.bindTime !== '--'">{{ UTC_DATE_FORMAT(row.bindTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
         <el-table-column label="Time of Device Unbind" prop="unBindTime" min-width="160">
           <template slot-scope="{ row }">
-            <span v-if="row.unBindTime && row.unBindTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.unBindTime * 1000) }}</span>
+            <span v-if="row.unBindTime && row.unBindTime !== '--'">{{ UTC_DATE_FORMAT(row.unBindTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
@@ -110,6 +110,7 @@
 <script>
 import { warnList } from '@/api/site'
 import { listDevice } from '@/api/device'
+import {mapState} from "vuex";
 
 const deviceType = {
   '1': 'Inverter',
@@ -142,6 +143,11 @@ export default {
         siteName: ''
       },
     }
+  },
+  computed: {
+    ...mapState({
+      'timeZone': state => state.user.timeZone,
+    })
   },
   mounted() {
     this.getManyList()

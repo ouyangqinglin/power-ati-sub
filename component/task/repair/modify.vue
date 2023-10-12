@@ -9,7 +9,7 @@
               <div>{{ base.createBy }}</div>
             </template>
             <template slot="description">
-              <div v-if="base.createTime">{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', +base.createTime * 1000) }}</div>
+              <div v-if="base.createTime">{{ UTC_DATE_FORMAT(base.createTime, timeZone) }}</div>
               <div v-else>--</div>
             </template>
           </el-step>
@@ -19,7 +19,7 @@
                 <div>{{ base.installer }}</div>
               </template>
               <template slot="description">
-                <div v-if="base.startTime">{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', +base.startTime * 1000) }}</div>
+                <div v-if="base.startTime">{{ UTC_DATE_FORMAT(base.startTime, timeZone) }}</div>
                 <div v-else>--</div>
               </template>
             </template>
@@ -30,7 +30,7 @@
                 <div>{{ base.installer }}</div>
               </template>
               <template slot="description">
-                <div v-if="base.endTime">{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', +base.endTime * 1000) }}</div>
+                <div v-if="base.endTime">{{ UTC_DATE_FORMAT(base.endTime, timeZone) }}</div>
                 <div v-else>--</div>
               </template>
             </template>
@@ -110,9 +110,8 @@
 <script>
 import { getTaskInfo, modifyTask } from '@/api/task'
 import { getReCustomer } from '@/api/user'
-
 import AddDialog from "@subComp/task/install/add-dialog.vue"
-
+import {mapState} from "vuex";
 
 export default {
   name: "pages-repair-modify",
@@ -160,6 +159,11 @@ export default {
         ]
       },
     }
+  },
+  computed: {
+    ...mapState({
+      'timeZone': state => state.user.timeZone,
+    })
   },
   created() {
     this.id = this.$route.params?.id

@@ -70,8 +70,6 @@ export default {
   mounted() {
     this.params.id = this.$route.params?.id
     this.getDetails()
-    this.refreshDate = this.DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date())
-
   },
   methods: {
     getDetails() {
@@ -84,6 +82,7 @@ export default {
         res.data.region = regionStr
         this.details = res.data
         if (this.$route.query?.tab) this.activeName = 'Alarm'
+        this.refreshDate = this.UTC_DATE_FORMAT((new Date()).getTime() / 1000, res.data.timeZone)
       })
     },
     refresh() {

@@ -209,6 +209,7 @@
 
 <script>
 import {uploadFile, versionList, delRemote} from "@/api/remote";
+import {mapState} from "vuex";
 
 export default {
   name: "pages-remote",
@@ -320,6 +321,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      'timeZone': state => state.user.timeZone,
+    }),
     compSOptions() {
       let arrBox = [
         {

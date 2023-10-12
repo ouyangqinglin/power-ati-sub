@@ -235,6 +235,7 @@ export default {
   },
   computed: {
     ...mapState({
+      'timeZone': state => state.user.timeZone,
       'userType': state => state.user.userType,
       'agency': state => state.user.agency
     })

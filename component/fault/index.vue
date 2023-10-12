@@ -158,13 +158,13 @@
         </el-table-column>
         <el-table-column label="Occurrence Time" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
-            <span v-if="row.createTime && row.createTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.createTime*1000) }}</span>
+            <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(row.createTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
         <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Recovery Time" prop="recoveryTime" min-width="160">
           <template slot-scope="{ row }">
-            <span v-if="row.recoveryTime && row.recoveryTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.recoveryTime*1000) }}</span>
+            <span v-if="row.recoveryTime && row.recoveryTime !== '--'">{{ UTC_DATE_FORMAT(row.recoveryTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
@@ -188,6 +188,7 @@
 <script>
 import {alarmList, editAlarm} from "@/api/site";
 import {pileNum} from "@/api/fault";
+import {mapState} from "vuex";
 
 let storage_id = ''
 export default {
@@ -238,6 +239,11 @@ export default {
       warnItem: 0,
       faultItem: 0,
     }
+  },
+  computed: {
+    ...mapState({
+      'timeZone': state => state.user.timeZone,
+    })
   },
   mounted() {
     this.getList()

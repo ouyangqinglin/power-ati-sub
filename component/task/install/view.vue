@@ -9,7 +9,7 @@
               <div>{{ base.createBy }}</div>
             </template>
             <template slot="description">
-              <div v-if="base.createTime">{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', +base.createTime * 1000) }}</div>
+              <div v-if="base.createTime">{{ UTC_DATE_FORMAT(base.createTime, timeZone) }}</div>
               <div v-else>--</div>
             </template>
           </el-step>
@@ -19,7 +19,7 @@
                 <div>{{ base.installer }}</div>
               </template>
               <template slot="description">
-                <div v-if="base.startTime">{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', +base.startTime * 1000) }}</div>
+                <div v-if="base.startTime">{{ UTC_DATE_FORMAT(base.startTime, timeZone) }}</div>
                 <div v-else>--</div>
               </template>
             </template>
@@ -30,7 +30,7 @@
                 <div>{{ base.installer }}</div>
               </template>
               <template slot="description">
-                <div v-if="base.endTime">{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', +base.endTime * 1000) }}</div>
+                <div v-if="base.endTime">{{ UTC_DATE_FORMAT(base.endTime, timeZone) }}</div>
                 <div v-else>--</div>
               </template>
             </template>
@@ -94,6 +94,7 @@
 
 <script>
 import { getTaskInfo } from '@/api/task'
+import {mapState} from "vuex";
 
 
 export default {
@@ -168,10 +169,15 @@ export default {
       ],
     }
   },
+  computed: {
+    ...mapState({
+      'timeZone': state => state.user.timeZone,
+    })
+  },
   created() {
     this.id = this.$route.params?.id
     getTaskInfo(this.id).then(res => {
-      if (res.data.appointTime) res.data.appointTime = this.DATE_FORMAT('M/d/yyyy hh:mm', +res.data.appointTime * 1000)
+      if (res.data.appointTime) res.data.appointTime = this.UTC_DATE_FORMAT(res.data.appointTime, this.timeZone)
       this.base = res.data
       this.active = +this.base.status
     })

@@ -87,6 +87,7 @@
 
 <script>
 import { getTaskInfo, finishClosed } from '@/api/task'
+import {mapState} from "vuex";
 
 
 export default {
@@ -107,12 +108,17 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      'timeZone': state => state.user.timeZone,
+    })
+  },
   created() {
     this.id = this.$route.params?.id
     getTaskInfo(this.id).then(res => {
       let temp = res.data
-      if (temp.createTime) temp.createTime = this.DATE_FORMAT('M/d/yyyy hh:mm', +temp.createTime * 1000)
-      if (temp.endTime) temp.endTime = this.DATE_FORMAT('M/d/yyyy hh:mm', +temp.endTime * 1000)
+      if (temp.createTime) temp.createTime = this.UTC_DATE_FORMAT(temp.createTime, this.timeZone)
+      if (temp.endTime) temp.endTime = this.UTC_DATE_FORMAT(temp.endTime, this.timeZone)
       this.base = temp
     })
   },
