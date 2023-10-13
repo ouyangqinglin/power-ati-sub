@@ -245,7 +245,7 @@ export default {
       } else {
         userApp = [
           {
-            label: 'JPEnegiMagic',
+            label: 'RESS-Yoho',
             value: '1'
           }
         ]
