@@ -9,9 +9,9 @@
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
             <el-col :span="10"><el-form-item label="Status"><el-input v-model="['Off-line', 'On-line'][+curDevInfo.net]"></el-input></el-form-item></el-col>
-            <el-col :span="10" v-if="historyShow"><el-form-item label="Wireless Signal Strength">
+            <el-col :span="10"><el-form-item label="Wireless Signal Strength" v-if="[1, 2].includes(+curDevInfo.type)">
               <div class="posr">
-                <el-input v-model="curDevInfo.net"></el-input>
+                <el-input v-model="curDevInfo.wifi"></el-input>
                 <img class="posa wifi-img" :src="require('./img/device-wifi.svg')" alt="">
               </div>
             </el-form-item></el-col>
@@ -33,14 +33,14 @@
             <el-col :span="10"><el-form-item label="Hardware version"><el-input readonly v-model="curDevInfo.hardVersion"></el-input></el-form-item></el-col>
             <el-col :span="10"><el-form-item label="Last version upgrade time"><el-input readonly v-model="curDevInfo.upgradeTime"></el-input></el-form-item></el-col>
           </el-row>
-          <el-row type="flex" :gutter="60" v-if="historyShow">
+          <el-row type="flex" :gutter="60">
             <el-col :span="10"><el-form-item label="Device Model"><el-input readonly v-model="['', '1.5', 'Mini', '1.0'][+curDevInfo.type]"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
     </div>
 
-    <div class="part" style="margin-top: 24px" v-if="historyShow">
+    <div class="part" style="margin-top: 24px" v-if="[1, 2].includes(+curDevInfo.type)">
       <div class="part-title">Historical Information</div>
       <common-flex justify="space-between" align="center">
         <div></div>
@@ -241,7 +241,6 @@ export default {
   data() {
     const that = this
     return {
-      historyShow: process.env.VUE_APP_TITLE === 'EASY POWER',
       loading: false,
       dataHis: {
         batteryType: 'Voltage',
@@ -254,9 +253,12 @@ export default {
       immediate: true,
       handler(v) {
         if (v) {
-          if (process.env.VUE_APP_TITLE === 'EASY POWER') this.getWifiData()
+          if ([1, 2].includes(+this.curDevInfo.type)) this.getWifiData()
         }
       }
+    },
+    curDevInfo(v) {
+      console.log('stickInfo', v)
     }
   },
   beforeDestroy() {

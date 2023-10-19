@@ -8,7 +8,8 @@
         </common-flex>
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Current working mode"><el-input v-model="['Off-line', 'On-line'][+curDevInfo.net]"></el-input></el-form-item></el-col>
+<!--            自发自用字段-->
+            <el-col :span="10"><el-form-item label="Current working mode"><el-input v-model="curDevInfo.workModeList[curDevInfo.workMode]"></el-input></el-form-item></el-col>
             <el-col :span="10"><el-form-item label="New installation"><el-input v-model="['', 'Yes', 'No'][+curDevInfo.installation]"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
@@ -25,7 +26,7 @@
             <el-col :span="10"><el-form-item label="Rated power (kW)"><el-input readonly v-model="curDevInfo.nameplateCapacity"></el-input></el-form-item></el-col>
           </el-row>
 <!--          // 设备类型 1-1.5 2-mini  3-1.0-->
-          <template v-if="+curDevInfo.type === 1">
+          <template v-if="[1, 2].includes(+curDevInfo.type)">
             <el-row type="flex" :gutter="60">
               <el-col :span="10"><el-form-item label="Hardware version"><el-input readonly v-model="curDevInfo.hardVersion"></el-input></el-form-item></el-col>
               <el-col :span="10"><el-form-item label="Software version"><el-input readonly v-model="curDevInfo.version"></el-input></el-form-item></el-col>

@@ -76,7 +76,7 @@
       </common-flex>
     </div>
 
-    <template v-if="easyShow && [1, 2].includes(+curDevInfo.type)">
+    <template v-if="[1, 2].includes(+curDevInfo.type)">
       <div class="part" style="margin-top: 24px">
         <div class="part-title">Historical Information</div>
         <common-flex justify="space-between" align="center">
@@ -143,7 +143,7 @@
 
 <script>
 import BatteryDetails from "./batteryDetails.vue";
-import {batEnergy, batHistoryData, infoDevice} from '@/api/device'
+import {batEnergy, batHistoryData, infoDevice, batTotalHistoryData} from '@/api/device'
 import * as echarts from "echarts"
 let batteryStorage = {}
 let batteryInstance = null
@@ -308,7 +308,6 @@ export default {
   data() {
     const that = this
     return {
-      easyShow: process.env.VUE_APP_TITLE === 'EASY POWER',
       loading: false,
       batEnergy: {},
       sn: '',
@@ -328,7 +327,7 @@ export default {
         // 设备类型 1-1.5 2-mini  3-1.0
         if (v.length) {
           this.sn = v[0].serialNumber
-          this.getBatHisData()
+          this.$nextTick(() => this.getBatHisData())
           window.addEventListener('resize', this.changeSize)
         }
       },
@@ -442,6 +441,7 @@ export default {
         batteryInstance.dispose()
         batteryInstance= null
       }
+      if (!this.curDevInfo.type || ![1, 2].includes(+this.curDevInfo.type)) return
       this.$nextTick(() => {
         batteryInstance = echarts.init(document.getElementById('batteryChart'))
         batteryInstance.setOption(optionBat)
@@ -449,19 +449,17 @@ export default {
     },
     getBatHisData() {
       this.loading = true
-      if (!this.easyShow) return
       if (batteryInstance) {
         batteryInstance.dispose()
         batteryInstance= null
       }
       let formatTime = this.DATE_FORMAT('yyyy-MM-dd', this.batteryHis.dateVal)
       let params = {
-        sn: this.sn,
         siteCode: this.$route.query?.siteCode,
         startTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 00:00:00`, this.base.timeZone)) / 1000,
         endTimeLong: (this.ISD_TIMESTAMP(`${formatTime} 23:59:59`, this.base.timeZone)) / 1000,
       }
-      batHistoryData(params).then(res => {
+      batTotalHistoryData(params).then(res => {
         this.loading = false
         batData = res.data
         arr5 = []
