@@ -804,7 +804,7 @@ export default {
         siteCode: this.queryParams.siteCode
       }
       infoDevice(data).then(res => {
-        deviceNavInfo[this.sn] = {...res.data, ...this.currentItem}
+        deviceNavInfo[this.sn] = {...this.currentItem, ...res.data }
         this.curDevInfo = deviceNavInfo[this.sn]
         // status 1-充电中 2-已完成
         this.tempInfo()
