@@ -40,7 +40,7 @@
 
         <common-flex style="margin-top: 24px">
           <common-flex class="part-img-box" justify="flex-end">
-            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Charging Energy:</div>
+            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">PV Energy Produced:</div>
           </common-flex>
           <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
             <el-row type="flex" :gutter="60">

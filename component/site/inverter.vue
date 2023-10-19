@@ -55,7 +55,7 @@
           </common-flex>
           <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
             <el-row type="flex" :gutter="60">
-              <el-col :span="10"><el-form-item label="Status"><el-input v-model="gridStatus"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item label="Status"><el-input v-model="['Free', 'Export', 'Import'][+curDevInfo.gridStatus]"></el-input></el-form-item></el-col>
             </el-row>
             <el-row type="flex" :gutter="60">
               <el-col :span="20">

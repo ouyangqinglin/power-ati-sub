@@ -962,6 +962,7 @@ export default {
         })
         this.curDevInfo.gridList = arrGrid
         this.curDevInfo.loadList = arrLoad
+        this.curDevInfo.gridStatus = objGrid.gridStatus
       }
       if (+this.curDevInfo.installation === 2) {
         this.curDevInfo.lifetime = '--'
