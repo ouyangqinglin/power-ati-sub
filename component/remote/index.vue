@@ -580,6 +580,8 @@ export default {
       this.getList()
     },
     resetQuery() {
+      this.queryManuDisabled = true
+      this.querySubDisabled = true
       this.resetForm("queryForm")
       this.handleQuery()
     },
