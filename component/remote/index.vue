@@ -466,10 +466,15 @@ export default {
     },
     'queryParams.fileType': {
       handler(v) {
-        this.queryManuDisabled = false
-        this.querySubDisabled = false
-        this.queryParams.manufacturer = ''
-        this.queryParams.subModule = ''
+        if (typeof v === 'number') {
+          this.queryManuDisabled = false
+          this.querySubDisabled = false
+          this.queryParams.manufacturer = ''
+          this.queryParams.subModule = ''
+        } else {
+          this.queryManuDisabled = true
+          this.querySubDisabled = true
+        }
       }
     },
     'base.fileType': {
@@ -580,8 +585,6 @@ export default {
       this.getList()
     },
     resetQuery() {
-      this.queryManuDisabled = true
-      this.querySubDisabled = true
       this.resetForm("queryForm")
       this.handleQuery()
     },
