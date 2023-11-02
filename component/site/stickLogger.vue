@@ -91,35 +91,9 @@ const optionBat = {
   },
   tooltip: {
     trigger: 'axis',
-    position: function (pt, param) {
-      if (pt[0] > 960) {
-        if (param.length > 1) {
-          if (param[0].value === 'NaN') return [pt[0] - 100, pt[1] - 10]
-          else return [pt[0] - 220, pt[1] - 10]
-        }
-        else return [pt[0] - 100, pt[1] - 10]
-      }
-      return [pt[0] + 20, pt[1] - 10];
-    },
     formatter(v) {
       if (v[0].value === 'NaN') return 'No data'
-      if (optionBat.yAxis.name === 'kW') {
-        let t1, unit1
-        if (v[0].value < 1) {
-          t1 = `${(v[0].value * 1000).toFixed(2)}`
-          unit1 = 'W'
-        } else if (v[0].value > 1 && v[0].value < 1000) {
-          t1 = `${(+v[0].value).toFixed(2)}`
-          unit1 = 'kW'
-        } else {
-          t1 = `${(+v[0].value / 1000).toFixed(2)}`
-          unit1 = 'MW'
-        }
-        return `${v[0].name}<br>${v[0].marker} ${t1}${unit1}`
-      } else {
-        if (v.length > 1) return `${v[0].name}<br>${v[0].marker}${v[0].seriesName} ${v[0].value}<br>${v[1].marker}${v[1].seriesName} ${v[1].value}`
-        else return `${v[0].name}<br>${v[0].marker} ${v[0].value}`
-      }
+      return `${v[0].name}<br>${v[0].marker} ${v[0].value}`
     }
   },
   grid: {
@@ -282,8 +256,8 @@ export default {
         arr1 = []
         arrSeries = []
         for(let i = 0; i < res.data.length; i++) {
-          arr1.push(res.data[i].timestamp.slice(11))
-          arrSeries.push((+res.data[i]).toFixed(3))
+          arr1.push(res.data[i].timestamp)
+          arrSeries.push((+res.data[i].wifi).toFixed(3))
         }
         optionBat.xAxis[0].data = arr1
         optionBat.series[0].data = arrSeries

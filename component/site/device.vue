@@ -1026,7 +1026,7 @@ export default {
           }
           .wifi-img {
             top: 50%;
-            left: 40px;
+            left: 80px;
             transform: translateY(-50%);
           }
         }
