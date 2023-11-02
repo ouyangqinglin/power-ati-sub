@@ -155,13 +155,13 @@
         <el-table-column label="City" align="center" prop="city" min-width="100" show-overflow-tooltip />
         <el-table-column label="Province" align="center" prop="province" min-width="120" show-overflow-tooltip />
         <el-table-column label="Country/Area" align="center" prop="country" min-width="140" show-overflow-tooltip />
-        <el-table-column label="Time of Installed" align="center" prop="createTime" min-width="125">
+        <el-table-column label="Time of Installed" align="center" prop="createTime" min-width="130">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(+row.createTime, row.timeZone) }} {{row.utcTime}}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Local Time" align="center" prop="createTime" min-width="125">
+        <el-table-column label="Local Time" align="center" prop="createTime" min-width="130">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.createTime * 1000) }} {{localUTC}}</span>
             <span v-else>--</span>

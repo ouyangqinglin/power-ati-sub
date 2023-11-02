@@ -249,16 +249,9 @@ export default {
     }
   },
   watch: {
-    sn: {
-      immediate: true,
-      handler(v) {
-        if (v) {
-          if ([1, 2].includes(+this.curDevInfo.type)) this.getWifiData()
-        }
-      }
-    },
     curDevInfo(v) {
       console.log('stickInfo', v)
+      if ([1, 2].includes(+this.curDevInfo.type)) this.getWifiData()
     }
   },
   beforeDestroy() {
