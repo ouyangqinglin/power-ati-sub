@@ -84,7 +84,7 @@
             <el-tag v-if="+queryParams.type === 1" size="mini" :type="['', 'success', 'info'][+row.active]">{{['', 'Active','Not active'][+row.active] }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column v-else label="User Account" align="center" prop="email" min-width="140" />
+        <el-table-column v-else label="User Account" align="center" prop="email" min-width="160" />
         <el-table-column label="User" align="center" prop="userName" min-width="120" show-overflow-tooltip />
         <el-table-column label="Role" align="center" prop="rolesList" min-width="120" show-overflow-tooltip>
         </el-table-column>
