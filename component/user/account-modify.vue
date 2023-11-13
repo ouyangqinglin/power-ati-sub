@@ -240,7 +240,7 @@ export default {
         ]
         installApp = [
           {
-            label: 'RESS-Jasper Installer',
+            label: 'RESS-Yoho',
             value: '2'
           }
         ]
