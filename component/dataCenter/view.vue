@@ -66,6 +66,15 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="24">
+        <el-col :span="9">
+          <el-form-item label="Status" prop="status">
+            <el-select style="width: 100%" class="status-select" v-model="addBase.status">
+              <el-option v-for="i of statusOptions" :value="i.value" :key="i.value" :label="i.label" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item label="Remarks" prop="remarks">
         <el-input type="textarea" v-model="addBase.remarks" maxlength="200" show-word-limit placeholder="Please enter"></el-input>
       </el-form-item>
@@ -92,6 +101,16 @@ export default {
   },
   data() {
     return {
+      statusOptions: [
+        {
+          label: 'Valid',
+          value: 1
+        },
+        {
+          label: 'Invalid',
+          value: 2
+        }
+      ],
       addBase: {
         name: '',
         loggerV1Url: '',
@@ -187,6 +206,11 @@ export default {
   .is-disabled {
     background-color: #F5F7FA;
     border-color: #dfe4ed;
+  }
+}
+.status-select {
+  .el-input {
+    width: 100% !important;
   }
 }
 </style>
