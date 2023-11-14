@@ -12,6 +12,13 @@
             <el-input placeholder="Please enter" v-model="addBase.name" maxlength="50" show-word-limit></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="8">
+          <el-form-item label="Status" prop="status">
+            <el-select style="width: 100%" class="status-select" v-model="addBase.status">
+              <el-option v-for="i of statusOptions" :value="i.value" :key="i.value" :label="i.label" />
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row :gutter="24">
         <el-col :span="8">
@@ -85,7 +92,18 @@ export default {
   },
   data() {
     return {
+      statusOptions: [
+        {
+          label: 'Valid',
+          value: 1
+        },
+        {
+          label: 'Invalid',
+          value: 2
+        }
+      ],
       addBase: {
+        status: 1,
         name: '',
         loggerV1Url: '',
         loggerV2Url: '',

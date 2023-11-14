@@ -272,7 +272,7 @@ export default {
 
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 100,
         delFlag: 0,
         siteCode: ''
       },

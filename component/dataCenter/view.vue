@@ -7,14 +7,21 @@
     :visible.sync="show">
     <el-form :model="addBase" label-position="top" :rules="rules" ref="formBase" :disabled="+type === 1">
       <el-row :gutter="24">
-        <el-col :span="9">
+        <el-col :span="8">
           <el-form-item label="Data Center Name" prop="name">
             <el-input placeholder="Please enter" v-model="addBase.name" show-word-limit maxlength="50"></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="8">
+          <el-form-item label="Status" prop="status">
+            <el-select style="width: 100%" class="status-select" v-model="addBase.status">
+              <el-option v-for="i of statusOptions" :value="i.value" :key="i.value" :label="i.label" />
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row :gutter="24">
-        <el-col :span="9">
+        <el-col :span="8">
           <el-form-item label="API" prop="api">
             <el-input placeholder="Please enter" v-model="addBase.api" show-word-limit maxlength="50"></el-input>
           </el-form-item>
@@ -26,31 +33,31 @@
         <!--          </el-col>-->
       </el-row>
       <el-row :gutter="24">
-        <el-col :span="9">
+        <el-col :span="8">
           <el-form-item label="Logger Server Address--Version 1.0" prop="loggerV1Url">
             <el-input @change="checkUrl('loggerV1')" placeholder="Please enter" v-model="addBase.loggerV1Url" maxlength="50"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="9">
+        <el-col :span="8">
           <el-form-item label="Port" prop="loggerV1Port">
             <el-input @change="checkUrl('loggerV1')" maxlength="5" placeholder="Please enter" v-model.number="addBase.loggerV1Port"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="24">
-        <el-col :span="9">
+        <el-col :span="8">
           <el-form-item label="Logger Server Address--Non 1.0 version" prop="loggerV2Url">
             <el-input @change="checkUrl('loggerV2')" placeholder="Please enter" v-model="addBase.loggerV2Url" maxlength="50"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="9">
+        <el-col :span="8">
           <el-form-item label="Port" prop="loggerV2Port">
             <el-input @change="checkUrl('loggerV2')" maxlength="5" placeholder="Please enter" v-model.number="addBase.loggerV2Port"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="24">
-        <el-col :span="9">
+        <el-col :span="8">
           <el-form-item label="EV Charger Address" prop="pileUrl">
             <el-input placeholder="Please enter" @change="checkUrl('pile')" maxlength="50" v-model="addBase.pileUrl">
               <el-select size="small" class="ws-select" v-model="addBase.schema" slot="prepend" placeholder="Please select">
@@ -60,18 +67,9 @@
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="9">
+        <el-col :span="8">
           <el-form-item label="Port" prop="pilePort">
             <el-input @change="checkUrl('pile')" maxlength="5" placeholder="Please enter" v-model.number="addBase.pilePort"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="24">
-        <el-col :span="9">
-          <el-form-item label="Status" prop="status">
-            <el-select style="width: 100%" class="status-select" v-model="addBase.status">
-              <el-option v-for="i of statusOptions" :value="i.value" :key="i.value" :label="i.label" />
-            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
