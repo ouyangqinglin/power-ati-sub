@@ -508,7 +508,7 @@ export default {
               siteCode: this.queryParams.siteCode,
               deviceType: +i.deviceType,
               serialNumber: i.serialNumber,
-              nameplateCapacity: +i.nameplateCapacity,
+              nameplateCapacity: i.nameplateCapacity,
               installation: i.installation,
               index: index + 1
             }
@@ -519,7 +519,7 @@ export default {
             siteCode: this.queryParams.siteCode,
             deviceType: +v,
             serialNumber: this.addDialogInfo[v]?.serialNumber,
-            nameplateCapacity: +this.addDialogInfo[v]?.nameplateCapacity,
+            nameplateCapacity: this.addDialogInfo[v]?.nameplateCapacity,
             installation: this.addDialogInfo[v]?.installation
           }
           if (this.addDialogInfo[v]?.serialNumber) deviceList.push(item)
@@ -553,7 +553,7 @@ export default {
       for (i; i < deviceList.length; i++) {
         // 先检验容量
         if ([1, 2, 6].includes(+deviceList[i].deviceType)) {
-          if (!deviceList[i].nameplateCapacity) {
+          if (!(deviceList[i].nameplateCapacity).length) {
             if (deviceList[i].index) this.$set(this[mapCapacity[+deviceList[i].deviceType]], deviceList[i].index - 1, 'please enter capacity')
             else this.$set(this[mapCapacity[+deviceList[i].deviceType]], 'msg', 'please enter rated power')
           }
@@ -602,8 +602,7 @@ export default {
       let capacity
       if (deviceType === 1) capacity = this.addDialogInfo[deviceType].nameplateCapacity.replace(/\s*/g,"")
       else capacity = this.addDialogInfo[deviceType][index].nameplateCapacity.replace(/\s*/g,"")
-
-      if (!capacity) {
+      if (!capacity.length) {
         if (deviceType === 1) this.$set(this[msgType], 'msg', 'please enter rated power')
         else this.$set(this[msgType], index, 'please enter capacity')
       } else {
