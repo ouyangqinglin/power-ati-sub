@@ -419,6 +419,7 @@ export default {
       this.delShow = false
       this.delDialogInfo.id = ''
       this.delDialogInfo.deviceType = ''
+      this.delDialogInfo.nameplateCapacity = ''
       this.delDialogInfo.sn = ''
     },
     delDevice() {
@@ -437,29 +438,21 @@ export default {
     chooseSn() {
       this.delSubType = 'primary'
       let deviceType = +this.delDialogInfo.deviceType
-      if (deviceType === 2) {
-        this.batList.forEach(i => {
-          if (i.serialNumber === this.delDialogInfo.sn) {
-            this.delDialogInfo.id = i.id
-            this.delDialogInfo.nameplateCapacity = i.nameplateCapacity
-          }
-        })
+      let mapDeviceList = {
+        2: 'batList',
+        3: 'pileList',
+        6: 'pvList'
       }
-      if (deviceType === 3) {
-        this.pileList.forEach(i => {
+      if ([2, 3, 6].includes(deviceType)) {
+        this[mapDeviceList[deviceType]].forEach(i => {
           if (i.serialNumber === this.delDialogInfo.sn) {
             this.delDialogInfo.id = i.id
             this.delDialogInfo.nameplateCapacity = i.nameplateCapacity
           }
         })
-      }
-      if (deviceType === 6) {
-        this.pvList.forEach(i => {
-          if (i.serialNumber === this.delDialogInfo.sn) {
-            this.delDialogInfo.id = i.id
-            this.delDialogInfo.nameplateCapacity = i.nameplateCapacity
-          }
-        })
+      } else {
+        let item = this.listDev.find(i => +i.deviceType === deviceType)
+        if (item) this.delDialogInfo.nameplateCapacity = item.nameplateCapacity
       }
     },
     watchSelect() {
@@ -553,7 +546,7 @@ export default {
       for (i; i < deviceList.length; i++) {
         // 先检验容量
         if ([1, 2, 6].includes(+deviceList[i].deviceType)) {
-          if (!(deviceList[i].nameplateCapacity).length) {
+          if (typeof deviceList[i].nameplateCapacity === 'string' && !(deviceList[i].nameplateCapacity.length)) {
             if (deviceList[i].index) this.$set(this[mapCapacity[+deviceList[i].deviceType]], deviceList[i].index - 1, 'please enter capacity')
             else this.$set(this[mapCapacity[+deviceList[i].deviceType]], 'msg', 'please enter rated power')
           }
