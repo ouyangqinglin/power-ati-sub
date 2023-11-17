@@ -7,62 +7,57 @@
                width="65%"
     >
       <el-form class="account-add-form" :model="base" :rules="rules" ref="ruleForm">
-        <template v-for="i of formList">
-          <el-form-item :prop="i.prop">
-            <template slot="label"><span>{{ i.label }}</span></template>
-            <template v-if="i.prop === 'remark'">
-              <el-input style="width: 40vw" type="textarea" show-word-limit maxlength="200" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
-            </template>
-            <template v-else-if="i.prop === 'userName'">
-              <el-input maxlength="50" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
-            </template>
-            <template v-else-if="i.prop === 'email'">
-              <el-input maxlength="50" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
-            </template>
-            <template v-else-if="i.prop === 'status'">
-              <el-select style="width: 100%" v-model="base[i.prop]" :placeholder="i.placeholder">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </template>
-            <template v-else-if="i.prop === 'agencyId'">
-              <div class="posr">
-                <el-input :disabled="!(+($store.state.user.agencyId) === -1)" readonly @focus="agencyShow = true" :placeholder="i.placeholder" v-model="base['agentName']"></el-input>
-                <i @click="+($store.state.user.agencyId) === -1? agencyShow = true : ''" class="el-icon-search posa right-search"></i>
-              </div>
-            </template>
-            <template v-else-if="i.prop === 'roleIds'">
-              <el-select style="width: 100%" value-key="value" v-model="base.roleIds" multiple :placeholder="i.placeholder" @change="changeSelect">
-                <el-option v-for="item of roleList"
-                           :key="item.value"
-                           :disabled="item.disabled"
-                           :label="item.label"
-                           :value="item.value">
-                </el-option>
-              </el-select>
-            </template>
-            <template v-else-if="i.prop === 'allowedSource'">
-              <el-select style="width: 100%" value-key="value" v-model="base.allowedSource" multiple :placeholder="i.placeholder">
-                <el-option v-for="item of authorityList"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
-                </el-option>
-              </el-select>
-            </template>
-            <template v-else-if="i.prop === 'phone'">
-              <el-input @input="checkPhone" maxlength="20" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
-            </template>
-            <template v-else>
-              <el-input :class="{smallPlace: i.prop === 'password'}" @input="verifyPsw"  :placeholder="i.placeholder" v-model.trim="base[i.prop]"></el-input>
-            </template>
-          </el-form-item>
-        </template>
+        <el-form-item label="Agency" prop="agencyId" v-if="+type !== 5">
+          <div class="posr">
+            <el-input :disabled="!(+($store.state.user.agencyId) === -1)" readonly @focus="agencyShow = true" placeholder="Please select" v-model="base['agentName']"></el-input>
+            <i @click="+($store.state.user.agencyId) === -1? agencyShow = true : ''" class="el-icon-search posa right-search"></i>
+          </div>
+        </el-form-item>
+        <el-form-item label="User Account" prop="email">
+          <el-input placeholder="Please enter email" v-model="base.email" maxlength="50"></el-input>
+        </el-form-item>
+        <el-form-item label="User Name" prop="userName">
+          <el-input placeholder="Please enter" maxlength="50" v-model="base.userName"></el-input>
+        </el-form-item>
+        <el-form-item label="Phone" prop="phone">
+          <el-input @input="checkPhone" maxlength="20" v-model="base.phone" placeholder="Please enter"></el-input>
+        </el-form-item>
+        <el-form-item label="Role" prop="roleIds">
+          <el-select style="width: 100%" value-key="value" v-model="base.roleIds" multiple placeholder="Please select" @change="changeSelect">
+            <el-option v-for="item of roleList"
+                       :key="item.value"
+                       :disabled="item.disabled"
+                       :label="item.label"
+                       :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Status" prop="status">
+          <el-select style="width: 100%" v-model="base.status" placeholder="Please select">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="App Authority" prop="allowedSource" v-if="easyShow">
+          <el-select style="width: 100%" value-key="value" v-model="base.allowedSource" multiple placeholder="Please select">
+            <el-option v-for="item of authorityList"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Initial Password" prop="password">
+          <el-input class="smallPlace" @input="verifyPsw" placeholder="8-16 digital words, at least two of them: letters / numbers / symbols" v-model.trim="base.password"></el-input>
+        </el-form-item>
+        <el-form-item label="Remarks" prop="remark">
+          <el-input style="width: 40vw" type="textarea" show-word-limit maxlength="200" v-model="base.remark" placeholder="Please enter"></el-input>
+        </el-form-item>
       </el-form>
       <div class="table-content" v-if="+type === 1">
         <common-flex justify="space-between" align="center" style="margin-bottom: 10px">
@@ -108,16 +103,6 @@ export default {
     type: Number,
     active: String
   },
-  watch: {
-    type: {
-      immediate: true,
-      handler(v) {
-        if (+v === 5) {
-          this.formList.splice(0, 1)
-        }
-      },
-    }
-  },
   data() {
     const validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -130,6 +115,7 @@ export default {
       }
     }
     return {
+      easyShow: process.env.VUE_APP_TITLE === 'EASY POWER',
       siteShow: false,
       agencyShow: false,
       siteList: [],
@@ -177,59 +163,12 @@ export default {
           { required: true, validator: validatePass, trigger: 'blur'}
         ],
       },
-      formList: [
-        {
-          label: 'Agency',
-          prop: 'agencyId',
-          placeholder: 'Please select'
-        },
-        {
-          label: 'User Account',
-          prop: 'email',
-          placeholder: 'Please enter email'
-        },
-        {
-          label: 'User Name',
-          prop: 'userName',
-          placeholder: 'Please enter'
-        },
-        {
-          label: 'Phone',
-          prop: 'phone',
-          placeholder: 'Please enter'
-        },
-        {
-          label: 'Role',
-          prop: 'roleIds',
-          placeholder: 'Please select'
-        },
-        {
-          label: 'Status',
-          prop: 'status',
-          placeholder: 'Please select'
-        },
-        {
-          label: 'App Authority',
-          prop: 'allowedSource',
-          placeholder: 'Please select'
-        },
-        {
-          label: 'Initial Password',
-          prop: 'password',
-          placeholder: '8-16 digital words, at least two of them: letters / numbers / symbols'
-        },
-        {
-          label: 'Remarks',
-          prop: 'remark',
-          placeholder: 'Please enter'
-        }
-      ],
     }
   },
   computed: {
     authorityList() {
       let userApp, installApp
-      if (process.env.VUE_APP_TITLE === 'EASY POWER') {
+      if (this.easyShow) {
         userApp = [
           {
             label: 'EasyPower Storage',
@@ -239,19 +178,6 @@ export default {
         installApp = [
           {
             label: 'EasyPower Install',
-            value: '2'
-          }
-        ]
-      } else {
-        userApp = [
-          {
-            label: 'RESS-Yoho',
-            value: '1'
-          }
-        ]
-        installApp = [
-          {
-            label: 'RESS-Yoho',
             value: '2'
           }
         ]
@@ -338,15 +264,15 @@ export default {
             email: this.base.email,
             password: this.base.password,
             userName: this.base.userName,
-            agencyId: +this.base.agencyId,
             remark: this.base.remark,
             type: +this.type,
             phone: this.base.phone,
             siteCodeList: this.siteCodeList,
             status: this.base.status,
-            roleIds: this.base.roleIds,
-            allowedSourceList: this.base.allowedSource
+            roleIds: this.base.roleIds
           }
+          if (+this.type !== 5) data.agencyId = +this.base.agencyId
+          if (this.easyShow) data.allowedSourceList = this.base.allowedSource
           this.$modal.loading()
           addAtiUser(data).then(res => {
             if (+res.code === 200) {
