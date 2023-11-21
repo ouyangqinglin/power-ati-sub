@@ -44,7 +44,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="App Authority" prop="allowedSource" v-if="easyShow">
-          <el-select style="width: 100%" value-key="value" v-model="base.allowedSource" multiple placeholder="Please select">
+          <el-select style="width: 100%" value-key="value" v-model="base.allowedSource" placeholder="Please select">
             <el-option v-for="item of authorityList"
                        :key="item.value"
                        :label="item.label"
@@ -122,6 +122,7 @@ export default {
       siteCodeList: [],
       roleList: [],
       base: {
+        allowedSource: '',
         status: 1,
         email: '',
         userName: '',
@@ -168,20 +169,18 @@ export default {
   computed: {
     authorityList() {
       let userApp, installApp
-      if (this.easyShow) {
-        userApp = [
-          {
-            label: 'EasyPower Storage',
-            value: '1'
-          }
-        ]
-        installApp = [
-          {
-            label: 'EasyPower Install',
-            value: '2'
-          }
-        ]
-      }
+      userApp = [
+        {
+          label: 'EasyPower Storage',
+          value: '1'
+        }
+      ]
+      installApp = [
+        {
+          label: 'EasyPower Install',
+          value: '2'
+        }
+      ]
 
       return +this.type === 2 ?  installApp : userApp
     }
@@ -269,10 +268,11 @@ export default {
             phone: this.base.phone,
             siteCodeList: this.siteCodeList,
             status: this.base.status,
-            roleIds: this.base.roleIds
+            roleIds: this.base.roleIds,
+            allowedSource: this.base.allowedSource
           }
           if (+this.type !== 5) data.agencyId = +this.base.agencyId
-          if (this.easyShow) data.allowedSourceList = this.base.allowedSource
+          if (this.easyShow) data.allowedSourceList = [this.base.allowedSource]
           this.$modal.loading()
           addAtiUser(data).then(res => {
             if (+res.code === 200) {
