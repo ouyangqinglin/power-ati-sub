@@ -3,8 +3,8 @@
     <el-card class="pages-site-header" >
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
         <el-row>
-          <el-col :span="5">
-            <el-form-item label="Site Name：" prop="siteName" label-width="96px">
+          <el-col :span="7">
+            <el-form-item label="Site Name：" prop="siteName" label-width="94px">
               <el-input
                 v-model="queryParams.siteName"
                 placeholder="Please enter"
@@ -13,7 +13,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="6">
             <el-form-item label="Site Code：" prop="siteCode">
               <el-input
                 v-model="queryParams.siteCode"
@@ -23,31 +23,30 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="5">
-            <el-form-item label="Local Time：">
+          <el-col :span="9">
+            <el-form-item label="Local Time：" label-width="190px">
               <el-date-picker
                 clearable
                 v-model="queryTime"
                 type="date"
                 format="M/d/yyyy"
                 value-format="yyyy-MM-dd"
-                placeholder="">
+                placeholder="Please select">
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="7" v-if="!brandShow">
-            <el-form-item label="Communication Module：" prop="loggerExist" label-width="200px">
-              <el-select v-model="queryParams.loggerExist" placeholder="All">
-                <el-option v-for="i of boundOption" :label="i.label" :value="i.value" :key="i.value"></el-option>
-              </el-select>
-            </el-form-item>
+          <el-col :span="2">
+            <common-flex justify="flex-end">
+              <el-button type="primary" @click="handleQuery" size="small">Query</el-button>
+              <el-button @click="resetQuery" size="small">Reset</el-button>
+            </common-flex>
           </el-col>
         </el-row>
       </el-form>
       <el-form :inline="true" size="small">
-        <el-row type="flex" justify="space-between">
-          <el-col :span="20">
-            <el-form-item class="region" label="Region：" prop="province" label-width="96px">
+        <el-row>
+          <el-col :span="15">
+            <el-form-item class="region" label="Region：" prop="province" label-width="94px">
               <el-select
                 :disabled="!(queryParams.province && queryParams.country)"
                 v-model="queryParams.city"
@@ -95,12 +94,14 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-            <common-flex justify="flex-end">
-              <el-button type="primary" @click="handleQuery">Query</el-button>
-              <el-button @click="resetQuery">Reset</el-button>
-            </common-flex>
+          <el-col :span="8" v-if="!brandShow">
+            <el-form-item label="Communication Module：" prop="loggerExist" label-width="190px">
+              <el-select v-model="queryParams.loggerExist" placeholder="All">
+                <el-option v-for="i of boundOption" :label="i.label" :value="i.value" :key="i.value"></el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
+
         </el-row>
       </el-form>
     </el-card>
@@ -445,7 +446,7 @@ export default {
   }
   .area-select {
     .el-input__inner {
-      min-width: 240px;
+      min-width: 202px;
     }
   }
   .dot {
