@@ -142,42 +142,45 @@
         </common-flex>
       </common-flex>
     </el-card>
-    <el-card style="margin-top: 24px" v-if="[0, 1].includes(+dataType)">
-      <strong slot="header">Analysis curve</strong>
-      <common-flex wrap="wrap" class="flex-container">
-        <common-flex class="item" v-for="(i, k) of lineList"
-                     :class="{activeBorder: curSeries.includes(k)}"
-                     @click.native="changeSeries(k)"
-                     :key="k">
-          <div class="item-label" style="width: 66%;">{{ i.label }}</div>
-          <div class="item-value posr" style="width: 33%">{{ i.value }}<img class="posa trend" :src="require('@img/site/trend.svg')" alt=""></div>
+    <el-card style="margin-top: 24px">
+      <template v-if="[0, 1].includes(+dataType)">
+        <strong slot="header">Analysis curve</strong>
+        <common-flex wrap="wrap" class="flex-container">
+          <common-flex class="item" v-for="(i, k) of lineList"
+                       :class="{activeBorder: curSeries.includes(k)}"
+                       @click.native="changeSeries(k)"
+                       :key="k">
+            <div class="item-label" style="width: 66%;">{{ i.label }}</div>
+            <div class="item-value posr" style="width: 33%">{{ i.value }}<img class="posa trend" :src="require('@img/site/trend.svg')" alt=""></div>
+          </common-flex>
         </common-flex>
-      </common-flex>
-      <div class="chart-container posr">
-        <div class="posa date-comp">
-          <el-date-picker
-            format="MM-dd-yyyy"
-            value-format="yyyy-MM-dd"
-            v-model="dateVal"
-            type="date"
-            @change="getInfoData()"
-          />
+        <div class="chart-container posr">
+          <div class="posa date-comp">
+            <el-date-picker
+              format="MM-dd-yyyy"
+              value-format="yyyy-MM-dd"
+              v-model="dateVal"
+              type="date"
+              @change="getInfoData()"
+            />
+          </div>
+          <template v-if="flag">
+            <el-skeleton style="width: 100%; height: 100%" :loading="charting" animated>
+              <template slot="template">
+                <el-skeleton-item
+                  variant="rect"
+                  style="width: 100%; height: 50vh;"
+                />
+              </template>
+              <template>
+                <div class="line" id="line"></div>
+              </template>
+            </el-skeleton>
+          </template>
+          <no-data v-else />
         </div>
-        <template v-if="flag">
-          <el-skeleton style="width: 100%; height: 100%" :loading="charting" animated>
-            <template slot="template">
-              <el-skeleton-item
-                variant="rect"
-                style="width: 100%; height: 50vh;"
-              />
-            </template>
-            <template>
-              <div class="line" id="line"></div>
-            </template>
-          </el-skeleton>
-        </template>
-        <no-data v-else />
-      </div>
+      </template>
+      <NoData v-else />
     </el-card>
     <Trend :show.sync="show" :dataKey="curItem" />
   </div>
