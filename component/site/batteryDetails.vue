@@ -6,9 +6,7 @@
     <div class="part">
       <common-flex style="width: 100%; padding-right: 24px" class="part-title" justify="space-between">
         <div>Real-Time Data</div>
-        <router-link :to="{name: 'monitoring-view', params: {id: batteryInfo.id, info: batteryInfo.extInfo, sn: batteryInfo.sn, siteCode: $route.query.siteCode}}">
-          <el-button type="text">Go to BMS</el-button>
-        </router-link>
+        <el-button type="text" @click="toBms()">Go to BMS</el-button>
       </common-flex>
       <el-form disabled label-width="260px" label-position="top" style="padding: 0 24px 24px">
         <el-row :gutter="24">
@@ -256,6 +254,13 @@ export default {
     }
   },
   methods: {
+    toBms() {
+      this.$emit('update:show', false)
+      this.$router.push({
+        name: 'monitoring-view',
+        params: {id: this.batteryInfo.id, info: this.batteryInfo.extInfo, sn: this.batteryInfo.sn, siteCode: this.$route.query.siteCode}
+      })
+    },
     beforeClose() {
       this.$emit('update:show', false)
       this.loading = true
