@@ -228,7 +228,7 @@ export default {
               message: 'Succeeded!'
             })
             setTimeout(() => {
-              this.$router.push('/task/repair')
+              this.$router.push(`/task/repair?refresh=${true}`)
             }, 500)
           }
         }).finally(() => this.$modal.closeLoading())

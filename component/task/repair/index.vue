@@ -163,7 +163,7 @@ import AddDialog from "@subComp/task/siteList.vue"
 import {mapState} from "vuex";
 
 export default {
-  name: "pages-repair",
+  name: "Repair",
   components: { AddDialog },
   dicts: ['install_type', 'install_status'],
   data() {
@@ -229,8 +229,11 @@ export default {
       if (!v) this.queryParams.startTime = this.queryParams.endTime = ''
     },
   },
-  created() {
+  mounted() {
     this.getList()
+  },
+  activated() {
+    if (this.$route.query?.refresh) this.getList()
   },
   methods: {
     // 打开add弹窗

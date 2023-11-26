@@ -43,15 +43,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="App Authority" prop="allowedSource" v-if="easyShow">
-          <el-select style="width: 100%" v-model="base.allowedSource" placeholder="Please select">
-            <el-option v-for="item of authorityList"
-                       :key="item.value"
-                       :label="item.label"
-                       :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="Remarks" prop="remark">
           <el-input style="width: 40vw" type="textarea" show-word-limit maxlength="200" v-model="base.remark" placeholder="Please enter"></el-input>
         </el-form-item>
@@ -131,7 +122,6 @@ export default {
       siteCodeList: [],
       roleList: [],
       base: {
-        allowedSource: '',
         status: 1,
         email: '',
         userName: '',
@@ -159,24 +149,6 @@ export default {
           { required: true, message: 'Please select', trigger: 'change'}
         ]
       },
-    }
-  },
-  computed: {
-    authorityList() {
-      let userApp, installApp
-      userApp = [
-        {
-          label: 'EasyPower Storage',
-          value: "1"
-        }
-      ]
-      installApp = [
-        {
-          label: 'EasyPower Install',
-          value: "2"
-        }
-      ]
-      return +this.type === 2 ?  installApp : userApp
     }
   },
   mounted() {
@@ -252,10 +224,8 @@ export default {
             status: this.base.status,
             id: +this.id,
             roleIds: this.base.roleIds,
-            allowedSource: this.base.allowedSource
           }
           if (+this.type !== 5) data.agencyId = +this.base.agencyId
-          if (this.easyShow) data.allowedSourceList = [this.base.allowedSource]
           this.$modal.loading()
           updateAtiUser(data).then(res => {
             if (+res.code === 200) {

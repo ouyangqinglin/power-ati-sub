@@ -41,7 +41,7 @@ import Firmware from '@subComp/site/firmware'
 import OtherSettings from '@subComp/site/siteSetting'
 
 export default {
-  name: "site-details",
+  name: "Site-view",
   components: { Overview, SiteInfo, Device, OtherSettings, Alarm, Firmware },
   data() {
     return {

@@ -194,7 +194,7 @@ export default {
               message: 'Succeeded!'
             })
             setTimeout(() => {
-              this.$router.push('/task/install')
+              this.$router.push(`/task/install?refresh=${true}`)
             }, 500)
           }
         }).finally(() => this.$modal.closeLoading())

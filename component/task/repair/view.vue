@@ -163,7 +163,8 @@ export default {
       'timeZone': state => state.user.timeZone,
     })
   },
-  created() {
+  mounted() {
+    console.log('sss')
     this.id = this.$route.params?.id
     getTaskInfo(this.id).then(res => {
       if (res.data.appointTime) res.data.appointTime = this.UTC_DATE_FORMAT(res.data.appointTime, this.timeZone)

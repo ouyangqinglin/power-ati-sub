@@ -209,10 +209,10 @@
 </template>
 
 <script>
-import { listSite, getAddress, delSite, addSite, updateSite } from "@/api/site"
+import { listSite, getAddress, delSite } from "@/api/site"
 
 export default {
-  name: "pages-site",
+  name: "Site",
   dicts: ['site_status'],
   data() {
     return {
@@ -304,7 +304,7 @@ export default {
       },
     }
   },
-  created() {
+  mounted() {
     this.getList()
     this.getAddressOption()
   },

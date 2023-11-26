@@ -192,7 +192,7 @@ import {mapState} from "vuex";
 
 let storage_id = ''
 export default {
-  name: "pages-fault",
+  name: "Fault-index",
   data() {
     return {
       deviceType: {

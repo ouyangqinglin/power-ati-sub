@@ -43,15 +43,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="App Authority" prop="allowedSource" v-if="easyShow">
-          <el-select style="width: 100%" value-key="value" v-model="base.allowedSource" placeholder="Please select">
-            <el-option v-for="item of authorityList"
-                       :key="item.value"
-                       :label="item.label"
-                       :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="Initial Password" prop="password">
           <el-input class="smallPlace" @input="verifyPsw" placeholder="8-16 digital words, at least two of them: letters / numbers / symbols" v-model.trim="base.password"></el-input>
         </el-form-item>
@@ -122,7 +113,6 @@ export default {
       siteCodeList: [],
       roleList: [],
       base: {
-        allowedSource: '',
         status: 1,
         email: '',
         userName: '',
@@ -269,10 +259,8 @@ export default {
             siteCodeList: this.siteCodeList,
             status: this.base.status,
             roleIds: this.base.roleIds,
-            allowedSource: this.base.allowedSource
           }
           if (+this.type !== 5) data.agencyId = +this.base.agencyId
-          if (this.easyShow) data.allowedSourceList = [this.base.allowedSource]
           this.$modal.loading()
           addAtiUser(data).then(res => {
             if (+res.code === 200) {

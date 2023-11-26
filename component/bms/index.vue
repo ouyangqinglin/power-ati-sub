@@ -85,7 +85,7 @@
 import { listDevice, editDevice } from '@/api/device'
 
 export default {
-  name: "pages-Monitoring",
+  name: "Monitor-index",
   data() {
     return {
       total: 0,

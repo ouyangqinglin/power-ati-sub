@@ -229,8 +229,11 @@ export default {
       if (!v) this.queryParams.startTime = this.queryParams.endTime = ''
     },
   },
-  created() {
+  mounted() {
     this.getList()
+  },
+  activated() {
+    if (this.$route.query?.refresh) this.getList()
   },
   methods: {
     // 打开add弹窗
