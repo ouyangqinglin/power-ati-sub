@@ -21,7 +21,7 @@
                 type="date"
                 format="MM/dd/yyyy"
                 value-format="yyyy-M-d"
-                placeholder="">
+                placeholder="Please select">
               </el-date-picker>
             </el-form-item>
           </el-col>

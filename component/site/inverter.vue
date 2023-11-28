@@ -137,11 +137,11 @@ export default {
       }
     },
   },
-  watch: {
-    curDevInfo(v) {
-      console.log('inverter', v)
-    }
-  },
+  // watch: {
+  //   curDevInfo(v) {
+  //     console.log('inverter', v)
+  //   }
+  // },
   data() {
     return {
       name: 'grid',

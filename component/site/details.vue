@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="12">
           <el-tabs v-model="activeName">
-            <el-tab-pane label="Overview" name="overview"></el-tab-pane>
+            <el-tab-pane :label="$t('common.overview')" name="overview"></el-tab-pane>
             <el-tab-pane label="Site info" name="siteInfo"></el-tab-pane>
             <el-tab-pane label="Device" name="Device"></el-tab-pane>
             <el-tab-pane label="Alarm" name="Alarm"></el-tab-pane>

@@ -7,22 +7,21 @@
       </el-tabs>
     </el-card>
     <el-card style="margin-top: 24px">
-      <el-form :inline="true" :model="queryParams" label-width="100px" ref="queryForm" size="small">
+      <el-form :model="queryParams" label-width="100px" ref="queryForm">
         <el-row>
           <el-col :span="6">
             <el-form-item label="Site Name：" prop="siteName">
               <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.siteName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="6">
             <el-form-item label="Alarm：" prop="fault">
               <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.fault"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="11">
+          <el-col :span="12">
             <el-form-item label="Occurrence Time" label-width="140px">
               <el-date-picker
-                size="small"
                 ref="dataEnd"
                 @change="sureDate"
                 v-model="dateVal"
@@ -42,7 +41,7 @@
               <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.faultCode"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="4">
             <el-form-item>
               <el-button type="primary" @click="handleQuery">Query</el-button>
               <el-button @click="resetQuery">Reset</el-button>

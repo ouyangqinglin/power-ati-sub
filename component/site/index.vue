@@ -1,52 +1,10 @@
 <template>
   <div class="app-container pages-site">
     <el-card class="pages-site-header" >
-      <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
+      <el-form>
         <el-row>
-          <el-col :span="7">
-            <el-form-item label="Site Name：" prop="siteName" label-width="94px">
-              <el-input
-                v-model="queryParams.siteName"
-                placeholder="Please enter"
-                clearable
-                @keyup.enter.native="handleQuery"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="Site Code：" prop="siteCode">
-              <el-input
-                v-model="queryParams.siteCode"
-                placeholder="Please enter"
-                clearable
-                @keyup.enter.native="handleQuery"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="9">
-            <el-form-item label="Local Time：" label-width="190px">
-              <el-date-picker
-                clearable
-                v-model="queryTime"
-                type="date"
-                format="M/d/yyyy"
-                value-format="yyyy-MM-dd"
-                placeholder="Please select">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="2">
-            <common-flex justify="flex-end">
-              <el-button type="primary" @click="handleQuery" size="small">Query</el-button>
-              <el-button @click="resetQuery" size="small">Reset</el-button>
-            </common-flex>
-          </el-col>
-        </el-row>
-      </el-form>
-      <el-form :inline="true" size="small">
-        <el-row>
-          <el-col :xl="13" :md="13" :sm="15" :lg="15">
-            <el-form-item class="region" label="Region：" prop="province" label-width="94px">
+          <el-col :span="20">
+            <el-form-item class="region" label="Region：" prop="province" label-width="110px">
               <el-select
                 :disabled="!(queryParams.province && queryParams.country)"
                 v-model="queryParams.city"
@@ -94,15 +52,48 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :xl="8" :md="8" :sm="8" :lg="8" v-if="!brandShow">
-            <el-form-item label="Communication Module：" prop="loggerExist" label-width="190px">
-              <el-select v-model="queryParams.loggerExist" placeholder="All">
-                <el-option v-for="i of boundOption" :label="i.label" :value="i.value" :key="i.value"></el-option>
-              </el-select>
-            </el-form-item>
+          <el-col :span="4">
+            <common-flex justify="flex-end">
+              <el-button type="primary" @click="handleQuery" size="small">Query</el-button>
+              <el-button @click="resetQuery" size="small">Reset</el-button>
+            </common-flex>
           </el-col>
-
         </el-row>
+      </el-form>
+      <el-form :model="queryParams" ref="queryForm">
+        <common-flex wrap="wrap" class="mt15" style="width: 100%">
+          <el-form-item label="Site Name：" prop="siteName" label-width="110px">
+            <el-input
+              v-model="queryParams.siteName"
+              placeholder="Please enter"
+              clearable
+              @keyup.enter.native="handleQuery"
+            />
+          </el-form-item>
+          <el-form-item label="Site Code：" prop="siteCode" label-width="120px">
+            <el-input
+              v-model="queryParams.siteCode"
+              placeholder="Please enter"
+              clearable
+              @keyup.enter.native="handleQuery"
+            />
+          </el-form-item>
+          <el-form-item v-if="!brandShow" label="Communication Module：" prop="loggerExist" label-width="220px">
+            <el-select v-model="queryParams.loggerExist" placeholder="All">
+              <el-option v-for="i of boundOption" :label="i.label" :value="i.value" :key="i.value"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Local Time：" label-width="110px">
+            <el-date-picker
+              clearable
+              v-model="queryTime"
+              type="date"
+              format="M/d/yyyy"
+              value-format="yyyy-MM-dd"
+              placeholder="Please select">
+            </el-date-picker>
+          </el-form-item>
+        </common-flex>
       </el-form>
     </el-card>
     <div style="height: 20px"></div>
@@ -186,13 +177,13 @@
             <el-button
               type="text"
             >
-              <router-link v-hasPermi="['ati:site:view']" :to="`/site/details/${scope.row.id}?siteCode=${scope.row.siteCode}`">Detail</router-link>
+              <router-link v-hasPermi="['ati:site:view']" :to="`/site/details/${scope.row.id}?siteCode=${scope.row.siteCode}`">{{$t('common.detail')}}</router-link>
             </el-button>
             <el-button
               type="text"
               @click="handleDelete(scope.row)"
               v-hasPermi="['ati:site:remove']"
-            >Delete</el-button>
+            >{{$t('common.delete')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
