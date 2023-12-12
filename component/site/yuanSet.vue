@@ -397,18 +397,11 @@ export default {
       }, 1000)
     },
     setDevice(type) {
-      if (copyDeviceInfo[type] === this.deviceBase[type]) {
-        if (![22, 23].includes(+type)) return this.$modal.confirm('Value not changed').catch((err) => console.log(err))
-      }
+      if (copyDeviceInfo[type] === this.deviceBase[type]) return this.$modal.confirm('Value not changed').catch((err) => console.log(err))
       let data = {
         siteCode: this.siteCode,
         type,
         baseParam: this.deviceBase[type]
-      }
-      let arr = [13, 21, 25, 31, 38]
-      if (arr.includes(+type)) {
-        if (this.deviceBase[type]) data.baseParam = 1
-        else data.baseParam = 0
       }
       deviceSet(data).then(res => {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
