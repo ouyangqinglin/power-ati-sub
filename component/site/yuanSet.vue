@@ -463,7 +463,7 @@ export default {
           <el-col :span="8">
             <el-form-item label="Overload Method" prop="301">
               <el-select v-model="deviceBase[301]" style="width: 60%">
-                <el-option v-for="(i, k) of overloadOptions" :value="i.label" :label="i.label" :key="k"></el-option>
+                <el-option v-for="(i, k) of overloadOptions" :value="i.value" :label="i.label" :key="k"></el-option>
               </el-select>
               <el-button type="primary" plain class="ml10" @click="setDevice(301)">Set</el-button>
             </el-form-item>
@@ -471,7 +471,7 @@ export default {
           <el-col :span="8">
             <el-form-item label="N_PE Check SwitchN_PE" prop="315">
               <el-select v-model="deviceBase[315]" style="width: 60%">
-                <el-option v-for="(i, k) of onOffOptions" :value="i.label" :label="i.label" :key="k"></el-option>
+                <el-option v-for="(i, k) of onOffOptions" :value="i.value" :label="i.label" :key="k"></el-option>
               </el-select>
               <el-button type="primary" plain class="ml10" @click="setDevice(315)">Set</el-button>
             </el-form-item>
@@ -540,7 +540,7 @@ export default {
             <el-col :span="8">
               <el-form-item label="AC Power Scheduling Mode" prop="316">
                 <el-select v-model="deviceBase[316]" style="width: 60%">
-                  <el-option v-for="(i, k) of acPowerOptions" :value="i.label" :label="i.label" :key="k"></el-option>
+                  <el-option v-for="(i, k) of acPowerOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
                 <el-button type="primary" plain class="ml10" @click="setDevice(316)">Set</el-button>
               </el-form-item>
