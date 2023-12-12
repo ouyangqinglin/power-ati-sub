@@ -86,7 +86,6 @@ export default {
       })
     },
     refresh() {
-      this.refreshDate = this.DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date())
       this.getDetails()
       this.active = true
       this.$modal.loading()

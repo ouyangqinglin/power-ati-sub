@@ -203,7 +203,7 @@
 import { listSite, getAddress, delSite } from "@/api/site"
 
 export default {
-  name: "Site",
+  name: "Site-view",
   dicts: ['site_status'],
   data() {
     return {
