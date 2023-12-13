@@ -1,7 +1,7 @@
 <template>
   <div class="app-container pages-fault-repair">
     <el-card class="pages-fault-repair-header" >
-      <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="130px">
+      <el-form :model="queryParams" ref="queryForm" :inline="true">
         <el-row>
           <el-col :span="6">
             <el-form-item label="Code：" prop="code" class="same-input">

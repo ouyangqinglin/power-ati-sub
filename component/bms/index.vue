@@ -1,7 +1,7 @@
 <template>
   <div class="pages-bms app-container">
     <el-card>
-      <el-form :inline="true" :model="queryParams" label-width="100px" ref="queryForm">
+      <el-form :inline="true" :model="queryParams" ref="queryForm">
         <common-flex>
           <common-flex style="flex-grow: 1">
             <el-form-item label="SN：" prop="serialNumber">

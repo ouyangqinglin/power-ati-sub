@@ -130,7 +130,7 @@ const optionBat = {
 
   ],
   yAxis: {
-    name: 'V',
+    name: 'dBm',
     type: 'value',
     axisLine: {
       show: false,

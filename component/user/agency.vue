@@ -1,7 +1,7 @@
 <template>
   <div class="pages-user-agency app-container">
     <el-card class="pages-user-agency-card pane">
-      <el-form :model="queryParams" :inline="true" ref="queryForm" label-width="120px">
+      <el-form :model="queryParams" :inline="true" ref="queryForm">
         <common-flex>
           <el-form-item label="Agency:" prop="agency">
             <el-input

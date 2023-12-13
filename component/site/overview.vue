@@ -56,13 +56,12 @@
             <common-flex justify="center" align="center" class="posa offline" v-if="!online">
               <div class="posa">Off line</div>
             </common-flex>
-<!--            <common-flex justify="center" align="center" class="circle-container-box posr" :style="{height: +base.pvExist ? '90%' : '80%'}">-->
             <common-flex justify="center" align="center" class="circle-container-box posr" :style="{height: '90%'}">
 <!--              pv 线-->
               <div class="posa" :class="{middleTopBottom: +base.solarPower > 0 }"></div>
-<!--              <div class="posa" :class="{middleTopBottom: +base.solarPower > 0 }" v-if="+base.pvExist"></div>-->
-<!--              Battery 线-->
+<!--              Battery 线  storeStatus 电池状态 1-空闲 2-充电中 3-放电  storeConnectStatus 1-硬件设备已连接 2-硬件设备未连接 -->
               <div class="posa" v-if="+base.storeConnectStatus === 1" :class="{middleLeftRightArrow: +base.storeStatus === 2, middleRightLeftArrow: +base.storeStatus === 3}"></div>
+              <div class="posa" v-else :class="{middleLeftRightArrowDash: +base.storeStatus === 2, middleRightLeftArrowDash: +base.storeStatus === 3}"></div>
 <!--              grid 线-->
               <div class="posa" :class="{gridExport: +base.gridStatus === 2, gridImport: +base.gridStatus === 1}"></div>
 <!--              Load 线-->
@@ -1148,6 +1147,26 @@ export default {
                border-color: transparent transparent transparent #6FD87F;
              }
            }
+           .middleRightLeftArrowDash {
+             width: 50%;
+             height: 1px;
+             left: 0;
+             top: 50%;
+             transform: translateY(-50%);
+             z-index: 1;
+             border-bottom: 2px dashed #6FD87F;
+             &:after {
+               content: '';
+               position: absolute;
+               top: 50%;
+               left: 50%;
+               transform: translate(-46%, -46%);
+               width: 0;
+               height: 0;
+               border: 6px solid;
+               border-color: transparent transparent transparent #6FD87F;
+             }
+           }
            .middleLeftRightArrow {
              background-color: #6FD87F;
              width: 50%;
@@ -1162,6 +1181,26 @@ export default {
                top: 50%;
                left: 50%;
                transform: translate(-50%, -50%);
+               width: 0;
+               height: 0;
+               border: 6px solid;
+               border-color: transparent #6FD87F transparent transparent;
+             }
+           }
+           .middleLeftRightArrowDash {
+             width: 50%;
+             height: 1px;
+             left: 0;
+             top: 50%;
+             transform: translateY(-50%);
+             z-index: 1;
+             border-bottom: 2px dashed #6FD87F;
+             &:after {
+               content: '';
+               position: absolute;
+               top: 50%;
+               left: 50%;
+               transform: translate(-46%, -46%);
                width: 0;
                height: 0;
                border: 6px solid;

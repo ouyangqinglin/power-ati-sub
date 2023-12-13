@@ -9,7 +9,7 @@
       </el-tabs>
     </el-card>
     <el-card class="pages-user-account-card pane">
-      <el-form :model="queryParams" :inline="true" ref="queryForm" v-show="showSearch" label-width="160px">
+      <el-form :model="queryParams" :inline="true" ref="queryForm">
         <common-flex>
           <common-flex wrap="wrap">
             <el-form-item label="User:" prop="userName">

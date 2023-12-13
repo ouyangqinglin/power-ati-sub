@@ -20,7 +20,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Occurrence Time" label-width="140px">
+            <el-form-item label="Occurrence Time：" label-width="150px">
               <el-date-picker
                 ref="dataEnd"
                 @change="sureDate"

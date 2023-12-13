@@ -1,7 +1,7 @@
 <template>
   <div class="app-container pages-repair">
     <el-card class="pages-repair-header" >
-      <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="200px">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="120px">
         <common-flex>
           <el-form-item label="Task Code：" prop="code">
             <el-input
@@ -12,7 +12,7 @@
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item class="second-item" label="Repairman：" prop="installer">
+          <el-form-item class="second-item" label="Repairman：" prop="installer" label-width="200px">
             <el-input
               class="same-input"
               v-model="queryParams.installer"
@@ -28,7 +28,7 @@
           </common-flex>
         </common-flex>
       </el-form>
-      <el-form :model="queryParams" :inline="true" label-width="200px">
+      <el-form :model="queryParams" :inline="true" label-width="120px">
         <el-form-item class="region" label="Status：" prop="status" style="margin-bottom: 0">
           <el-select
             class="same-input"
@@ -46,7 +46,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item class="second-item" label="Time of Task  Completed：" prop="createTime" style="margin-bottom: 0">
+        <el-form-item class="second-item" label="Time of Task  Completed：" prop="createTime" label-width="200px" style="margin-bottom: 0">
           <el-date-picker
             class="same-input"
             clearable
@@ -177,8 +177,6 @@ export default {
       single: true,
       // 非多个禁用
       multiple: true,
-      // 显示搜索条件
-      showSearch: true,
       // 总条数
       total: 0,
       // 站点表格数据

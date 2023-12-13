@@ -109,7 +109,7 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Alarm Recovery Time" prop="" min-width="160">
+        <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Recovery Time" prop="" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.recoveryTime && row.recoveryTime !== '--'">{{ UTC_DATE_FORMAT(+row.recoveryTime , base.timeZone) }}</span>
             <span v-else>--</span>
