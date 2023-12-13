@@ -1,0 +1,22 @@
+export default {
+  'menu.home': 'Home',
+  'menu.siteManage': 'Site Management',
+  'menu.deviceManage': 'Device Management',
+  'menu.faultManage': 'Fault Management',
+  'menu.analysisManage': 'Analysis',
+  'menu.analysisFault': 'Fault Analysis',
+  'menu.userManage': 'User Management',
+  'menu.agencyManage': 'Agency Setting',
+  'menu.accountManage': 'Account Setting',
+  'menu.authorityManage': 'Authority Setting',
+  'menu.about': 'About Us',
+  'menu.remoteUpgrade': 'Remote Upgrade',
+  'menu.dataCenter': 'Data Center',
+  'menu.bms': 'BMS',
+  'menu.monitoring': 'Monitoring',
+  'menu.taskManage': 'Task Management',
+  'menu.installationTask': 'Installation Task',
+  'menu.repairTask': 'Repair Task',
+  'menu.userRepairTask': 'User Repair Task',
+
+}

@@ -1,0 +1,22 @@
+export default {
+  'menu.home': '首页',
+  'menu.siteManage': '站点管理',
+  'menu.deviceManage': '设备管理',
+  'menu.faultManage': '故障管理',
+  'menu.analysisManage': '智能分析',
+  'menu.analysisFault': '故障分析',
+  'menu.userManage': '用户管理',
+  'menu.agencyManage': '商户管理',
+  'menu.accountManage': '账号管理',
+  'menu.authorityManage': '角色管理',
+  'menu.about': '关于公司',
+  'menu.remoteUpgrade': '远程升级',
+  'menu.dataCenter': '数据中心',
+  'menu.bms': '电池管理',
+  'menu.monitoring': '电池列表',
+  'menu.taskManage': '任务管理',
+  'menu.installationTask': '安装工单',
+  'menu.repairTask': '维修工单',
+  'menu.userRepairTask': '用户报修单',
+
+}
