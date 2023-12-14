@@ -11,7 +11,8 @@
         </el-form-item>
         <common-flex justify="space-between">
           <el-form-item prop="type" label="Task Type">
-            <el-input v-model="['Repair', 'Installation'][0]" disabled type="text" />
+            <el-input disabled type="text" />
+            <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskType" :value="1"/>
           </el-form-item>
           <el-form-item prop="taskCode" label="Task Code">
             <el-input v-model="base.taskCode" disabled type="text" />
@@ -26,6 +27,7 @@
           </el-form-item>
           <el-form-item prop="appointTime" label="Time of Appointment" style="margin-right: 90px">
             <el-date-picker style="width: 100%" type="datetime" format="M/d/yyyy HH:mm"
+                            placeholder="Please Select"
                             v-model="base.appointTime"
                             size="medium" />
           </el-form-item>
@@ -50,7 +52,7 @@
           <el-form-item label="RepairMan" class="my-item" prop="userName">
             <template slot="label"><span>Repairman</span></template>
             <div class="posr">
-              <el-input @focus="openMan" style="width: 100%" readonly v-model="repairmanInfo.userName"></el-input>
+              <el-input @focus="openMan" style="width: 100%" readonly v-model="repairmanInfo.userName" placeholder="Please Select"></el-input>
               <i @click="openMan" class="el-icon-search posa right-search"></i>
             </div>
           </el-form-item>
@@ -71,7 +73,7 @@
 import { getTaskInfo, createTask } from '@/api/task'
 import AddDialog from "@subComp/task/install/add-dialog.vue"
 import {mapState} from "vuex";
-
+import { taskType } from '@sub/utils/dict'
 
 export default {
   name: "pages-fault-toRepair",
@@ -79,6 +81,7 @@ export default {
   components: { AddDialog },
   data() {
     return {
+      taskType,
       base: {},
       id: '',
       show: false,

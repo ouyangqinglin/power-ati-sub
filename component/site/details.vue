@@ -34,7 +34,7 @@
 <script>
 import { getSite } from "@/api/site"
 import Overview from '@subComp/site/overview'
-import SiteInfo from '@/views/components/site-details/siteInfo'
+import SiteInfo from '@subComp/site/siteInfo.vue'
 import Device from '@subComp/site/device'
 import Alarm from '@subComp/site/alarm'
 import Firmware from '@subComp/site/firmware'

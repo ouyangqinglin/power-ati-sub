@@ -62,7 +62,9 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="Version description:" prop="remark">
-              <span>{{ base.remark }}</span>
+              <el-tooltip :content="base.remark" placement="top">
+                <div style="max-width: 400px" class="ellipsis themeColor">{{base.remark}}</div>
+              </el-tooltip>
             </el-form-item>
           </el-col>
         </el-row>

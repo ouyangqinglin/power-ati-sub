@@ -8,7 +8,10 @@
         </common-flex>
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Status"><el-input v-model="['Off-line', 'On-line'][+curDevInfo.net]"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Status">
+              <el-input disabled type="text" />
+              <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="curDevInfo.net"/>
+            </el-form-item></el-col>
             <el-col :span="10"><el-form-item label="Wireless Signal Strength" v-if="[1, 2].includes(+curDevInfo.type)">
               <div class="posr">
                 <el-input v-model="curDevInfo.wifi"></el-input>
@@ -74,7 +77,7 @@
 
 <script>
 import {wifiChart} from "@/api/index"
-
+import { networkStatus } from '@sub/utils/dict'
 import * as echarts from "echarts"
 
 let batteryInstance = null
@@ -215,6 +218,7 @@ export default {
   data() {
     const that = this
     return {
+      networkStatus,
       loading: false,
       dataHis: {
         batteryType: 'Voltage',

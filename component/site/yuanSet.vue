@@ -138,7 +138,7 @@ export default {
           label: 'Independent',
           value: 0
         },    {
-          label: 'Slave ',
+          label: 'Slave',
           value: 1
         },    {
           label: 'Master',

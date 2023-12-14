@@ -38,7 +38,7 @@
             @keyup.enter.native="handleQuery"
           >
             <el-option
-              v-for="item in options"
+              v-for="item in taskInstallStatus"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -77,12 +77,12 @@
         <el-table-column label="Task Code" align="center" prop="code" min-width="210" />
         <el-table-column label="Task Type" align="center" prop="type" min-width="130">
           <template slot-scope="{ row }">
-            <dict-tag :options="dict.type.install_type" :value="row.type"/>
+            <dict-tag :options="taskType" :value="row.type"/>
           </template>
         </el-table-column>
         <el-table-column label="Status" align="center" prop="status" min-width="100">
           <template slot-scope="{ row }">
-            <dict-tag :options="dict.type.install_status" :value="row.status"/>
+            <dict-tag :options="taskInstallStatus" :value="row.status"/>
           </template>
         </el-table-column>
         <el-table-column label="Customer" align="center" prop="customer" min-width="130" show-tooltip-when-overflow />
@@ -161,13 +161,15 @@
 import { listTask, delTask } from "@/api/task"
 import AddDialog from "@subComp/task/install/add-dialog.vue"
 import {mapState} from "vuex";
+import { taskType, taskInstallStatus } from '@sub/utils/dict'
 
 export default {
   name: "pages-install",
   components: { AddDialog },
-  dicts: ['install_type', 'install_status'],
   data() {
     return {
+      taskType,
+      taskInstallStatus,
       showModel: false, // 选择用户弹窗
       // 遮罩层
       loading: true,
@@ -196,20 +198,6 @@ export default {
         installer: '', // {number} 安装用户id
         type: 2
       },
-      options: [
-        {
-          value: 1,
-          label: 'Pending'
-        },
-        {
-          value: 2,
-          label: 'Processing'
-        },
-        {
-          value: 3,
-          label: 'Completed'
-        },
-      ],
       // 表单参数
       form: {},
       // 表单校验

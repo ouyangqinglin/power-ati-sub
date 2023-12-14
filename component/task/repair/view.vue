@@ -39,7 +39,7 @@
       </div>
     </el-card>
     <el-card class="pages-task-repair-view-card">
-      <div class="pages-task-repair-view-card-title">Info</div>
+      <div class="pages-task-repair-view-card-title">Task Info</div>
       <el-form class="pages-task-repair-view-card-form" :model="base" :rules="rule" ref="ruleForm">
         <el-form-item prop="title" label="Fault Title">
           <el-input disabled v-model="base.title" type="text" />
@@ -49,7 +49,8 @@
         </el-form-item>
         <common-flex>
           <el-form-item prop="type" label="Task Type" style="margin-right: 90px">
-            <el-input v-model="['', 'Repair', 'Installation'][1]" disabled type="text" />
+            <el-input disabled type="text" />
+            <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskType" :value="base.type"/>
           </el-form-item>
           <el-form-item prop="taskCode" label="Task Code">
             <el-input v-model="base.taskCode" placeholder="System generation" disabled type="text" />
@@ -116,12 +117,13 @@
 <script>
 import { getTaskInfo } from '@/api/task'
 import {mapState} from "vuex";
+import { taskType } from '@sub/utils/dict'
 
 export default {
   name: "pages-repair-view",
-  dicts: ['fault_status'],
   data() {
     return {
+      taskType,
       active: 1,
       base: {
         type: 1
@@ -164,7 +166,6 @@ export default {
     })
   },
   mounted() {
-    console.log('sss')
     this.id = this.$route.params?.id
     getTaskInfo(this.id).then(res => {
       if (res.data.appointTime) res.data.appointTime = this.UTC_DATE_FORMAT(res.data.appointTime, this.timeZone)

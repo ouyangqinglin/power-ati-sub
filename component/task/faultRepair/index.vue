@@ -13,7 +13,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="Creation Time：" prop="createTime">
               <el-date-picker
                 clearable
@@ -34,7 +34,7 @@
                 @keyup.enter.native="handleQuery"
               >
                 <el-option
-                  v-for="item in options"
+                  v-for="item in taskFaultStatus"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -43,7 +43,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="4">
             <common-flex justify="flex-end">
               <el-form-item>
                 <el-button type="primary" @click="handleQuery">Query</el-button>
@@ -69,7 +69,7 @@
         </el-table-column>
         <el-table-column label="Status" align="center" prop="status" min-width="100">
           <template slot-scope="{ row }">
-            <dict-tag :options="dict.type.fault_status" :value="row.status"/>
+            <dict-tag :options="taskFaultStatus" :value="row.status"/>
           </template>
         </el-table-column>
         <el-table-column label="Site" align="center" prop="siteName" show-overflow-tooltip min-width="130" />
@@ -118,13 +118,14 @@
 
 <script>
 import { listTask, delTask } from "@/api/task"
+import {taskFaultStatus} from '@sub/utils/dict'
 import {mapState} from "vuex";
 
 export default {
   name: "pages-fault-repair",
-  dicts: ['fault_status'],
   data() {
     return {
+      taskFaultStatus,
       showModel: false, // 选择用户弹窗
       // 遮罩层
       loading: true,
@@ -154,24 +155,6 @@ export default {
         code: '', // 任务编码
         type: 3
       },
-      options: [
-        {
-          value: 1,
-          label: 'Pending'
-        },
-        {
-          value: 3,
-          label: 'Finished'
-        },
-        {
-          value: 4,
-          label: 'Repairing'
-        },
-        {
-          value: 5,
-          label: 'Repaired'
-        },
-      ],
       // 表单参数
       form: {},
       // 表单校验

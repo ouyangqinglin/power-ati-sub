@@ -1,0 +1,21 @@
+export default {
+  'task.fault.status.pending': 'Pending',
+  'task.fault.status.repairing': 'Repairing',
+  'task.fault.status.repaired': 'Repaired',
+  'task.fault.status.finished': 'Finished',
+  'task.type.repair': 'Repair',
+  'task.type.installation': 'Installation',
+  'task.install.status.pending': 'Pending',
+  'task.install.status.processing': 'Processing',
+  'task.install.status.completed': 'Completed',
+  'site.module.bound': 'Bound',
+  'site.module.unbound': 'Unbound',
+  'site.install.status.completed': 'Completed',
+  'site.install.status.commissioning': 'Commissioning',
+  'network.status.offline': 'Off-line',
+  'network.status.online': 'On-line',
+  'grid.status.free': 'Free',
+  'grid.status.export': 'Export',
+  'grid.status.import': 'Import',
+
+}

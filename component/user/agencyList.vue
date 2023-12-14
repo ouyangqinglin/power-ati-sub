@@ -42,10 +42,10 @@
       @pagination="getList"
     />
     <common-flex style="margin-top: 30px" justify="center">
-      <el-button :type="btnType" :disabled="!chooseRadio" @click="change">
+      <el-button :type="btnType" :disabled="!chooseRadio" @click="change" size="small">
         <span>Confirm</span>
       </el-button>
-      <el-button @click="cancel">Cancel</el-button>
+      <el-button @click="cancel" size="small">Cancel</el-button>
     </common-flex>
 
   </el-dialog>

@@ -413,7 +413,7 @@ export default {
       ],
       oneList: [
         {
-          label: 'Cell Highest_T (°C)',
+          label: 'Cell Highest_T(°C)',
           key: 'maxTemperature',
           value: 0,
           name: 'Highest_T'

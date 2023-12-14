@@ -49,7 +49,8 @@
         </el-form-item>
         <common-flex>
           <el-form-item prop="type" label="Task Type" style="margin-right: 90px">
-            <el-input v-model="['', 'Repair', 'Installation'][1]" disabled type="text" />
+            <el-input disabled type="text" />
+            <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskType" :value="base.type"/>
           </el-form-item>
           <el-form-item prop="taskCode" label="Task Code">
             <el-input v-model="base.taskCode" placeholder="System generation" disabled type="text" />
@@ -112,6 +113,7 @@ import { getTaskInfo, modifyTask } from '@/api/task'
 import { getReCustomer } from '@/api/user'
 import AddDialog from "@subComp/task/install/add-dialog.vue"
 import {mapState} from "vuex";
+import { taskType } from '@sub/utils/dict'
 
 export default {
   name: "pages-repair-modify",
@@ -119,6 +121,7 @@ export default {
   components: { AddDialog },
   data() {
     return {
+      taskType,
       active: 1,
       show: false,
       base: {},

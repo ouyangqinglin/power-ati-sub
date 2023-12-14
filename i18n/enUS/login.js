@@ -1,0 +1,21 @@
+export default {
+  'login.account': 'Account',
+  'login.password': 'Password',
+  'login.rememberPsw': 'Remember Password',
+  'login.forgotPsw': 'Forgot Your Password?',
+  'login.loginIn': 'Log In',
+  'login.resetPsw': 'Reset Password',
+  'login.email': 'Email',
+  'login.newPassword': 'New Password',
+  'login.confirmPassword': 'Password Again',
+  'login.verificationCode': 'Verification Code',
+  'login.send': 'Send',
+  'login.formatIncorrect': 'The format is incorrect',
+  'login.pleaseEnterAgain': 'Please enter again',
+  'login.passwordInconsistent': 'The two input passwords are inconsistent!',
+  'login.loginSuccess': 'Login Succeeded!',
+  'login.logOut': 'Log out',
+  'login.demoSites': 'Demo Sites',
+  'login.pleaseChangePassword': 'Change the password before use please',
+
+}

@@ -12,9 +12,15 @@
         </common-flex>
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Communication"><el-input v-model="['Off-line', 'On-line'][+curDevInfo.net]"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Communication">
+              <el-input disabled type="text" />
+              <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="curDevInfo.net"/>
+            </el-form-item></el-col>
             <el-col :span="10"><el-form-item label="Status">
-              <el-input v-if="+base.storeConnectStatus === 1" v-model="['', 'Not charge-discharge', 'Charging', 'Discharging'][+curDevInfo.storeStatus]"></el-input>
+              <template v-if="+base.storeConnectStatus === 1">
+                <el-input disabled type="text" />
+                <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="curDevInfo.storeStatus"/>
+              </template>
               <el-input v-else></el-input>
             </el-form-item></el-col>
           </el-row>
@@ -142,6 +148,8 @@
 import BatteryDetails from "./batteryDetails.vue";
 import {batEnergy, batHistoryData, infoDevice, batTotalHistoryData} from '@/api/device'
 import * as echarts from "echarts"
+import { networkStatus, storeStatus } from '@sub/utils/dict'
+
 let batteryStorage = {}
 let batteryInstance = null
 let arr = [], arr1 = [], arr5 = [], batData = []
@@ -305,6 +313,8 @@ export default {
   data() {
     const that = this
     return {
+      networkStatus,
+      storeStatus,
       loading: false,
       batEnergy: {},
       sn: '',

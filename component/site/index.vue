@@ -80,7 +80,7 @@
           </el-form-item>
           <el-form-item v-if="!brandShow" label="Communication Module：" prop="loggerExist" label-width="220px">
             <el-select v-model="queryParams.loggerExist" placeholder="All">
-              <el-option v-for="i of boundOption" :label="i.label" :value="i.value" :key="i.value"></el-option>
+              <el-option v-for="i of communicationModule" :label="i.label" :value="i.value" :key="i.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Local Time：" label-width="110px">
@@ -136,12 +136,12 @@
         <el-table-column label="Site Code" align="center" prop="siteCode" min-width="130" />
         <el-table-column label="Installation Status" align="center" prop="status" min-width="140">
           <template slot-scope="{ row }">
-            <dict-tag :options="dict.type.site_status" :value="row.status" />
+            <dict-tag :options="siteStatus" :value="row.status" />
           </template>
         </el-table-column>
         <el-table-column label="Communication Module" align="center" prop="" min-width="180" v-if="!brandShow">
           <template slot-scope="{ row }">
-            <span>{{['Unbound', 'Bound'][+row.loggerExist]}}</span>
+            <dict-tag :options="communicationModule" :value="row.loggerExist"/>
           </template>
         </el-table-column>
         <el-table-column label="City" align="center" prop="city" min-width="100" show-overflow-tooltip />
@@ -201,12 +201,14 @@
 
 <script>
 import { listSite, getAddress, delSite } from "@/api/site"
+import { communicationModule, siteStatus } from '@sub/utils/dict'
 
 export default {
   name: "Site-view",
-  dicts: ['site_status'],
   data() {
     return {
+      communicationModule,
+      siteStatus,
       brandShow: process.env.VUE_APP_TITLE === 'ASPIRE TECH',
       queryTime: '',
       // 遮罩层
@@ -225,16 +227,6 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      boundOption: [
-        {
-          label: 'Bound',
-          value: 1
-        },
-        {
-          label: 'Unbound',
-          value: 0
-        },
-      ],
       // 查询参数
       queryParams: {
         startTime: '',
@@ -437,7 +429,7 @@ export default {
   }
   .area-select {
     .el-input__inner {
-      min-width: 202px;
+      min-width: 220px;
     }
   }
   .dot {

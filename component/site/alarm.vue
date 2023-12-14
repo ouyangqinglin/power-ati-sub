@@ -14,7 +14,7 @@
             <el-form-item label="Fault Code：" prop="faultCode" label-width="100px">
               <el-input v-model="queryParams.faultCode" placeholder="Please enter"></el-input>
             </el-form-item>
-            <el-form-item label="Occurrence Time" label-width="140px">
+            <el-form-item label="Occurrence Time：" label-width="160px">
               <el-date-picker
                 size="small"
                 ref="dataEnd"

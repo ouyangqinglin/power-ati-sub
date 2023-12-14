@@ -1,7 +1,7 @@
 <template>
   <div class="pages-task-fault-view">
     <el-card class="pages-task-fault-view-card">
-      <div class="pages-task-fault-view-card-title">Info</div>
+      <div class="pages-task-fault-view-card-title">Task Info</div>
       <el-form class="pages-task-fault-view-card-form" :model="base" ref="ruleForm">
         <common-flex justify="space-between">
           <el-form-item style="flex: 1" prop="title" label="Fault Title">
@@ -36,7 +36,7 @@
         <common-flex :style="{ justifyContent: [4, 5].includes(+base.status) ? 'space-between' : '' }">
           <el-form-item prop="status" label="Status" class="posr">
             <el-input disabled type="text" />
-            <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="dict.type.fault_status" :value="base.status"/>
+            <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskFaultStatus" :value="base.status"/>
           </el-form-item>
           <el-form-item prop="createTime" label="Creation Time" :style="{marginLeft: [4, 5].includes(+base.status) ? '' : '90px'}">
             <el-input v-model="base.createTime" disabled type="text" />
@@ -87,14 +87,14 @@
 
 <script>
 import { getTaskInfo, finishClosed } from '@/api/task'
-import {mapState} from "vuex";
-
+import {mapState} from "vuex"
+import {taskFaultStatus} from '@sub/utils/dict'
 
 export default {
   name: "pages-task-fault-view",
-  dicts: ['fault_status'],
   data() {
     return {
+      taskFaultStatus,
       base: {},
       id: '',
       show: false,

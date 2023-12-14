@@ -16,13 +16,15 @@
             />
           </template>
           <template v-else-if="i.prop === 'type'">
-            <el-input disabled v-model="['', 'Repair', 'Installation'][2]"></el-input>
+            <el-input disabled type="text" />
+            <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskType" :value="base.type"/>
           </template>
           <template v-else-if="i.prop === 'phone'">
             <el-input @input="checkPhone" v-model="base[i.prop]" type="text" maxlength="20"></el-input>
           </template>
           <template v-else-if="i.prop === 'status'">
-            <el-input disabled v-model="['', 'Pending', 'Processing', 'Complete'][base[i.prop]]"></el-input>
+            <el-input disabled type="text" />
+            <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskInstallStatus" :value="base.status"/>
           </template>
           <template v-else>
             <el-input :disabled="!(index > 5)" v-model="base[i.prop]"></el-input>
@@ -37,7 +39,7 @@
         <el-form-item label="Installer" class="my-item" prop="userName">
           <template slot="label"><span>Installer</span></template>
           <div class="posr">
-            <el-input @focus="openAdd" style="width: 100%" readonly v-model="installerInfo.userName"></el-input>
+            <el-input @focus="openAdd" style="width: 100%" readonly v-model="installerInfo.userName" placeholder="Please Select"></el-input>
             <i @click="openAdd" class="el-icon-search posa right-search"></i>
           </div>
         </el-form-item>
@@ -57,12 +59,15 @@
 import { getAtiUser } from '@/api/user'
 import { createTask } from '@/api/task'
 import AddDialog from "@subComp/task/install/add-dialog.vue"
+import { taskType, taskInstallStatus } from '@sub/utils/dict'
 
 export default {
   name: "pages-task-add",
   components: { AddDialog },
   data() {
     return {
+      taskType,
+      taskInstallStatus,
       baseInfo: {
         type: 'Installation',
         address: '',
