@@ -492,7 +492,7 @@ export default {
           </el-col>
         </el-row>
 <!--        选择EconomicMode-->
-        <div class="peak-yuan" v-if="+deviceBase[307] === 1">
+        <div class="peak-yuan" v-if="+deviceBase[307] === 258">
           <span>Economic Mode</span><el-button type="primary" plain class="ml10" size="small" @click="setTimeList">Set</el-button>
           <template v-for="(i, k) of peakShaving">
             <el-row :gutter="16" class="mt15">
@@ -541,7 +541,7 @@ export default {
           </template>
         </div>
 <!--        选择EMS_ACCtrlMode-->
-        <template v-if="+deviceBase[307] === 4">
+        <template v-if="+deviceBase[307] === 769">
           <el-row :gutter="16">
             <el-col :span="8">
               <el-form-item label="AC Power Scheduling Mode" prop="316">
@@ -580,7 +580,7 @@ export default {
           </el-row>
         </template>
 <!--        选择EMS_BattCtrlMode-->
-        <template v-if="+deviceBase[307] === 6">
+        <template v-if="+deviceBase[307] === 771">
           <el-row :gutter="16">
             <el-col :span="8">
               <el-form-item label="Battery Power Scheduling(kW)" prop="321">
