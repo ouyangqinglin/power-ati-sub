@@ -20,6 +20,7 @@
           </template>
         </el-form-item>
         <el-form-item label="Time Zone" prop="timeZone"><el-input v-model="base.timeZone"></el-input></el-form-item>
+        <el-form-item v-if="brandShow" label="Product brand" prop="brand"><el-input v-model="['', 'Yoho', 'Jasper'][+base.brand]"></el-input></el-form-item>
       </el-form>
     </el-card>
     <el-card class="comp-site-info-card">
@@ -68,6 +69,11 @@
             <el-option v-for="i of timeZoneArr" :label="i.label" :value="i.timeZone" :key="i.id"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="Product brand：" prop="brand" v-if="brandShow">
+          <el-select style="width: 100%" v-model="copyBase.brand" placeholder="Please select">
+            <el-option v-for="i of brandOption" :value="i.value" :label="i.label" :key="i.value"></el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
       <div class="mapBox" id="mapBox" />
       <common-flex style="margin-top: 30px" justify="center">
@@ -101,6 +107,17 @@ export default {
   },
   data() {
     return {
+      brandShow: process.env.VUE_APP_TITLE === 'ASPIRE TECH',
+      brandOption: [
+        {
+          label: 'Yoho',
+          value: 1
+        },
+        {
+          label: 'Jasper',
+          value: 2
+        },
+      ],
       siteStatus,
       countryList: [],
       cityList: [],
@@ -286,6 +303,7 @@ export default {
           data.city = this.region.city
           data.timeZone = this.copyBase.timeZone
           data.region = `${this.region.city},${this.region.province},${this.region.country}`
+          if (this.brandShow) data.brand = this.copyBase.brand
           if (v) {
             this.$modal.loading()
             updateSite(data).then(res => {

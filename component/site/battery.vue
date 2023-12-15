@@ -449,7 +449,6 @@ export default {
         batteryInstance.dispose()
         batteryInstance= null
       }
-      if (!this.curDevInfo.type || ![1, 2].includes(+this.curDevInfo.type)) return
       this.$nextTick(() => {
         batteryInstance = echarts.init(document.getElementById('batteryChart'))
         batteryInstance.setOption(optionBat)
