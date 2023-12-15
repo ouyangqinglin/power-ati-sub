@@ -5,6 +5,14 @@ let times = 1
 let copyDeviceInfo = {}
 export default {
   name: "yuanSet",
+  props: {
+    base: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       siteCode: '',
@@ -431,7 +439,10 @@ export default {
       getSettingInfo(data).then(res => {
         let item = {}
         res.data.forEach(i => {
-          if (i.param !== null && typeof i.param !== 'undefined') item[i.type] = +i.param
+          if (i.param !== null && typeof i.param !== 'undefined') {
+            if (+i.type === 333) item[i.type] = i.param
+            else item[i.type] = +i.param
+          }
           else item[i.type] = ''
         })
         this.deviceBase = item
