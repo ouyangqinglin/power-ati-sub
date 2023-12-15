@@ -148,7 +148,7 @@ export default {
       inverterWorkOptions: [
         {
           label: 'General Mode',
-          value: 527
+          value: 257
         },
         {
           label: 'Economic Mode',
