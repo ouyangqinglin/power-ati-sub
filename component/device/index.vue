@@ -41,7 +41,7 @@
         </el-table-column>
         <el-table-column label="Product Type" prop="deviceType" min-width="120">
           <template slot-scope="{ row }">
-            <dict-tag :options="dict.type.device_type" :value="row.deviceType"></dict-tag>
+            <dict-tag :options="productType" :value="row.deviceType"></dict-tag>
           </template>
         </el-table-column>
         <el-table-column label="SN" prop="serialNumber" min-width="140">
@@ -64,7 +64,7 @@
         </el-table-column>
         <el-table-column label="Installation Status" prop="" min-width="140">
           <template slot-scope="{ row }">
-            <dict-tag :options="dict.type.device_install_status" :value="row.installStatus"></dict-tag>
+            <dict-tag :options="deviceInstallStatus" :value="row.installStatus"></dict-tag>
           </template>
         </el-table-column>
         <el-table-column label="Rated Power (kW)" prop="nameplateCapacity" min-width="140" v-if="+deviceType === 1" />
@@ -110,21 +110,16 @@
 <script>
 import { warnList } from '@/api/site'
 import { listDevice } from '@/api/device'
-import {mapState} from "vuex";
+import {mapState} from "vuex"
+import { productType, deviceInstallStatus } from '@sub/utils/dict'
 
-const deviceType = {
-  '1': 'Inverter',
-  '2': 'Battery',
-  '3': 'EV Charger',
-  '4': 'Stick Logger',
-  '6': 'Photovoltaic'
-}
 const storageRes = {}
 export default {
   name: "Device",
-  dicts: ['device_type', 'device_install_status'],
   data() {
     return {
+      productType,
+      deviceInstallStatus,
       hoverWarn: '',
       deviceType: '4',
       list: [],

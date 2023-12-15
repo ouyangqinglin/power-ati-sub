@@ -2,8 +2,9 @@
   <div class="comp-alarm">
     <el-card>
       <el-tabs v-model="queryParams.recoveryStatus" @tab-click="changePane">
-        <el-tab-pane name="0" label="Open"></el-tab-pane>
-        <el-tab-pane name="1" label="Closed"></el-tab-pane>
+        <template v-for="i of alarmStatus">
+          <el-tab-pane :name="i.value+''" :label="i.label"></el-tab-pane>
+        </template>
       </el-tabs>
       <el-form :inline="true" :model="queryParams" ref="queryForm" size="small" style="margin-top: 12px">
         <common-flex>
@@ -79,7 +80,7 @@
               <img :src="require('@subImg/warning.svg')" alt="" v-if="+row.type === 1">
               <img :src="require('@subImg/fault.svg')" alt="" v-if="+row.type === 2">
               <img :src="require('@subImg/notice.svg')" alt="" v-if="+row.type === 3">
-              <span>{{ ['--', 'Warning', 'Fault', 'Notice'][+row.type] }}</span>
+              <dict-tag :options="alarmImportance" :value="row.type" />
             </common-flex>
           </template>
         </el-table-column>
@@ -96,12 +97,14 @@
           <template slot-scope="{ row }">
             <common-flex justify="center" align="center">
               <span class="dot" :style="{backgroundColor: ['#06A561', '#92929D'][+row.recoveryStatus]}"></span>
-              <span>{{ ['Open', 'Closed'][+row.recoveryStatus] }}</span>
+              <dict-tag :options="alarmStatus" :value="row.recoveryStatus" />
             </common-flex>
           </template>
         </el-table-column>
         <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Alarm Clearing Type" prop="cleanType" width="160">
-          <template slot-scope="{ row }"><span>{{ ['Automatic', 'Manual'][+row.cleanType] }}</span></template>
+          <template slot-scope="{ row }">
+            <dict-tag :options="alarmClearType" :value="row.cleanType" />
+          </template>
         </el-table-column>
         <el-table-column label="Occurrence Time" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
@@ -134,7 +137,9 @@
 
 <script>
 import {alarmList, editAlarm} from '@/api/site'
-import {pileNum} from "@/api/fault";
+import {pileNum} from "@/api/fault"
+import { alarmImportance, alarmClearType, alarmStatus } from '@sub/utils/dict'
+
 export default {
   name: "comp-alarm",
   props: {
@@ -147,6 +152,9 @@ export default {
   },
   data() {
     return {
+      alarmImportance,
+      alarmClearType,
+      alarmStatus,
       dateFormat: 'yyyy-M-d',
       displayFormat: 'MM-dd-yyyy',
       dateVal: '',

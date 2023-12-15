@@ -5,7 +5,8 @@
       <el-form class="form" disabled :model="base">
         <common-flex wrap="wrap">
           <el-form-item label="Product Type" prop="deviceType">
-            <el-input v-model="deviceType[base.deviceType]"></el-input>
+            <el-input disabled type="text" />
+            <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="productType" :value="base.deviceType"/>
           </el-form-item>
           <el-form-item label="SN" prop="sn">
             <el-input v-model="base.sn"></el-input>
@@ -14,10 +15,12 @@
             <el-input v-model="base.agency"></el-input>
           </el-form-item>
           <el-form-item label="Installation Status" prop="installStatus">
-            <el-input v-model="installStatus[base.installStatus]"></el-input>
+            <el-input disabled type="text" />
+            <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="deviceInstallStatus" :value="base.installStatus"/>
           </el-form-item>
           <el-form-item label="Networking Status" prop="net" v-if="+base.installStatus === 1">
-            <el-input v-model="netStatus[base.net]"></el-input>
+            <el-input disabled type="text" />
+            <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="base.net"/>
           </el-form-item>
           <el-form-item :label="dyLabel" prop="capacity" v-if="[1, 2, 6].includes(+base.deviceType)">
             <el-input v-model="base.capacity"></el-input>
@@ -148,11 +151,12 @@
 
 <script>
 import { baseDevice, updateDevice } from '@/api/device'
-import { versionRecord, versionUpgrade} from "@/api/remote"
-import {mapState} from "vuex";
+import { versionRecord } from "@/api/remote"
+import {mapState} from "vuex"
+import { productType, deviceInstallStatus, networkStatus } from '@sub/utils/dict'
+
 export default {
   name: "comp-details",
-  dicts: ['file_type'],
   data() {
     const validate = (rule, value, callback) => {
       const reg = /^(?!^\.)(\d*(\.\d{0,3})?)?$/
@@ -165,6 +169,9 @@ export default {
       }
     }
     return {
+      productType,
+      deviceInstallStatus,
+      networkStatus,
       currentApk: {
         version: '',
         hardVersion: '',
@@ -188,21 +195,6 @@ export default {
       },
       base: {},
       show: false,
-      deviceType: {
-        '1': 'Inverter',
-        '2': 'Battery',
-        '3': 'EV Charger',
-        '4': 'Stick Logger',
-        '6': 'Photovoltaic',
-      },
-      installStatus: {
-        '0': 'Unbind',
-        '1': 'Installed'
-      },
-      netStatus: {
-        '0': 'Off-line',
-        '1': 'On-line'
-      }
     }
   },
   computed: {

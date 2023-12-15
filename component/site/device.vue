@@ -171,7 +171,7 @@
                width="50%">
       <el-form @submit.native.prevent class="dialog-form" label-position="top">
         <el-form-item class="select" label=" Product Type">
-          <el-select @change="watchSelect" style="width: 100%" v-model="delDialogInfo.deviceType" placeholder="Please select">
+          <el-select @change="watchSelect" style="width: 100%" v-model="delDialogInfo.deviceType">
             <el-option v-for="i of delDialogInfo.option"
                        :label="i.label"
                        :value="i.value"
@@ -198,13 +198,13 @@
 </template>
 
 <script>
-import * as echarts from 'echarts'
+import { newInstall, productType } from "@sub/utils/dict"
 import StickLogger from './stickLogger.vue'
 import Pv from './pv.vue'
 import Battery from './battery.vue'
 import ChargerPile from './chargerPile.vue'
 import Inverter from './inverter.vue'
-import { listDevice, infoDevice, addBatchDevice, delDevice, pvHistoryData, netList } from '@/api/device'
+import { listDevice, infoDevice, addBatchDevice, delDevice, netList } from '@/api/device'
 let deviceNavInfo = {}
 
 
@@ -215,8 +215,6 @@ for (let i = 0; i < 24; i++) {
   arr.push(i)
   arrX1.push(i)
 }
-
-
 
 export default {
   name: "comp-device",
@@ -246,16 +244,7 @@ export default {
       batInstallMsg: {},
       pvInstallMsg: {},
       chargeInstallMsg: {},
-      installOption: [
-        {
-          label: 'Yes',
-          value: 1
-        },
-        {
-          label: 'No',
-          value: 2
-        }
-      ],
+      installOption: newInstall,
       activeStick: false,
       activeInverter: false,
       activeBat: false,
@@ -286,28 +275,7 @@ export default {
         id: '',
         deviceType: '',
         nameplateCapacity: '',
-        option: [
-          {
-            label: 'Inverter', // -逆变器
-            value: '1'
-          },
-          {
-            label: 'Battery',
-            value: '2'
-          },
-          {
-            label: 'EV Charger',
-            value: '3'
-          },
-          {
-            label: 'Stick Logger', // 通信棒
-            value: '4'
-          },
-          {
-            label: 'Photovoltaic',
-            value: '6'
-          },
-        ],
+        option: productType,
         sn: '',
         snOption: []
       },

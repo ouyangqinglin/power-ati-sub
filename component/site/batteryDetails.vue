@@ -10,9 +10,17 @@
       </common-flex>
       <el-form disabled label-width="260px" label-position="top" style="padding: 0 24px 24px">
         <el-row :gutter="24">
-          <el-col :span="8"><el-form-item label="Communication"><el-input v-model="['Off-line', 'On-line'][+batteryInfo.net]"></el-input></el-form-item></el-col>
+          <el-col :span="8">
+            <el-form-item label="Communication">
+              <el-input disabled type="text" />
+              <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="batteryInfo.net"/>
+            </el-form-item>
+          </el-col>
           <el-col :span="8"><el-form-item label="Status">
-            <el-input v-if="+batteryInfo.storeConnectStatus === 1" v-model="['', 'Not charge-discharge', 'Charging', 'Discharging'][+batteryInfo.storeStatus]"></el-input>
+            <template v-if="+batteryInfo.storeConnectStatus === 1">
+              <el-input disabled type="text" />
+              <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="batteryInfo.storeStatus"/>
+            </template>
             <el-input v-else></el-input>
           </el-form-item></el-col>
         </el-row>
@@ -76,6 +84,8 @@
 </template>
 <script>
 import * as echarts from "echarts"
+import { networkStatus, storeStatus } from '@sub/utils/dict'
+
 let batteryInstance = null
 let arr = [], arr1 = [], arr5 = []
 for (let i = 0; i < 24; i++) {
@@ -245,6 +255,8 @@ export default {
   data() {
     const that = this
     return {
+      networkStatus,
+      storeStatus,
       loading: true,
       batEnergy: {},
       batteryHis: {

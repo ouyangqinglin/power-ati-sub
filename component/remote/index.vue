@@ -62,12 +62,12 @@
         </el-table-column>
         <el-table-column label="Component M" prop="fileType" min-width="120">
           <template slot-scope="{ row }">
-            <dict-tag :options="dict.type.file_type" :value="row.fileType"></dict-tag>
+            <dict-tag :options="fileType" :value="row.fileType"></dict-tag>
           </template>
         </el-table-column>
         <el-table-column label="Component S" prop="component" min-width="120">
           <template slot-scope="{ row }">
-            <span>{{['V1.5', 'Mini', 'V1.0'][+row.component]}}</span>
+            <dict-tag :options="inverterVersion" :value="row.component"></dict-tag>
           </template>
         </el-table-column>
         <el-table-column label="Manufacturer" prop="manufacturer" min-width="120">
@@ -82,7 +82,7 @@
         </el-table-column>
         <el-table-column label="Application Type" prop="applicationType" min-width="140">
           <template slot-scope="{ row }">
-            <span>{{['Boot', 'App'][+row.applicationType]}}</span>
+            <dict-tag :options="appOptions" :value="row.applicationType"></dict-tag>
           </template>
         </el-table-column>
         <el-table-column label="Version" prop="versionNum" min-width="130"></el-table-column>
@@ -208,12 +208,22 @@
 </template>
 
 <script>
-import {uploadFile, versionList, delRemote} from "@/api/remote";
-import {mapState} from "vuex";
+import {uploadFile, versionList, delRemote} from "@/api/remote"
+import {mapState} from "vuex"
+import {
+  fileType,
+  comMType,
+  applicationType,
+  inverterVersion,
+  manufacturerTBox,
+  manufacturerPcs,
+  manufacturerBms,
+  submoduleBms,
+  submodulePcs
+} from '@sub/utils/dict'
 
 export default {
   name: "pages-remote",
-  dicts: ['file_type'],
   data() {
     const validateVersion = (rule, value, callback) => {
       if (value === '') {
@@ -226,6 +236,8 @@ export default {
       }
     }
     return {
+      fileType,
+      inverterVersion,
       baseUrl: process.env.VUE_APP_BASE_API,
       show: false,
       total: 0,
@@ -244,38 +256,8 @@ export default {
         applicationType: ''
       },
       // 1111
-      compMOptions: [
-        {
-          label: 'T-box',
-          value: 0
-        },
-        {
-          label: 'BMS',
-          value: 1
-        },
-        {
-          label: 'PCS',
-          value: 2
-        },
-        // {
-        //   label: 'EV Charger',
-        //   value: 3
-        // },
-        // {
-        //   label: 'HMI',
-        //   value: 4
-        // }
-      ],
-      appOptions: [
-        {
-          label: 'Boot',
-          value: 0
-        },
-        {
-          label: 'App',
-          value: 1
-        }
-      ],
+      compMOptions: comMType,
+      appOptions: applicationType,
       base: {
         fileType: '',
         component: '',
@@ -325,133 +307,19 @@ export default {
       'timeZone': state => state.user.timeZone,
     }),
     compSOptions() {
-      let arrBox = [
-        {
-          label: 'V1.5',
-          value: 0
-        },
-        {
-          label: 'Mini',
-          value: 1
-        },
-        {
-          label: 'V1.0',
-          value: 2
-        }
-      ]
-      return +this.base.fileType === 0 ? arrBox : []
+      return +this.base.fileType === 0 ? inverterVersion : []
     },
     manufacturerQueryOptions() {
-      let arrBox = [
-        {
-          label: 'Yotai',
-          value: 0
-        }
-      ]
-      let arrBms = [
-        {
-          label: 'TIANBDA',
-          value: 1
-        },
-        {
-          label: 'PACEEX',
-          value: 2
-        }
-      ]
-      let arrPcs = [
-        {
-          label: 'MEGAREVO',
-          value: 1
-        },
-        {
-          label: 'LUXPOWER',
-          value: 2
-        }
-      ]
-      return +this.queryParams.fileType === 0 ? arrBox : +this.queryParams.fileType === 1 ? arrBms : +this.queryParams.fileType === 2 ? arrPcs : []
+      return +this.queryParams.fileType === 0 ? manufacturerTBox : +this.queryParams.fileType === 1 ? manufacturerBms : +this.queryParams.fileType === 2 ? manufacturerPcs : []
     },
     manufacturerOptions() {
-      let arrBox = [
-        {
-          label: 'Yotai',
-          value: 0
-        }
-      ]
-      let arrBms = [
-        {
-          label: 'TIANBDA',
-          value: 1
-        },
-        {
-          label: 'PACEEX',
-          value: 2
-        }
-      ]
-      let arrPcs = [
-        {
-          label: 'MEGAREVO',
-          value: 1
-        },
-        {
-          label: 'LUXPOWER',
-          value: 2
-        }
-      ]
-      return +this.base.fileType === 0 ? arrBox : +this.base.fileType === 1 ? arrBms : +this.base.fileType === 2 ? arrPcs : []
+      return +this.base.fileType === 0 ? manufacturerTBox : +this.base.fileType === 1 ? manufacturerBms : +this.base.fileType === 2 ? manufacturerPcs : []
     },
     submoduleQueryOptions() {
-      let arrBms = [
-        {
-          label: 'BAU',
-          value: 1
-        },
-        {
-          label: 'BCU',
-          value: 2
-        },
-        {
-          label: 'BMU',
-          value: 3
-        }
-      ]
-      let arrPcs = [
-        {
-          label: 'ARM',
-          value: 1
-        },
-        {
-          label: 'DSP',
-          value: 2
-        },
-      ]
-      return +this.queryParams.fileType === 0 ? [] : +this.queryParams.fileType === 1 ? arrBms : +this.queryParams.fileType === 2 ? arrPcs : []
+      return +this.queryParams.fileType === 0 ? [] : +this.queryParams.fileType === 1 ? submoduleBms : +this.queryParams.fileType === 2 ? submodulePcs : []
     },
     submoduleOptions() {
-      let arrBms = [
-        {
-          label: 'BAU',
-          value: 1
-        },
-        {
-          label: 'BCU',
-          value: 2
-        },
-        {
-          label: 'BMU',
-          value: 3
-        }
-      ]
-      let arrPcs = [
-        {
-          label: 'ARM',
-          value: 1
-        },
-        {
-          label: 'DSP',
-          value: 2
-        },
-      ]
-      return +this.base.fileType === 0 ? [] : +this.base.fileType === 1 ? arrBms : +this.base.fileType === 2 ? arrPcs : []
+      return +this.base.fileType === 0 ? [] : +this.base.fileType === 1 ? submoduleBms : +this.base.fileType === 2 ? submodulePcs : []
     }
   },
   watch: {

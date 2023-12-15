@@ -10,7 +10,12 @@
           <el-row type="flex" :gutter="60">
 <!--            自发自用字段-->
             <el-col :span="10"><el-form-item label="Current working mode"><el-input v-model="curDevInfo.workMode"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="New installation"><el-input v-model="['', 'Yes', 'No'][+curDevInfo.installation]"></el-input></el-form-item></el-col>
+            <el-col :span="10">
+              <el-form-item label="New installation">
+                <el-input disabled type="text" />
+                <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="newInstall" :value="curDevInfo.installation"/>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
             <el-col :span="10"><el-form-item label="Lifetime"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
@@ -130,7 +135,7 @@
 </template>
 
 <script>
-import { gridStatus } from '@sub/utils/dict'
+import { gridStatus, newInstall } from '@sub/utils/dict'
 export default {
   name: 'comp-inverter',
   props: {
@@ -149,6 +154,7 @@ export default {
   data() {
     return {
       gridStatus,
+      newInstall,
       name: 'grid',
     }
   }

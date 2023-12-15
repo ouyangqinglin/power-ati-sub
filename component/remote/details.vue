@@ -5,12 +5,12 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="Component M:" prop="fileType">
-              <dict-tag :options="dict.type.file_type" :value="base.fileType"></dict-tag>
+              <dict-tag :options="fileType" :value="base.fileType"></dict-tag>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="Component S:" prop="component">
-              <span>{{['V1.5', 'Mini', 'V1.0'][+base.component]}}</span>
+              <dict-tag :options="inverterVersion" :value="base.component"></dict-tag>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -27,7 +27,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="Application Type:" prop="applicationType">
-              <span>{{['Boot', 'App'][+base.applicationType]}}</span>
+              <dict-tag :options="applicationType" :value="base.applicationType"></dict-tag>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -62,7 +62,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="Version description:" prop="remark">
-              <el-tooltip :content="base.remark" placement="top">
+              <el-tooltip :content="base.remark" placement="top-start">
                 <div style="max-width: 400px" class="ellipsis themeColor">{{base.remark}}</div>
               </el-tooltip>
             </el-form-item>
@@ -98,7 +98,7 @@
             </el-table-column>
             <el-table-column label="Status" prop="status">
               <template slot-scope="{ row }">
-                <span>{{ ['', 'In progress', 'To be started', 'Completed'][+row.status] }}</span>
+                <dict-tag :options="upgradeTaskStatus" :value="row.status" />
               </template>
             </el-table-column>
             <el-table-column label="Remarks" prop="remarks"></el-table-column>
@@ -137,7 +137,7 @@
             <el-table-column label="Site Name" prop="siteName"></el-table-column>
             <el-table-column label="Upgrade Mode" prop="upgradeType">
               <template slot-scope="{row}">
-                <span>{{['', 'Manual', 'Automatic'][+row.upgradeType]}}</span>
+                <dict-tag :options="upgradeMode" :value="row.upgradeType" />
               </template>
             </el-table-column>
             <el-table-column label="Upgrade Version" prop="versionNum">
@@ -147,7 +147,7 @@
             </el-table-column>
             <el-table-column label="Status" prop="status">
               <template slot-scope="{ row }">
-                <span>{{ ['', 'Success', 'Fail', 'Upgrading'][+row.status] }}</span>
+                <dict-tag :options="upgradeResStatus" :value="row.status" />
               </template>
             </el-table-column>
             <el-table-column label="Remarks" prop="remark"></el-table-column>
@@ -212,7 +212,10 @@
         <el-table-column label="Site Name" prop="siteName"></el-table-column>
         <el-table-column label="Logger SN" prop="sn">
           <template slot-scope="{row}">
-            <span>{{ row.sn }}/{{['Off line', 'Online'][+row.net]}}</span>
+            <common-flex justify="center">
+              <span>{{ row.sn }}/</span>
+              <dict-tag :options="networkStatus" :value="row.net" />
+            </common-flex>
           </template>
         </el-table-column>
         <el-table-column label="Upgrade Version" prop="versionNum">
@@ -222,7 +225,7 @@
         </el-table-column>
         <el-table-column label="Status" prop="status">
           <template slot-scope="{ row }">
-            <span>{{ ['', 'Success', 'Fail', 'Upgrading', 'Waiting'][+row.status] }}</span>
+            <dict-tag :options="siteUpgradeStatus" :value="row.status" />
           </template>
         </el-table-column>
         <el-table-column label="Operation Time" prop="createTime">
@@ -276,7 +279,10 @@
         <el-table-column label="Site Name" prop="siteName"></el-table-column>
         <el-table-column label="Logger SN" prop="sn">
           <template slot-scope="{row}">
-            <span>{{ row.serialNumber }}/{{['Off line', 'Online'][+row.net]}}</span>
+            <common-flex justify="center">
+              <span>{{ row.serialNumber }}/</span>
+              <dict-tag :options="networkStatus" :value="row.net" />
+            </common-flex>
           </template>
         </el-table-column>
         <el-table-column label="Operation" prop="createTime">
@@ -304,15 +310,33 @@ import {
   againUpgrade,
   addUpgradeTask
 } from '@/api/remote'
+import {
+  fileType,
+  upgradeResStatus,
+  upgradeMode,
+  applicationType,
+  inverterVersion,
+  upgradeTaskStatus,
+  networkStatus,
+  siteUpgradeStatus
+} from '@sub/utils/dict'
 import siteList from '@subComp/remote/siteList.vue'
-import {mapState} from "vuex";
+import {mapState} from "vuex"
+
 let timer = null
 export default {
-  dicts: ['file_type'],
   name: "pages-remote-details",
   components: { siteList },
   data() {
     return {
+      fileType,
+      upgradeMode,
+      upgradeResStatus,
+      inverterVersion,
+      applicationType,
+      upgradeTaskStatus,
+      networkStatus,
+      siteUpgradeStatus,
       siteList: [],
       selected: [],
       siteShow: false,
