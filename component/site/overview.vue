@@ -226,25 +226,7 @@
 <script>
 import {getWeather, homeChart, getNet} from "@/api/index"
 import * as echarts from 'echarts'
-
-function detectZoom() {
-  let ratio = 0
-  const screen = window.screen
-  const ua = navigator.userAgent.toLowerCase()
-  if (window.devicePixelRatio !== undefined) {
-    ratio = window.devicePixelRatio
-  } else if (~ua.indexOf('msie')) {
-    if (screen.deviceXDPI && screen.logicalXDPI) {
-      ratio = screen.deviceXDPI / screen.logicalXDPI
-    }
-  } else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
-    ratio = window.outerWidth / window.innerWidth
-  }
-  if (ratio) {
-    ratio = Math.round(ratio * 100)
-  }
-  return ratio
-}
+import { weatherCodeEnum } from '@sub/utils/map'
 
 const emphasisStyle = {
   itemStyle: {
@@ -260,63 +242,6 @@ for (let i = 0; i < 25; i++) {
 }
 let xAxisDataConsu = []
 let data3 = [], data4 = []
-const weatherCodeEnum = {
-  "200": "thunderstorm", //雷雨
-  "201": "thunderstorm",
-  "202": "thunderstorm",
-  "210": "thunderstorm",
-  "211": "thunderstorm",
-  "212": "thunderstorm",
-  '221': "thunderstorm",
-  '230': "thunderstorm",
-  "231": "thunderstorm",
-  "232": "thunderstorm",
-  "300": "drizzle", //小雨
-  "301": "drizzle",
-  "302": "drizzle",
-  '310': "drizzle",
-  "311": "drizzle",
-  '312': "drizzle",
-  "313": "drizzle",
-  "314": "drizzle",
-  "321": "drizzle",
-  "500": "drizzle",
-  "501": "heavyRain",
-  "502": "heavyRain", //大雨
-  "503": "heavyRain",
-  "504": "heavyRain",
-  "511": "heavyRain",
-  "520": "heavyRain",
-  "521": "heavyRain",
-  "522": "heavyRain",
-  "531": "heavyRain",
-  "600": "lightSonw", //小雪
-  "601": "lightSonw",
-  "602": "heavySnow", //大雪
-  "611": "heavySnow",
-  "612": "heavySnow",
-  '613': "heavySnow",
-  "615": "heavySnow",
-  "616": "heavySnow",
-  "620": "heavySnow",
-  "621": "heavySnow",
-  '622': "heavySnow",
-  "701": "fog", // 雾
-  "711": "fog",
-  "721": "fog",
-  "731": "fog",
-  "741": "fog",
-  "751": "fog",
-  "761": "fog",
-  "762": "fog",
-  "771": "fog",
-  "781": "fog",
-  "800": "sunny", // 晴朗
-  "801": "clounds", // 多云
-  "802": "clounds",
-  "803": "clounds",
-  "804": "overcast", // 阴天
-};
 export default {
   name: "comp-overview",
   props: {
@@ -346,7 +271,7 @@ export default {
       weatherImgDay: {
         "sunny": require("./img/weather_day_sunny.png"),
         //多云
-        "clounds": require("./img/weather_day_cloud.png"),
+        "cloudy": require("./img/weather_day_cloud.png"),
         //阴天
         "overcast": require("./img/weather_day_overcast.png"),
         // 小雨
@@ -356,7 +281,7 @@ export default {
         //雷雨
         "thunderstorm": require("./img/weather_day_thunderstorm.png"),
         // 小雪
-        "lightSonw": require("./img/weather_day_lightsnow.png"),
+        "lightSnow": require("./img/weather_day_lightsnow.png"),
         // 大雪
         "heavySnow": require("./img/weather_day_heavysnow.png"),
         // 冰雹
@@ -368,7 +293,7 @@ export default {
         // 晴天
         "sunny": require("./img/weather_night_sunny.png"),
         //多云
-        "clounds": require("./img/weather_night_cloud.png"),
+        "cloudy": require("./img/weather_night_cloud.png"),
         //阴天  assets/png/weather_night_overcast.png
         "overcast": require("./img/weather_night_overcast.png"),
         // 小雨
@@ -378,7 +303,7 @@ export default {
         //雷雨
         "thunderstorm": require("./img/weather_night_thunderstorm.png"),
         // 小雪
-        "lightSonw": require("./img/weather_night_lightsnow.png"),
+        "lightSnow": require("./img/weather_night_lightsnow.png"),
         // 大雪
         "heavySnow": require("./img/weather_night_heavysnow.png"),
         // 冰雹

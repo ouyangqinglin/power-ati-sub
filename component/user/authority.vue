@@ -35,7 +35,7 @@
         <el-table-column label="Role Name" align="center" prop="roleName" min-width="120" show-overflow-tooltip />
         <el-table-column label="Data Sources" align="center" prop="source" min-width="120">
           <template slot-scope="{ row }">
-            <dict-tag :options="dict.type.role_source" :value="row.source"></dict-tag>
+            <dict-tag :options="roleSource" :value="row.source"></dict-tag>
           </template>
         </el-table-column>
         <el-table-column label="Web Authority" min-width="140">
@@ -150,14 +150,15 @@ import {listRole, addRole, updateRole, delRole} from "@/api/system/role"
 import ConfigRole from '@subComp/user/authority-config.vue'
 import {mapState} from "vuex"
 import {roleMenuTreeselect} from "@/api/system/menu"
+import { roleSource } from '@sub/utils/dict'
 
 
 export default {
   name: "pages-authority",
   components: { ConfigRole },
-  dicts: ['role_source', 'role_app_auth'],
   data() {
     return {
+      roleSource,
       item: {},
       id: '',
       loading: false,

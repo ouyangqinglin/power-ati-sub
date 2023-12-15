@@ -367,3 +367,14 @@ export const deviceInstallStatus = [
     value: 1
   }
 ]
+
+export const roleSource = [
+  {
+    label: 'System Presets',
+    value: 1
+  },
+  {
+    label: 'Manual',
+    value: 2
+  }
+]

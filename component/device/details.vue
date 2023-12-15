@@ -101,7 +101,7 @@
         </el-table-column>
         <el-table-column label="File Type" prop="fileType" min-width="160">
           <template slot-scope="{ row }">
-            <dict-tag :options="dict.type.file_type" :value="row.fileType"></dict-tag>
+            <dict-tag :options="fileType" :value="row.fileType"/>
           </template>
         </el-table-column>
         <el-table-column label="Software version" prop="versionNum"></el-table-column>
@@ -153,7 +153,7 @@
 import { baseDevice, updateDevice } from '@/api/device'
 import { versionRecord } from "@/api/remote"
 import {mapState} from "vuex"
-import { productType, deviceInstallStatus, networkStatus } from '@sub/utils/dict'
+import { productType, deviceInstallStatus, networkStatus, fileType } from '@sub/utils/dict'
 
 export default {
   name: "comp-details",
@@ -172,6 +172,7 @@ export default {
       productType,
       deviceInstallStatus,
       networkStatus,
+      fileType,
       currentApk: {
         version: '',
         hardVersion: '',
