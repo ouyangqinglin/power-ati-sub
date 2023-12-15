@@ -7,8 +7,8 @@
         </div>
         <div style="flex-grow: 1; min-height: 650px">
           <template v-if="+active === 1">
-            <MagraySet v-if="base.inverterMf === 'MEGAREVO'" />
-            <YuanSet v-else-if="base.inverterMf === 'SOLINTEG'" />
+            <MagraySet v-if="base.inverterMf === 'MEGAREVO'" :base="base" />
+            <YuanSet v-else-if="base.inverterMf === 'SOLINTEG'" :base="base" />
             <NoData v-else />
           </template>
           <template v-else-if="+active === 2">

@@ -333,9 +333,14 @@ export default {
       ],
     }
   },
-  mounted() {
-    this.siteCode = this.$route.query?.siteCode
-    this.getDeviceSet()
+  watch: {
+    base: {
+      immediate: true,
+      handler(v) {
+        this.siteCode = this.$route.query?.siteCode
+        this.getDeviceSet()
+      }
+    }
   },
   beforeDestroy() {
     clearInterval(timerInter)
@@ -426,7 +431,8 @@ export default {
       getSettingInfo(data).then(res => {
         let item = {}
         res.data.forEach(i => {
-          item[i.type] = i.param
+          if (i.param !== null && typeof i.param !== 'undefined') item[i.type] = +i.param
+          else item[i.type] = ''
         })
         this.deviceBase = item
         if (this.deviceBase[333]) {

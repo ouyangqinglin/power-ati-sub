@@ -7,6 +7,14 @@ let times = 1
 let copyDeviceInfo = {}
 export default {
   name: "site-magraySet",
+  props: {
+    base: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   computed: {
     ...mapState({
       'userType': (state) => state.user.userType
@@ -183,9 +191,14 @@ export default {
       }
     }
   },
-  mounted() {
-    this.siteCode = this.$route.query?.siteCode
-    this.getDeviceSet()
+  watch: {
+    base: {
+      immediate: true,
+      handler(v) {
+        this.siteCode = this.$route.query?.siteCode
+        this.getDeviceSet()
+      }
+    }
   },
   beforeDestroy() {
     clearInterval(timerInter)
