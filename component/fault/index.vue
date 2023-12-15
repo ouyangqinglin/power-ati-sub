@@ -41,11 +41,11 @@
               <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.faultCode"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-            <el-form-item>
+          <el-col :span="6">
+            <common-flex justify="flex-end">
               <el-button type="primary" @click="handleQuery">Query</el-button>
               <el-button @click="resetQuery">Reset</el-button>
-            </el-form-item>
+            </common-flex>
           </el-col>
         </el-row>
       </el-form>
@@ -127,7 +127,7 @@
               <img :src="require('@subImg/warning.svg')" alt="" v-if="+row.type === 1">
               <img :src="require('@subImg/fault.svg')" alt="" v-if="+row.type === 2">
               <img :src="require('@subImg/notice.svg')" alt="" v-if="+row.type === 3">
-              <span>{{ ['--', 'Warning', 'Fault', 'Notice'][+row.type] }}</span>
+              <dict-tag :options="alarmImportance" :value="row.type" />
             </common-flex>
           </template>
         </el-table-column>
@@ -148,12 +148,14 @@
           <template slot-scope="{ row }">
             <common-flex justify="center" align="center">
               <span class="dot" :style="{backgroundColor: ['#06A561', '#92929D'][+row.recoveryStatus]}"></span>
-              <span>{{ ['Open', 'Closed'][+row.recoveryStatus] }}</span>
+              <dict-tag :options="alarmStatus" :value="row.recoveryStatus" />
             </common-flex>
           </template>
         </el-table-column>
         <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Alarm Clearing Type" prop="cleanType" width="160">
-          <template slot-scope="{ row }"><span>{{ ['Automatic', 'Manual'][+row.cleanType] }}</span></template>
+          <template slot-scope="{ row }">
+            <dict-tag :options="alarmClearType" :value="row.cleanType" />
+          </template>
         </el-table-column>
         <el-table-column label="Occurrence Time" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
@@ -185,15 +187,19 @@
 </template>
 
 <script>
-import {alarmList, editAlarm} from "@/api/site";
-import {pileNum} from "@/api/fault";
-import {mapState} from "vuex";
+import {alarmList, editAlarm} from "@/api/site"
+import {pileNum} from "@/api/fault"
+import {mapState} from "vuex"
+import { alarmImportance, alarmStatus, alarmClearType } from '@sub/utils/dict'
 
 let storage_id = ''
 export default {
   name: "Fault-index",
   data() {
     return {
+      alarmImportance,
+      alarmStatus,
+      alarmClearType,
       deviceType: {
         '1': 'Inverter',
         '2': 'Battery',

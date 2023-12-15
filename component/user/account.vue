@@ -81,7 +81,7 @@
         <el-table-column v-if="+queryParams.type === 1" label="User Account" align="center" prop="email" min-width="270">
           <template slot-scope="{ row }">
             <span style="margin-right: 6px">{{ row.email }}</span>
-            <el-tag v-if="+queryParams.type === 1" size="mini" :type="['', 'success', 'info'][+row.active]">{{['', 'Active','Not active'][+row.active] }}</el-tag>
+            <el-tag v-if="+queryParams.type === 1" size="mini" :type="tagType[+row.active]">{{accountActive[+row.active] }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column v-else label="User Account" align="center" prop="email" min-width="160" />
@@ -93,7 +93,7 @@
         <el-table-column v-if="+queryParams.type === 3" label="Agency Code" align="center" prop="agencyCode" min-width="120" />
         <el-table-column label="Status" align="center" prop="status">
           <template slot-scope="{ row }">
-            <span v-if="row.status && row.status !== '--'">{{ ['--', 'Valid', 'Invalid'][+row.status] }}</span>
+            <dict-tag v-if="row.status && row.status !== '--'" :options="options" :value="row.status" />
             <span v-else>--</span>
           </template>
         </el-table-column>
@@ -146,6 +146,9 @@ import { listAtiUser, getAtiUser, delAtiUser, addAtiUser, updateAtiUser } from "
 import AccountAdd from '@subComp/user/account-add.vue'
 import AccountModify from '@subComp/user/account-modify.vue'
 import {mapState} from "vuex";
+import { agencyStatus } from '@sub/utils/dict'
+import { tagType, accountActive } from '@sub/utils/map'
+
 const storageList = {}
 // 添加customer 类型账号要agency && siteList 添加其他类型账号不需要siteList
 // 添加admin 类型账号不需要agency && siteList
@@ -154,6 +157,8 @@ export default {
   components: { AccountAdd, AccountModify },
   data() {
     return {
+      tagType,
+      accountActive,
       userId: '',
       show: false,
       showModify: false,
@@ -187,30 +192,9 @@ export default {
         status: '',
         agentName: ''
       },
-      options: [
-        {
-          value: '1',
-          label: 'Valid'
-        },
-        {
-          value: '2',
-          label: 'Invalid'
-        },
-      ],
+      options: agencyStatus,
       // 表单参数
       form: {},
-      // 表单校验
-      rules: {
-        email: [
-          { required: true, message: "邮箱不能为空", trigger: "blur" }
-        ],
-        password: [
-          { required: true, message: "密码不能为空", trigger: "blur" }
-        ],
-        phone: [
-          { required: true, message: "手机号不能为空", trigger: "blur" }
-        ],
-      }
     };
   },
   computed: {

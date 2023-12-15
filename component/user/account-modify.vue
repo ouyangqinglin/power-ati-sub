@@ -81,6 +81,7 @@ import siteList from '@subComp/site/siteList.vue'
 import agentList from '@subComp/user/agencyList.vue'
 import {listRole} from "@/api/system/role"
 import {getAtiUser, updateAtiUser} from '@/api/user'
+import { agencyStatus } from '@sub/utils/dict'
 
 export default {
   name: "account-modify",
@@ -115,7 +116,6 @@ export default {
   },
   data() {
     return {
-      easyShow: process.env.VUE_APP_TITLE === 'EASY POWER',
       siteShow: false,
       agencyShow: false,
       siteList: [],
@@ -131,16 +131,7 @@ export default {
         agentName: '',
         roleIds: []
       },
-      options: [
-        {
-          value: 1,
-          label: 'Valid'
-        },
-        {
-          value: 2,
-          label: 'Invalid'
-        },
-      ],
+      options: agencyStatus,
       rules: {
         roleIds: [
           { required: true, message: 'Please select', trigger: 'blur' }

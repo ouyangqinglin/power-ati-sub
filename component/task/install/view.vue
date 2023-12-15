@@ -98,6 +98,7 @@
 import { getTaskInfo } from '@/api/task'
 import {mapState} from "vuex";
 import { taskType, taskInstallStatus } from '@sub/utils/dict'
+import { formList } from "./config"
 
 export default {
   name: "pages-task-view",
@@ -129,48 +130,7 @@ export default {
           { required: true, message: 'Please enter address', trigger: 'blur'}
         ],
       },
-      formList: [
-        {
-          label: 'Task Type',
-          prop: 'type'
-        },
-        {
-          label: 'Task Code',
-          prop: 'taskCode'
-        },
-        {
-          label: 'Task Status',
-          prop: 'status'
-        },
-        {
-          label: 'Customer',
-          prop: 'customer'
-        },
-        {
-          label: 'Agency',
-          prop: 'agentName'
-        },
-        {
-          label: 'Mail',
-          prop: 'email'
-        },
-        {
-          label: 'Phone',
-          prop: 'phone'
-        },
-        {
-          label: 'Time of Appointment',
-          prop: 'appointTime'
-        },
-        {
-          label: 'Address',
-          prop: 'address'
-        },
-        {
-          label: 'Remarks',
-          prop: 'remark'
-        },
-      ],
+      formList,
     }
   },
   computed: {

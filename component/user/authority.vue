@@ -64,7 +64,7 @@
         </el-table-column>
         <el-table-column label="Status" prop="status">
           <template slot-scope="{ row }">
-            <span>{{ ['Valid', 'Invalid'][row.status] }}</span>
+            <dict-tag :options="statusOptions" :value="row.status" />
           </template>
         </el-table-column>
         <el-table-column label="Remarks" prop="remark" min-width="160" class="my-tooltip" show-overflow-tooltip />
@@ -104,7 +104,7 @@
           <el-form-item label="Role Name" prop="roleName"><el-input v-model="addInfo.roleName" maxlength="50" placeholder="Please enter"></el-input></el-form-item>
           <el-form-item label="Status" prop="status">
             <el-select v-model="addInfo.status">
-              <el-option v-for="i of addStatusOption" :key="i.value" :label="i.label" :value="i.value"></el-option>
+              <el-option v-for="i of statusOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Remarks" prop="remark">
@@ -129,7 +129,7 @@
           <el-form-item label="Role Name" prop="roleName"><el-input disabled v-model="modifyInfo.roleName" placeholder="Please enter"></el-input></el-form-item>
           <el-form-item label="Status" prop="status">
             <el-select v-model="modifyInfo.status">
-              <el-option v-for="i of addStatusOption" :key="i.value" :label="i.label" :value="i.value"></el-option>
+              <el-option v-for="i of statusOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Remarks" prop="remark">
@@ -150,8 +150,7 @@ import {listRole, addRole, updateRole, delRole} from "@/api/system/role"
 import ConfigRole from '@subComp/user/authority-config.vue'
 import {mapState} from "vuex"
 import {roleMenuTreeselect} from "@/api/system/menu"
-import { roleSource } from '@sub/utils/dict'
-
+import {authStatus, roleSource} from '@sub/utils/dict'
 
 export default {
   name: "pages-authority",
@@ -190,30 +189,6 @@ export default {
           { required: true, message: 'Please enter', trigger: 'blur' }
         ]
       },
-      addStatusOption: [
-        {
-          label: 'Valid',
-          value: 0
-        },
-        {
-          label: 'Invalid',
-          value: 1
-        }
-      ],
-      addAppOption: [
-        {
-          label: 'No Pemission',
-          value: 1
-        },
-        {
-          label: 'ATI Storage',
-          value: 2
-        },
-        {
-          label: 'ATI Install',
-          value: 3
-        }
-      ],
       dataList: [],
       total: 0,
       queryParams: {
@@ -222,16 +197,7 @@ export default {
         roleName: '',
         status: ''
       },
-      statusOptions: [
-        {
-          label: 'Valid',
-          value: '0'
-        },
-        {
-          label: 'Invalid',
-          value: '1'
-        },
-      ],
+      statusOptions: authStatus,
     }
   },
   computed: {

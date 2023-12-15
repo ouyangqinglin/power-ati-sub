@@ -23,7 +23,7 @@
         <el-table-column label="Remarks" prop="remarks" show-tooltip-when-overflow></el-table-column>
         <el-table-column label="Status" prop="status">
           <template slot-scope="{ row }">
-            <span v-if="row.status && row.status !== '--'">{{ ['--', 'Valid', 'Invalid'][+row.status] }}</span>
+            <span v-if="row.status && row.status !== '--'">{{ validMap[+row.status] }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
@@ -52,11 +52,14 @@
 import { getList, del } from '@/api/dataCenter'
 import Add from './add.vue'
 import Details from './view.vue'
+import { validMap } from '@sub/utils/map'
+
 export default {
   name: "pages-data-center",
   components: { Add, Details },
   data() {
     return {
+      validMap,
       total: 0,
       loading: false,
       addShow: false,

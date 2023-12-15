@@ -154,6 +154,7 @@ import { baseDevice, updateDevice } from '@/api/device'
 import { versionRecord } from "@/api/remote"
 import {mapState} from "vuex"
 import { productType, deviceInstallStatus, networkStatus, fileType } from '@sub/utils/dict'
+import { deviceCapacityLabel } from '@sub/utils/map'
 
 export default {
   name: "comp-details",
@@ -203,12 +204,7 @@ export default {
       'timeZone': state => state.user.timeZone,
     }),
     dyLabel() {
-      let map = {
-        1: 'Rated Power (kW)',
-        2: 'Capacity (kWh)',
-        6: 'Total Component capacity(kW) ',
-      }
-      return map[+this.base.deviceType]
+      return deviceCapacityLabel[+this.base.deviceType]
     }
   },
   mounted() {

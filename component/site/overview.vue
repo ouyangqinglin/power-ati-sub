@@ -176,10 +176,9 @@
               <div style="flex-shrink: 0"><p>Production</p></div>
               <common-flex justify="flex-end" style="flex-grow: 1">
                 <el-radio-group v-model="dateType" style="margin-right: 5px" size="small">
-                  <el-radio-button label="date">Day</el-radio-button>
-                  <el-radio-button label="week">Week</el-radio-button>
-                  <el-radio-button label="month">Month</el-radio-button>
-                  <el-radio-button label="year">Year</el-radio-button>
+                  <template v-for="item of dateRadioBtn">
+                    <el-radio-button :label="item.value">{{ item.label }}</el-radio-button>
+                  </template>
                 </el-radio-group>
                 <el-date-picker
                   :key="timeType"
@@ -227,6 +226,7 @@
 import {getWeather, homeChart, getNet} from "@/api/index"
 import * as echarts from 'echarts'
 import { weatherCodeEnum } from '@sub/utils/map'
+import { dateRadioBtn } from '@sub/utils/dict'
 
 const emphasisStyle = {
   itemStyle: {
@@ -257,6 +257,7 @@ export default {
     const that = this
     return {
       weatherCodeEnum,
+      dateRadioBtn,
       closePicker: {
         onPick(a) {
           that.$refs.dataEnd.handleClose()

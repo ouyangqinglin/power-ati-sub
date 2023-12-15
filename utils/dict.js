@@ -378,3 +378,77 @@ export const roleSource = [
     value: 2
   }
 ]
+
+export const dateRadioBtn = [
+  {
+    label: 'Day',
+    value: 'date'
+  },
+  {
+    label: 'Week',
+    value: 'week'
+  },
+  {
+    label: 'Month',
+    value: 'month'
+  },
+  {
+    label: 'Year',
+    value: 'year'
+  },
+]
+
+export const batInfoItemBtn = [
+  {
+    label: 'Voltage',
+    value: 'Voltage'
+  },  {
+    label: 'Current',
+    value: 'Current'
+  },  {
+    label: 'Power',
+    value: 'Power'
+  },  {
+    label: 'SOC',
+    value: 'SOC'
+  },  {
+    label: 'Temperature',
+    value: 'Temperature'
+  },
+]
+
+export const cellInfoItemBtn = [
+  {
+    label: 'Voltage(V)',
+    value: 0
+  },  {
+    label: 'Cell_T(°C)',
+    value: 1
+  },  {
+    label: 'Env_T(°C)',
+    value: 2
+  },  {
+    label: 'MOS_T(°C)',
+    value: 3
+  }
+]
+
+export const agencyStatus = [
+  {
+    label: 'Valid',
+    value: 1
+  },  {
+    label: 'Invalid',
+    value: 2
+  },
+]
+
+export const authStatus = [
+  {
+    label: 'Valid',
+    value: 0
+  },  {
+    label: 'Invalid',
+    value: 1
+  },
+]

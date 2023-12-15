@@ -60,6 +60,7 @@ import { getAtiUser } from '@/api/user'
 import { createTask } from '@/api/task'
 import AddDialog from "@subComp/task/install/add-dialog.vue"
 import { taskType, taskInstallStatus } from '@sub/utils/dict'
+import { formList } from "./config"
 
 export default {
   name: "pages-task-add",
@@ -69,14 +70,14 @@ export default {
       taskType,
       taskInstallStatus,
       baseInfo: {
-        type: 'Installation',
+        type: 2,
         address: '',
-        code: 'System generation',
+        taskCode: 'System generation',
         appointTime: '',
         uid: '',
         installUid: '',
         phone: '',
-        remarke: '',
+        remark: '',
         status: '--',
       },
       installerInfo: {
@@ -102,48 +103,7 @@ export default {
           { required: true, message: 'Please enter address', trigger: 'blur'}
         ],
       },
-      formList: [
-        {
-          label: 'Task Type',
-          prop: 'type'
-        },
-        {
-          label: 'Task Code',
-          prop: 'code'
-        },
-        {
-          label: 'Task Status',
-          prop: 'status'
-        },
-        {
-          label: 'Customer',
-          prop: 'userName'
-        },
-        {
-          label: 'Agency',
-          prop: 'agentName'
-        },
-        {
-          label: 'Mail',
-          prop: 'email'
-        },
-        {
-          label: 'Phone',
-          prop: 'phone'
-        },
-        {
-          label: 'Time of Appointment',
-          prop: 'appointTime'
-        },
-        {
-          label: 'Address',
-          prop: 'address'
-        },
-        {
-          label: 'Remarks',
-          prop: 'remark'
-        },
-      ],
+      formList,
       submit1: false,
       submit2: false,
     }
@@ -152,7 +112,7 @@ export default {
     this.id = this.$route.params?.id
     this.base.uid = this.id
     getAtiUser(this.id).then(res => {
-      this.base = {...this.baseInfo, ...res.data}
+      this.base = {...this.baseInfo, ...res.data, customer: res.data.userName, type: 2}
     })
   },
   methods: {

@@ -86,6 +86,8 @@
 
 <script>
 import {edit, getBase} from '@/api/dataCenter'
+import { agencyStatus } from '@sub/utils/dict'
+
 export default {
   props: {
     show: Boolean,
@@ -99,16 +101,7 @@ export default {
   },
   data() {
     return {
-      statusOptions: [
-        {
-          label: 'Valid',
-          value: 1
-        },
-        {
-          label: 'Invalid',
-          value: 2
-        }
-      ],
+      statusOptions: agencyStatus,
       addBase: {
         name: '',
         loggerV1Url: '',

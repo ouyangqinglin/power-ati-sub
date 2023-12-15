@@ -58,4 +58,23 @@ export const weatherCodeEnum = {
   "804": "overcast", // 阴天
 }
 
-// export const
+export const deviceCapacityLabel = {
+  1: 'Rated Power (kW)',
+  2: 'Capacity (kWh)',
+  6: 'Total Component capacity(kW) ',
+}
+
+export const tagType = {
+  1: 'success',
+  2: 'info'
+}
+
+export const accountActive = {
+  1: 'Active',
+  2: 'Not active'
+}
+
+export const validMap = {
+  1: 'Valid',
+  2: 'Invalid'
+}

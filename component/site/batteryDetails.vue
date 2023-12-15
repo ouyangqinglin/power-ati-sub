@@ -51,11 +51,9 @@
         <div></div>
         <common-flex justify="flex-end" style="margin: 40px 0 20px 0">
           <el-radio-group size="small" v-model="batteryHis.batteryType" @change="changeBatType">
-            <el-radio-button label="Voltage"></el-radio-button>
-            <el-radio-button label="Current"></el-radio-button>
-            <el-radio-button label="Power"></el-radio-button>
-            <el-radio-button label="SOC"></el-radio-button>
-            <el-radio-button label="Temperature"></el-radio-button>
+            <template v-for="item of batInfoItemBtn">
+              <el-radio-button :label="item.value">{{ item.label }}</el-radio-button>
+            </template>
           </el-radio-group>
           <el-date-picker
               size="small"
@@ -84,7 +82,7 @@
 </template>
 <script>
 import * as echarts from "echarts"
-import { networkStatus, storeStatus } from '@sub/utils/dict'
+import { networkStatus, storeStatus, batInfoItemBtn } from '@sub/utils/dict'
 
 let batteryInstance = null
 let arr = [], arr1 = [], arr5 = []
@@ -257,6 +255,7 @@ export default {
     return {
       networkStatus,
       storeStatus,
+      batInfoItemBtn,
       loading: true,
       batEnergy: {},
       batteryHis: {

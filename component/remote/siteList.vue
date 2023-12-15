@@ -32,7 +32,6 @@
       </common-flex>
     </el-form>
 
-
     <el-table v-loading="loading" :data="atiUserList"
               :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
               ref="multipleTable"
@@ -45,7 +44,10 @@
       <el-table-column label="Site" align="center" prop="siteName" show-tooltip-when-overflow />
       <el-table-column label="Logger SN" align="center" prop="serialNumber" min-width="260">
         <template slot-scope="{row}">
-          <span>{{ row.serialNumber }}/{{['Off line', 'Online'][+row.net]}}</span>
+          <common-flex justify="center">
+            <span>{{ row.serialNumber }}/</span>
+            <dict-tag :options="networkStatus" :value="row.net" />
+          </common-flex>
         </template>
       </el-table-column>
       <el-table-column label="Agency" align="center" prop="agency" />
@@ -70,6 +72,7 @@
 
 <script>
 import { listDevice } from '@/api/device'
+import { networkStatus } from '@sub/utils/dict'
 
 export default {
   name: "comp-add-dialog",
@@ -79,6 +82,7 @@ export default {
   },
   data() {
     return {
+      networkStatus,
       selected: [],
       chooseRadio: '',
       // 遮罩层

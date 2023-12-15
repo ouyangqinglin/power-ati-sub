@@ -86,22 +86,15 @@
 
 <script>
 import { add } from '@/api/dataCenter'
+import { agencyStatus } from '@sub/utils/dict'
+
 export default {
   props: {
     show: Boolean
   },
   data() {
     return {
-      statusOptions: [
-        {
-          label: 'Valid',
-          value: 1
-        },
-        {
-          label: 'Invalid',
-          value: 2
-        }
-      ],
+      statusOptions: agencyStatus,
       addBase: {
         status: 1,
         name: '',

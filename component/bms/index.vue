@@ -61,11 +61,8 @@
               <router-link :to="{name: 'monitoring-view', params: {id: scope.row.id, info: scope.row.extInfo, sn: scope.row.serialNumber, siteCode: scope.row.siteCode}}">
                 <el-button type="text" :disabled="+scope.row.type !== 1">Monitoring</el-button>
               </router-link>
-              <template v-if="+scope.row.type === 1">
-                <img @click="follow(2, scope.row.id)" v-if="+scope.row.followBms === 1" class="follow" :src="require('@img/followed.svg')" alt="">
-                <img title="Follow" @click="follow(1, scope.row.id)" v-else class="follow" :src="require('@img/follow.svg')" alt="Follow">
-              </template>
-              <div v-else class="follow"></div>
+              <img @click="follow(2, scope.row.id)" v-if="+scope.row.followBms === 1" class="follow" :src="require('@img/followed.svg')" alt="">
+              <img title="Follow" @click="follow(1, scope.row.id)" v-else class="follow" :src="require('@img/follow.svg')" alt="Follow">
             </common-flex>
           </template>
         </el-table-column>
@@ -121,7 +118,7 @@ export default {
         id
       }
       if (type === 2) {
-        this.$modal.confirm(`Please confirm whether to cancel`).then(() => {
+        this.$modal.confirm(`Please confirm whether to cancel followed`).then(() => {
           this.changeFollow(data)
         })
       } else this.changeFollow(data)

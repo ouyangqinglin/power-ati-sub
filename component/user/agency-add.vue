@@ -11,16 +11,16 @@
           <el-form-item :prop="i.prop">
             <template slot="label"><span>{{ i.label }}</span></template>
             <template v-if="i.prop === 'remark'">
-              <el-input style="width: 40vw" type="textarea" show-word-limit maxlength="200" v-model="base[i.prop]"></el-input>
+              <el-input style="width: 40vw" type="textarea" show-word-limit maxlength="200" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
             </template>
             <template v-else-if="i.prop === 'agency'">
-              <el-input maxlength="50" v-model="base[i.prop]"></el-input>
+              <el-input maxlength="50" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
             </template>
             <template v-else-if="i.prop === 'phone'">
-              <el-input @input="checkPhone" maxlength="20" v-model="base[i.prop]"></el-input>
+              <el-input @input="checkPhone" maxlength="20" v-model="base[i.prop]" :placeholder="i.placeholder"></el-input>
             </template>
             <template v-else-if="i.prop === 'status'">
-              <el-select style="width: 100%" v-model="base[i.prop]">
+              <el-select style="width: 100%" v-model="base[i.prop]" :placeholder="i.placeholder">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -48,6 +48,7 @@
 
 <script>
 import { addAgency, modifyAgency } from '@/api/agency'
+import { agencyStatus } from '@sub/utils/dict'
 
 export default {
   name: "agency-add",
@@ -65,16 +66,7 @@ export default {
         remark: '',
         phone: ''
       },
-      options: [
-        {
-          value: 1,
-          label: 'Valid'
-        },
-        {
-          value: 2,
-          label: 'Invalid'
-        },
-      ],
+      options: agencyStatus,
       rules: {
         agency: [
           { required: true, message: 'Please enter', trigger: 'blur'}

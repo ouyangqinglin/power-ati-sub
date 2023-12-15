@@ -64,9 +64,9 @@
       <div class="posr">
         <common-flex class="pv-nav posa" justify="flex-end">
           <el-radio-group v-model="pvHis.pvType" size="small" @change="changePvType">
-            <el-radio-button label="Voltage"></el-radio-button>
-            <el-radio-button label="Current"></el-radio-button>
-            <el-radio-button label="Power"></el-radio-button>
+            <el-radio-button label="Voltage">Voltage</el-radio-button>
+            <el-radio-button label="Current">Current</el-radio-button>
+            <el-radio-button label="Power">Power</el-radio-button>
           </el-radio-group>
           <el-date-picker
               size="small"

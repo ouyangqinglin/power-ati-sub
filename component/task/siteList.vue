@@ -90,18 +90,6 @@ export default {
       },
       // 表单参数
       form: {},
-      // 表单校验
-      rules: {
-        email: [
-          {required: true, message: "邮箱不能为空", trigger: "blur"}
-        ],
-        password: [
-          {required: true, message: "密码不能为空", trigger: "blur"}
-        ],
-        phone: [
-          {required: true, message: "手机号不能为空", trigger: "blur"}
-        ],
-      }
     }
   },
   computed: {

@@ -118,10 +118,9 @@
         <el-button type="primary" @click="drawerCell"><i style="font-size: 16px" class="el-icon-download"></i></el-button>
       </common-flex>
       <el-radio-group v-model="dataType" style="margin-bottom: 30px;" @change="changeType">
-        <el-radio-button label="0">Voltage(V)</el-radio-button>
-        <el-radio-button label="1">Cell_T(°C)</el-radio-button>
-        <el-radio-button label="2">Env_T(°C)</el-radio-button>
-        <el-radio-button label="3">MOS_T(°C)</el-radio-button>
+        <template v-for="item of cellInfoItemBtn">
+          <el-radio-button :label="item.value">{{ item.label }}</el-radio-button>
+        </template>
       </el-radio-group>
       <common-flex wrap="wrap" class="flex-container posr">
         <common-flex class="item" v-for="(i, k) of dataList.slice(0, 64)"
@@ -190,6 +189,8 @@
 import {infoDevice, cellData, batHistoryData} from '@/api/device'
 import Trend from '@/views/components/monitor/trend.vue'
 import * as echarts from "echarts"
+import { cellInfoItemBtn } from '@sub/utils/dict'
+
 let arr = [], chartIns = null, timer = null, dataList = [], batCellData = []
 let viewH = window.innerHeight
 for (let i = 0; i < 24; i++) {
@@ -318,6 +319,7 @@ export default {
   data() {
     let dateVal = new Date()
     return {
+      cellInfoItemBtn,
       exportCellDisabled: false,
       excelData: [],
       solidExcelHead: {

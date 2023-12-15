@@ -65,7 +65,7 @@
         <el-table-column label="Agency Code" align="center" prop="agencyCode" min-width="120"/>
         <el-table-column label="Status" align="center" prop="status">
           <template slot-scope="{ row }">
-            <span v-if="row.status && row.status !== '--'">{{ ['--', 'Valid', 'Invalid'][+row.status] }}</span>
+            <dict-tag v-if="row.status && row.status !== '--'" :options="options" :value="row.status" />
             <span v-else>--</span>
           </template>
         </el-table-column>
@@ -114,7 +114,8 @@
 <script>
 import AccountAdd from '@subComp/user/agency-add.vue'
 import { delAtiAgency, getAgencyList } from "@/api/agency"
-import {mapState} from "vuex";
+import {mapState} from "vuex"
+import { agencyStatus } from '@sub/utils/dict'
 
 export default {
   name: "pages-agency",
@@ -135,16 +136,7 @@ export default {
         agencyCode: null,
         status: null
       },
-      options: [
-        {
-          value: '1',
-          label: 'Valid'
-        },
-        {
-          value: '2',
-          label: 'Invalid'
-        },
-      ],
+      options: agencyStatus,
     }
   },
   computed: {

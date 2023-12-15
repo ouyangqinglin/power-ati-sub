@@ -76,11 +76,11 @@
             </el-select>
           </el-form-item>
           <el-form-item prop="phone" label="Phone" style="margin-right: 90px">
-            <el-input @input="checkPhone" v-model="base.phone" type="text" maxlength="20" />
+            <el-input @input="checkPhone" v-model="base.phone" type="text" maxlength="20" placeholder="Please Enter" />
           </el-form-item>
         </common-flex>
         <el-form-item prop="address" label="Address">
-          <el-input v-model="base.address" maxlength="200" type="textarea" show-word-limit />
+          <el-input v-model="base.address" maxlength="200" type="textarea" show-word-limit placeholder="Please Enter" />
         </el-form-item>
       </el-form>
     </el-card>
@@ -91,7 +91,7 @@
           <el-form-item label="RepairMan" class="my-item" prop="installer">
             <template slot="label"><span>Repairman</span></template>
             <div class="posr">
-              <el-input @focus="openMan" style="width: 100%" readonly v-model="base.installer"></el-input>
+              <el-input @focus="openMan" style="width: 100%" readonly v-model="base.installer" placeholder="Please Enter"></el-input>
               <i @click="openMan" class="el-icon-search posa right-search"></i>
             </div>
           </el-form-item>

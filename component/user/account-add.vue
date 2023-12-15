@@ -85,6 +85,7 @@ import siteList from '@subComp/site/siteList.vue'
 import agentList from '@subComp/user/agencyList.vue'
 import {listRole} from "@/api/system/role"
 import { addAtiUser } from '@/api/user'
+import { agencyStatus } from '@sub/utils/dict'
 
 export default {
   name: "account-add",
@@ -106,7 +107,6 @@ export default {
       }
     }
     return {
-      easyShow: process.env.VUE_APP_TITLE === 'EASY POWER',
       siteShow: false,
       agencyShow: false,
       siteList: [],
@@ -123,16 +123,7 @@ export default {
         agentName: '',
         roleIds: []
       },
-      options: [
-        {
-          value: 1,
-          label: 'Valid'
-        },
-        {
-          value: 2,
-          label: 'Invalid'
-        },
-      ],
+      options: agencyStatus,
       rules: {
         email: [
           { required: true, message: 'Please enter', trigger: 'blur' },
@@ -154,25 +145,6 @@ export default {
           { required: true, validator: validatePass, trigger: 'blur'}
         ],
       },
-    }
-  },
-  computed: {
-    authorityList() {
-      let userApp, installApp
-      userApp = [
-        {
-          label: 'EasyPower Storage',
-          value: '1'
-        }
-      ]
-      installApp = [
-        {
-          label: 'EasyPower Install',
-          value: '2'
-        }
-      ]
-
-      return +this.type === 2 ?  installApp : userApp
     }
   },
   mounted() {
