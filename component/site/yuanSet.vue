@@ -148,35 +148,35 @@ export default {
       inverterWorkOptions: [
         {
           label: 'General Mode',
-          value: 0
+          value: 527
         },
         {
           label: 'Economic Mode',
-          value: 1
+          value: 258
         },
         {
           label: 'UPS Mode',
-          value: 2
+          value: 259
         },
         {
           label: 'Off Grid Mode',
-          value: 3
+          value: 512
         },
         {
           label: 'EMS_ACCtrlMode',
-          value: 4
+          value: 769
         },
         {
           label: 'EMS_GeneralMode',
-          value: 5
+          value: 770
         },
         {
           label: 'EMS_BattCtrlMode',
-          value: 6
+          value: 771
         },
         {
           label: 'EMS_OffGridMode',
-          value: 7
+          value: 772
         },
       ],
       enableOptions: [
