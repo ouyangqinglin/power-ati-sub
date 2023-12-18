@@ -6,7 +6,8 @@ export const setStorage = function(key, obj) {
 
 // 获取localStorage
 export const getStorage = function(key) {
-  const str = window.localStorage.getItem(key)
+  const str = window.localStorage.getItem(key) || ''
+  console.log('lang', str)
   if (!str) {
     return null
   }

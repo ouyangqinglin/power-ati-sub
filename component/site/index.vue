@@ -161,7 +161,7 @@
           </template>
         </el-table-column>
         <el-table-column :label="$t('common.agency')" align="center" prop="agentName" min-width="140" show-overflow-tooltip />
-        <el-table-column v-if="brandShow" :label="$t('common.productBrand')" align="center" prop="brand" min-width="120" show-overflow-tooltip>
+        <el-table-column v-if="brandShow" :label="$t('site.productBrand')" align="center" prop="brand" min-width="120" show-overflow-tooltip>
           <template slot-scope="{ row }">
             <span>{{ ['', 'Yoho', 'Jasper'][+row.brand] }}</span>
           </template>
