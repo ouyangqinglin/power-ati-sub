@@ -4,19 +4,19 @@
       <el-row>
         <el-col :span="12">
           <el-tabs v-model="activeName">
-            <el-tab-pane :label="$t('common.overview')" name="overview"></el-tab-pane>
-            <el-tab-pane label="Site info" name="siteInfo"></el-tab-pane>
-            <el-tab-pane label="Device" name="Device"></el-tab-pane>
-            <el-tab-pane label="Alarm" name="Alarm"></el-tab-pane>
-            <el-tab-pane label="Settings" name="OtherSettings"></el-tab-pane>
-            <el-tab-pane label="Firmware Update" name="Firmware"></el-tab-pane>
+            <el-tab-pane :label="$t('site.overview')" name="overview"></el-tab-pane>
+            <el-tab-pane :label="$t('site.siteInfo')" name="siteInfo"></el-tab-pane>
+            <el-tab-pane :label="$t('common.device')" name="Device"></el-tab-pane>
+            <el-tab-pane :label="$t('common.alarm')" name="Alarm"></el-tab-pane>
+            <el-tab-pane :label="$t('site.set')" name="OtherSettings"></el-tab-pane>
+            <el-tab-pane :label="$t('site.firmwareUpdate')" name="Firmware"></el-tab-pane>
           </el-tabs>
         </el-col>
         <el-col :span="12">
           <common-flex style="width: 100%" justify="flex-end" align="center">
             <div>
-              <div class="pages-site-details-time">Refresh Time :</div><span>{{ refreshDate }}</span><br>
-              <div class="pages-site-details-site">Site  :</div><span>{{ details.siteName }}({{ details.siteCode }})</span>
+              <div class="pages-site-details-time">{{ $t('site.refreshTime') }} :</div><span>{{ refreshDate }}</span><br>
+              <div class="pages-site-details-site">{{ $t('site.name') }}  :</div><span>{{ details.siteName }}({{ details.siteCode }})</span>
             </div>
             <div class="pages-site-details-refresh">
               <img @click="refresh" :class="{rotateAni: active}" class="pages-site-details-refresh-img" :src="require('@img/site/refresh.svg')" alt="">

@@ -94,49 +94,49 @@ export const gridStatus = [
 
 export const storeStatus = [
   {
-    label: 'Not charge-discharge',
+    label: i18n.t('store.status.notChargeDischarge'),
     value: 1
   },
   {
-    label: 'Charging',
+    label: i18n.t('store.status.charging'),
     value: 2
   },
   {
-    label: 'Discharging',
+    label: i18n.t('store.status.discharging'),
     value: 3
   },
 ]
 
 export const newInstall = [
   {
-    label: 'Yes',
+    label: i18n.t('device.newInstall.yes'),
     value: 1
   },
   {
-    label: 'No',
+    label: i18n.t('device.newInstall.no'),
     value: 2
   }
 ]
 
 export const productType = [
   {
-    label: 'Inverter',
+    label: i18n.t('device.type.inverter'),
     value: 1
   },
   {
-    label: 'Battery',
+    label: i18n.t('device.type.battery'),
     value: 2
   },
   {
-    label: 'EV Charger',
+    label: i18n.t('device.type.charger'),
     value: 3
   },
   {
-    label: 'Stick Logger',
+    label: i18n.t('device.type.stickLogger'),
     value: 4
   },
   {
-    label: 'Photovoltaic',
+    label: i18n.t('device.type.pv'),
     value: 6
   },
 ]
@@ -381,19 +381,19 @@ export const roleSource = [
 
 export const dateRadioBtn = [
   {
-    label: 'Day',
+    label: i18n.t('common.day'),
     value: 'date'
   },
   {
-    label: 'Week',
+    label: i18n.t('common.week'),
     value: 'week'
   },
   {
-    label: 'Month',
+    label: i18n.t('common.month'),
     value: 'month'
   },
   {
-    label: 'Year',
+    label: i18n.t('common.year'),
     value: 'year'
   },
 ]

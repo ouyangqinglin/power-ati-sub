@@ -43,8 +43,8 @@
           </el-col>
           <el-col :span="6">
             <common-flex justify="flex-end">
-              <el-button type="primary" @click="handleQuery">Query</el-button>
-              <el-button @click="resetQuery">Reset</el-button>
+              <el-button type="primary" @click="handleQuery">{{ $t('common.query') }}</el-button>
+              <el-button @click="resetQuery">{{ $t('common.reset') }}</el-button>
             </common-flex>
           </el-col>
         </el-row>

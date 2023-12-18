@@ -4,11 +4,11 @@
       <el-form>
         <el-row>
           <el-col :span="20">
-            <el-form-item class="region" label="Region：" prop="province" label-width="110px">
+            <el-form-item class="region" :label="$t('site.region')+'：'" prop="province" label-width="110px">
               <el-select
                 :disabled="!(queryParams.province && queryParams.country)"
                 v-model="queryParams.city"
-                placeholder="Please Select City"
+                :placeholder="$t('common.pleaseSelect') + $t('common.city')"
                 clearable
                 @keyup.enter.native="handleQuery"
               >
@@ -23,7 +23,7 @@
               <el-select
                 :disabled="!queryParams.country"
                 v-model="queryParams.province"
-                placeholder="Please Select province"
+                :placeholder="$t('common.pleaseSelect') + $t('common.province')"
                 clearable
                 @keyup.enter.native="handleQuery"
               >
@@ -38,7 +38,7 @@
               <el-select
                 v-model="queryParams.country"
                 class="area-select"
-                placeholder="Please Select Country/Area"
+                :placeholder="$t('common.pleaseSelect') + $t('common.country')"
                 clearable
                 @keyup.enter.native="handleQuery"
               >
@@ -54,43 +54,44 @@
           </el-col>
           <el-col :span="4">
             <common-flex justify="flex-end">
-              <el-button type="primary" @click="handleQuery" size="small">Query</el-button>
-              <el-button @click="resetQuery" size="small">Reset</el-button>
+              <el-button type="primary" @click="handleQuery">{{ $t('common.query') }}</el-button>
+              <el-button @click="resetQuery">{{ $t('common.reset') }}</el-button>
             </common-flex>
           </el-col>
         </el-row>
       </el-form>
-      <el-form :model="queryParams" ref="queryForm">
+      <el-form :model="queryParams" ref="queryForm" :inline="true">
         <common-flex wrap="wrap" class="mt15" style="width: 100%">
-          <el-form-item label="Site Name：" prop="siteName" label-width="110px">
+          <el-form-item :label="$t('site.name')+'：'" prop="siteName" label-width="110px">
             <el-input
               v-model="queryParams.siteName"
-              placeholder="Please enter"
+              :placeholder="$t('common.pleaseEnter') + $t('site.name')"
               clearable
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="Site Code：" prop="siteCode" label-width="120px">
+          <el-form-item :label="$t('site.code')+'：'" prop="siteCode">
             <el-input
               v-model="queryParams.siteCode"
-              placeholder="Please enter"
+              :placeholder="$t('common.pleaseEnter') + $t('site.code')"
               clearable
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item v-if="!brandShow" label="Communication Module：" prop="loggerExist" label-width="220px">
-            <el-select v-model="queryParams.loggerExist" placeholder="All">
+          <el-form-item v-if="!brandShow" :label="$t('site.communicationModule')+'：'" prop="loggerExist">
+            <el-select v-model="queryParams.loggerExist" :placeholder="$t('common.all')">
               <el-option v-for="i of communicationModule" :label="i.label" :value="i.value" :key="i.value"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="Local Time：" label-width="110px">
+          <el-form-item :label="$t('site.localTime') + '：'">
             <el-date-picker
               clearable
               v-model="queryTime"
               type="date"
               format="M/d/yyyy"
               value-format="yyyy-MM-dd"
-              placeholder="Please select">
+              :placeholder="$t('common.pleaseSelect') + $t('site.localTime')"
+              >
             </el-date-picker>
           </el-form-item>
         </common-flex>
@@ -99,29 +100,29 @@
     <div style="height: 20px"></div>
     <el-card>
       <common-flex justify="space-between" align="center">
-        <p class="table-title">Site List</p>
+        <p class="table-title">{{ $t('site.siteList') }}</p>
         <common-flex>
           <common-flex align="center" class="item">
             <span class="dot" style="background-color: #06A561"></span>
-            <span>On line</span>
+            <span>{{ $t('common.onLine') }}</span>
           </common-flex>
           <common-flex align="center" class="item">
             <span class="dot" style="background-color: #F0142F"></span>
-            <span>Alarm</span>
+            <span>{{ $t('common.alarm') }}</span>
           </common-flex>
           <common-flex align="center" class="item" style="margin-right: 4px">
             <span class="dot" style="background-color: #92929D"></span>
-            <span>Off line</span>
+            <span>{{ $t('common.offLine') }}</span>
           </common-flex>
         </common-flex>
       </common-flex>
       <el-table v-loading="loading" :data="siteList" @selection-change="handleSelectionChange">
-        <el-table-column label="No" align="center" width="60">
+        <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="Site Name" align="center" prop="siteName" min-width="150">
+        <el-table-column :label="$t('site.name')" align="center" prop="siteName" min-width="150">
           <template slot-scope="{ row }">
             <common-flex align="center" justify="center">
               <span class="dot" v-if="+row.netStatus === 0" style="background-color: #92929D"></span>
@@ -133,46 +134,46 @@
             </common-flex>
           </template>
         </el-table-column>
-        <el-table-column label="Site Code" align="center" prop="siteCode" min-width="130" />
-        <el-table-column label="Installation Status" align="center" prop="status" min-width="140">
+        <el-table-column :label="$t('site.code')" align="center" prop="siteCode" min-width="130" />
+        <el-table-column :label="$t('site.installationStatus')" align="center" prop="status" min-width="140">
           <template slot-scope="{ row }">
             <dict-tag :options="siteStatus" :value="row.status" />
           </template>
         </el-table-column>
-        <el-table-column label="Communication Module" align="center" prop="" min-width="180" v-if="!brandShow">
+        <el-table-column :label="$t('site.communicationModule')" align="center" prop="" min-width="180" v-if="!brandShow">
           <template slot-scope="{ row }">
             <dict-tag :options="communicationModule" :value="row.loggerExist"/>
           </template>
         </el-table-column>
-        <el-table-column label="City" align="center" prop="city" min-width="100" show-overflow-tooltip />
-        <el-table-column label="Province" align="center" prop="province" min-width="120" show-overflow-tooltip />
-        <el-table-column label="Country/Area" align="center" prop="country" min-width="140" show-overflow-tooltip />
-        <el-table-column label="Time of Installed" align="center" prop="createTime" min-width="130">
+        <el-table-column :label="$t('common.city')" align="center" prop="city" min-width="140" show-overflow-tooltip />
+        <el-table-column :label="$t('common.province')" align="center" prop="province" min-width="140" show-overflow-tooltip />
+        <el-table-column :label="$t('common.country')" align="center" prop="country" min-width="140" show-overflow-tooltip />
+        <el-table-column :label="$t('common.installedTime')" align="center" prop="createTime" min-width="130">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(+row.createTime, row.timeZone) }} {{row.utcTime}}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Local Time" align="center" prop="createTime" min-width="130">
+        <el-table-column :label="$t('site.localTime')" align="center" prop="createTime" min-width="130">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.createTime * 1000) }} {{localUTC}}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Agency" align="center" prop="agentName" min-width="140" show-overflow-tooltip />
-        <el-table-column v-if="brandShow" label="Product brand" align="center" prop="brand" min-width="120" show-overflow-tooltip>
+        <el-table-column :label="$t('common.agency')" align="center" prop="agentName" min-width="140" show-overflow-tooltip />
+        <el-table-column v-if="brandShow" :label="$t('common.productBrand')" align="center" prop="brand" min-width="120" show-overflow-tooltip>
           <template slot-scope="{ row }">
             <span>{{ ['', 'Yoho', 'Jasper'][+row.brand] }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Last update Time" align="center" prop="updateTime" min-width="130">
+        <el-table-column :label="$t('common.lastUpdateTime')" align="center" prop="updateTime" min-width="130">
           <template slot-scope="{ row }">
             <span v-if="row.updateTime && row.updateTime !== '--'">{{ UTC_DATE_FORMAT(+row.updateTime, row.timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Last update by" align="center" prop="updateBy" min-width="140" show-overflow-tooltip />
-        <el-table-column fixed="right" label="Operat" align="center" class-name="small-padding fixed-width" min-width="130">
+        <el-table-column :label="$t('common.lastUpdateBy')" align="center" prop="updateBy" min-width="140" show-overflow-tooltip />
+        <el-table-column fixed="right" :label="$t('common.operat')" align="center" class-name="small-padding fixed-width" min-width="130">
           <template slot-scope="scope">
             <el-button
               type="text"

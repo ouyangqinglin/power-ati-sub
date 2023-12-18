@@ -17,8 +17,8 @@
             </el-form-item>
           </common-flex>
           <el-form-item>
-            <el-button type="primary" @click="handleQuery">Query</el-button>
-            <el-button @click="resetQuery">Reset</el-button>
+            <el-button type="primary" @click="handleQuery">{{ $t('common.query') }}</el-button>
+            <el-button @click="resetQuery">{{ $t('common.reset') }}</el-button>
           </el-form-item>
         </common-flex>
       </el-form>

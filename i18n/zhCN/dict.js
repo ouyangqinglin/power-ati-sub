@@ -17,5 +17,15 @@ export default {
   'grid.status.free': 'Free',
   'grid.status.export': 'Export',
   'grid.status.import': 'Import',
+  'store.status.notChargeDischarge': 'Not charge-discharge',
+  'store.status.charging': 'Charging',
+  'store.status.discharging': 'Discharging',
+  'device.newInstall.yes': 'Yes',
+  'device.newInstall.no': 'No',
+  'device.type.inverter': 'Inverter',
+  'device.type.battery': 'Battery',
+  'device.type.charger': 'EV Charger',
+  'device.type.stickLogger': 'Stick Logger',
+  'device.type.pv': 'Photovoltaic',
 
 }

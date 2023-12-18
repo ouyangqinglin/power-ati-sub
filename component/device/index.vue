@@ -22,8 +22,8 @@
           </common-flex>
           <common-flex justify="flex-end" style="flex-grow: 1; flex-shrink: 0">
             <el-form-item>
-              <el-button type="primary" @click="handleQuery">Query</el-button>
-              <el-button @click="resetQuery">Reset</el-button>
+              <el-button type="primary" @click="handleQuery">{{ $t('common.query') }}</el-button>
+              <el-button @click="resetQuery">{{ $t('common.reset') }}</el-button>
             </el-form-item>
           </common-flex>
         </common-flex>
@@ -92,7 +92,7 @@
         </el-table-column>
         <el-table-column label="Operat" fixed="right">
           <template slot-scope="{ row }">
-            <router-link :to="`/device/details/${row.id}`"><el-button v-hasPermi="['ati:device:view']" type="text">Detail</el-button></router-link>
+            <router-link :to="`/device/details/${row.id}`"><el-button v-hasPermi="['ati:device:view']" type="text">{{$t('common.detail')}}</el-button></router-link>
           </template>
         </el-table-column>
       </el-table>

@@ -1,14 +1,14 @@
 <template>
   <div class="comp-overview">
     <el-card class="comp-overview-card">
-      <p>Production Overview</p>
+      <p>{{ $t('home.productOverview') }}</p>
       <el-row>
         <el-col :span="6">
           <common-flex class="comp-overview-card-total" direction="column" align="center">
             <div v-if="+base.dayProduce < 1000"><span class="num">{{ (+base.dayProduce).toFixed(2) }}</span><span class="unit">（Wh）</span></div>
             <div v-else-if="+base.dayProduce > 1000 && +base.dayProduce < 1000000"><span class="num">{{ (base.dayProduce / 1000).toFixed(2) }}</span><span class="unit">（kWh）</span></div>
             <div v-else><span class="num">{{ (+base.dayProduce / 1000000).toFixed(2) }}</span><span class="unit">（MWh）</span></div>
-            <div>Today</div>
+            <div>{{ $t('common.today') }}</div>
           </common-flex>
         </el-col>
         <el-col :span="6">
@@ -16,7 +16,7 @@
             <div v-if="+base.monthProduce < 1000"><span class="num">{{ (base.monthProduce).toFixed(2) }}</span><span class="unit">（Wh）</span></div>
             <div v-else-if="+base.monthProduce > 1000 && +base.monthProduce < 1000000"><span class="num">{{ (base.monthProduce / 1000).toFixed(2) }}</span><span class="unit">（kWh）</span></div>
             <div v-else><span class="num">{{ (+base.monthProduce / 1000000).toFixed(2) }}</span><span class="unit">（MWh）</span></div>
-            <div>This Month</div>
+            <div>{{ $t('common.thisMonth') }}</div>
           </common-flex>
         </el-col>
         <el-col :span="6">
@@ -28,7 +28,7 @@
               <span class="num">{{ (base.yearProduct / 1000).toFixed(2) }}</span><span class="unit">（kWh）</span>
             </div>
             <div v-else><span class="num">{{ (+base.yearProduct / 1000000).toFixed(2) }}</span><span class="unit">（MWh）</span></div>
-            <div>This Year</div>
+            <div>{{ $t('common.thisYear') }}</div>
           </common-flex>
         </el-col>
         <el-col :span="6">
@@ -40,7 +40,7 @@
               <span class="num" >{{ (+base.allProduce / 1000).toFixed(2) }}</span><span class="unit">（kWh）</span>
             </div>
             <div v-else><span class="num">{{ (+base.allProduce / 1000000).toFixed(2) }}</span><span class="unit">（MWh）</span></div>
-            <div>Lifetime</div>
+            <div>{{ $t('common.lifetime') }}</div>
           </common-flex>
         </el-col>
       </el-row>
@@ -49,12 +49,12 @@
       <el-col class="comp-overview-row-col" :xl="10" :md="11">
         <el-card class="comp-overview-row-col-card">
           <common-flex class="comp-overview-row-col-card-title" justify="space-between">
-            <div>Real-time power</div>
-            <el-tag style="background-color: #F8696A; border-color: #F8696A" v-if="!online" effect="dark">Off line</el-tag>
+            <div>{{ $t('common.realtimePower') }}</div>
+            <el-tag style="background-color: #F8696A; border-color: #F8696A" v-if="!online" effect="dark">{{ $t('common.offLine') }}</el-tag>
           </common-flex>
           <common-flex class="circle-container posr" justify="center">
             <common-flex justify="center" align="center" class="posa offline" v-if="!online">
-              <div class="posa">Off line</div>
+              <div class="posa">{{ $t('common.offLine') }}</div>
             </common-flex>
             <common-flex justify="center" align="center" class="circle-container-box posr" :style="{height: '90%'}">
 <!--              pv 线-->
@@ -70,15 +70,16 @@
 <!--              <div class="posa" :class="{middleBottomRight: base.pilePower}"></div>-->
               <div class="posr" style="z-index: 2">
                 <img class="middle-bg" :src="require('@img/site/inverter.svg')" alt="">
-                <div class="middle-text posa">Inverter</div>
+                <div class="middle-text posa">{{ $t('common.inverter') }}</div>
               </div>
               <common-flex direction="column" justify="center" align="center" class="circle top posa">
-<!--              <common-flex direction="column" justify="center" align="center" class="circle top posa" v-if="+base.pvExist">-->
+                <span class="posa pvAfter">{{ $t('common.pv') }}</span>
                 <img :src="require('@img/site/pv.svg')" alt="">
                 <div v-if="+base.solarPower < 1000">{{ base.solarPower }}<br><span>kW</span></div>
                 <div v-else>{{ (+base.solarPower / 1000).toFixed(2) }}<br><span>MW</span></div>
               </common-flex>
               <common-flex direction="column" justify="center" align="center" class="circle left posa">
+                <span class="posa batteryAfter">{{ $t('common.battery') }}</span>
                 <div class="posa soc">{{ base.soc || 0 }}%<br><span style="color: #666">SOC</span></div>
                 <img :src="require('@img/site/battery.svg')" alt="">
                 <template v-if="+base.storeConnectStatus === 1">
@@ -88,16 +89,19 @@
                 <div v-else>0<br><span>kW</span></div>
               </common-flex>
               <common-flex direction="column" justify="center" align="center" class="circle right posa">
+                <span class="posa gridAfter">{{ $t('common.grid') }}</span>
                 <img :src="require('@img/site/grid.svg')" alt="">
                 <div v-if="+base.electricPower < 1000">{{ base.electricPower }}<br><span>kW</span></div>
                 <div v-else>{{ (+base.electricPower / 1000).toFixed(2) }}<br><span>MW</span></div>
               </common-flex>
               <common-flex direction="column" justify="center" align="center" class="circle bottom-left posa">
+                <span class="posa loadAfter">{{ $t('common.load') }}</span>
                 <img :src="require('@img/site/load.svg')" alt="">
                 <div v-if="+base.devicePower < 1000">{{ base.devicePower }}<br><span>kW</span></div>
                 <div v-else>{{ (+base.devicePower / 1000).toFixed(2) }}<br><span>MW</span></div>
               </common-flex>
               <common-flex v-if="+base.pileNum" direction="column" justify="center" align="center" class="circle bottom-right posa">
+                <span class="posa pileAfter">{{ $t('common.charger') }}</span>
                 <div v-if="base.pilePower" class="bottom-right-dot posa"></div>
                 <img :src="require('@img/site/pile.svg')" alt="">
                 <div v-if="+base.pilePower < 1000">{{ base.pilePower }}<br><span>kW</span></div>
@@ -111,18 +115,18 @@
         <el-card class="comp-overview-row-col-card">
           <common-flex direction="column" style="height: 100%">
             <common-flex class="comp-overview-row-col-card-title" justify="space-between">
-              <div>Environmental Benefits</div>
+              <div>{{ $t('home.environmentalBenefits') }}</div>
             </common-flex>
             <common-flex class="comp-overview-row-col-card-content" direction="column" justify="space-around">
               <common-flex direction="column" align="center">
                 <div class="num">{{ base.emissionSaved }} <span class="unit">kg</span></div>
                 <img :src="require('@img/site/house.svg')" alt="">
-                <div class="des">CO₂ Emission Saved</div>
+                <div class="des">{{ $t('home.emissionSaved') }}</div>
               </common-flex>
               <common-flex direction="column" align="center">
                 <div class="num">{{ base.trees }}</div>
                 <img :src="require('@img/site/tree.svg')" alt="">
-                <div class="des">Equivalent Trees Planted</div>
+                <div class="des">{{ $t('home.equivalentTreesPlanted') }}</div>
               </common-flex>
             </common-flex>
           </common-flex>
@@ -132,7 +136,7 @@
         <el-card class="comp-overview-row-col-card">
           <common-flex direction="column" style="height: 100%">
             <common-flex class="comp-overview-row-col-card-title" justify="space-between">
-              <div>Local Weather</div>
+              <div>{{ $t('site.localWeather')}}</div>
             </common-flex>
             <common-flex class="comp-overview-row-col-card-content" direction="column" justify="space-around">
               <common-flex justify="space-around">
@@ -140,15 +144,15 @@
                 <div style="margin-right: 4.5vw">
                   <div class="comp-overview-row-col-card-content-temperature">{{ weatherData.currentWeather }}<br>
                     {{ weatherData.currentTemp }}°C<br>
-                    Feels like {{ weatherData.feelsLike }}°C<br>
+                    {{ $t('site.feelsLike') }} {{ weatherData.feelsLike }}°C<br>
                   </div>
-                  <span class="comp-overview-row-col-card-content-weather">Wind SE,{{ weatherData.windSpeed }}km/h<br>
-                    Humidity {{ weatherData.humidity }}%<br>
-                    Sunrise at
+                  <span class="comp-overview-row-col-card-content-weather">{{ $t('site.windSe') }},{{ weatherData.windSpeed }}km/h<br>
+                    {{ $t('site.humidity') }} {{ weatherData.humidity }}%<br>
+                    {{ $t('site.sunriseAt') }}
                     <span v-if="weatherData.sunrise">{{ sunriseUTC }}</span>
                     <span v-else>--</span>
                     <br>
-                    Sunset at
+                    {{ $t('site.sunsetAt') }}
                     <span v-if="weatherData.sunset">{{ sunsetUTC }}</span>
                     <span v-else>--</span>
                     <br>
@@ -173,7 +177,7 @@
         <common-flex style="height: 100%" direction="column" justify="space-between">
           <common-flex direction="column" class="comp-overview-chart-production posr">
             <common-flex style="width: 100%" align="center">
-              <div style="flex-shrink: 0"><p>Production</p></div>
+              <div style="flex-shrink: 0"><p>{{ $t('site.production') }}</p></div>
               <common-flex justify="flex-end" style="flex-grow: 1">
                 <el-radio-group v-model="dateType" style="margin-right: 5px" size="small">
                   <template v-for="item of dateRadioBtn">
@@ -199,9 +203,7 @@
             <div id="barProduction" class="barChart"></div>
             <common-flex class="barChart-total" align="center">
               <el-tooltip effect="dark" placement="top">
-                <span slot="content">
-                  Total system production, including solar<br>production and battery discharge
-                </span>
+                <span slot="content">{{ $t('site.productionQuestion') }}</span>
                 <img class="question" :src="require('@img/question.svg')" alt="">
               </el-tooltip>
               <div v-if="+totalPvGenerateEnergy < 1000">{{ totalPvGenerateEnergy }}<span>Wh</span></div>
@@ -210,7 +212,7 @@
             </common-flex>
           </common-flex>
           <common-flex direction="column" class="comp-overview-chart-consumption posr">
-            <div style="flex-shrink: 0"><p>Consumption</p></div>
+            <div style="flex-shrink: 0"><p>{{ $t('site.consumption') }}</p></div>
             <div id="barConsumption" class="barChart"></div>
             <div class="barChart-total" v-if="+consumpeTotal < 1000">{{ consumpeTotal }}<span>Wh</span></div>
             <div class="barChart-total" v-else-if="+consumpeTotal > 1000 && +consumpeTotal < 1000000">{{ (+consumpeTotal / 1000).toFixed(2) }}<span>kWh</span></div>
@@ -225,6 +227,7 @@
 <script>
 import {getWeather, homeChart, getNet} from "@/api/index"
 import * as echarts from 'echarts'
+import i18n from "@/i18n"
 import { weatherCodeEnum } from '@sub/utils/map'
 import { dateRadioBtn } from '@sub/utils/dict'
 
@@ -242,6 +245,131 @@ for (let i = 0; i < 25; i++) {
 }
 let xAxisDataConsu = []
 let data3 = [], data4 = []
+const option = {
+  color: ['#3daabf', '#8bea91'],
+  legend: {
+    data: [i18n.t('site.export'), i18n.t('site.used')],
+    right: '13%',
+  },
+  xAxis: {
+    data: [],
+    splitLine: { show: false },
+    splitArea: { show: false },
+    axisLine: {
+      lineStyle: {
+        color: '#E7E7E7'
+      }
+    },
+    axisLabel: {
+      textStyle: {
+        color: '#000'
+      }
+    },
+  },
+  yAxis: {
+    name: 'kWh',
+    type: 'value',
+    axisLine: {
+      show: false,
+    },
+    axisTick: {
+      show: false
+    },
+    splitLine: {
+      lineStyle: {
+        type: 'dashed'
+      }
+    }
+  },
+  grid: {
+    left: '5%',
+    right: 5,
+    bottom: '10%'
+  },
+  series: [
+    {
+      name: i18n.t('site.export'),
+      type: 'bar',
+      stack: 'production',
+      emphasis: emphasisStyle,
+      data: [],
+      barWidth: 12
+    },
+    {
+      name: i18n.t('site.used'),
+      type: 'bar',
+      stack: 'production',
+      emphasis: emphasisStyle,
+      data: [],
+      barWidth: 12
+    },
+  ]
+}
+
+const optionTwo = {
+  color: ['#8BC4EA', '#638AE3'],
+  legend: {
+    data: [i18n.t('site.selfConsumption'), i18n.t('site.import')],
+    right: '12%',
+  },
+  axisPointer: {
+    type: 'shadow'
+  },
+  xAxis: {
+    data: [],
+    splitLine: { show: false },
+    splitArea: { show: false },
+    axisLine: {
+      lineStyle: {
+        color: '#E7E7E7'
+      }
+    },
+    axisLabel: {
+      textStyle: {
+        color: '#000'
+      }
+    },
+  },
+  grid: {
+    left: '5%',
+    right: 5,
+    bottom: '10%'
+  },
+  yAxis: {
+    name: 'kWh',
+    type: 'value',
+    axisLine: {
+      show: false,
+    },
+    axisTick: {
+      show: false
+    },
+    splitLine: {
+      lineStyle: {
+        type: 'dashed'
+      }
+    }
+  },
+  series: [
+    {
+      name: i18n.t('site.selfConsumption'),
+      type: 'bar',
+      stack: 'two',
+      emphasis: emphasisStyle,
+      data: [],
+      barWidth: 12
+    },
+    {
+      name: i18n.t('site.import'),
+      type: 'bar',
+      stack: 'two',
+      emphasis: emphasisStyle,
+      data: [],
+      barWidth: 12
+    },
+  ]
+}
+
 export default {
   name: "comp-overview",
   props: {
@@ -326,129 +454,6 @@ export default {
       },
       totalPvGenerateEnergy: '',
       consumpeTotal: '',
-      option: {
-        color: ['#3daabf', '#8bea91'],
-        legend: {
-          data: ['Export', 'Used'],
-          right: '13%',
-        },
-        xAxis: {
-          data: [],
-          splitLine: { show: false },
-          splitArea: { show: false },
-          axisLine: {
-            lineStyle: {
-              color: '#E7E7E7'
-            }
-          },
-          axisLabel: {
-            textStyle: {
-              color: '#000'
-            }
-          },
-        },
-        yAxis: {
-          name: 'kWh',
-          type: 'value',
-          axisLine: {
-            show: false,
-          },
-          axisTick: {
-            show: false
-          },
-          splitLine: {
-            lineStyle: {
-              type: 'dashed'
-            }
-          }
-        },
-        grid: {
-          left: '5%',
-          right: 5,
-          bottom: '10%'
-        },
-        series: [
-          {
-            name: 'Export',
-            type: 'bar',
-            stack: 'production',
-            emphasis: emphasisStyle,
-            data: [],
-            barWidth: 12
-          },
-          {
-            name: 'Used',
-            type: 'bar',
-            stack: 'production',
-            emphasis: emphasisStyle,
-            data: [],
-            barWidth: 12
-          },
-        ]
-      },
-      optionTwo: {
-        color: ['#8BC4EA', '#638AE3'],
-        legend: {
-          data: ['Self Consumption', 'Import'],
-          right: '12%',
-        },
-        axisPointer: {
-          type: 'shadow'
-        },
-        xAxis: {
-          data: [],
-          splitLine: { show: false },
-          splitArea: { show: false },
-          axisLine: {
-            lineStyle: {
-              color: '#E7E7E7'
-            }
-          },
-          axisLabel: {
-            textStyle: {
-              color: '#000'
-            }
-          },
-        },
-        grid: {
-          left: '5%',
-          right: 5,
-          bottom: '10%'
-        },
-        yAxis: {
-          name: 'kWh',
-          type: 'value',
-          axisLine: {
-            show: false,
-          },
-          axisTick: {
-            show: false
-          },
-          splitLine: {
-            lineStyle: {
-              type: 'dashed'
-            }
-          }
-        },
-        series: [
-          {
-            name: 'Self Consumption',
-            type: 'bar',
-            stack: 'two',
-            emphasis: emphasisStyle,
-            data: [],
-            barWidth: 12
-          },
-          {
-            name: 'Import',
-            type: 'bar',
-            stack: 'two',
-            emphasis: emphasisStyle,
-            data: [],
-            barWidth: 12
-          },
-        ]
-      },
       barProduction: null,
       barConsumption: null,
       timer: null,
@@ -601,11 +606,11 @@ export default {
       }
       setTimeout(() => {
         if (this.dateType === 'week') {
-          this.option.series.forEach(i => i.barWidth = 16)
-          this.optionTwo.series.forEach(i => i.barWidth = 16)
+          option.series.forEach(i => i.barWidth = 16)
+          optionTwo.series.forEach(i => i.barWidth = 16)
         } else {
-          this.option.series.forEach(i => i.barWidth = 12)
-          this.optionTwo.series.forEach(i => i.barWidth = 12)
+          option.series.forEach(i => i.barWidth = 12)
+          optionTwo.series.forEach(i => i.barWidth = 12)
         }
         this.getChartData()
         this.getConsumptionData()
@@ -631,15 +636,15 @@ export default {
 
           const userPercent = 100 - exportPercent
 
-          this.option.legend.formatter = (name) => {
-            return name === 'Used' ? `${name}（${userPercent}%）` : `${name}（${exportPercent}%）`
+          option.legend.formatter = (name) => {
+            return name === i18n.t('site.used') ? `${name}（${userPercent}%）` : `${name}（${exportPercent}%）`
           }
         } else {
-          this.option.legend.formatter = (name) => {
+          option.legend.formatter = (name) => {
             return `${name}（--）`
           }
         }
-        this.option.xAxis.data = xAxisData = []
+        option.xAxis.data = xAxisData = []
         data1 = []
         data2 = []
         for (let i = 0; i < lineData.length; i++) {
@@ -673,15 +678,15 @@ export default {
         if (totalPvGenerateEnergy && totalPvGenerateEnergy !== '0.00') {
           const firstToatlPercent = ((firstToatl / totalPvGenerateEnergy) * 100).toFixed(0)
           const secondTotalPercent = 100 - firstToatlPercent
-          this.optionTwo.legend.formatter = (name) => {
-            return name === 'Self Consumption' ? `${name}（${firstToatlPercent}%）` : `${name}（${secondTotalPercent}%）`
+          optionTwo.legend.formatter = (name) => {
+            return name === i18n.t('site.selfConsumption') ? `${name}（${firstToatlPercent}%）` : `${name}（${secondTotalPercent}%）`
           }
         } else {
-          this.optionTwo.legend.formatter = (name) => {
+          optionTwo.legend.formatter = (name) => {
             return `${name}（--）`
           }
         }
-        this.optionTwo.xAxis.data = xAxisDataConsu = []
+        optionTwo.xAxis.data = xAxisDataConsu = []
         data3 = []
         data4 = []
         lineData.forEach((i) => {
@@ -695,10 +700,10 @@ export default {
     },
     initConsuOption() {
       // Import - netBuyEnergy Battery-storeDischargeEnergy Solar-pvUsedEnergy
-      this.optionTwo.series[0].data = data3
-      this.optionTwo.series[1].data = data4
-      this.optionTwo.xAxis.data = xAxisDataConsu
-      this.optionTwo.tooltip = {
+      optionTwo.series[0].data = data3
+      optionTwo.series[1].data = data4
+      optionTwo.xAxis.data = xAxisDataConsu
+      optionTwo.tooltip = {
         show: true,
         trigger: 'axis',
         axisPointer: {
@@ -755,7 +760,7 @@ export default {
             unit3 = 'Wh'
           }
           total = (+total).toFixed(2)
-          return `${v[0].name}<br>${res}<span style="margin-right: 14px"></span>Total：${total}${unit3}`
+          return `${v[0].name}<br>${res}<span style="margin-right: 14px"></span>${i18n.t('site.total')}：${total}${unit3}`
         },
         backgroundColor: '#fff',
         extraCssText: 'box-shadow: 0px 3px 6px 1px rgba(0,0,0,0.16);',
@@ -763,13 +768,13 @@ export default {
           color: '#000'
         }
       }
-      this.barConsumption.setOption(this.optionTwo)
+      this.barConsumption.setOption(optionTwo)
     },
     initOption() {
-      this.option.series[0].data = data1
-      this.option.series[1].data = data2
-      this.option.xAxis.data = xAxisData
-      this.option.tooltip = {
+      option.series[0].data = data1
+      option.series[1].data = data2
+      option.xAxis.data = xAxisData
+      option.tooltip = {
         show: true,
         trigger: 'axis',
         axisPointer: {
@@ -826,7 +831,7 @@ export default {
             unit3 = 'Wh'
           }
           total = (+total).toFixed(2)
-          return `${v[0].name}<br>${res}<span style="margin-right: 14px"></span>Total：${total}${unit3}`
+          return `${v[0].name}<br>${res}<span style="margin-right: 14px"></span>${i18n.t('site.total')}：${total}${unit3}`
         },
         backgroundColor: '#fff',
         extraCssText: 'box-shadow: 0px 3px 6px 1px rgba(0,0,0,0.16);',
@@ -834,7 +839,7 @@ export default {
           color: '#000'
         }
       }
-      this.barProduction.setOption(this.option)
+      this.barProduction.setOption(option)
     },
   }
 }
@@ -953,6 +958,8 @@ export default {
          width: 100%;
          height: 90%;
          .middle-text {
+           width: 100px;
+           text-align: center;
            bottom: 10%;
            left: 50%;
            transform: translateX(-50%);
@@ -1213,10 +1220,10 @@ export default {
              top: 0;
              left: 50%;
              transform: translateX(-50%);
-             &::before {
-               content: 'PV';
-               position: absolute;
-               left: -28px;
+             .pvAfter {
+               top: 50%;
+               left: -36px;
+               transform: translateY(-50%);
                @include nFont(16 #000 700);
                @media screen and (max-width: 1334px) {
                  font-size: 12px;
@@ -1227,10 +1234,10 @@ export default {
              top: 50%;
              left: 0;
              transform: translateY(-50%);
-             &::before {
-               content: 'Battery';
-               position: absolute;
+             .batteryAfter {
+               left: 50%;
                bottom: -28px;
+               transform: translateX(-50%);
                @include nFont(16 #000 700);
                @media screen and (max-width: 1334px) {
                  font-size: 12px;
@@ -1247,10 +1254,10 @@ export default {
              top: 50%;
              right: 0;
              transform: translateY(-50%);
-             &::before {
-               content: 'Grid';
-               position: absolute;
+             .gridAfter {
+               left: 50%;
                bottom: -28px;
+               transform: translateX(-50%);
                @include nFont(16 #000 700);
                @media screen and (max-width: 1334px) {
                  font-size: 12px;
@@ -1261,10 +1268,10 @@ export default {
            .bottom-left {
              bottom: 0;
              left: 25%;
-             &::before {
-               content: 'Load';
-               position: absolute;
+             .loadAfter {
+               left: 50%;
                bottom: -28px;
+               transform: translateX(-50%);
                @include nFont(16 #000 700);
                @media screen and (max-width: 1334px) {
                  font-size: 12px;
@@ -1275,12 +1282,12 @@ export default {
            .bottom-right {
              bottom: 0;
              right: 25%;
-             &::before {
+             .pileAfter {
                width: 120px;
                text-align: center;
-               content: 'EV Charger';
-               position: absolute;
+               left: 50%;
                bottom: -28px;
+               transform: translateX(-50%);
                @include nFont(16 #000 700);
                @media screen and (max-width: 1334px) {
                  font-size: 12px;

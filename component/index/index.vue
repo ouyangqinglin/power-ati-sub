@@ -5,7 +5,7 @@
         <el-col :xl="leftXl" :md="leftMd">
           <el-card>
             <common-flex style="height: 100%" direction="column">
-              <div class="content-title">Production Overview</div>
+              <div class="content-title">{{ $t('home.productOverview')}}}</div>
               <common-flex class="pages-index-overview" align="center" direction="column">
                 <common-flex justify="center" align="center" class="pages-index-overview-img">
                   <img :src="require('@img/home/pro.svg')" alt="">
@@ -14,57 +14,57 @@
                   <div class="pages-index-overview-info-left name-des">
                     <template v-if="+homeData.dayProduce < 1000">
                       <div class="num">{{ homeData.dayProduce }}</div>
-                      <span>(Wh)</span><br>Today
+                      <span>(Wh)</span><br>{{ $t('common.today') }}
                     </template>
                     <template v-else-if="+homeData.dayProduce > 1000 && +homeData.dayProduce < 1000000">
                       <div class="num">{{ (+homeData.dayProduce / 1000).toFixed(2) }}</div>
-                      <span>(kWh)</span><br>Today
+                      <span>(kWh)</span><br>{{ $t('common.today') }}
                     </template>
                     <template v-else>
                       <div class="num">{{ (+homeData.dayProduce / 1000000).toFixed(2) }}</div>
-                      <span>(MWh)</span><br>Today
+                      <span>(MWh)</span><br>{{ $t('common.today') }}
                     </template>
                   </div>
                   <div class="name-des">
                     <template v-if="+homeData.monthProduce < 1000">
                       <div class="num">{{ +(homeData.monthProduce).toFixed(2) }}</div>
-                      <span>(Wh)</span><br>This Month
+                      <span>(Wh)</span><br>{{ $t('common.thisMonth') }}
                     </template>
                     <template v-else-if="+homeData.monthProduce > 1000 && +homeData.monthProduce < 1000000">
                       <div class="num">{{ (+homeData.monthProduce / 1000).toFixed(2) }}</div>
-                      <span>(kWh)</span><br>This Month
+                      <span>(kWh)</span><br>{{ $t('common.thisMonth') }}
                     </template>
                     <template v-else>
                       <div class="num">{{ (+homeData.monthProduce / 1000000).toFixed(2) }}</div>
-                      <span>(MWh)</span><br>This Month
+                      <span>(MWh)</span><br>{{ $t('common.thisMonth') }}
                     </template>
                   </div>
                   <div class="pages-index-overview-info-left name-des">
                     <template v-if="+homeData.yearProduce < 1000">
                       <div class="num">{{ (+homeData.yearProduce).toFixed(2) }}</div>
-                      <span>(Wh)</span><br>This Year
+                      <span>(Wh)</span><br>{{ $t('common.thisYear') }}
                     </template>
                     <template v-else-if="+homeData.yearProduce > 1000 && +homeData.yearProduce < 1000000">
                       <div class="num">{{ (+homeData.yearProduce / 1000).toFixed(2) }}</div>
-                      <span>(kWh)</span><br>This Year
+                      <span>(kWh)</span><br>{{ $t('common.thisYear') }}
                     </template>
                     <template v-else>
                       <div class="num">{{ (+homeData.yearProduce / 1000000).toFixed(2) }}</div>
-                      <span>(MWh)</span><br>This Year
+                      <span>(MWh)</span><br>{{ $t('common.thisYear') }}
                     </template>
                   </div>
                   <div class="name-des">
                     <template v-if="+homeData.allProduce < 1000">
                       <div class="num">{{ (+homeData.allProduce).toFixed(2) }}</div>
-                      <span>(Wh)</span><br>Lifetime
+                      <span>(Wh)</span><br>{{ $t('common.lifetime') }}
                     </template>
                     <template v-else-if="+homeData.allProduce > 1000 && +homeData.allProduce < 1000000">
                       <div class="num">{{ (+homeData.allProduce / 1000).toFixed(2) }}</div>
-                      <span>(kWh)</span><br>Lifetime
+                      <span>(kWh)</span><br>{{ $t('common.lifetime') }}
                     </template>
                     <template v-else>
                       <div class="num">{{ (+homeData.allProduce / 1000000).toFixed(2) }}</div>
-                      <span>(MWh)</span><br>Lifetime
+                      <span>(MWh)</span><br>{{ $t('common.lifetime') }}
                     </template>
                   </div>
                 </common-flex>
@@ -74,29 +74,29 @@
                       <div>
                         <template v-if="+homeData.dayProduce < 1000">
                           <div class="num">{{ homeData.dayProduce }}</div>
-                          <span>(Wh)</span><br>Today
+                          <span>(Wh)</span><br>{{ $t('common.today') }}
                         </template>
                         <template v-else-if="+homeData.dayProduce > 1000 && +homeData.dayProduce < 1000000">
                           <div class="num">{{ (+homeData.dayProduce / 1000).toFixed(2) }}</div>
-                          <span>(kWh)</span><br>Today
+                          <span>(kWh)</span><br>{{ $t('common.today') }}
                         </template>
                         <template v-else-if="+homeData.dayProduce > 1000000">
                           <div class="num">{{ (+homeData.dayProduce / 1000000).toFixed(2) }}</div>
-                          <span>(MWh)</span><br>Today
+                          <span>(MWh)</span><br>{{ $t('common.today') }}
                         </template>
                       </div>
                       <div style="margin-top: 16px">
                         <template v-if="+homeData.yearProduce < 1000">
                           <div class="num">{{ (+homeData.yearProduce).toFixed(2) }}</div>
-                          <span>(Wh)</span><br>This Year
+                          <span>(Wh)</span><br>{{ $t('common.thisYear') }}
                         </template>
                         <template v-else-if="+homeData.yearProduce > 1000 && +homeData.yearProduce < 1000000">
                           <div class="num">{{ (+homeData.yearProduce / 1000).toFixed(2) }}</div>
-                          <span>(kWh)</span><br>This Year
+                          <span>(kWh)</span><br>{{ $t('common.thisYear') }}
                         </template>
                         <template v-else>
                           <div class="num">{{ (+homeData.yearProduce / 1000000).toFixed(2) }}</div>
-                          <span>(MWh)</span><br>This Year
+                          <span>(MWh)</span><br>{{ $t('common.thisYear') }}
                         </template>
                       </div>
                     </div>
@@ -104,29 +104,29 @@
                       <div>
                         <template v-if="+homeData.monthProduce < 1000">
                           <div class="num">{{ homeData.monthProduce }}</div>
-                          <span>(Wh)</span><br>This Month
+                          <span>(Wh)</span><br>{{ $t('common.thisMonth') }}
                         </template>
                         <template v-else-if="+homeData.monthProduce > 1000 && +homeData.monthProduce < 1000000">
                           <div class="num">{{ (+homeData.monthProduce / 1000).toFixed(2) }}</div>
-                          <span>(kWh)</span><br>This Month
+                          <span>(kWh)</span><br>{{ $t('common.thisMonth') }}
                         </template>
                         <template v-else>
                           <div class="num">{{ (+homeData.monthProduce / 1000000).toFixed(2) }}</div>
-                          <span>(MWh)</span><br>This Month
+                          <span>(MWh)</span><br>{{ $t('common.thisMonth') }}
                         </template>
                       </div>
                       <div style="margin-top: 16px">
                         <template v-if="+homeData.allProduce < 1000">
                           <div class="num">{{ (+homeData.allProduce).toFixed(2) }}</div>
-                          <span>(Wh)</span><br>Lifetime
+                          <span>(Wh)</span><br>{{ $t('common.lifetime') }}
                         </template>
                         <template v-else-if="+homeData.allProduce > 1000 && +homeData.allProduce < 1000000">
                           <div class="num">{{ (+homeData.allProduce / 1000).toFixed(2) }}</div>
-                          <span>(kWh)</span><br>Lifetime
+                          <span>(kWh)</span><br>{{ $t('common.lifetime') }}
                         </template>
                         <template v-else>
                           <div class="num">{{ (+homeData.allProduce / 1000000).toFixed(2) }}</div>
-                          <span>(MWh)</span><br>Lifetime
+                          <span>(MWh)</span><br>{{ $t('common.lifetime') }}
                         </template>
                       </div>
                     </div>
@@ -139,7 +139,7 @@
         <el-col :xl="7" :md="6">
           <el-card>
             <common-flex style="height: 100%" direction="column">
-              <div class="content-title">Site Info</div>
+              <div class="content-title">{{ $t('home.siteInfo') }}</div>
               <common-flex class="pages-index-overview" direction="column" align="center">
                 <common-flex justify="center" class="pages-index-overview-img">
                   <img :src="require('@img/home/site.svg')" alt="">
@@ -147,7 +147,7 @@
                 <common-flex justify="center" align="center" style="height: 100%" class="pages-index-overview-info">
                   <div class="name-des">
                     <div class="num">{{ homeData.siteNum || '--' }}</div><span></span>
-                    <br>Total Sites
+                    <br>{{ $t('home.totalSites') }}
                   </div>
                 </common-flex>
               </common-flex>
@@ -157,8 +157,8 @@
         <el-col :xl="7" :md="6" v-if="+($store.state.user.userType) !== 1">
           <el-card>
             <common-flex style="height: 100%" direction="column">
-              <div class="content-title" v-if="homeData.agent">Agency: {{ $store.state.user.agency }}</div>
-              <div class="content-title" v-else>Customer</div>
+              <div class="content-title" v-if="homeData.agent">{{ $t('common.agency') }}: {{ $store.state.user.agency }}</div>
+              <div class="content-title" v-else>{{ $t('common.customer') }}</div>
               <common-flex class="pages-index-overview" align="center" direction="column">
                 <common-flex justify="center" align="center" class="pages-index-overview-img">
                   <img :src="require('@img/home/custom.svg')" alt="">
@@ -166,17 +166,17 @@
                 <common-flex v-if="homeData.agent" direction="column" justify="center" class="pages-index-overview-info">
                   <div class="name-des">
                     <div class="num">{{ homeData.consumerNum || '--' }}</div><span></span>
-                    <br>Total Customers
+                    <br>{{ $t('home.totalCustomers') }}
                   </div>
                 </common-flex>
                 <common-flex v-else justify="space-around" align="center" style="height: 100%" class="pages-index-overview-info">
                   <div class="pages-index-overview-info-left name-des">
                     <div class="num">{{  homeData.agentNum || '--' }}</div>
-                    <br>Total Agencies
+                    <br>{{ $t('home.totalAgencies') }}
                   </div>
                   <div class="pages-index-overview-info-left name-des">
                     <div class="num">{{ homeData.consumerNum || '--' }}</div>
-                    <br>Total Customers
+                    <br>{{ $t('home.totalCustomers') }}
                   </div>
                 </common-flex>
               </common-flex>
@@ -189,7 +189,7 @@
       <el-row :gutter="16">
         <el-col :xl="13" :md="15" :sm="16">
           <el-card class="rank-card">
-            <div class="chart-header">Today's Site Ranking  (Top 3)</div>
+            <div class="chart-header">{{ $t('home.todaySiteRanking') }}</div>
             <div class="rankChart" v-if="rankData.length" id="rankChart"></div>
             <common-flex justify="center" align="center" class="rankChart" v-else>
               <no-data />
@@ -198,7 +198,7 @@
         </el-col>
         <el-col :xl="11" :md="9" :sm="8">
           <el-card class="benefit-card">
-            <div class="chart-header">Environmental Benefits</div>
+            <div class="chart-header">{{ $t('home.environmentalBenefits') }}</div>
             <common-flex justify="center" align="center" class="benefit">
               <common-flex justify="center" class="posr">
                 <img class="benefit-bg posa" :src="require('@img/home/benefit-bg.svg')" alt="">
@@ -206,7 +206,7 @@
                 <common-flex direction="column" justify="center" class="benefit-item" style="padding-right: 25px">
                   <common-flex style="height: 100%" direction="column" align="center">
                     <common-flex direction="column" align="center">
-                      <div class="des ellipsis" title="CO₂ Emission Saved">CO₂ Emission Saved</div>
+                      <div class="des ellipsis" title="CO₂ Emission Saved">{{ $t('home.emissionSaved') }}</div>
                       <div class="val" style="margin-bottom: 4px">{{ homeData.emissionSaved || '-- ' }}<span> kg</span></div>
                     </common-flex>
                     <img class="benefit-left" :src="require('@img/home/benefit-left.svg')" alt="">
@@ -218,7 +218,7 @@
                 <common-flex direction="column" class="benefit-item" style="padding-left: 25px">
                   <common-flex style="height: 100%" direction="column" align="center">
                     <common-flex direction="column" align="center">
-                      <div class="des ellipsis" title="Equivalent Trees Planted">Equivalent Trees Planted</div>
+                      <div class="des ellipsis" title="Equivalent Trees Planted">{{ $t('home.equivalentTreesPlanted') }}</div>
                       <div class="val" style="margin-top: 10px">{{ homeData.trees || '--' }}</div>
                     </common-flex>
                     <img class="benefit-right" :src="require('@img/home/benefit-right.svg')" alt="">

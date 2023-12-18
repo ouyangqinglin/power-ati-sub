@@ -40,8 +40,8 @@
           </el-form-item>
           <common-flex style="flex-grow: 1; flex-shrink: 0" justify="flex-end" align="flex-end">
             <el-form-item>
-              <el-button type="primary" @click="handleQuery">Query</el-button>
-              <el-button @click="resetQuery">Reset</el-button>
+              <el-button type="primary" @click="handleQuery">{{ $t('common.query') }}</el-button>
+              <el-button @click="resetQuery">{{ $t('common.reset') }}</el-button>
             </el-form-item>
           </common-flex>
         </common-flex>
@@ -51,7 +51,7 @@
       <common-flex justify="space-between">
         <div class="pages-user-agency-card-title">Agency List</div>
         <div>
-          <el-button v-hasPermi="['ati:user:agency:add']" type="primary" @click="openToast(1)">Add</el-button>
+          <el-button v-hasPermi="['ati:user:agency:add']" type="primary" @click="openToast(1)">{{ $t('common.add') }}</el-button>
         </div>
       </common-flex>
       <el-table v-loading="loading" :data="agencyList"
@@ -90,12 +90,12 @@
               type="text"
               @click="openToast(0, scope.row)"
               v-hasPermi="['ati:user:agency:edit']"
-            >Modify</el-button>
+            >{{ $t('common.modify') }}</el-button>
             <el-button
               type="text"
               @click="handleDelete(scope.row)"
               v-hasPermi="['ati:user:agency:remove']"
-            >Delete</el-button>
+            >{{ $t('common.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>

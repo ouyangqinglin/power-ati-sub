@@ -29,9 +29,9 @@
         </el-table-column>
         <el-table-column fixed="right" label="Operat" align="center" class-name="small-padding fixed-width" min-width="100">
           <template slot-scope="scope">
-            <el-button v-hasPermi="['ati:data:view']" type="text" @click="changeShow(1, scope.row.id)">Detail</el-button>
-            <el-button v-if="+scope.row.type !== 1" v-hasPermi="['ati:data:edit']" type="text" @click="changeShow(2, scope.row.id)">Modify</el-button>
-            <el-button v-if="+scope.row.type !== 1" v-hasPermi="['ati:data:remove']" type="text" @click="deleteItem(scope.row.id)">Delete</el-button>
+            <el-button v-hasPermi="['ati:data:view']" type="text" @click="changeShow(1, scope.row.id)">{{ $t('common.detail') }}</el-button>
+            <el-button v-if="+scope.row.type !== 1" v-hasPermi="['ati:data:edit']" type="text" @click="changeShow(2, scope.row.id)">{{ $t('common.modify') }}</el-button>
+            <el-button v-if="+scope.row.type !== 1" v-hasPermi="['ati:data:remove']" type="text" @click="deleteItem(scope.row.id)">{{ $t('common.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>

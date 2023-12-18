@@ -3,10 +3,10 @@
     <el-card style="height: 100%">
       <common-flex justify="space-between">
         <h3>Contact Info</h3>
-        <div v-if="edit"><el-button type="primary" @click="edit = false">Edit</el-button></div>
+        <div v-if="edit"><el-button type="primary" @click="edit = false">{{ $t('common.edit') }}</el-button></div>
         <div v-else>
-          <el-button type="primary" @click="save">Save</el-button>
-          <el-button @click="cancel">Cancel</el-button>
+          <el-button type="primary" @click="save">{{ $t('common.save') }}</el-button>
+          <el-button @click="cancel">{{ $t('common.cancel') }}</el-button>
         </div>
       </common-flex>
       <div class="pages-aboutus-main">
@@ -49,16 +49,16 @@ export default {
       },
       rule: {
         address: [
-          { required: true, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
         email: [
-          { required: true, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
         salesEmail: [
-          { required: true, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
         phone: [
-          { required: true, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
       }
     }

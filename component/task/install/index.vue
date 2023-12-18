@@ -22,8 +22,8 @@
           </el-form-item>
           <common-flex style="flex-grow: 1; flex-shrink: 0" justify="flex-end">
             <el-form-item>
-              <el-button type="primary" @click="handleQuery">Query</el-button>
-              <el-button @click="resetQuery">Reset</el-button>
+              <el-button type="primary" @click="handleQuery">{{ $t('common.query') }}</el-button>
+              <el-button @click="resetQuery">{{ $t('common.reset') }}</el-button>
             </el-form-item>
           </common-flex>
         </common-flex>
@@ -64,7 +64,7 @@
       <common-flex justify="space-between">
         <div class="table-title">Task List</div>
         <div>
-          <el-button @click="openAdd" type="primary" v-hasPermi="['ati:task:install:add']">Add</el-button>
+          <el-button @click="openAdd" type="primary" v-hasPermi="['ati:task:install:add']">{{ $t('common.add') }}</el-button>
         </div>
       </common-flex>
       <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
@@ -125,21 +125,21 @@
             <el-button
               type="text"
             >
-              <router-link v-hasPermi="['ati:task:install:view']" :to="`/task/install/view/${scope.row.id}`">Detail</router-link>
+              <router-link v-hasPermi="['ati:task:install:view']" :to="`/task/install/view/${scope.row.id}`">{{ $t('common.detail') }}</router-link>
             </el-button>
             <el-button
               :disabled="+scope.row.status > 1"
               type="text"
             >
-              <router-link v-if="!(+scope.row.status > 1)" v-hasPermi="['ati:task:install:edit']" :to="`/task/install/modify/${scope.row.id}`">Modify</router-link>
-              <span v-else>Modify</span>
+              <router-link v-if="!(+scope.row.status > 1)" v-hasPermi="['ati:task:install:edit']" :to="`/task/install/modify/${scope.row.id}`">{{ $t('common.modify') }}</router-link>
+              <span v-else>{{ $t('common.modify') }}</span>
             </el-button>
             <el-button
               :disabled="+scope.row.status > 1"
               type="text"
               @click="handleDelete(scope.row)"
               v-hasPermi="['ati:task:install:remove']"
-            >Delete</el-button>
+            >{{ $t('common.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>

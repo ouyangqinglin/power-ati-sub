@@ -3,6 +3,7 @@ import menu from './menu'
 import login from './login'
 import site from './site'
 import dict from './dict'
+import home from './home'
 
 export default {
   ...common,
@@ -10,4 +11,5 @@ export default {
   ...login,
   ...site,
   ...dict,
+  ...home,
 }

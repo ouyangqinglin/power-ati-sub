@@ -40,8 +40,8 @@
           </el-col>
           <el-col :span="8">
             <common-flex justify="flex-end">
-              <el-button type="primary" @click="handleQuery">Query</el-button>
-              <el-button @click="resetQuery">Reset</el-button>
+              <el-button type="primary" @click="handleQuery">{{ $t('common.query') }}</el-button>
+              <el-button @click="resetQuery">{{ $t('common.reset') }}</el-button>
             </common-flex>
           </el-col>
         </el-row>
@@ -50,7 +50,7 @@
     <el-card style="margin-top: 24px">
       <common-flex justify="space-between">
         <p>List</p>
-        <div v-hasPermi="['ati:remote:add']"><el-button type="primary" @click="show = true">Add</el-button></div>
+        <div v-hasPermi="['ati:remote:add']"><el-button type="primary" @click="show = true">{{ $t('common.add') }}</el-button></div>
       </common-flex>
       <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
                 v-loading="loading" :data="list"
@@ -104,8 +104,8 @@
         <el-table-column label="Upload by" prop="updateBy" min-width="100"></el-table-column>
         <el-table-column fixed="right" label="Operation" min-width="130">
           <template slot-scope="{ row }">
-            <el-button type="text"><router-link :to="`/remote/details/${row.id}`">Details</router-link></el-button>
-            <el-button type="text" v-hasPermi="['ati:version:remove']" @click="handleDelete(row)">Delete</el-button>
+            <el-button type="text"><router-link :to="`/remote/details/${row.id}`">{{ $t('common.detail') }}</router-link></el-button>
+            <el-button type="text" v-hasPermi="['ati:version:remove']" @click="handleDelete(row)">{{ $t('common.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>

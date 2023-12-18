@@ -55,8 +55,8 @@
           </common-flex>
           <common-flex style="flex-grow: 1; flex-shrink: 0" justify="flex-end">
             <el-form-item>
-              <el-button type="primary" @click="handleQuery">Query</el-button>
-              <el-button @click="resetQuery">Reset</el-button>
+              <el-button type="primary" @click="handleQuery">{{ $t('common.query') }}</el-button>
+              <el-button @click="resetQuery">{{ $t('common.reset') }}</el-button>
             </el-form-item>
           </common-flex>
         </common-flex>
@@ -66,7 +66,7 @@
       <common-flex justify="space-between">
         <div class="pages-user-account-card-title">User List</div>
         <div>
-          <el-button type="primary" @click="show = true" v-hasPermi="['ati:user:account:add']">Add</el-button>
+          <el-button type="primary" @click="show = true" v-hasPermi="['ati:user:account:add']">{{ $t('common.add') }}</el-button>
         </div>
       </common-flex>
       <el-table v-loading="loading" :data="atiUserList"
@@ -119,12 +119,12 @@
               type="text"
               @click="openModify(scope.row)"
               v-hasPermi="['ati:user:account:edit']"
-            >Modify</el-button>
+            >{{ $t('common.modify') }}</el-button>
             <el-button
               type="text"
               @click="handleDelete(scope.row)"
               v-hasPermi="['ati:user:account:remove']"
-            >Delete</el-button>
+            >{{ $t('common.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
