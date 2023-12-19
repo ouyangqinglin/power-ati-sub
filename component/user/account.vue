@@ -97,7 +97,7 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Remarks" align="center" show-overflow-tooltip prop="remark" />
+        <el-table-column label="Remarks" align="center" show-overflow-tooltip prop="remark" min-width="120" />
         <el-table-column label="Creation Time" align="center" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(row.createTime, timeZone) }}</span>

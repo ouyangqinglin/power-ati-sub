@@ -7,6 +7,7 @@ export default {
   'common.submit': '提交',
   'common.reset': '重置',
   'common.succeeded': '成功！',
+  'common.success': '操作成功!',
   'common.city': '城市',
   'common.province': '省份',
   'common.country': '国家/地区',
@@ -48,4 +49,10 @@ export default {
   'common.load': '负载',
   'common.charger': '充电桩',
   'common.battery': '电池',
+  'common.nickName': '别名',
+  'common.address': '地址',
+  'common.timeZone': '时区',
+  'common.userName': '用户名',
+  'common.email': '邮箱',
+
 }

@@ -2,8 +2,8 @@
   <div class="comp-site-info">
     <el-card class="comp-site-info-card">
       <common-flex justify="space-between">
-        <div class="comp-site-info-card-title">Site Profile</div>
-        <el-button v-has-permi="['ati:site:edit']" type="primary" @click="modify">Edit</el-button>
+        <div class="comp-site-info-card-title">{{ $t('site.siteProfile') }}</div>
+        <el-button v-has-permi="['ati:site:edit']" type="primary" @click="modify">{{ $t('common.edit') }}</el-button>
       </common-flex>
       <el-form class="comp-site-info-card-form" :model="base" disabled>
         <el-form-item :prop="i.prop" v-for="i of formList" :key="i.prop">
@@ -19,22 +19,22 @@
             <el-input v-model="base[i.prop]"></el-input>
           </template>
         </el-form-item>
-        <el-form-item label="Time Zone" prop="timeZone"><el-input v-model="base.timeZone"></el-input></el-form-item>
-        <el-form-item v-if="brandShow" label="Product brand" prop="brand"><el-input v-model="['', 'Yoho', 'Jasper'][+base.brand]"></el-input></el-form-item>
+        <el-form-item :label="$t('common.timeZone')" prop="timeZone"><el-input v-model="base.timeZone"></el-input></el-form-item>
+        <el-form-item v-if="brandShow" :label="$t('site.productBrand')" prop="brand"><el-input v-model="['', 'Yoho', 'Jasper'][+base.brand]"></el-input></el-form-item>
       </el-form>
     </el-card>
     <el-card class="comp-site-info-card">
-      <div class="comp-site-info-card-title">Site Correlation Details</div>
+      <div class="comp-site-info-card-title">{{ $t('site.siteCorrelationDetails') }}</div>
       <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}" class="comp-site-info-card-table" :data="base.userList">
-        <el-table-column type="index" width="80" label="No"></el-table-column>
-        <el-table-column label="User Name" prop="userName" show-tooltip-when-overflow />
-        <el-table-column label="E-mail" prop="email" />
-        <el-table-column label="Phone" prop="phone" />
+        <el-table-column type="index" width="80" :label="$t('common.no')"></el-table-column>
+        <el-table-column :label="$t('common.userName')" prop="userName" show-tooltip-when-overflow />
+        <el-table-column :label="$t('common.email')" prop="email" />
+        <el-table-column :label="$t('common.phone')" prop="phone" />
       </el-table>
     </el-card>
-    <el-dialog :visible.sync="show" title="Modify"
+    <el-dialog :visible.sync="show" :title="$t('common.modify')"
                :before-close="beforeClose"
-               :close-on-click-modal ="false"
+               :close-on-click-modal="false"
                width="70%">
       <el-form class="comp-site-info-card-form" :model="copyBase" :rules="rules" ref="modifyForm">
         <el-form-item :prop="i.prop" v-for="(i, index) of formList" :key="i.prop">
@@ -64,12 +64,12 @@
             <el-input :disabled="index > 0 && index < 5" v-model="copyBase[i.prop]"></el-input>
           </template>
         </el-form-item>
-        <el-form-item label="Time Zone" style="margin-right: 60px" prop="timeZone">
+        <el-form-item :label="$t('common.timeZone')" style="margin-right: 60px" prop="timeZone">
           <el-select style="width: 100%" v-model="copyBase.timeZone">
             <el-option v-for="i of timeZoneArr" :label="i.label" :value="i.timeZone" :key="i.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Product brand：" prop="brand" v-if="brandShow">
+        <el-form-item :label="$t('site.productBrand')" prop="brand" v-if="brandShow">
           <el-select style="width: 100%" v-model="copyBase.brand" placeholder="Please select">
             <el-option v-for="i of brandOption" :value="i.value" :label="i.label" :key="i.value"></el-option>
           </el-select>
@@ -77,8 +77,8 @@
       </el-form>
       <div class="mapBox" id="mapBox" />
       <common-flex style="margin-top: 30px" justify="center">
-        <el-button type="primary" @click="submit">Submit</el-button>
-        <el-button @click="beforeClose">Cancel</el-button>
+        <el-button type="primary" @click="submit">{{ $t('common.submit') }}</el-button>
+        <el-button @click="beforeClose">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-dialog>
   </div>
@@ -87,11 +87,11 @@
 <script>
 import { updateSite, timeZoneList } from "@/api/site"
 import { Loader } from "@googlemaps/js-api-loader"
-import {siteStatus} from "@sub/utils/dict";
+import {siteStatus} from "@sub/utils/dict"
 import mapKey from '@/config/map'
 const loader = new Loader({
-  apiKey: mapKey.mapKey, //之前的key
-  version: "weekly", //版本
+  apiKey: mapKey.mapKey,
+  version: "weekly",
   libraries: ["places"],
 })
 let address = ''
@@ -124,13 +124,13 @@ export default {
       proList: [],
       rules: {
         siteName: [
-          { required: true, trigger: ['blur', 'change'], message: 'Please enter' }
+          { required: true, trigger: ['blur', 'change'], message: this.$t('common.pleaseEnter') }
         ],
         address: [
-          { required: true, trigger: ['blur', 'change'], message: 'Please enter' }
+          { required: true, trigger: ['blur', 'change'], message: this.$t('common.pleaseEnter') }
         ],
         region: [
-          { required: true, trigger: ['blur', 'change'], message: 'Please enter' }
+          { required: true, trigger: ['blur', 'change'], message: this.$t('common.pleaseEnter') }
         ],
       },
       region: {
@@ -140,35 +140,35 @@ export default {
       },
       formList: [
         {
-          label: 'Site Name',
+          label: this.$t('site.name'),
           prop: 'siteName'
         },
         {
-          label: 'Nick Name',
+          label: this.$t('common.nickName'),
           prop: 'nickName'
         },
         {
-          label: 'Site Code',
+          label: this.$t('site.code'),
           prop: 'siteCode'
         },
         {
-          label: 'Agency',
+          label: this.$t('common.agency'),
           prop: 'agency'
         },
         {
-          label: 'Time of Installed',
+          label: this.$t('common.installedTime'),
           prop: 'installTime'
         },
         {
-          label: 'Installation Status',
+          label: this.$t('site.installationStatus'),
           prop: 'siteStatus'
         },
         {
-          label: 'Address',
+          label: this.$t('common.address'),
           prop: 'address'
         },
         {
-          label: 'Region',
+          label: this.$t('site.region'),
           prop: 'region'
         },
       ],
@@ -310,7 +310,7 @@ export default {
               if (+res.code === 200) {
                 this.$message({
                   type: 'success',
-                  message: 'Succeeded!'
+                  message: this.$t('common.success')
                 })
                 this.$emit('refresh')
                 this.beforeClose()
@@ -332,7 +332,6 @@ export default {
       }
       this.service.getDetails(request, (res, status) => {
         if (status === this.google.maps.places.PlacesServiceStatus.OK) {
-          console.log('details', res)
           this.lat = res.geometry.location.lat()
           this.lng = res.geometry.location.lng()
           this.marker.setPosition(res.geometry.location)

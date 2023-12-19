@@ -7,6 +7,7 @@ export default {
   'common.submit': 'Submit',
   'common.reset': 'Reset',
   'common.succeeded': 'Succeeded!',
+  'common.success': 'Succeeded!',
   'common.city': 'City',
   'common.province': 'Province',
   'common.country': 'Country/Area',
@@ -48,6 +49,11 @@ export default {
   'common.load': 'Load',
   'common.charger': 'EV Charger',
   'common.battery': 'Battery',
+  'common.nickName': 'Nick Name',
+  'common.address': 'Address',
+  'common.timeZone': 'Time Zone',
+  'common.userName': 'User Name',
+  'common.email': 'E-mail',
 
 
 }

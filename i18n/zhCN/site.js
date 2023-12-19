@@ -29,6 +29,8 @@ export default {
   'site.total': '总计',
   'site.selfConsumption': 'Self Consumption',
   'site.import': 'Import',
+  'site.siteCorrelationDetails': 'Site Correlation Details',
+  'site.siteProfile': 'Site Profile',
 
 
 }
