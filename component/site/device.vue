@@ -3,7 +3,7 @@
     <el-card class="comp-device-card">
       <common-flex align="center" class="comp-device-card-header">
         <div class="title-text">Device Info</div>
-        <common-flex auto justify="flex-end">
+        <common-flex auto justify="flex-end" v-has-permi="['ati:site:device']">
           <el-button type="primary" @click="addDevice">Add</el-button>
           <el-button @click="delShow = true">Delete</el-button>
         </common-flex>
