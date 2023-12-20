@@ -6,7 +6,7 @@
         <div v-hasPermi="['ati:data:add']"><el-button type="primary" @click="addShow = true">Add</el-button></div>
       </common-flex>
       <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
-                v-loading="loading" :data="list"
+                v-loading="loading" :data="list" border
       >
         <el-table-column label="No" align="center" width="60">
           <template slot-scope="scope">

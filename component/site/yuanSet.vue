@@ -418,7 +418,7 @@ export default {
               clearInterval(timerInter)
               this.getDeviceSet()
               this.$modal.closeLoading()
-              return this.$modal.msgError('timeout')
+              return this.$modal.msgError('Timeout')
             }
             this.getOrderRes()
           } else {

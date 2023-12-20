@@ -82,7 +82,7 @@
             </el-col>
           </el-row>
           <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
-                    v-loading="loading" :data="taskList"
+                    v-loading="loading" :data="taskList" border
           >
             <el-table-column label="No." align="center" width="60">
               <template slot-scope="scope">
@@ -90,8 +90,8 @@
               </template>
             </el-table-column>
             <el-table-column label="Task ID" prop="code"></el-table-column>
-            <el-table-column label="Task Name" prop="name"></el-table-column>
-            <el-table-column label="QTY of Site" prop="num">
+            <el-table-column label="Task Name" prop="name" min-width="120"></el-table-column>
+            <el-table-column label="QTY of Site" prop="num" min-width="120">
               <template slot-scope="{row}">
                 <span style="cursor: pointer" class="themeColor" @click="lookNum(row.code)">{{row.num}}</span>
               </template>
@@ -102,12 +102,12 @@
               </template>
             </el-table-column>
             <el-table-column label="Remarks" prop="remarks"></el-table-column>
-            <el-table-column label="Creation Time" prop="createTime">
+            <el-table-column label="Creation Time" prop="createTime" min-width="120">
               <template slot-scope="{row}">
                 <span>{{DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(row.createTime))}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="Creation By" prop="createBy"></el-table-column>
+            <el-table-column label="Creation By" prop="createBy" min-width="120"></el-table-column>
           </el-table>
           <pagination
             v-show="params.total>0"
@@ -127,20 +127,20 @@
             </el-col>
           </el-row>
           <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
-                    v-loading="loading" :data="recordList"
+                    v-loading="loading" :data="recordList" border
           >
             <el-table-column label="No." align="center" width="60">
               <template slot-scope="scope">
                 {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
               </template>
             </el-table-column>
-            <el-table-column label="Site Name" prop="siteName"></el-table-column>
-            <el-table-column label="Upgrade Mode" prop="upgradeType">
+            <el-table-column label="Site Name" prop="siteName" min-width="120"></el-table-column>
+            <el-table-column label="Upgrade Mode" prop="upgradeType" min-width="160">
               <template slot-scope="{row}">
                 <dict-tag :options="upgradeMode" :value="row.upgradeType" />
               </template>
             </el-table-column>
-            <el-table-column label="Upgrade Version" prop="versionNum">
+            <el-table-column label="Upgrade Version" prop="versionNum" min-width="160">
               <template slot-scope="{row}">
                 <span>{{ row.oldVersion }}->{{row.versionNum}}</span>
               </template>
@@ -151,12 +151,12 @@
               </template>
             </el-table-column>
             <el-table-column label="Remarks" prop="remark"></el-table-column>
-            <el-table-column label="Operation Time" prop="createTime">
+            <el-table-column label="Operation Time" prop="createTime" min-width="160">
               <template slot-scope="{row}">
                 <span>{{DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(row.createTime))}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="Task Name" prop="taskName"></el-table-column>
+            <el-table-column label="Task Name" prop="taskName" min-width="120"></el-table-column>
             <el-table-column label="Agency" prop="agency"></el-table-column>
           </el-table>
           <pagination

@@ -116,21 +116,19 @@
           </common-flex>
         </common-flex>
       </common-flex>
-      <el-table v-loading="loading" :data="siteList" @selection-change="handleSelectionChange">
+      <el-table v-loading="loading" :data="siteList" @selection-change="handleSelectionChange" border>
         <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column :label="$t('site.name')" align="center" prop="siteName" min-width="150">
+        <el-table-column :label="$t('site.name')" align="center" prop="siteName" min-width="180">
           <template slot-scope="{ row }">
             <common-flex align="center" justify="center">
               <span class="dot" v-if="+row.netStatus === 0" style="background-color: #92929D"></span>
               <span class="dot" v-if="+row.netStatus === 1 && +row.alarmStatus === 1" style="background-color: #F0142F"></span>
               <span class="dot" v-if="+row.netStatus === 1 && +row.alarmStatus === 0" style="background-color: #06A561"></span>
-              <el-tooltip :content="row.siteName" placement="top">
-                <span class="ellipsis" style="max-width: 125px">{{ row.siteName }}</span>
-              </el-tooltip>
+              <span class="ellipsis">{{ row.siteName }}</span>
             </common-flex>
           </template>
         </el-table-column>

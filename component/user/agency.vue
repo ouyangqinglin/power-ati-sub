@@ -54,7 +54,7 @@
           <el-button v-hasPermi="['ati:user:agency:add']" type="primary" @click="openToast(1)">{{ $t('common.add') }}</el-button>
         </div>
       </common-flex>
-      <el-table v-loading="loading" :data="agencyList"
+      <el-table v-loading="loading" :data="agencyList" border
                 :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}">
         <el-table-column label="No" align="center" width="60">
           <template slot-scope="scope">
@@ -83,7 +83,7 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Last updated by" align="center" prop="updateBy" min-width="120" />
+        <el-table-column label="Last updated by" align="center" prop="updateBy" min-width="160" />
         <el-table-column label="Opreat" align="center" fixed="right" class-name="small-padding fixed-width" min-width="120">
           <template slot-scope="scope">
             <el-button

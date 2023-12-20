@@ -92,7 +92,7 @@
       </el-form>
       <div style="font-weight: 600; margin: 20px 0">Upgrade Record</div>
       <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
-                v-loading="loading" :data="list"
+                v-loading="loading" :data="list" border
       >
         <el-table-column label="No." align="center" width="60">
           <template slot-scope="scope">

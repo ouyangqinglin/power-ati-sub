@@ -32,7 +32,7 @@
     <el-card style="margin-top: 24px">
       <p style="font-weight: 700">Install List</p>
       <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
-                v-loading="loading" :data="list"
+                v-loading="loading" :data="list" border
       >
         <el-table-column label="No" align="center" width="60">
           <template slot-scope="scope">
@@ -47,9 +47,7 @@
         <el-table-column label="SN" prop="serialNumber" min-width="140">
           <template slot-scope="{ row }">
             <common-flex align="center" justify="center">
-              <el-tooltip effect="dark" placement="top-start" :content="row.serialNumber">
-                <span class="ellipsis" style="max-width: 200px">{{ row.serialNumber }}</span>
-              </el-tooltip>
+              <span>{{ row.serialNumber }}</span>
               <el-tooltip v-if="!(+row.workStatus === 1 || !row.workStatus)" effect="dark" placement="top-start">
                 <common-flex align="center" slot="content">
                   <img v-if="+row.workStatus === 2" style="margin-right: 3px; width: 20px; height: 20px" :src="require('@img/device-warning.svg')" alt="">
@@ -78,13 +76,13 @@
         </el-table-column>
         <el-table-column label="Operator" prop="updateBy" min-width="120" show-overflow-tooltip />
         <el-table-column label="Agency" prop="agency" min-width="140" show-overflow-tooltip />
-        <el-table-column label="Time of Device Installed" prop="bindTime" min-width="170">
+        <el-table-column label="Time of Device Installed" prop="bindTime" min-width="200">
           <template slot-scope="{ row }">
             <span v-if="row.bindTime && row.bindTime !== '--'">{{ UTC_DATE_FORMAT(row.bindTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Time of Device Unbind" prop="unBindTime" min-width="160">
+        <el-table-column label="Time of Device Unbind" prop="unBindTime" min-width="200">
           <template slot-scope="{ row }">
             <span v-if="row.unBindTime && row.unBindTime !== '--'">{{ UTC_DATE_FORMAT(row.unBindTime, timeZone) }}</span>
             <span v-else>--</span>

@@ -1,6 +1,6 @@
 <script>
 import {setRecodeList} from "@/api/device";
-
+import { inverterSetRes } from '@sub/utils/map'
 export default {
   name: "site-setRecord",
   props: {
@@ -13,6 +13,7 @@ export default {
   },
   data() {
     return {
+      inverterSetRes,
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -64,7 +65,7 @@ export default {
     </common-flex>
     <div style="min-height: 300px">
       <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
-                v-loading="loading" :data="list"
+                v-loading="loading" :data="list" border
       >
         <el-table-column label="No." type="index" />
         <el-table-column label="Time" prop="">
@@ -76,7 +77,7 @@ export default {
         <el-table-column label="Parameter Name" prop="desc"></el-table-column>
         <el-table-column label="Parameter Value" prop="param" show-overflow-tooltip></el-table-column>
         <el-table-column label="Set Result" prop="status">
-          <template slot-scope="{ row }"><span>{{ ['', 'Success', 'Failed'][+row.status] }}</span></template>
+          <template slot-scope="{ row }"><span>{{ inverterSetRes[+row.status] }}</span></template>
         </el-table-column>
         <el-table-column label="Client Type" prop="clientType">
           <template slot-scope="{ row }"><span>{{ ['', 'APP', 'Web'][+row.clientType] }}</span></template>

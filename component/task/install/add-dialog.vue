@@ -21,7 +21,7 @@
       </common-flex>
     </el-form>
 
-    <el-table v-loading="loading" :data="atiUserList" :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}">
+    <el-table v-loading="loading" :data="atiUserList" :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}" border>
       <el-table-column width="85">
         <template slot-scope="{ row }">
           <el-radio class="my-radio" v-model="chooseRadio" :label="row.id"></el-radio>

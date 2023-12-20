@@ -25,6 +25,7 @@
     <el-table v-loading="loading" :data="atiUserList"
               :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
               @selection-change="handleSelectionChange"
+              border
     >
             <el-table-column width="85">
               <template slot-scope="{ row }">

@@ -53,7 +53,7 @@
         <div v-hasPermi="['ati:remote:add']"><el-button type="primary" @click="show = true">{{ $t('common.add') }}</el-button></div>
       </common-flex>
       <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
-                v-loading="loading" :data="list"
+                v-loading="loading" :data="list" border
       >
         <el-table-column label="No." align="center" width="60">
           <template slot-scope="scope">
@@ -85,12 +85,12 @@
             <dict-tag :options="appOptions" :value="row.applicationType"></dict-tag>
           </template>
         </el-table-column>
-        <el-table-column label="Version" prop="versionNum" min-width="130"></el-table-column>
-        <el-table-column label="Firmware Name" prop="name" show-overflow-tooltip min-width="140"></el-table-column>
-        <el-table-column label="Firmware package" prop="name" show-overflow-tooltip min-width="140">
+        <el-table-column label="Version" prop="versionNum" min-width="140"></el-table-column>
+        <el-table-column label="Firmware Name" prop="name" show-overflow-tooltip min-width="160"></el-table-column>
+        <el-table-column label="Firmware package" prop="name" show-overflow-tooltip min-width="160">
           <template slot-scope="{ row }">
             <el-link :href="`${baseUrl}${row.path}`" :underline="false" target="_blank">
-              <span class="themeColor">{{ row.name }}</span>
+              <span class="themeColor" >{{ row.name }}</span>
             </el-link>
           </template>
         </el-table-column>

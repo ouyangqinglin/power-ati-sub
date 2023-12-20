@@ -25,7 +25,7 @@
         <div class="pages-authority-card-title">Role List</div>
         <div><el-button type="primary" @click="addShow = true" v-hasPermi="['system:role:add']">{{ $t('common.add') }}</el-button></div>
       </common-flex>
-      <el-table v-loading="loading" :data="dataList"
+      <el-table v-loading="loading" :data="dataList" border
                 :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}">
         <el-table-column label="No" align="center" width="60">
           <template slot-scope="scope">
@@ -75,7 +75,7 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Last updated by" align="center" prop="updateBy" min-width="120" />
+        <el-table-column label="Last updated by" align="center" prop="updateBy" min-width="160" />
         <el-table-column fixed="right" min-width="120" label="Operat">
           <template slot-scope="{ row }" v-if="+row.source === 2">
             <el-button type="text" @click="modifyOpen(row)" v-hasPermi="['system:role:edit']">{{ $t('common.modify') }}</el-button>

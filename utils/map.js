@@ -78,3 +78,9 @@ export const validMap = {
   1: 'Valid',
   2: 'Invalid'
 }
+
+export const inverterSetRes = {
+  1: 'Success',
+  2: 'Failed',
+  3: 'Timeout'
+}

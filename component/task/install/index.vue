@@ -67,7 +67,7 @@
           <el-button @click="openAdd" type="primary" v-hasPermi="['ati:task:install:add']">{{ $t('common.add') }}</el-button>
         </div>
       </common-flex>
-      <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
+      <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}" border
                 v-loading="loading" :data="taskList" @selection-change="handleSelectionChange">
         <el-table-column label="No" align="center" width="60">
           <template slot-scope="scope">

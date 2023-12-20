@@ -56,7 +56,7 @@
           <div><el-button size="small" type="primary" @click="siteShow = true">Add</el-button></div>
         </common-flex>
         <el-table :data="siteList"
-                  max-height="530"
+                  max-height="530" border
                   :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
         >
           <el-table-column type="index" label="No." prop="id" width="55"></el-table-column>
