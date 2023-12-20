@@ -1,26 +1,30 @@
 <template>
   <div class="comp-device-card-content-right">
     <div class="part">
-      <div class="part-title">Basic Info</div>
+      <div class="part-title">{{ $t('common.basicInfo') }}</div>
       <common-flex>
         <common-flex class="part-img-box" justify="center">
           <img class="device-img" :src="require('./img/device-stick.svg')" alt="">
         </common-flex>
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Status">
-              <el-input disabled type="text" />
-              <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="curDevInfo.net"/>
-            </el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Wireless Signal Strength" v-if="[1, 2].includes(+curDevInfo.type)">
-              <div class="posr">
-                <el-input v-model="curDevInfo.wifi"></el-input>
-                <img class="posa wifi-img" :src="require('./img/device-wifi.svg')" alt="">
-              </div>
-            </el-form-item></el-col>
+            <el-col :span="10">
+              <el-form-item :label="$t('common.status')">
+                <el-input disabled type="text" />
+                <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="curDevInfo.net"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item :label="$t('site.wirelessStrength')" v-if="[1, 2].includes(+curDevInfo.type)">
+                <div class="posr">
+                  <el-input v-model="curDevInfo.wifi"></el-input>
+                  <img class="posa wifi-img" :src="require('./img/device-wifi.svg')" alt="">
+                </div>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Lifetime"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('common.lifetime')"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>

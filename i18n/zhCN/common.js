@@ -54,5 +54,7 @@ export default {
   'common.timeZone': '时区',
   'common.userName': '用户名',
   'common.email': '邮箱',
+  'common.basicInfo': 'Basic Info',
+  'common.status': 'Status',
 
 }

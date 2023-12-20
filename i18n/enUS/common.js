@@ -54,6 +54,7 @@ export default {
   'common.timeZone': 'Time Zone',
   'common.userName': 'User Name',
   'common.email': 'E-mail',
-
+  'common.basicInfo': 'Basic Info',
+  'common.status': 'Status',
 
 }

@@ -31,6 +31,7 @@ export default {
   'site.import': 'Import',
   'site.siteCorrelationDetails': 'Site Correlation Details',
   'site.siteProfile': 'Site Profile',
+  'site.wirelessStrength': 'Wireless Signal Strength',
 
 
 }
