@@ -148,13 +148,13 @@
         <el-table-column :label="$t('common.city')" align="center" prop="city" min-width="140" show-overflow-tooltip />
         <el-table-column :label="$t('common.province')" align="center" prop="province" min-width="140" show-overflow-tooltip />
         <el-table-column :label="$t('common.country')" align="center" prop="country" min-width="140" show-overflow-tooltip />
-        <el-table-column :label="$t('common.installedTime')" align="center" prop="createTime" min-width="130">
+        <el-table-column :label="$t('common.installedTime')" align="center" prop="createTime" min-width="210">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(+row.createTime, row.timeZone) }} {{row.utcTime}}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('site.localTime')" align="center" prop="createTime" min-width="130">
+        <el-table-column :label="$t('site.localTime')" align="center" prop="createTime" min-width="210">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm', +row.createTime * 1000) }} {{localUTC}}</span>
             <span v-else>--</span>

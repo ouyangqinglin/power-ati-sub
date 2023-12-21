@@ -140,13 +140,32 @@
             </common-flex>
             <common-flex class="comp-overview-row-col-card-content" direction="column" justify="space-around">
               <common-flex justify="space-around">
-                <img class="cur-wea-img" :src="weatherImg[weatherCodeEnum[weatherData.weatherId]]" alt="">
-                <div style="margin-right: 4.5vw">
-                  <div class="comp-overview-row-col-card-content-temperature">{{ weatherData.currentWeather }}<br>
-                    {{ weatherData.currentTemp }}°C<br>
-                    {{ $t('site.feelsLike') }} {{ weatherData.feelsLike }}°C<br>
-                  </div>
-                  <span class="comp-overview-row-col-card-content-weather">{{ $t('site.windSe') }},{{ weatherData.windSpeed }}km/h<br>
+                <el-skeleton style="width: 100%; height: 100%" :loading="weatherLoading" animated>
+                  <template slot="template">
+                    <common-flex>
+                      <common-flex style="width: 40%; height: 160px" justify="center" align="center">
+                        <el-skeleton-item variant="image" style="width: 80px; height: 80px"></el-skeleton-item>
+                      </common-flex>
+                      <common-flex direction="column" align="center" justify="space-around" style="width: 46%">
+                        <el-skeleton-item variant="text" style="width: 60%;" />
+                        <el-skeleton-item variant="text" style="width: 60%;" />
+                        <el-skeleton-item variant="text" style="width: 60%;" />
+                        <el-skeleton-item variant="text" style="width: 60%;" />
+                        <el-skeleton-item variant="text" style="width: 60%;" />
+                        <el-skeleton-item variant="text" style="width: 60%;" />
+                        <el-skeleton-item variant="text" style="width: 60%;" />
+                      </common-flex>
+                    </common-flex>
+                  </template>
+                  <template>
+                    <common-flex justify="space-around">
+                      <img class="cur-wea-img" :src="weatherImg[weatherCodeEnum[weatherData.weatherId]]" alt="">
+                      <div style="margin-right: 4.5vw">
+                        <div class="comp-overview-row-col-card-content-temperature">{{ weatherData.currentWeather }}<br>
+                          {{ weatherData.currentTemp }}°C<br>
+                          {{ $t('site.feelsLike') }} {{ weatherData.feelsLike }}°C<br>
+                        </div>
+                        <span class="comp-overview-row-col-card-content-weather">{{ $t('site.windSe') }},{{ weatherData.windSpeed }}km/h<br>
                     {{ $t('site.humidity') }} {{ weatherData.humidity }}%<br>
                     {{ $t('site.sunriseAt') }}
                     <span v-if="weatherData.sunrise">{{ sunriseUTC }}</span>
@@ -156,17 +175,66 @@
                     <span v-if="weatherData.sunset">{{ sunsetUTC }}</span>
                     <span v-else>--</span>
                     <br>
-                  </span>
-                </div>
+                    </span>
+                      </div>
+                    </common-flex>
+                  </template>
+                </el-skeleton>
               </common-flex>
               <common-flex justify="space-around">
-                <common-flex direction="column" align="center" v-for="i of weatherData.futureWeathers" :key="i.dayOfWeek">
-                  <div class="comp-overview-row-col-card-content-day">{{ i.dayOfWeek }}</div>
-                  <img class="comp-overview-row-col-card-content-weather-img" :src="weatherImg[weatherCodeEnum[i.futureWeatherId]]" alt="">
-                  <div class="comp-overview-row-col-card-content-random">{{ i.minTemp }}-{{i.maxTemp }}°C</div>
-                  <div class="comp-overview-row-col-card-content-cloud">{{ i.weather }}</div>
-                </common-flex>
+                <el-skeleton style="width: 100%; height: 100%" :loading="weatherLoading" animated>
+                  <template slot="template">
+                    <common-flex justify="space-around">
+                      <common-flex direction="column" justify="space-around" align="center" v-for="i of 4" :key="i">
+                        <el-skeleton-item variant="text" style="width: 100%;" />
+                        <el-skeleton-item variant="image" style="width: 56px; height: 56px; margin-top: 10px"></el-skeleton-item>
+                        <el-skeleton-item variant="text" style="width: 100%; margin-top: 4px" />
+                        <el-skeleton-item variant="text" style="width: 100%; margin-top: 4px" />
+                      </common-flex>
+                    </common-flex>
+                  </template>
+                  <template>
+                    <common-flex justify="space-around">
+                      <common-flex direction="column" align="center" v-for="i of weatherData.futureWeathers" :key="i.dayOfWeek">
+                        <div class="comp-overview-row-col-card-content-day">{{ i.dayOfWeek }}</div>
+                        <img class="comp-overview-row-col-card-content-weather-img" :src="weatherImg[weatherCodeEnum[i.futureWeatherId]]" alt="">
+                        <div class="comp-overview-row-col-card-content-random">{{ i.minTemp }}-{{i.maxTemp }}°C</div>
+                        <div class="comp-overview-row-col-card-content-cloud">{{ i.weather }}</div>
+                      </common-flex>
+                    </common-flex>
+                  </template>
+                </el-skeleton>
               </common-flex>
+<!--              <el-skeleton style="width: 100%; height: 100%" :loading="!weatherLoading" animated>-->
+<!--                <template slot="template">-->
+<!--                  <common-flex style="width: 100%; height: 100%" direction="column" justify="space-around">-->
+<!--                    <common-flex justify="space-around">-->
+<!--                      <el-skeleton-item-->
+<!--                        variant="image"-->
+<!--                        style="width: 80px; height:80px;"-->
+<!--                      />-->
+<!--                      <common-flex direction="column" style="width: 60%">-->
+<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
+<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
+<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
+<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
+<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
+<!--                      </common-flex>-->
+<!--                    </common-flex>-->
+<!--                    <common-flex justify="space-around">-->
+<!--                      <common-flex direction="column" align="center" v-for="i of 4" :key="i">-->
+<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
+<!--                        <el-skeleton-item variant="image" style="width: 56px; height: 56px" />-->
+<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
+<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
+<!--                      </common-flex>-->
+<!--                    </common-flex>-->
+<!--                  </common-flex>-->
+<!--                </template>-->
+<!--                <template>-->
+
+<!--                </template>-->
+<!--              </el-skeleton>-->
             </common-flex>
           </common-flex>
         </el-card>
@@ -458,6 +526,7 @@ export default {
       barConsumption: null,
       timer: null,
       online: 1,
+      weatherLoading: true
     }
   },
   watch: {
@@ -560,6 +629,7 @@ export default {
     },
     getWeatherData(params) {
       getWeather(params).then(res => {
+        this.weatherLoading = false
         this.weatherData = res.data
       })
     },
