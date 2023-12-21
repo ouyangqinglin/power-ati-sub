@@ -84,3 +84,9 @@ export const inverterSetRes = {
   2: 'Failed',
   3: 'Timeout'
 }
+
+export const inverterVersion = {
+  1: 'V1.5',
+  2: 'Mini',
+  3: 'V1.0'
+}

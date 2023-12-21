@@ -159,24 +159,6 @@ export default {
           value: 2
         },
       ],
-      userInverterWorkOptions: [
-        {
-          label: 'General Mode',
-          value: 257
-        },
-        {
-          label: 'Economic Mode',
-          value: 258
-        },
-        {
-          label: 'UPS Mode',
-          value: 259
-        },
-        {
-          label: 'Off Grid Mode',
-          value: 512
-        },
-      ],
       inverterWorkOptions: [
         {
           label: 'General Mode',
@@ -194,22 +176,22 @@ export default {
           label: 'Off Grid Mode',
           value: 512
         },
-        {
-          label: 'EMS_ACCtrlMode',
-          value: 769
-        },
-        {
-          label: 'EMS_GeneralMode',
-          value: 770
-        },
-        {
-          label: 'EMS_BattCtrlMode',
-          value: 771
-        },
-        {
-          label: 'EMS_OffGridMode',
-          value: 772
-        },
+        // {
+        //   label: 'EMS_ACCtrlMode',
+        //   value: 769
+        // },
+        // {
+        //   label: 'EMS_GeneralMode',
+        //   value: 770
+        // },
+        // {
+        //   label: 'EMS_BattCtrlMode',
+        //   value: 771
+        // },
+        // {
+        //   label: 'EMS_OffGridMode',
+        //   value: 772
+        // },
       ],
       enableOptions: [
         {
@@ -511,7 +493,7 @@ export default {
             <el-col :span="8">
               <el-form-item label="Inverter Working Mode Setting" prop="307">
                 <el-select v-model="deviceBase[307]" style="width: 60%">
-                  <el-option v-for="(i, k) of userInverterWorkOptions" :value="i.value" :label="i.label" :key="k"></el-option>
+                  <el-option v-for="(i, k) of inverterWorkOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
                 <el-button type="primary" plain class="ml10" @click="setDevice(307)">Set</el-button>
               </el-form-item>

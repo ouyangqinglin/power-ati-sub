@@ -41,7 +41,7 @@
             <el-col :span="10"><el-form-item label="Last version upgrade time"><el-input readonly v-model="curDevInfo.upgradeTime"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Device Model"><el-input readonly v-model="['', '1.5', 'Mini', '1.0'][+curDevInfo.type]"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item label="Device Model"><el-input readonly v-model="inverterVersion[+curDevInfo.type]"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
@@ -82,6 +82,7 @@
 <script>
 import {wifiChart} from "@/api/index"
 import { networkStatus } from '@sub/utils/dict'
+import { inverterVersion } from '@sub/utils/map'
 import * as echarts from "echarts"
 
 let batteryInstance = null
@@ -222,6 +223,7 @@ export default {
   data() {
     const that = this
     return {
+      inverterVersion,
       networkStatus,
       loading: false,
       dataHis: {
@@ -231,9 +233,12 @@ export default {
     }
   },
   watch: {
-    curDevInfo(v) {
-      console.log('stickInfo', v)
-      if ([1, 2].includes(+this.curDevInfo.type)) this.getWifiData()
+    curDevInfo: {
+      immediate: true,
+      handler(v) {
+        console.log('stickInfo', v)
+        if ([1, 2].includes(+this.curDevInfo.type)) this.getWifiData()
+      }
     }
   },
   beforeDestroy() {
