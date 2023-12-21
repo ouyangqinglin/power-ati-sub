@@ -592,6 +592,7 @@ export default {
         }
         console.timeEnd('cellTimer')
         batCellData = arr
+        if (v) this.excelData = batCellData
       }).finally(() => {
         if (v) this.$modal.closeLoading()
       })
@@ -619,6 +620,7 @@ export default {
           i.sn = params.sn
           i.time = this.DATE_FORMAT('MM-dd-yyyy hh:mm:ss', (+i.time) * 1000)
         })
+        if (v) this.excelData = dataList
         this.initCanvas()
       }).finally(() => {
         if (v) this.$modal.closeLoading()

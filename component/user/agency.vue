@@ -55,7 +55,7 @@
         </div>
       </common-flex>
       <el-table v-loading="loading" :data="agencyList" border
-                :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}">
+                :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}">
         <el-table-column label="No" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}

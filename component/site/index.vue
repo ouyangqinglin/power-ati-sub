@@ -116,7 +116,9 @@
           </common-flex>
         </common-flex>
       </common-flex>
-      <el-table v-loading="loading" :data="siteList" @selection-change="handleSelectionChange" border>
+      <el-table v-loading="loading" :data="siteList" @selection-change="handleSelectionChange"
+                border :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
+      >
         <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}

@@ -52,7 +52,7 @@
         <p>List</p>
         <div v-hasPermi="['ati:remote:add']"><el-button type="primary" @click="show = true">{{ $t('common.add') }}</el-button></div>
       </common-flex>
-      <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
+      <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 v-loading="loading" :data="list" border
       >
         <el-table-column label="No." align="center" width="60">

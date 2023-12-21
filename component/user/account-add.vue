@@ -57,7 +57,7 @@
         </common-flex>
         <el-table :data="siteList"
                   max-height="530" border
-                  :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
+                  :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
         >
           <el-table-column type="index" label="No." prop="id" width="55"></el-table-column>
           <el-table-column label="Site" prop="siteName" show-tooltip-when-overflow></el-table-column>

@@ -66,7 +66,7 @@
           </el-checkbox-group>
         </common-flex>
       </common-flex>
-      <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}" border
+      <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}" border
                 v-loading="loading" :data="list"
       >
         <el-table-column label="No" align="center" width="60">

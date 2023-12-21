@@ -22,7 +22,7 @@
     </el-form>
 
 
-    <el-table v-loading="loading" :data="atiUserList" :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
+    <el-table v-loading="loading" :data="atiUserList" :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
               @selection-change="handleSelectionChange" border
     >
             <el-table-column width="85">

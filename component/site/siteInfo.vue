@@ -25,7 +25,7 @@
     </el-card>
     <el-card class="comp-site-info-card">
       <div class="comp-site-info-card-title">{{ $t('site.siteCorrelationDetails') }}</div>
-      <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}" border class="comp-site-info-card-table" :data="base.userList">
+      <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}" border class="comp-site-info-card-table" :data="base.userList">
         <el-table-column type="index" width="80" :label="$t('common.no')"></el-table-column>
         <el-table-column :label="$t('common.userName')" prop="userName" show-tooltip-when-overflow />
         <el-table-column :label="$t('common.email')" prop="email" />

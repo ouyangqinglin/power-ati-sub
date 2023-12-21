@@ -25,7 +25,7 @@
     </el-card>
     <el-card style="margin-top: 24px">
       <p>List</p>
-      <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
+      <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 v-loading="loading" :data="list" border
       >
         <el-table-column label="No." type="index">

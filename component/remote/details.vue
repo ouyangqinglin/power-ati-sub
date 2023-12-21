@@ -81,7 +81,7 @@
               <el-button type="primary" @click="addShow = true">Add</el-button>
             </el-col>
           </el-row>
-          <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
+          <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                     v-loading="loading" :data="taskList" border
           >
             <el-table-column label="No." align="center" width="60">
@@ -126,7 +126,7 @@
               <el-button type="primary" @click="excelExport"><i style="font-size: 16px" class="el-icon-download"></i></el-button>
             </el-col>
           </el-row>
-          <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
+          <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                     v-loading="loading" :data="recordList" border
           >
             <el-table-column label="No." align="center" width="60">
@@ -201,7 +201,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-table :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
+      <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                :data="numList"
       >
         <el-table-column label="No." align="center" width="60">
@@ -268,7 +268,7 @@
           <el-button size="mini" @click="deleteSel">Delete</el-button>
         </div>
       </el-row>
-      <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center'}" :cell-style="{'text-align': 'center'}"
+      <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 :data="siteList" @selection-change="addSelect" max-height="530"
       >
         <el-table-column
