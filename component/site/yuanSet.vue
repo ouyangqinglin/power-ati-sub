@@ -471,7 +471,13 @@ export default {
         })
         this.deviceBase = item
         if (this.deviceBase[333]) {
-          this.peakShaving = JSON.parse(this.deviceBase[333])
+          const temp = JSON.parse(this.deviceBase[333])
+          temp.forEach(item => {
+            item.battChargeBy = +item.battChargeBy
+            item.chargeDischargeSetting = +item.chargeDischargeSetting
+            item.ecoModePeriodEnable = +item.ecoModePeriodEnable
+          })
+          this.peakShaving = temp
         }
         copyDeviceInfo = JSON.parse(JSON.stringify(this.deviceBase))
       })
