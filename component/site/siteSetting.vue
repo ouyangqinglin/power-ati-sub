@@ -7,9 +7,12 @@
         </div>
         <div style="flex-grow: 1; min-height: 650px">
           <template v-if="+active === 1">
-            <MagraySet v-if="base.inverterMf === 'MEGAREVO'" :base="base" />
-            <YuanSet v-else-if="base.inverterMf === 'SOLINTEG'" :base="base" />
-            <NoData v-else />
+            <template v-if="!atiShow">
+              <MagraySet v-if="base.inverterMf === 'MEGAREVO'" :base="base" />
+              <YuanSet v-else-if="base.inverterMf === 'SOLINTEG'" :base="base" />
+              <NoData v-else />
+            </template>
+            <MagraySet v-else :base="base" />
           </template>
           <template v-else-if="+active === 2">
             <SetRecord :base="base" />
@@ -38,9 +41,10 @@ export default {
   },
   data() {
     return {
+      atiShow: process.env.VUE_APP_TITLE === 'ASPIRE TECH',
       navBar: {
-        'Remote Set': '1',
-        'Set Record': '2',
+        [this.$t('site.remoteSet')]: '1',
+        [this.$t('site.setRecord')]: '2',
       },
       active: '1',
     }

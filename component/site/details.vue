@@ -28,6 +28,7 @@
     <keep-alive>
       <component :is="dynamicComp" :base="details" @refresh="refresh" />
     </keep-alive>
+    <el-backtop />
   </div>
 </template>
 

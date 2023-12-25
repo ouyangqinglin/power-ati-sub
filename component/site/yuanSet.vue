@@ -464,14 +464,19 @@ export default {
         copyDeviceInfo = JSON.parse(JSON.stringify(this.deviceBase))
       })
     },
+    moreOneDot(v) {
+      const reg = /^(\d+\.\d{1,1}|\d+)$/
+      return reg.test(v)
+    },
     inputVerify(type) {
+      console.log(this.moreOneDot(+this.deviceBase[type]))
       for(let key in this.rules) {
         this.rules[key][0].required = false
         this.rules[key][0].message = ''
       }
-      if (!Number.isInteger(+this.deviceBase[type])) {
+      if (!this.moreOneDot(+this.deviceBase[type])) {
         this.deviceBase[type] = ''
-        this.rules[+type][0].message = 'Please enter the number'
+        this.rules[+type][0].message = 'Please enter a number of up to one decimal place'
         this.rules[+type][0].required = true
       } else {
         this.rules[+type][0].required = false
@@ -856,19 +861,17 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Off Grid Frequency(Hz)" prop="310">
-                <el-input @blur="inputVerify(310)" v-model="deviceBase[310]" style="width: 60%" placeholder="Please enter"></el-input>
-                <el-button :disabled="!deviceBase[310]" type="primary" plain class="ml10" @click="setDevice(310)">Set</el-button>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="16">
-            <el-col :span="8">
               <el-form-item label="Max Grid Power Value(kVA)" prop="313">
                 <el-input @blur="inputVerify(313)" v-model="deviceBase[313]" style="width: 60%" placeholder="Please enter"></el-input>
                 <el-button :disabled="!deviceBase[313]" type="primary" plain class="ml10" @click="setDevice(313)">Set</el-button>
               </el-form-item>
             </el-col>
+<!--            <el-col :span="8">-->
+<!--              <el-form-item label="Off Grid Frequency(Hz)" prop="310">-->
+<!--                <el-input @blur="inputVerify(310)" v-model="deviceBase[310]" style="width: 60%" placeholder="Please enter"></el-input>-->
+<!--                <el-button :disabled="!deviceBase[310]" type="primary" plain class="ml10" @click="setDevice(310)">Set</el-button>-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
           </el-row>
         </el-form>
       </div>

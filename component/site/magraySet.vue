@@ -374,7 +374,7 @@ export default {
   <div>
     <div v-if="+userType === 1" class="remote">
       <div class="set-part">
-        <div class="set-type">System Setting</div>
+        <div class="set-type">{{ $t('site.systemSetting') }}</div>
         <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">

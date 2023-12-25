@@ -33,22 +33,22 @@
         <common-flex class="part-img-box" justify="center"></common-flex>
         <el-form style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Serial number"><el-input readonly v-model="curDevInfo.serialNumber"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Software version"><el-input readonly v-model="curDevInfo.version"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('common.serialNumber')"><el-input readonly v-model="curDevInfo.serialNumber"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('common.softwareVersion')"><el-input readonly v-model="curDevInfo.version"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Hardware version"><el-input readonly v-model="curDevInfo.hardVersion"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Last version upgrade time"><el-input readonly v-model="curDevInfo.upgradeTime"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('common.hardwareVersion')"><el-input readonly v-model="curDevInfo.hardVersion"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('common.lastVersionUpgradeTime')"><el-input readonly v-model="curDevInfo.upgradeTime"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Device Model"><el-input readonly v-model="inverterVersion[+curDevInfo.type]"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('site.deviceModel')"><el-input readonly v-model="inverterVersion[+curDevInfo.type]"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
     </div>
 
     <div class="part" style="margin-top: 24px" v-if="[1, 2].includes(+curDevInfo.type)">
-      <div class="part-title">Historical Information</div>
+      <div class="part-title">{{ $t('common.historicalInformation') }}</div>
       <common-flex justify="space-between" align="center">
         <div></div>
         <common-flex justify="flex-end" style="margin: 40px 0 20px 0">
@@ -84,6 +84,7 @@ import {wifiChart} from "@/api/index"
 import { networkStatus } from '@sub/utils/dict'
 import { inverterVersion } from '@sub/utils/map'
 import * as echarts from "echarts"
+import i18n from "@/i18n"
 
 let batteryInstance = null
 let arr = [], arr1 = [], arrSeries = []
@@ -93,7 +94,7 @@ for (let i = 0; i < 24; i++) {
 const optionBat = {
   color: ['#FFB968'],
   legend: {
-    data: ['Wireless Signal Strength'],
+    data: [i18n.t('site.wirelessStrength')],
     right: 40,
     icon: 'circle'
   },
@@ -195,7 +196,7 @@ const optionBat = {
   series: [
     {
       type: 'line',
-      name: 'Wireless Signal Strength',
+      name: i18n.t('site.wirelessStrength'),
       data: [],
       smooth: true,
       symbol: 'none'

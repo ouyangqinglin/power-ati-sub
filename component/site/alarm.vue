@@ -9,13 +9,13 @@
       <el-form :inline="true" :model="queryParams" ref="queryForm" size="small" style="margin-top: 12px">
         <common-flex>
           <common-flex style="flex-grow: 1">
-            <el-form-item label="Alarm：" prop="fault">
+            <el-form-item :label="`${$t('alarm.alarm')}：`" prop="fault">
               <el-input v-model="queryParams.fault" placeholder="Please enter"></el-input>
             </el-form-item>
-            <el-form-item label="Fault Code：" prop="faultCode" label-width="100px">
+            <el-form-item :label="`${$t('alarm.faultCode')}：`" prop="faultCode" label-width="100px">
               <el-input v-model="queryParams.faultCode" placeholder="Please enter"></el-input>
             </el-form-item>
-            <el-form-item label="Occurrence Time：" label-width="160px">
+            <el-form-item :label="`${$t('alarm.occurrenceTime')}：`" label-width="160px">
               <el-date-picker
                 size="small"
                 ref="dataEnd"
@@ -25,41 +25,41 @@
                 range-separator="->"
                 :format="displayFormat"
                 :value-format="dateFormat"
-                start-placeholder="Start Time"
-                end-placeholder="End Time">
+                :start-placeholder="$t('common.startTime')"
+                :end-placeholder="$t('common.endTime')">
               </el-date-picker>
             </el-form-item>
           </common-flex>
           <el-form-item>
-            <el-button size="small" type="primary" @click="handleQuery">Query</el-button>
-            <el-button size="small" @click="resetQuery">Reset</el-button>
+            <el-button size="small" type="primary" @click="handleQuery">{{ $t('common.query') }}</el-button>
+            <el-button size="small" @click="resetQuery">{{ $t('common.reset') }}</el-button>
           </el-form-item>
         </common-flex>
       </el-form>
     </el-card>
     <el-card style="margin-top: 24px; padding-bottom: 20px">
       <common-flex justify="space-between" align="center">
-        <p>Alarm List</p>
+        <p>{{ $t('alarm.alarmList') }}</p>
         <common-flex style="margin-right: 6px">
           <el-checkbox-group v-model="queryParams.alarmTypes" class="my-check" @change="getList">
             <el-checkbox label="2">
               <common-flex align="center">
                 <img :src="require('@subImg/fault.svg')" alt="">
-                <span>Fault</span>
+                <span>{{ $t('alarm.fault') }}</span>
                 <span style="margin-left: 4px">{{faultItem}}</span>
               </common-flex>
             </el-checkbox>
             <el-checkbox label="1">
               <common-flex align="center">
                 <img :src="require('@subImg/warning.svg')" alt="">
-                <span>Warning</span>
+                <span>{{ $t('alarm.warning') }}</span>
                 <span style="margin-left: 4px">{{warnItem}}</span>
               </common-flex>
             </el-checkbox>
             <el-checkbox label="3">
               <common-flex align="center">
                 <img :src="require('@subImg/notice.svg')" alt="">
-                <span>Notice</span>
+                <span>{{ $t('alarm.notice') }}</span>
                 <span style="margin-left: 4px">{{noticeItem}}</span>
               </common-flex>
             </el-checkbox>
@@ -84,16 +84,16 @@
             </common-flex>
           </template>
         </el-table-column>
-        <el-table-column label="Alarm" prop="fault" min-width="180" show-overflow-tooltip>
+        <el-table-column :label="$t('alarm.alarm')" prop="fault" min-width="180" show-overflow-tooltip>
           <template slot-scope="{ row }">
             <span v-if="row.deviceErrorInfo">{{ row.deviceErrorInfo }}：</span>
             <span>{{ row.fault || '--' }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Fault code" prop="faultCode" min-width="120"></el-table-column>
-        <el-table-column label="Collection Source" prop="collectionSource" min-width="140" />
-        <el-table-column label="Collection Source SN" prop="sn" show-overflow-tooltip min-width="160" />
-        <el-table-column label="Status" prop="recoveryStatus" width="120">
+        <el-table-column :label="$t('alarm.faultCode')" prop="faultCode" min-width="120"></el-table-column>
+        <el-table-column :label="$t('alarm.collectionSource')" prop="collectionSource" min-width="140" />
+        <el-table-column :label="$t('alarm.collectionSourceSn')" prop="sn" show-overflow-tooltip min-width="160" />
+        <el-table-column :label="$t('common.status')" prop="recoveryStatus" width="120">
           <template slot-scope="{ row }">
             <common-flex justify="center" align="center">
               <span class="dot" :style="{backgroundColor: ['#06A561', '#92929D'][+row.recoveryStatus]}"></span>
@@ -101,24 +101,24 @@
             </common-flex>
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Alarm Clearing Type" prop="cleanType" width="160">
+        <el-table-column v-if="+queryParams.recoveryStatus === 1" :label="$t('alarm.alarmClearingType')" prop="cleanType" width="160">
           <template slot-scope="{ row }">
             <dict-tag :options="alarmClearType" :value="row.cleanType" />
           </template>
         </el-table-column>
-        <el-table-column label="Occurrence Time" prop="createTime" min-width="160">
+        <el-table-column :label="$t('alarm.occurrenceTime')" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(+row.createTime , base.timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Recovery Time" prop="" min-width="160">
+        <el-table-column v-if="+queryParams.recoveryStatus === 1" :label="$t('alarm.recoveryTime')" prop="" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.recoveryTime && row.recoveryTime !== '--'">{{ UTC_DATE_FORMAT(+row.recoveryTime , base.timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.recoveryStatus === 0" label="Operation" prop="" fixed="right" min-width="90px">
+        <el-table-column v-if="+queryParams.recoveryStatus === 0" :label="$t('alarm.operation')" prop="" fixed="right" min-width="90px">
           <template slot-scope="{ row }">
             <img :src="require('@subImg/clear.svg')" @click="cleanFault(row.id)" style="cursor: pointer" alt="">
           </template>

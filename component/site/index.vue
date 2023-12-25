@@ -398,12 +398,12 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm(`Please confirm whether to delete`).then(() => {
+      this.$modal.confirm(this.$t('common.deleteConfirm')).then(() => {
         this.$modal.loading()
         return delSite(ids);
       }).then(() => {
         this.getList();
-        this.$modal.msgSuccess("Deleted!");
+        this.$modal.msgSuccess(this.$t('common.deleted'));
       }).finally(() => this.$modal.closeLoading());
     },
     /** 导出按钮操作 */

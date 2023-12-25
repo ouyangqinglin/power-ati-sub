@@ -1,22 +1,22 @@
 <template>
   <div class="comp-device-card-content-right">
     <div class="part">
-      <div class="part-title">Basic Info</div>
+      <div class="part-title">{{ $t('common.basicInfo') }}</div>
       <common-flex>
         <common-flex class="part-img-box" justify="center">
           <img class="device-img" :src="require('./img/device-pv.svg')" alt="">
         </common-flex>
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Serial number"><el-input v-model="curDevInfo.serialNumber"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Total component capacity(kW)"><el-input v-model="curDevInfo.nameplateCapacity"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('common.serialNumber')"><el-input v-model="curDevInfo.serialNumber"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('site.totalComponentCapacity')}(kW)`"><el-input v-model="curDevInfo.nameplateCapacity"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="New installation">
+            <el-col :span="10"><el-form-item :label="$t('site.newInstallation')">
               <el-input disabled type="text" />
               <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="newInstall" :value="curDevInfo.installation"/>
             </el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Lifetime"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('common.lifetime')"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
@@ -24,7 +24,7 @@
 
     <div style="margin-top: 24px">
       <div class="part">
-        <div class="part-title">Real-Time Data</div>
+        <div class="part-title">{{ $t('common.realtimeData') }}</div>
         <common-flex style="margin-top: 24px">
           <common-flex class="part-img-box" justify="center"></common-flex>
           <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
@@ -32,9 +32,9 @@
               <el-col :span="20">
                 <el-table class="table" :data="curDevInfo.pvList">
                   <el-table-column label="" prop="pvNum"></el-table-column>
-                  <el-table-column label="Voltage(V)" prop="v"></el-table-column>
-                  <el-table-column label="Current(A)" prop="c"></el-table-column>
-                  <el-table-column label="Power(kW)" prop="p"></el-table-column>
+                  <el-table-column :label="`${$t('common.voltage')}(V)`" prop="v"></el-table-column>
+                  <el-table-column :label="`${$t('common.current')}(A)`" prop="c"></el-table-column>
+                  <el-table-column :label="`${$t('common.power')}(kW)`" prop="p"></el-table-column>
                 </el-table>
               </el-col>
             </el-row>
@@ -43,16 +43,16 @@
 
         <common-flex style="margin-top: 24px">
           <common-flex class="part-img-box" justify="flex-end">
-            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">PV Energy Produced:</div>
+            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">{{ $t('site.pvEnergyProduced') }}:</div>
           </common-flex>
           <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
             <el-row type="flex" :gutter="60">
-              <el-col :span="10"><el-form-item label="Today(kWh)"><el-input v-model="curDevInfo.dayPvEnergyProduce"></el-input></el-form-item></el-col>
-              <el-col :span="10"><el-form-item label="This Month(kWh)"><el-input v-model="curDevInfo.monthPvEnergyProduce"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item :label="`${$t('common.today')}(kWh)`"><el-input v-model="curDevInfo.dayPvEnergyProduce"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item :label="`${$t('common.thisMonth')}(kWh)`"><el-input v-model="curDevInfo.monthPvEnergyProduce"></el-input></el-form-item></el-col>
             </el-row>
             <el-row type="flex" :gutter="60">
-              <el-col :span="10"><el-form-item label="This Year(kWh)"><el-input v-model="curDevInfo.yearPvEnergyProduce"></el-input></el-form-item></el-col>
-              <el-col :span="10"><el-form-item label="Lifetime(kWh)"><el-input v-model="curDevInfo.allPvEnergyProduce"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item :label="`${$t('common.thisYear')}(kWh)`"><el-input v-model="curDevInfo.yearPvEnergyProduce"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item :label="`${$t('common.lifetime')}(kWh)`"><el-input v-model="curDevInfo.allPvEnergyProduce"></el-input></el-form-item></el-col>
             </el-row>
           </el-form>
         </common-flex>
@@ -60,13 +60,13 @@
     </div>
 
     <div class="part" style="margin-top: 24px">
-      <div class="part-title">Historical Information</div>
+      <div class="part-title">{{ $t('common.historicalInformation') }}</div>
       <div class="posr">
         <common-flex class="pv-nav posa" justify="flex-end">
           <el-radio-group v-model="pvHis.pvType" size="small" @change="changePvType">
-            <el-radio-button label="Voltage">Voltage</el-radio-button>
-            <el-radio-button label="Current">Current</el-radio-button>
-            <el-radio-button label="Power">Power</el-radio-button>
+            <el-radio-button label="Voltage">{{ $t('common.voltage') }}</el-radio-button>
+            <el-radio-button label="Current">{{ $t('common.current') }}</el-radio-button>
+            <el-radio-button label="Power">{{ $t('common.power') }}</el-radio-button>
           </el-radio-group>
           <el-date-picker
               size="small"
@@ -475,7 +475,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-
-</style>

@@ -6,36 +6,36 @@
       </template>
     </el-radio-group>
     <div class="part">
-      <div class="part-title">Basic Info</div>
+      <div class="part-title">{{ $t('common.basicInfo') }}</div>
       <common-flex>
         <common-flex direction="column" class="part-img-box" align="center">
           <img class="device-img" :src="require('./img/device-discharge.svg')" alt=""><br>
-          <el-button type="primary" size="mini" v-if="+curDevInfo.status === 1" @click="stopCharge">Stop Charging</el-button>
-          <span class="status-tips" v-else>Not connected</span>
+          <el-button type="primary" size="mini" v-if="+curDevInfo.status === 1" @click="stopCharge">{{ $t('site.stopCharging') }}</el-button>
+          <span class="status-tips" v-else>{{ $t('site.notConnected') }}</span>
         </common-flex>
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
             <el-col :span="10">
-              <el-form-item label="Status">
+              <el-form-item :label="$t('common.status')">
                 <el-input disabled type="text" />
                 <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="curDevInfo.net"/>
               </el-form-item>
             </el-col>
-            <el-col :span="10"><el-form-item label="Session Started"><el-input v-model="curDevInfo.startTime"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('common.sessionStarted')"><el-input v-model="curDevInfo.startTime"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Duration"><el-input v-model="curDevInfo.duration"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Energy Added"><el-input v-model="curDevInfo.energy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('site.duration')"><el-input v-model="curDevInfo.duration"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('site.energyAdded')"><el-input v-model="curDevInfo.energy"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Serial number"><el-input v-model="curDevInfo.serialNumber"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="New installation">
+            <el-col :span="10"><el-form-item :label="$t('common.serialNumber')"><el-input v-model="curDevInfo.serialNumber"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('site.newInstallation')">
               <el-input disabled type="text" />
               <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="newInstall" :value="curDevInfo.installation"/>
             </el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Lifetime"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('common.lifetime')"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
@@ -43,19 +43,19 @@
 
     <div style="margin-top: 24px">
       <div class="part">
-        <div class="part-title">Real-Time Data</div>
+        <div class="part-title">{{ $t('common.realtimeData') }}</div>
         <common-flex style="margin-top: 24px">
           <common-flex class="part-img-box" justify="flex-end">
-            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Import:</div>
+            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">{{ $t('common.import') }}:</div>
           </common-flex>
           <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
-            <div class="part-title" style="border: none; line-height: 35px; text-indent: 0; margin-bottom: 0; color: #606266">Power(kW) {{ curDevInfo.extInfo.powerImport }}</div>
+            <div class="part-title" style="border: none; line-height: 35px; text-indent: 0; margin-bottom: 0; color: #606266">{{ $t('common.power') }}(kW) {{ curDevInfo.extInfo.powerImport }}</div>
             <el-row type="flex" :gutter="60">
               <el-col :span="20">
                 <el-table class="table" :data="curDevInfo.importList">
                   <el-table-column label="" prop="pvNum"></el-table-column>
-                  <el-table-column label="Voltage(V)" prop="v"></el-table-column>
-                  <el-table-column label="Current(A)" prop="A"></el-table-column>
+                  <el-table-column :label="`${$t('common.voltage')}(V)`" prop="v"></el-table-column>
+                  <el-table-column :label="`${$t('common.current')}(A)`" prop="A"></el-table-column>
                 </el-table>
               </el-col>
             </el-row>
@@ -63,10 +63,10 @@
         </common-flex>
         <common-flex style="margin-top: 24px">
           <common-flex class="part-img-box" justify="flex-end">
-            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Export:</div>
+            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">{{ $t('common.export') }}:</div>
           </common-flex>
           <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
-            <div class="part-title" style="border: none; line-height: 35px; text-indent: 0; margin-bottom: 0; color: #606266">Power(kW) {{ curDevInfo.extInfo.powerExport }}</div>
+            <div class="part-title" style="border: none; line-height: 35px; text-indent: 0; margin-bottom: 0; color: #606266">{{ $t('common.power') }}(kW) {{ curDevInfo.extInfo.powerExport }}</div>
             <el-row type="flex" :gutter="60">
               <el-col :span="20">
                 <el-table class="table" :data="curDevInfo.exportList">
@@ -81,16 +81,16 @@
 
         <common-flex style="margin-top: 24px">
           <common-flex class="part-img-box" justify="flex-end">
-            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Charging Energy:</div>
+            <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">{{ $t('site.chargingEnergy') }}:</div>
           </common-flex>
           <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
             <el-row type="flex" :gutter="60">
-              <el-col :span="10"><el-form-item label="Today(kWh)"><el-input v-model="curDevInfo.dayEnergy"></el-input></el-form-item></el-col>
-              <el-col :span="10"><el-form-item label="This Month(kWh)"><el-input v-model="curDevInfo.monthEnergy"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item :label="`${$t('common.today')}(kWh)`"><el-input v-model="curDevInfo.dayEnergy"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item :label="`${$t('common.thisMonth')}(kWh)`"><el-input v-model="curDevInfo.monthEnergy"></el-input></el-form-item></el-col>
             </el-row>
             <el-row type="flex" :gutter="60">
-              <el-col :span="10"><el-form-item label="This Year(kWh)"><el-input v-model="curDevInfo.yearEnergy"></el-input></el-form-item></el-col>
-              <el-col :span="10"><el-form-item label="Lifetime(kWh)"><el-input v-model="curDevInfo.allEnergy"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item :label="`${$t('common.thisYear')}(kWh)`"><el-input v-model="curDevInfo.yearEnergy"></el-input></el-form-item></el-col>
+              <el-col :span="10"><el-form-item :label="`${$t('common.lifetime')}(kWh)`"><el-input v-model="curDevInfo.allEnergy"></el-input></el-form-item></el-col>
             </el-row>
           </el-form>
         </common-flex>

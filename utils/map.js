@@ -90,3 +90,13 @@ export const inverterVersion = {
   2: 'Mini',
   3: 'V1.0'
 }
+
+export const newInstall = {
+  1: 'Yes',
+  2: 'No'
+}
+
+export const clientType = {
+  1: 'APP',
+  2: 'Web'
+}

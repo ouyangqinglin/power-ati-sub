@@ -348,11 +348,11 @@ export const alarmClearType = [
 
 export const alarmStatus = [
   {
-    label: 'Open',
+    label: i18n.t('alarm.open'),
     value: 0
   },
   {
-    label: 'Closed',
+    label: i18n.t('alarm.closed'),
     value: 1
   }
 ]

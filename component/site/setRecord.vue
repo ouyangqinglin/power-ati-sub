@@ -1,6 +1,6 @@
 <script>
 import {setRecodeList} from "@/api/device";
-import { inverterSetRes } from '@sub/utils/map'
+import { inverterSetRes, clientType } from '@sub/utils/map'
 export default {
   name: "site-setRecord",
   props: {
@@ -14,6 +14,7 @@ export default {
   data() {
     return {
       inverterSetRes,
+      clientType,
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -54,7 +55,7 @@ export default {
 <template>
   <div class="site-setRecord">
     <common-flex justify="space-between" align="center" style="margin-bottom: 24px">
-      <div style="font-weight: 600">Set Record</div>
+      <div style="font-weight: 600">{{ $t('site.setRecord') }}</div>
       <el-date-picker
         style="margin-right: 40px"
         format="MM-dd-yyyy"
@@ -67,22 +68,22 @@ export default {
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 v-loading="loading" :data="list" border
       >
-        <el-table-column label="No." type="index" />
-        <el-table-column label="Time" prop="">
+        <el-table-column :label="$t('common.no')" type="index" />
+        <el-table-column :label="$t('common.time')" prop="">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(+row.createTime , base.timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Parameter Name" prop="desc"></el-table-column>
-        <el-table-column label="Parameter Value" prop="param" show-overflow-tooltip></el-table-column>
-        <el-table-column label="Set Result" prop="status">
+        <el-table-column :label="$t('site.parameterName')" prop="desc"></el-table-column>
+        <el-table-column :label="$t('site.parameterValue')" prop="param" show-overflow-tooltip></el-table-column>
+        <el-table-column :label="$t('site.setResult')" prop="status">
           <template slot-scope="{ row }"><span>{{ inverterSetRes[+row.status] }}</span></template>
         </el-table-column>
-        <el-table-column label="Client Type" prop="clientType">
-          <template slot-scope="{ row }"><span>{{ ['', 'APP', 'Web'][+row.clientType] }}</span></template>
+        <el-table-column :label="$t('site.clientType')" prop="clientType">
+          <template slot-scope="{ row }"><span>{{ clientType[+row.clientType] }}</span></template>
         </el-table-column>
-        <el-table-column label="User Name" prop="createBy"></el-table-column>
+        <el-table-column :label="$t('common.userName')" prop="createBy"></el-table-column>
       </el-table>
     </div>
     <pagination

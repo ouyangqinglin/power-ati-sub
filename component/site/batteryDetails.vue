@@ -1,22 +1,22 @@
 <template>
-  <el-dialog v-if="show" :visible.sync="show" title="Battery details"
+  <el-dialog v-if="show" :visible.sync="show" :title="$t('site.batteryDetails')"
              :before-close="beforeClose"
              :close-on-click-modal ="false"
              width="66%">
     <div class="part">
       <common-flex style="width: 100%; padding-right: 24px" class="part-title" justify="space-between">
-        <div>Real-Time Data</div>
-        <el-button type="text" @click="toBms()">Go to BMS</el-button>
+        <div>{{ $t('common.realtimeData') }}</div>
+        <el-button type="text" @click="toBms()">{{ $t('site.goToBms') }}</el-button>
       </common-flex>
       <el-form disabled label-width="260px" label-position="top" style="padding: 0 24px 24px">
         <el-row :gutter="24">
           <el-col :span="8">
-            <el-form-item label="Communication">
+            <el-form-item :label="$t('site.communication')">
               <el-input disabled type="text" />
               <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="batteryInfo.net"/>
             </el-form-item>
           </el-col>
-          <el-col :span="8"><el-form-item label="Status">
+          <el-col :span="8"><el-form-item :label="$t('common.status')">
             <template v-if="+batteryInfo.storeConnectStatus === 1">
               <el-input disabled type="text" />
               <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="batteryInfo.storeStatus"/>
@@ -26,27 +26,27 @@
         </el-row>
         <el-row type="flex" :gutter="24">
           <el-col :span="8"><el-form-item label="SOC(%)"><el-input v-model="batteryInfo.soc"></el-input></el-form-item></el-col>
-          <el-col :span="8"><el-form-item label="Power (kW)"><el-input v-model="batteryInfo.power"></el-input></el-form-item></el-col>
-          <el-col :span="8"><el-form-item label="Voltage (V)"><el-input v-model="batteryInfo.voltage"></el-input></el-form-item></el-col>
+          <el-col :span="8"><el-form-item :label="`${$t('common.power')} (kW)`"><el-input v-model="batteryInfo.power"></el-input></el-form-item></el-col>
+          <el-col :span="8"><el-form-item :label="`${$t('common.voltage')} (V)`"><el-input v-model="batteryInfo.voltage"></el-input></el-form-item></el-col>
         </el-row>
         <el-row type="flex" :gutter="24">
-          <el-col :span="8"><el-form-item label="Current (A)"><el-input v-model="batteryInfo.current"></el-input></el-form-item></el-col>
+          <el-col :span="8"><el-form-item :label="`${$t('common.current')} (A)`"><el-input v-model="batteryInfo.current"></el-input></el-form-item></el-col>
         </el-row>
       </el-form>
       <el-form style="padding: 0 24px 24px; background-color: #F5F7FA; border-top: 1px solid #D8DCE6" label-width="260px" label-position="top">
         <el-row type="flex" :gutter="24">
-          <el-col :span="8"><el-form-item label="SN"><el-input readonly v-model="batteryInfo.serialNumber"></el-input></el-form-item></el-col>
-          <el-col :span="8"><el-form-item label="Hardware version"><el-input readonly v-model="batteryInfo.hardVersion"></el-input></el-form-item></el-col>
-          <el-col :span="8"><el-form-item label="Software version"><el-input readonly v-model="batteryInfo.version"></el-input></el-form-item></el-col>
+          <el-col :span="8"><el-form-item :label="$t('common.sn')"><el-input readonly v-model="batteryInfo.serialNumber"></el-input></el-form-item></el-col>
+          <el-col :span="8"><el-form-item :label="$t('common.hardwareVersion')"><el-input readonly v-model="batteryInfo.hardVersion"></el-input></el-form-item></el-col>
+          <el-col :span="8"><el-form-item :label="$t('common.softwareVersion')"><el-input readonly v-model="batteryInfo.version"></el-input></el-form-item></el-col>
         </el-row>
         <el-row type="flex" :gutter="24">
-          <el-col :span="8"><el-form-item label="Last version upgrade time"><el-input readonly v-model="batteryInfo.upgradeTime"></el-input></el-form-item></el-col>
-          <el-col :span="8"><el-form-item label="Manufacturer"><el-input readonly v-model="batteryInfo.manufacturer"></el-input></el-form-item></el-col>
+          <el-col :span="8"><el-form-item :label="$t('common.lastVersionUpgradeTime')"><el-input readonly v-model="batteryInfo.upgradeTime"></el-input></el-form-item></el-col>
+          <el-col :span="8"><el-form-item :label="$t('common.manufacturer')"><el-input readonly v-model="batteryInfo.manufacturer"></el-input></el-form-item></el-col>
         </el-row>
       </el-form>
     </div>
     <div class="part" style="margin-top: 24px">
-      <div class="part-title">Historical Information</div>
+      <div class="part-title">{{ $t('common.historicalInformation') }}</div>
       <common-flex justify="space-between" align="center">
         <div></div>
         <common-flex justify="flex-end" style="margin: 40px 0 20px 0">
@@ -325,7 +325,7 @@ export default {
         optionBat.yAxis.name = '℃'
         optionBat.legend = {
           left: 40,
-          data: ['minTemperature', 'maxTemperature'],
+          data: [this.$t('site.minTemperature'), this.$t('site.maxTemperature')],
           icon: 'circle'
         }
         for(let i = 0; i < this.dialogHisData.length; i++) {
@@ -345,7 +345,7 @@ export default {
       }
       if (this.batteryHis.batteryType === 'Temperature') {
         let itemTwo = {
-          name: 'minTemperature',
+          name: this.$t('site.minTemperature'),
           symbol: 'none',
           type: 'line',
           smooth: true,
@@ -354,7 +354,7 @@ export default {
           },
           data: arr2
         }
-        itemOne.name = 'maxTemperature'
+        itemOne.name = this.$t('site.maxTemperature')
         optionBat.series.push(itemTwo)
       }
       optionBat.series.push(itemOne)

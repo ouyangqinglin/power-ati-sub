@@ -4,34 +4,34 @@
       <el-form label-width="160px">
         <el-row>
           <el-col :span="8">
-            <el-form-item label="Component M:" prop="fileType">
+            <el-form-item :label="`${$t('upgrade.componentM')}：`" prop="fileType">
               <dict-tag :options="fileType" :value="base.fileType"></dict-tag>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Component S:" prop="component">
+            <el-form-item :label="`${$t('upgrade.componentS')}：`" prop="component">
               <dict-tag :options="inverterVersion" :value="base.component"></dict-tag>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Manufacturer:" prop="manufacturer">
+            <el-form-item :label="`${$t('common.manufacturer')}：`" prop="manufacturer">
               <span>{{manuLabel(base)}}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="Sub-module:" prop="subModule">
+            <el-form-item :label="`${$t('upgrade.submodule')}：`" prop="subModule">
               <span>{{submoduleLabel(base)}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Application Type:" prop="applicationType">
+            <el-form-item :label="`${$t('upgrade.applicationType')}：`" prop="applicationType">
               <dict-tag :options="applicationType" :value="base.applicationType"></dict-tag>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Version:" prop="versionNum"><span>{{base.versionNum}}</span></el-form-item>
+            <el-form-item :label="`${$t('common.version')}：`" prop="versionNum"><span>{{base.versionNum}}</span></el-form-item>
           </el-col>
         </el-row>
         <el-row>
@@ -44,7 +44,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Firmware package:" prop="name">
+            <el-form-item :label="`${$t('upgrade.firmwareName')}：`" prop="name">
               <el-tooltip :content="base.name" placement="top">
                 <el-link :href="`${baseUrl}${base.path}`" :underline="false" target="_blank">
                   <div style="max-width: 400px" class="ellipsis themeColor">{{base.name}}</div>
@@ -53,15 +53,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Upload by:" prop="updateBy"><span>{{ base.updateBy }}</span></el-form-item>
+            <el-form-item :label="`${$t('upgrade.uploadBy')}：`" prop="updateBy"><span>{{ base.updateBy }}</span></el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="Upload Time:" prop="versionNum"><span>{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(base.updateTime)) }}</span></el-form-item>
+            <el-form-item :label="`${$t('upgrade.uploadTime')}：`" prop="updateTime"><span>{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(base.updateTime)) }}</span></el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Version description:" prop="remark">
+            <el-form-item :label="`${$t('upgrade.versionDescription')}：`" prop="remark">
               <el-tooltip :content="base.remark" placement="top-start">
                 <div style="max-width: 400px" class="ellipsis themeColor">{{base.remark}}</div>
               </el-tooltip>
@@ -72,10 +72,10 @@
     </el-card>
     <el-card style="margin-top: 20px">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="Upgrade Task" name="1">
+        <el-tab-pane :label="$t('upgrade.upgradeTask')" name="1">
           <el-row justify="space-between" type="flex">
             <el-col :span="5">
-              <el-input clearable prefix-icon="el-icon-search" @input="searchList()" v-model.trim="params.name" placeholder="Please enter a task name"></el-input>
+              <el-input clearable prefix-icon="el-icon-search" @input="searchList()" v-model.trim="params.name" :placeholder="$t('upgrade.pleaseEnterTaskName')"></el-input>
             </el-col>
             <el-col :span="2">
               <el-button type="primary" @click="addShow = true">Add</el-button>
@@ -84,30 +84,30 @@
           <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                     v-loading="loading" :data="taskList" border
           >
-            <el-table-column label="No." align="center" width="60">
+            <el-table-column :label="$t('common.no')" align="center" width="60">
               <template slot-scope="scope">
                 {{ (+params.pageNum - 1) * (+params.pageSize) + scope.$index + 1 }}
               </template>
             </el-table-column>
-            <el-table-column label="Task ID" prop="code"></el-table-column>
-            <el-table-column label="Task Name" prop="name" min-width="120"></el-table-column>
-            <el-table-column label="QTY of Site" prop="num" min-width="120">
+            <el-table-column :label="$t('task.id')" prop="code"></el-table-column>
+            <el-table-column :label="$t('task.name')" prop="name" min-width="120"></el-table-column>
+            <el-table-column :label="$t('upgrade.qtfSite')" prop="num" min-width="120">
               <template slot-scope="{row}">
                 <span style="cursor: pointer" class="themeColor" @click="lookNum(row.code)">{{row.num}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="Status" prop="status">
+            <el-table-column :label="$t('common.status')" prop="status">
               <template slot-scope="{ row }">
                 <dict-tag :options="upgradeTaskStatus" :value="row.status" />
               </template>
             </el-table-column>
-            <el-table-column label="Remarks" prop="remarks"></el-table-column>
-            <el-table-column label="Creation Time" prop="createTime" min-width="120">
+            <el-table-column :label="$t('common.remarks')" prop="remarks"></el-table-column>
+            <el-table-column :label="$t('common.creationTime')" prop="createTime" min-width="120">
               <template slot-scope="{row}">
                 <span>{{DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(row.createTime))}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="Creation By" prop="createBy" min-width="120"></el-table-column>
+            <el-table-column :label="$t('common.creationBy')" prop="createBy" min-width="120"></el-table-column>
           </el-table>
           <pagination
             v-show="params.total>0"
@@ -117,10 +117,10 @@
             @pagination="getUpgradeTaskList"
           />
         </el-tab-pane>
-        <el-tab-pane label="Upgrade Record" name="2">
+        <el-tab-pane :label="$t('upgrade.upgradeRecord')" name="2">
           <el-row justify="space-between" type="flex">
             <el-col :span="5">
-              <el-input clearable prefix-icon="el-icon-search" @input="searchList()" v-model.trim="queryParams.name" placeholder="Please enter a task name or site name"></el-input>
+              <el-input clearable prefix-icon="el-icon-search" @input="searchList()" v-model.trim="queryParams.name" :placeholder="$t('upgrade.pleaseEnterTaskSiteName')"></el-input>
             </el-col>
             <el-col :span="2">
               <el-button type="primary" @click="excelExport"><i style="font-size: 16px" class="el-icon-download"></i></el-button>
@@ -129,35 +129,35 @@
           <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                     v-loading="loading" :data="recordList" border
           >
-            <el-table-column label="No." align="center" width="60">
+            <el-table-column :label="$t('common.no')" align="center" width="60">
               <template slot-scope="scope">
                 {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
               </template>
             </el-table-column>
-            <el-table-column label="Site Name" prop="siteName" min-width="120"></el-table-column>
-            <el-table-column label="Upgrade Mode" prop="upgradeType" min-width="160">
+            <el-table-column :label="$t('site.name')" prop="siteName" min-width="120"></el-table-column>
+            <el-table-column :label="$t('upgrade.upgradeMode')" prop="upgradeType" min-width="160">
               <template slot-scope="{row}">
                 <dict-tag :options="upgradeMode" :value="row.upgradeType" />
               </template>
             </el-table-column>
-            <el-table-column label="Upgrade Version" prop="versionNum" min-width="160">
+            <el-table-column :label="$t('upgrade.upgradeVersion')" prop="versionNum" min-width="160">
               <template slot-scope="{row}">
                 <span>{{ row.oldVersion }}->{{row.versionNum}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="Status" prop="status">
+            <el-table-column :label="$t('common.status')" prop="status">
               <template slot-scope="{ row }">
                 <dict-tag :options="upgradeResStatus" :value="row.status" />
               </template>
             </el-table-column>
-            <el-table-column label="Remarks" prop="remark"></el-table-column>
-            <el-table-column label="Operation Time" prop="createTime" min-width="160">
+            <el-table-column :label="$t('common.remark')" prop="remark"></el-table-column>
+            <el-table-column :label="$t('common.operationTime')" prop="createTime" min-width="160">
               <template slot-scope="{row}">
                 <span>{{DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(row.createTime))}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="Task Name" prop="taskName" min-width="120"></el-table-column>
-            <el-table-column label="Agency" prop="agency"></el-table-column>
+            <el-table-column :label="$t('task.name')" prop="taskName" min-width="120"></el-table-column>
+            <el-table-column :label="$t('common.agency')" prop="agency"></el-table-column>
           </el-table>
           <pagination
             v-show="queryParams.total>0"
@@ -169,40 +169,40 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
-    <el-dialog :visible.sync="show" title="QTY of Site"
+    <el-dialog :visible.sync="show" :title="$t('upgrade.qtfSite')"
                :before-close="beforeClose"
                width="66%">
       <el-form :inline="true" @submit.native.prevent size="small">
         <el-row type="flex" justify="space-between" align="middle">
           <el-col :span="10">
-            <el-form-item label="Site:">
-              <el-input clearable @keyup.enter.native="getNumList" type="text" placeholder="Please enter" v-model.trim="numParams.name"></el-input>
+            <el-form-item :label="`${$t('site.name')}：`">
+              <el-input clearable @keyup.enter.native="getNumList" type="text" :placeholder="$t('common.pleaseEnter')" v-model.trim="numParams.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-button type="primary" size="mini" @click="getNumList">Query</el-button>
-            <el-button size="mini" @click="resetGetNumList">Reset</el-button>
+            <el-button type="primary" size="mini" @click="getNumList">{{ $t('common.query') }}</el-button>
+            <el-button size="mini" @click="resetGetNumList">{{ $t('common.reset') }}</el-button>
           </el-col>
         </el-row>
       </el-form>
       <el-form>
         <el-row>
           <el-col :span="5">
-            <el-form-item label="Success:"><span class="themeColor">{{ successNum }}</span></el-form-item>
+            <el-form-item :label="`${$t('dict.success')}:`"><span class="themeColor">{{ successNum }}</span></el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="Waiting:"><span class="themeColor">{{ waitingNum }}</span></el-form-item>
+            <el-form-item :label="`${$t('dict.waiting')}:`"><span class="themeColor">{{ waitingNum }}</span></el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="Upgrading:"><span class="themeColor">{{ upgradingNum }}</span></el-form-item>
+            <el-form-item :label="`${$t('dict.upgrading')}:`"><span class="themeColor">{{ upgradingNum }}</span></el-form-item>
           </el-col>
           <el-col :span="9">
-            <el-form-item label="Fail:"><span class="themeColor">{{ failNum }}</span>  <el-link :disabled="!failNum" @click="againUpgradeTask" type="primary" style="margin-bottom: 3px">  Click here to Upgrade again</el-link></el-form-item>
+            <el-form-item :label="`${$t('dict.fail')}:`"><span class="themeColor">{{ failNum }}</span>  <el-link :disabled="!failNum" @click="againUpgradeTask" type="primary" style="margin-bottom: 3px">  {{ $t('upgrade.clickUpgradeAgain') }}</el-link></el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
-               :data="numList"
+               :data="numList" border
       >
         <el-table-column label="No." align="center" width="60">
           <template slot-scope="scope">
@@ -269,7 +269,7 @@
         </div>
       </el-row>
       <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
-                :data="siteList" @selection-change="addSelect" max-height="530"
+                :data="siteList" @selection-change="addSelect" max-height="530" border
       >
         <el-table-column
           v-if="deleteShow"

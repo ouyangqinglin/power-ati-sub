@@ -27,5 +27,9 @@ export default {
   'device.type.charger': 'EV Charger',
   'device.type.stickLogger': 'Stick Logger',
   'device.type.pv': 'Photovoltaic',
+  'dict.success': 'Success',
+  'dict.waiting': 'Waiting',
+  'dict.upgrading': 'Upgrading',
+  'dict.fail': 'Fail',
 
 }

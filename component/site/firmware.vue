@@ -2,51 +2,51 @@
   <div>
     <el-card>
       <el-row type="flex" justify="space-between" align="center" style="margin-bottom: 20px">
-        <strong>Firmware update</strong>
-        <el-button type="primary" @click="openShow">Upgrade</el-button>
+        <strong>{{ $t('upgrade.firmWare') }}</strong>
+        <el-button type="primary" @click="openShow">{{ $t('upgrade.upgrade') }}</el-button>
       </el-row>
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 v-loading="loading" :data="list" border
       >
-        <el-table-column label="No." align="center" width="60">
+        <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="Component M" prop="fileType" min-width="120">
+        <el-table-column :label="$t('upgrade.componentM')" prop="fileType" min-width="120">
           <template slot-scope="{ row }">
             <dict-tag :options="fileType" :value="row.fileType"></dict-tag>
           </template>
         </el-table-column>
-        <el-table-column label="Component S" prop="component" min-width="120">
+        <el-table-column :label="$t('upgrade.componentS')" prop="component" min-width="120">
           <template slot-scope="{ row }">
             <dict-tag :options="inverterVersion" :value="+row.component"></dict-tag>
           </template>
         </el-table-column>
-        <el-table-column label="Manufacturer" prop="manufacturer" min-width="120">
+        <el-table-column :label="$t('common.manufacturer')" prop="manufacturer" min-width="120">
           <template slot-scope="{ row }">
             <span>{{manuLabel(row)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Sub-module" prop="subModule" min-width="120">
+        <el-table-column :label="$t('upgrade.submodule')" prop="subModule" min-width="120">
           <template slot-scope="{ row }">
             <span>{{submoduleLabel(row)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Application Type" prop="applicationType" min-width="140">
+        <el-table-column :label="$t('upgrade.applicationType')" prop="applicationType" min-width="140">
           <template slot-scope="{ row }">
             <dict-tag :options="appOptions" :value="row.applicationType"></dict-tag>
           </template>
         </el-table-column>
-        <el-table-column label="Software version" prop="versionNum" min-width="140"></el-table-column>
-        <el-table-column label="Firmware Name" prop="name" show-overflow-tooltip min-width="140"></el-table-column>
-        <el-table-column label="Operation time" prop="" min-width="140">
+        <el-table-column :label="$t('common.softwareVersion')" prop="versionNum" min-width="140"></el-table-column>
+        <el-table-column :label="$t('upgrade.firmwareName')" prop="name" show-overflow-tooltip min-width="140"></el-table-column>
+        <el-table-column :label="$t('upgrade.operationTime')" prop="" min-width="140">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', row.createTime) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Status" prop="status">
+        <el-table-column :label="$t('common.status')" prop="status">
           <template slot-scope="{ row }">
             <dict-tag :options="upgradeResStatus" :value="row.status"></dict-tag>
           </template>
@@ -63,22 +63,21 @@
       </div>
     </el-card>
     <div v-if="show">
-      <el-dialog :visible.sync="show" title="Upgrade"
+      <el-dialog :visible.sync="show" :title="$t('upgrade.upgrade')"
                  :before-close="beforeClose"
                  :close-on-click-modal ="false"
                  width="46%">
         <el-form :model="toastData" :rules="rules" ref="toastRef" label-position="top">
           <el-row :gutter="24">
             <el-col :span="10">
-              <el-form-item label="Component M" prop="fileType">
+              <el-form-item :label="$t('upgrade.componentM')" prop="fileType">
                 <el-select style="width: 100%" v-model="toastData.fileType" placeholder="Please select">
                   <el-option v-for="i of compMOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <!--            111-->
             <el-col :span="10">
-              <el-form-item label="Component S" prop="component">
+              <el-form-item :label="$t('upgrade.componentS')" prop="component">
                 <el-select style="width: 100%" v-model="toastData.component" placeholder="Please select" :disabled="disabledComp">
                   <el-option v-for="i of compSOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
@@ -87,14 +86,14 @@
           </el-row>
           <el-row :gutter="24">
             <el-col :span="10">
-              <el-form-item label="Manufacturer" prop="manufacturer">
+              <el-form-item :label="$t('common.manufacturer')" prop="manufacturer">
                 <el-select style="width: 100%" v-model="toastData.manufacturer" placeholder="Please select" :disabled="disabledManu">
                   <el-option v-for="i of manufacturerOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10">
-              <el-form-item label="Sub-module" prop="subModule">
+              <el-form-item :label="$t('upgrade.submodule')" prop="subModule">
                 <el-select style="width: 100%" v-model="toastData.subModule" placeholder="Please select" :disabled="disabledSubmodule">
                   <el-option v-for="i of submoduleOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
@@ -103,21 +102,21 @@
           </el-row>
           <el-row :gutter="24">
             <el-col :span="10">
-              <el-form-item label="Application Type" prop="applicationType">
+              <el-form-item :label="$t('upgrade.applicationType')" prop="applicationType">
                 <el-select style="width: 100%" v-model="toastData.applicationType" placeholder="Please select">
                   <el-option v-for="i of appOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10">
-              <el-form-item label="Firmware Name" prop="name">
+              <el-form-item :label="$t('upgrade.firmwareName')" prop="name">
                 <el-input placeholder="Please enter" v-model="toastData.name" maxlength="50" readonly></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="24">
             <el-col :span="10">
-              <el-form-item label="Version" prop="newVersion">
+              <el-form-item :label="$t('common.version')" prop="newVersion">
                 <el-select style="width: 100%" v-model="toastData.newVersion" @change="getVersion">
                   <el-option v-for="(i, k) of newVersionList" :value="i.versionNum" :label="i.versionNum" :key="k"></el-option>
                 </el-select>
@@ -126,8 +125,8 @@
           </el-row>
         </el-form>
         <common-flex justify="center">
-          <el-button type="primary" @click="submit">Submit</el-button>
-          <el-button @click="abort">Cancel</el-button>
+          <el-button type="primary" @click="submit">{{ $t('common.submit') }}</el-button>
+          <el-button @click="abort">{{ $t('common.cancel') }}</el-button>
         </common-flex>
       </el-dialog>
     </div>

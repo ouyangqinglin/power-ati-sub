@@ -1,7 +1,7 @@
 <template>
   <div class="comp-device-card-content-right comp-battery">
     <div class="part">
-      <div class="part-title">Basic Info</div>
+      <div class="part-title">{{ $t('common.basicInfo') }}</div>
       <common-flex>
         <common-flex class="part-img-box" justify="center">
           <div class="posr" style="width: 80px; height: 80px">
@@ -13,12 +13,12 @@
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
             <el-col :span="10">
-              <el-form-item label="Communication">
+              <el-form-item :label="$t('site.communication')">
                 <el-input disabled type="text" />
                 <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="curDevInfo.net"/>
               </el-form-item>
             </el-col>
-            <el-col :span="10"><el-form-item label="Status">
+            <el-col :span="10"><el-form-item :label="$t('common.status')">
               <template v-if="+base.storeConnectStatus === 1">
                 <el-input disabled type="text" />
                 <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="curDevInfo.storeStatus"/>
@@ -27,64 +27,64 @@
             </el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Battery quantity of this site"><el-input v-model="batList.length"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Total Capacity (kwh)"><el-input v-model="curDevInfo.nameplateCapacity"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('site.siteBatteryQuantity')"><el-input v-model="batList.length"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('site.totalCapacity')} (kWh)`"><el-input v-model="curDevInfo.nameplateCapacity"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
     </div>
 
     <div class="part" style="margin-top: 24px">
-      <div class="part-title">Real-Time Data</div>
+      <div class="part-title">{{ $t('common.realtimeData') }}</div>
       <common-flex>
         <common-flex class="part-img-box" justify="flex-end"></common-flex>
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
             <el-col :span="10"><el-form-item label="SOC(%)"><el-input v-model="batEnergy.soc"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Power (kW)"><el-input v-model="batEnergy.power"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('common.power')} (kW)`"><el-input v-model="batEnergy.power"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Voltage (V)"><el-input v-model="batEnergy.voltage"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Current (A)"><el-input v-model="batEnergy.current"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('common.voltage')} (V)`"><el-input v-model="batEnergy.voltage"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('common.current')} (A)`"><el-input v-model="batEnergy.current"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Temperature (°C)"><el-input v-model="batEnergy.temperature"></el-input></el-form-item></el-col>
-          </el-row>
-        </el-form>
-      </common-flex>
-      <common-flex>
-        <common-flex class="part-img-box" justify="flex-end">
-          <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Total Charging Energy:</div>
-        </common-flex>
-        <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
-          <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Today(kWh)"><el-input v-model="batEnergy.dayChargeEnergy"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="This Month(kWh)"><el-input v-model="batEnergy.monthChargeEnergy"></el-input></el-form-item></el-col>
-          </el-row>
-          <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="This Year(kWh)"><el-input v-model="batEnergy.yearChargeEnergy"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Lifetime(kWh)"><el-input v-model="batEnergy.allChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('common.temperature')} (°C)`"><el-input v-model="batEnergy.temperature"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
       <common-flex>
         <common-flex class="part-img-box" justify="flex-end">
-          <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">Total DischargingEnergy:</div>
+          <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">{{ $t('site.totalChargingEnergy') }}:</div>
         </common-flex>
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="Today(kWh)"><el-input v-model="batEnergy.dayDisChargeEnergy"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="This Month(kWh)"><el-input v-model="batEnergy.monthDisChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('common.today')}(kWh)`"><el-input v-model="batEnergy.dayChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('common.thisMonth')}(kWh)`"><el-input v-model="batEnergy.monthChargeEnergy"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item label="This Year(kWh)"><el-input v-model="batEnergy.yearDisChargeEnergy"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item label="Lifetime(kWh)"><el-input v-model="batEnergy.allDisChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('common.thisYear')}(kWh)`"><el-input v-model="batEnergy.yearChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('common.lifetime')}(kWh)`"><el-input v-model="batEnergy.allChargeEnergy"></el-input></el-form-item></el-col>
+          </el-row>
+        </el-form>
+      </common-flex>
+      <common-flex>
+        <common-flex class="part-img-box" justify="flex-end">
+          <div class="part-title" style="border: none; line-height: 35px; margin-right: 12px">{{ $t('site.totalDischargingEnergy') }}:</div>
+        </common-flex>
+        <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item :label="`${$t('common.today')}(kWh)`"><el-input v-model="batEnergy.dayDisChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('common.thisMonth')}(kWh)`"><el-input v-model="batEnergy.monthDisChargeEnergy"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item :label="`${$t('common.thisYear')}(kWh)`"><el-input v-model="batEnergy.yearDisChargeEnergy"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('common.lifetime')}(kWh)`"><el-input v-model="batEnergy.allDisChargeEnergy"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
     </div>
     <div class="part" style="margin-top: 24px">
-      <div class="part-title">Historical Information</div>
+      <div class="part-title">{{ $t('common.historicalInformation') }}</div>
       <common-flex justify="space-between" align="center">
         <div></div>
         <common-flex justify="flex-end" style="margin: 40px 0 20px 0">
@@ -118,10 +118,10 @@
     </div>
 
     <div class="part" style="margin-top: 24px">
-      <div class="part-title">Battery List</div>
+      <div class="part-title">{{ $t('site.batteryList') }}</div>
       <el-form disabled style="padding: 0 24px 24px; flex-grow: 1" label-width="260px" label-position="top">
         <el-table :data="batList">
-          <el-table-column label="SN" prop="serialNumber">
+          <el-table-column :label="$t('common.sn')" prop="serialNumber">
             <template slot-scope="{ row }">
               <common-flex align="center" @click.native="+row.type === 1 ? details(row.serialNumber) : ''" :style="{cursor: +row.type === 1 ? 'pointer' : 'not-allowed'}">
                 <span class="dot" :style="{backgroundColor: ['#AAB2BC', '#8BEA91'][+curDevInfo.net]}"></span>
@@ -129,13 +129,13 @@
               </common-flex>
             </template>
           </el-table-column>
-          <el-table-column label="Capacity(kWh)" prop="nameplateCapacity"></el-table-column>
-          <el-table-column label="New installation" prop="installation">
+          <el-table-column :label="`${$t('common.capacity')}(kWh)`" prop="nameplateCapacity"></el-table-column>
+          <el-table-column :label="$t('site.newInstallation')" prop="installation">
             <template slot-scope="{ row }">
-              <span>{{ ['', 'Yes', 'No'][+row.installation] }}</span>
+              <span>{{ newInstall[+row.installation] }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="Lifetime" prop="lifetime"></el-table-column>
+          <el-table-column :label="$t('common.lifetime')" prop="lifetime"></el-table-column>
         </el-table>
       </el-form>
     </div>
@@ -145,10 +145,11 @@
 </template>
 
 <script>
-import BatteryDetails from "./batteryDetails.vue";
+import BatteryDetails from "./batteryDetails.vue"
 import {batEnergy, batHistoryData, infoDevice, batTotalHistoryData} from '@/api/device'
 import * as echarts from "echarts"
 import { networkStatus, storeStatus, batInfoItemBtn } from '@sub/utils/dict'
+import { newInstall } from '@sub/utils/map'
 
 let batteryStorage = {}
 let batteryInstance = null
@@ -315,6 +316,7 @@ export default {
       networkStatus,
       storeStatus,
       batInfoItemBtn,
+      newInstall,
       loading: false,
       batEnergy: {},
       sn: '',
@@ -411,7 +413,7 @@ export default {
         optionBat.yAxis.name = '℃'
         optionBat.legend = {
           left: 40,
-          data: ['minTemperature', 'maxTemperature'],
+          data: [this.$t('site.minTemperature'), this.$t('site.maxTemperature')],
           icon: 'circle'
         }
         for(let i = 0; i < batData.length; i++) {
@@ -431,7 +433,7 @@ export default {
       }
       if (this.batteryHis.batteryType === 'Temperature') {
         let itemTwo = {
-          name: 'minTemperature',
+          name: this.$t('site.minTemperature'),
           symbol: 'none',
           type: 'line',
           smooth: true,
@@ -440,7 +442,7 @@ export default {
           },
           data: arr2
         }
-        itemOne.name = 'maxTemperature'
+        itemOne.name = this.$t('site.maxTemperature')
         optionBat.series.push(itemTwo)
       }
       optionBat.series.push(itemOne)
