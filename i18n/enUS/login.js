@@ -17,5 +17,6 @@ export default {
   'login.logOut': 'Log out',
   'login.demoSites': 'Demo Sites',
   'login.pleaseChangePassword': 'Change the password before use please',
-
+  'login.changePswSuccess': 'Password changed successfully! Please log in again with the new password!',
+  'login.backLoginPage': 'return to the login page',
 }

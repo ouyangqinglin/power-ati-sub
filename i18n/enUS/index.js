@@ -7,6 +7,7 @@ import home from './home'
 import alarm from './alarm'
 import upgrade from './upgrade'
 import task from './task'
+import weather from './weather'
 
 export default {
   ...common,
@@ -17,5 +18,6 @@ export default {
   ...home,
   ...alarm,
   ...upgrade,
-  ...task
+  ...task,
+  ...weather
 }

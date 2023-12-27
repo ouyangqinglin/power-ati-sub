@@ -1,7 +1,7 @@
 <template>
   <div class="comp-overview">
     <el-card class="comp-overview-card">
-      <p>{{ $t('home.productOverview') }}</p>
+      <p>{{ $t('site.productOverview') }}</p>
       <el-row>
         <el-col :span="6">
           <common-flex class="comp-overview-card-total" direction="column" align="center">
@@ -161,7 +161,7 @@
                     <common-flex justify="space-around">
                       <img class="cur-wea-img" :src="weatherImg[weatherCodeEnum[weatherData.weatherId]]" alt="">
                       <div style="margin-right: 4.5vw">
-                        <div class="comp-overview-row-col-card-content-temperature">{{ weatherData.currentWeather }}<br>
+                        <div class="comp-overview-row-col-card-content-temperature">{{ $t(weatherData.currentWeather) }}<br>
                           {{ weatherData.currentTemp }}°C<br>
                           {{ $t('site.feelsLike') }} {{ weatherData.feelsLike }}°C<br>
                         </div>
@@ -196,45 +196,15 @@
                   <template>
                     <common-flex justify="space-around">
                       <common-flex direction="column" align="center" v-for="i of weatherData.futureWeathers" :key="i.dayOfWeek">
-                        <div class="comp-overview-row-col-card-content-day">{{ i.dayOfWeek }}</div>
+                        <div class="comp-overview-row-col-card-content-day">{{ $t(i.dayOfWeek) }}</div>
                         <img class="comp-overview-row-col-card-content-weather-img" :src="weatherImg[weatherCodeEnum[i.futureWeatherId]]" alt="">
                         <div class="comp-overview-row-col-card-content-random">{{ i.minTemp }}-{{i.maxTemp }}°C</div>
-                        <div class="comp-overview-row-col-card-content-cloud">{{ i.weather }}</div>
+                        <div class="comp-overview-row-col-card-content-cloud">{{ $t(i.weather) }}</div>
                       </common-flex>
                     </common-flex>
                   </template>
                 </el-skeleton>
               </common-flex>
-<!--              <el-skeleton style="width: 100%; height: 100%" :loading="!weatherLoading" animated>-->
-<!--                <template slot="template">-->
-<!--                  <common-flex style="width: 100%; height: 100%" direction="column" justify="space-around">-->
-<!--                    <common-flex justify="space-around">-->
-<!--                      <el-skeleton-item-->
-<!--                        variant="image"-->
-<!--                        style="width: 80px; height:80px;"-->
-<!--                      />-->
-<!--                      <common-flex direction="column" style="width: 60%">-->
-<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
-<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
-<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
-<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
-<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
-<!--                      </common-flex>-->
-<!--                    </common-flex>-->
-<!--                    <common-flex justify="space-around">-->
-<!--                      <common-flex direction="column" align="center" v-for="i of 4" :key="i">-->
-<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
-<!--                        <el-skeleton-item variant="image" style="width: 56px; height: 56px" />-->
-<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
-<!--                        <el-skeleton-item variant="text" style="width: 80%;" />-->
-<!--                      </common-flex>-->
-<!--                    </common-flex>-->
-<!--                  </common-flex>-->
-<!--                </template>-->
-<!--                <template>-->
-
-<!--                </template>-->
-<!--              </el-skeleton>-->
             </common-flex>
           </common-flex>
         </el-card>
@@ -798,7 +768,7 @@ export default {
               t1 = `${(+v[0].value / 1000).toFixed(2)}`
               unit1 = 'MWh'
             }
-            v0 = `${v[0].marker}${v[0].seriesName}: ${t1}${unit1}`
+            v0 = `${v[0].marker}${v[0].seriesName}：${t1}${unit1}`
           }
           if (v[1]) {
             if (v[1].value < 1) {
@@ -869,7 +839,7 @@ export default {
               t1 = `${(+v[0].value / 1000).toFixed(2)}`
               unit1 = 'MWh'
             }
-            v0 = `${v[0].marker}${v[0].seriesName}: ${t1}${unit1}`
+            v0 = `${v[0].marker}${v[0].seriesName}：${t1}${unit1}`
           }
           if (v[1]) {
             if (v[1].value < 1) {

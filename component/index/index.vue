@@ -5,7 +5,7 @@
         <el-col :xl="leftXl" :md="leftMd">
           <el-card>
             <common-flex style="height: 100%" direction="column">
-              <div class="content-title">{{ $t('home.productOverview')}}}</div>
+              <div class="content-title">{{ $t('home.productOverview') }}</div>
               <common-flex class="pages-index-overview" align="center" direction="column">
                 <common-flex justify="center" align="center" class="pages-index-overview-img">
                   <img :src="require('@img/home/pro.svg')" alt="">

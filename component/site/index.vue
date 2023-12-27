@@ -99,8 +99,8 @@
     </el-card>
     <div style="height: 20px"></div>
     <el-card>
-      <common-flex justify="space-between" align="center">
-        <p class="table-title">{{ $t('site.siteList') }}</p>
+      <common-flex class="mt5 mb10" justify="space-between" align="center">
+        <div></div>
         <common-flex>
           <common-flex align="center" class="item">
             <span class="dot" style="background-color: #06A561"></span>

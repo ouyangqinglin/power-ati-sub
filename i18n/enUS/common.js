@@ -83,6 +83,8 @@ export default {
   'common.creationTime': 'Creation Time',
   'common.creationBy': 'Creation By',
   'common.operationTime': 'Operation Time',
+  'common.import': 'Import',
+  'common.export': 'Export',
 
 
 }

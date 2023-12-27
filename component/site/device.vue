@@ -4,8 +4,8 @@
       <common-flex align="center" class="comp-device-card-header">
         <div class="title-text">Device Info</div>
         <common-flex auto justify="flex-end" v-has-permi="['ati:site:device']">
-          <el-button type="primary" @click="addDevice">Add</el-button>
-          <el-button @click="delShow = true">Delete</el-button>
+          <el-button type="primary" @click="addDevice">{{ $t('common.add') }}</el-button>
+          <el-button @click="delShow = true">{{ $t('common.delete') }}</el-button>
         </common-flex>
       </common-flex>
       <common-flex class="comp-device-card-content" v-if="currentItem">
@@ -707,11 +707,11 @@ export default {
         let haveInverter = this.listDev.find(i => +i.deviceType === 1)
         let haveStick = this.listDev.find(i => +i.deviceType === 4)
         let havePv = this.listDev.find(i => +i.deviceType === 6)
-        if (haveStick) this.$set(this.navBar, 'Stick Logger', '4')
-        if (haveInverter) this.$set(this.navBar, 'Inverter', '1')
-        if (haveBattery) this.$set(this.navBar, 'Battery', '2')
-        if (havePv) this.$set(this.navBar, 'Photovoltaic', '6')
-        if (haveCharge) this.$set(this.navBar, 'EV Charger', '3')
+        if (haveStick) this.$set(this.navBar, this.$t('device.type.stickLogger'), '4')
+        if (haveInverter) this.$set(this.navBar, this.$t('device.type.inverter'), '1')
+        if (haveBattery) this.$set(this.navBar, this.$t('device.type.battery'), '2')
+        if (havePv) this.$set(this.navBar, this.$t('device.type.pv'), '6')
+        if (haveCharge) this.$set(this.navBar, this.$t('device.type.charger'), '3')
         let haveTypeList = [4, 1, 2, 6, 3]
         let i = 0
         for(i; i < haveTypeList.length; i++) {

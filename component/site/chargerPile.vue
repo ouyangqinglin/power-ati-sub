@@ -21,7 +21,7 @@
                 <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="curDevInfo.net"/>
               </el-form-item>
             </el-col>
-            <el-col :span="10"><el-form-item :label="$t('common.sessionStarted')"><el-input v-model="curDevInfo.startTime"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('site.sessionStarted')"><el-input v-model="curDevInfo.startTime"></el-input></el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
             <el-col :span="10"><el-form-item :label="$t('site.duration')"><el-input v-model="curDevInfo.duration"></el-input></el-form-item></el-col>

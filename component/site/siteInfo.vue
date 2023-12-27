@@ -58,7 +58,7 @@
             <el-input v-model="copyBase[i.prop]" maxlength="50"></el-input>
           </template>
           <template v-else-if="i.prop === 'address'">
-            <el-input type="textarea" show-word-limit maxlength="200" v-model="copyBase[i.prop]"></el-input>
+            <el-input type="textarea" autosize show-word-limit maxlength="200" v-model="copyBase[i.prop]"></el-input>
           </template>
           <template v-else>
             <el-input :disabled="index > 0 && index < 5" v-model="copyBase[i.prop]"></el-input>
@@ -144,7 +144,7 @@ export default {
           prop: 'siteName'
         },
         {
-          label: this.$t('common.nickName'),
+          label: this.$t('site.nickName'),
           prop: 'nickName'
         },
         {

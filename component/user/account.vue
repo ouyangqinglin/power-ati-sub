@@ -185,10 +185,9 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        email: null,
         type: 1,
-        userName: null,
-        agentUid: null,
+        email: '',
+        userName: '',
         status: '',
         agentName: ''
       },
@@ -202,8 +201,8 @@ export default {
       'timeZone': state => state.user.timeZone,
     })
   },
-  created() {
-    this.getList();
+  mounted() {
+    this.getList()
   },
   methods: {
     openModify(i) {
@@ -221,7 +220,11 @@ export default {
     /** 查询用户列表 */
     getList() {
       this.loading = true;
-      listAtiUser(this.queryParams).then(response => {
+      let data = {}
+      if (+this.queryParams.type === 5) {
+        data = {...this.queryParams, agentName: ''}
+      } else data = this.queryParams
+      listAtiUser(data).then(response => {
         response.rows.forEach(i => {
           Object.keys(i).forEach(k => {
             if (!i[k]) i[k] = '--'
@@ -233,25 +236,7 @@ export default {
         this.loading = false
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        id: null,
-        email: null,
-        password: null,
-        phone: null,
-        type: null,
-        createTime: null,
-        userName: null,
-        agentUid: null
-      };
-      this.resetForm("form");
-    },
+
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
@@ -260,6 +245,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      if (+this.queryParams.type !== 5) this.queryParams.agentName = ''
       this.handleQuery();
     },
     // 多选框选中数据

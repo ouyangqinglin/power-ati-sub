@@ -133,7 +133,7 @@ export default {
           value: 1
         },
         {
-          label: 'Limit',
+          label: 'UnderLoad',
           value: 2
         },
       ],
@@ -496,7 +496,7 @@ export default {
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="Inverter Working Mode Setting" prop="307">
+              <el-form-item label="WorkMode Set" prop="307">
                 <el-select v-model="deviceBase[307]" style="width: 60%">
                   <el-option v-for="(i, k) of inverterWorkOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -560,7 +560,7 @@ export default {
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="Grid Power Limit Switch" prop="302">
+              <el-form-item label="Export Limit" prop="302">
                 <el-select v-model="deviceBase[302]" style="width: 60%">
                   <el-option v-for="(i, k) of onOffOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -568,7 +568,7 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Grid Power Ratio Setting(%)" prop="303">
+              <el-form-item label="Export Limit(%)" prop="303">
                 <el-input @blur="inputVerify(303)" v-model="deviceBase[303]" style="width: 60%" placeholder="Please enter"></el-input>
                 <el-button :disabled="!deviceBase[303]" type="primary" plain class="ml10" @click="setDevice(303)">Set</el-button>
               </el-form-item>
@@ -581,7 +581,7 @@ export default {
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="On Grid SOC Protection" prop="328">
+              <el-form-item label="On-grid SOC Protection" prop="328">
                 <el-select v-model="deviceBase[328]" style="width: 60%">
                   <el-option v-for="(i, k) of onOffOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -589,13 +589,13 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="On Grid Battery End SOC(%)" prop="329">
+              <el-form-item label="On-grid End SOC(%)" prop="329">
                 <el-input @blur="inputVerify(329)" v-model="deviceBase[329]" style="width: 60%" placeholder="Please enter"></el-input>
                 <el-button :disabled="!deviceBase[329]" type="primary" plain class="ml10" @click="setDevice(329)">Set</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Off Grid SOC Protection" prop="330">
+              <el-form-item label="Off-grid SOC Protection" prop="330">
                 <el-select v-model="deviceBase[330]" style="width: 60%">
                   <el-option v-for="(i, k) of onOffOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -605,7 +605,7 @@ export default {
           </el-row>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="Off Grid Battery End SOC(%)" prop="331">
+              <el-form-item label="Off-Grid End SOC(%)" prop="331">
                 <el-input @blur="inputVerify(331)" v-model="deviceBase[331]" style="width: 60%" placeholder="Please enter"></el-input>
                 <el-button :disabled="!deviceBase[331]" type="primary" plain class="ml10" @click="setDevice(331)">Set</el-button>
               </el-form-item>
@@ -620,7 +620,7 @@ export default {
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="Overload Method" prop="301">
+              <el-form-item label="Maximum Output Power" prop="301">
                 <el-select v-model="deviceBase[301]" style="width: 60%">
                   <el-option v-for="(i, k) of overloadOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -628,7 +628,7 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="N_PE Check SwitchN_PE" prop="315">
+              <el-form-item label="N-PE Check" prop="315">
                 <el-select v-model="deviceBase[315]" style="width: 60%">
                   <el-option v-for="(i, k) of onOffOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -636,7 +636,7 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Inverter Working Mode Setting" prop="307">
+              <el-form-item label="WorkMode Set" prop="307">
                 <el-select v-model="deviceBase[307]" style="width: 60%">
                   <el-option v-for="(i, k) of inverterWorkOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -778,7 +778,7 @@ export default {
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="Grid Power Limit Switch" prop="302">
+              <el-form-item label="Export Limit" prop="302">
                 <el-select v-model="deviceBase[302]" style="width: 60%">
                   <el-option v-for="(i, k) of onOffOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -786,13 +786,13 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Grid Power Ratio Setting(%)" prop="303">
+              <el-form-item label="Export Limit(%)" prop="303">
                 <el-input @blur="inputVerify(303)" v-model="deviceBase[303]" style="width: 60%" placeholder="Please enter"></el-input>
                 <el-button :disabled="!deviceBase[303]" type="primary" plain class="ml10" @click="setDevice(303)">Set</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Reactive Power Percentage(%)" prop="304">
+              <el-form-item label="Reactive Power Limit Percentage(%)" prop="304">
                 <el-input @blur="inputVerify(304)" v-model="deviceBase[304]" style="width: 60%" placeholder="Please enter"></el-input>
                 <el-button :disabled="!deviceBase[304]" type="primary" plain class="ml10" @click="setDevice(304)">Set</el-button>
               </el-form-item>
@@ -800,13 +800,13 @@ export default {
           </el-row>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="PF" prop="305">
+              <el-form-item label="Power Factor" prop="305">
                 <el-input @blur="inputVerify(305)" v-model="deviceBase[305]" style="width: 60%" placeholder="Please enter"></el-input>
                 <el-button :disabled="!deviceBase[305]" type="primary" plain class="ml10" @click="setDevice(305)">Set</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Reactive Power Control Mode" prop="306">
+              <el-form-item label="Reactive Mode" prop="306">
                 <el-select v-model="deviceBase[306]" style="width: 60%">
                   <el-option v-for="(i, k) of controlModeOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -821,7 +821,7 @@ export default {
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="Safety Code" prop="300">
+              <el-form-item label="Safety Code Settings" prop="300">
                 <el-select v-model="deviceBase[300]" style="width: 60%">
                   <el-option v-for="(i, k) of safeCodeOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -829,7 +829,7 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Enable UPS Switch" prop="308">
+              <el-form-item label="On/Off-Grid Switch" prop="308">
                 <el-select v-model="deviceBase[308]" style="width: 60%">
                   <el-option v-for="(i, k) of onOffOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -880,7 +880,7 @@ export default {
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="On Grid SOC Protection" prop="328">
+              <el-form-item label="On-grid SOC Protection" prop="328">
                 <el-select v-model="deviceBase[328]" style="width: 60%">
                   <el-option v-for="(i, k) of onOffOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -888,13 +888,13 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="On Grid Battery End SOC(%)" prop="329">
+              <el-form-item label="On-grid End SOC(%)" prop="329">
                 <el-input @blur="inputVerify(329)" v-model="deviceBase[329]" style="width: 60%" placeholder="Please enter"></el-input>
                 <el-button :disabled="!deviceBase[329]" type="primary" plain class="ml10" @click="setDevice(329)">Set</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Off Grid SOC Protection" prop="330">
+              <el-form-item label="Off-grid SOC Protection" prop="330">
                 <el-select v-model="deviceBase[330]" style="width: 60%">
                   <el-option v-for="(i, k) of onOffOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
@@ -904,7 +904,7 @@ export default {
           </el-row>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="Off Grid Battery End SOC(%)" prop="331">
+              <el-form-item label="Off-Grid End SOC(%)" prop="331">
                 <el-input @blur="inputVerify(331)" v-model="deviceBase[331]" style="width: 60%" placeholder="Please enter"></el-input>
                 <el-button :disabled="!deviceBase[331]" type="primary" plain class="ml10" @click="setDevice(331)">Set</el-button>
               </el-form-item>
@@ -917,7 +917,7 @@ export default {
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
-              <el-form-item label="Pave Sign" prop="314">
+              <el-form-item label="Multiple Inverter Role" prop="314">
                 <el-select v-model="deviceBase[314]" style="width: 60%">
                   <el-option v-for="(i, k) of paveSignOptions" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>

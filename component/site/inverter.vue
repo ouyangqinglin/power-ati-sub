@@ -112,7 +112,7 @@
         </common-flex>
       </div>
       <div class="part" v-else>
-        <div class="part-title">Real-Time Data</div>
+        <div class="part-title">{{ $t('common.realtimeData') }}</div>
         <common-flex>
           <common-flex class="part-img-box" justify="center">
             <img class="device-img" :src="require('./img/device-load.svg')" alt="">
