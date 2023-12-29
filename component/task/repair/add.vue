@@ -1,60 +1,59 @@
 <template>
   <div class="pages-task-repair">
     <el-card class="pages-task-repair-card">
-      <div class="pages-task-repair-card-title">Info</div>
+      <div class="pages-task-repair-card-title">{{ $t('task.info') }}</div>
       <el-form class="pages-task-repair-card-form" :model="base" :rules="rule" ref="ruleForm">
-        <el-form-item prop="title" label="Fault Title">
-          <el-input maxlength="50" v-model="base.title" type="text" placeholder="Please enter" />
+        <el-form-item prop="title" :label="$t('task.faultTitle')">
+          <el-input maxlength="50" v-model="base.title" type="text" :placeholder="$t('common.pleaseEnter')" />
         </el-form-item>
-        <el-form-item prop="remark" label="Fault Description">
-          <el-input maxlength="200" v-model="base.remark" show-word-limit type="textarea" placeholder="Please enter" />
+        <el-form-item prop="remark" :label="$t('task.faultDescription')">
+          <el-input maxlength="200" v-model="base.remark" show-word-limit type="textarea" :placeholder="$t('common.pleaseEnter')" />
         </el-form-item>
         <common-flex>
-          <el-form-item prop="type" label="Task Type" style="margin-right: 90px">
+          <el-form-item prop="type" :label="$t('task.type')" style="margin-right: 90px">
             <el-input disabled type="text" />
             <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskType" :value="base.type"/>
           </el-form-item>
-          <el-form-item prop="taskCode" label="Task Code">
-            <el-input v-model="base.taskCode" placeholder="System generation" disabled type="text" />
+          <el-form-item prop="taskCode" :label="$t('task.code')" style="margin-right: 90px">
+            <el-input v-model="base.taskCode" :placeholder="$t('common.systemGeneration')" disabled type="text" />
           </el-form-item>
-        </common-flex>
-        <common-flex justify="space-between">
-          <el-form-item prop="siteName" label="Site" style="margin-right: 90px">
-            <el-input v-model="base.siteName" disabled type="text" />
-          </el-form-item>
-          <el-form-item prop="agentName" label="Agency" style="margin-right: 90px">
-            <el-input v-model="base.agentName" disabled type="text" />
-          </el-form-item>
-          <el-form-item prop="appointTime" label="Time of Appointment" style="margin-right: 90px">
-            <el-date-picker placeholder="Please select" style="width: 100%" type="datetime" format="M/d/yyyy HH:mm"
-                            v-model="base.appointTime"
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            size="medium" />
-          </el-form-item>
-        </common-flex>
-        <common-flex>
-          <el-form-item prop="customer" label="Customer" style="margin-right: 90px">
-            <el-select style="width: 100%" v-model="base.customer" placeholder="Please select" :disabled="customerOption.length === 1">
+          <el-form-item prop="customer" :label="$t('common.customer')" style="margin-right: 90px">
+            <el-select style="width: 100%" v-model="base.customer" :placeholder="$t('common.pleaseSelect')" :disabled="customerOption.length === 1">
               <el-option v-for="(i, k) of customerOption" :key="k" :label="i.userName" :value="i.id"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="phone" label="Phone" style="margin-right: 90px">
-            <el-input @input="checkPhone" v-model="base.phone" type="text" maxlength="20" placeholder="Please Enter" />
+        </common-flex>
+        <common-flex justify="space-between">
+          <el-form-item prop="siteName" :label="$t('site.name')" style="margin-right: 90px">
+            <el-input v-model="base.siteName" disabled type="text" />
+          </el-form-item>
+          <el-form-item prop="agentName" :label="$t('common.agency')" style="margin-right: 90px">
+            <el-input v-model="base.agentName" disabled type="text" />
+          </el-form-item>
+          <el-form-item prop="appointTime" :label="$t('task.appointmentTime')" style="margin-right: 90px">
+            <el-date-picker :placeholder="$t('common.pleaseSelect')" style="width: 100%" type="datetime" format="M/d/yyyy HH:mm"
+                            v-model="base.appointTime"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            />
           </el-form-item>
         </common-flex>
-        <el-form-item prop="address" label="Address">
-          <el-input v-model="base.address" maxlength="200" type="textarea" show-word-limit placeholder="Please Enter" />
+        <common-flex>
+          <el-form-item prop="phone" :label="$t('common.phone')" style="margin-right: 90px">
+            <el-input @input="checkPhone" v-model="base.phone" type="text" maxlength="20" :placeholder="$t('common.pleaseEnter')" />
+          </el-form-item>
+        </common-flex>
+        <el-form-item prop="address" :label="$t('common.address')">
+          <el-input v-model="base.address" maxlength="200" type="textarea" show-word-limit :placeholder="$t('common.pleaseEnter')" />
         </el-form-item>
       </el-form>
     </el-card>
     <el-card class="pages-task-repair-card">
-      <div class="pages-task-repair-card-title">Repairman</div>
+      <div class="pages-task-repair-card-title">{{ $t('task.repairman') }}</div>
       <el-form class="pages-task-repair-card-form" :model="repairmanInfo" :rules="manRule" ref="installForm">
         <common-flex>
-          <el-form-item label="RepairMan" class="my-item" prop="userName">
-            <template slot="label"><span>Repairman</span></template>
+          <el-form-item :label="$t('task.repairman')" class="my-item" prop="userName">
             <div class="posr">
-              <el-input @focus="openMan" style="width: 100%" readonly v-model="repairmanInfo.userName" placeholder="Please select"></el-input>
+              <el-input @focus="openMan" style="width: 100%" readonly v-model="repairmanInfo.userName" :placeholder="$t('common.pleaseSelect')"></el-input>
               <i @click="openMan" class="el-icon-search posa right-search"></i>
             </div>
           </el-form-item>
@@ -63,11 +62,11 @@
     </el-card>
     <el-card class="pages-task-repair-footer">
       <common-flex justify="center">
-        <el-button @click="submit('ruleForm')" type="primary">Submit</el-button>
-        <el-button @click="cancel">Cancel</el-button>
+        <el-button @click="submit('ruleForm')" type="primary">{{ $t('common.submit') }}</el-button>
+        <el-button @click="cancel">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-card>
-    <AddDialog :show.sync="show" :type="2" @change="getRepairman" :haveSelect="base.installUid" header="Please select a Repairman" />
+    <AddDialog :show.sync="show" :type="2" @change="getRepairman" :haveSelect="base.installUid" :header="`${$t('common.pleaseSelect')}${$t('task.repairman')}`" />
   </div>
 </template>
 
@@ -97,32 +96,32 @@ export default {
       },
       manRule: {
         userName: [
-          { required: true, message: 'Please select a installer', trigger: 'change'}
+          { required: true, message: this.$t('common.pleaseSelect'), trigger: 'change'}
         ]
       },
       submit1: false,
       submit2: false,
       rule: {
         title: [
-          { required: true, message: 'Please enter', trigger: 'blur'}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: 'blur'}
         ],
         remark: [
-          { required: true, message: 'Please enter', trigger: 'blur'}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: 'blur'}
         ],
         appointTime: [
-          { type: 'string', required: true, message: 'Please enter', trigger: 'blur' }
+          { type: 'string', required: true, message: this.$t('common.pleaseEnter'), trigger: 'blur' }
         ],
         customer: [
-          { required: true, message: 'Please select', trigger: ['blur', 'change']}
+          { required: true, message: this.$t('common.pleaseSelect'), trigger: ['blur', 'change']}
         ],
         phone: [
-          { required: true, message: 'Please enter', trigger: 'blur'}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: 'blur'}
         ],
         address: [
-          { required: true, message: 'Please enter', trigger: 'blur'}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: 'blur'}
         ],
         repairMan: [
-          { required: true, message: 'Please enter', trigger: 'blur'}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: 'blur'}
         ]
       },
     }
@@ -194,7 +193,7 @@ export default {
           if (+res.code === 200) {
             this.$message({
               type: 'success',
-              message: 'Succeeded!'
+              message: this.$t('common.succeeded')
             })
             setTimeout(() => {
               this.$router.push(`/task/repair?refresh=${true}`)
@@ -234,7 +233,6 @@ export default {
     }
   }
   .my-item {
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
     .el-form-item__label {

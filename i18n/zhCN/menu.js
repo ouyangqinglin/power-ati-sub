@@ -21,7 +21,7 @@ export default {
   'menu.siteDetails': '站点详情',
   'menu.deviceDetails': '设备详情',
   'menu.bmsDetails': 'BMS监控',
-  'menu.taskDetails': '任务视图',
+  'menu.taskDetails': '任务详情',
   'menu.taskEdit': '任务编辑',
   'menu.taskAdd': '任务添加',
   'menu.toolManage': '系统工具',

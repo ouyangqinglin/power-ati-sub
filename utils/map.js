@@ -1,4 +1,4 @@
-import i18n from "@/i18n";
+import I18n from "@/i18n";
 
 export const weatherCodeEnum = {
   "200": "thunderstorm", //雷雨
@@ -59,9 +59,9 @@ export const weatherCodeEnum = {
 }
 
 export const deviceCapacityLabel = {
-  1: 'Rated Power (kW)',
-  2: 'Capacity (kWh)',
-  6: 'Total Component capacity(kW) ',
+  1: `${I18n.t('site.ratedPower')} (kW)`,
+  2: `${I18n.t('common.capacity')} (kWh)`,
+  6: `${I18n.t('site.totalComponentCapacity')} (kW)`,
 }
 
 export const tagType = {

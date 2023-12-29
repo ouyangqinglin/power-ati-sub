@@ -85,6 +85,8 @@ export default {
   'common.operationTime': 'Operation Time',
   'common.import': 'Import',
   'common.export': 'Export',
+  'common.operator': 'Operator',
+  'common.systemGeneration': 'System Generation',
 
 
 }

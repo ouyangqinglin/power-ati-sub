@@ -1,7 +1,7 @@
 <template>
   <div class="comp-analysis-fault-pile">
     <common-flex style="height: 76px" justify="space-between" align="center" wrap="wrap">
-      <strong>Alarm Distribution</strong>
+      <strong>{{ $t('analysis.alarmDistribution') }}</strong>
       <DateTypePicker @emitDate="getDateParams" />
     </common-flex>
     <div class="posr">
@@ -33,9 +33,9 @@ let option = {
       avoidLabelOverlap: false,
       radius: ['30%', '70%'],
       data: [
-        { value: 0, name: 'Notice' },
-        { value: 0, name: 'Warning' },
-        { value: 0, name: 'Fault' },
+        { value: 0, name: I18n.t('alarm.notice') },
+        { value: 0, name: I18n.t('alarm.warning') },
+        { value: 0, name: I18n.t('alarm.fault') },
       ],
       label: {
         formatter(v) {
@@ -48,6 +48,7 @@ let option = {
 
 import { pileNum } from '@/api/fault'
 import {mapState} from "vuex";
+import I18n from "@/i18n";
 export default {
   name: 'comp-analysis-fault-pile',
   components: {

@@ -1,10 +1,10 @@
 <template>
   <div class="pages-task-modify">
     <el-card class="pages-task-modify-card">
-      <div class="pages-task-modify-card-title">Process</div>
+      <div class="pages-task-modify-card-title">{{ $t('task.process') }}</div>
       <div style="padding: 0 80px">
         <el-steps class="custom-step" :active="active" finish-status="success">
-          <el-step title="Task Created">
+          <el-step :title="$t('task.created')">
             <template slot="description">
               <div>{{ base.createBy }}</div>
             </template>
@@ -13,7 +13,7 @@
               <div v-else>--</div>
             </template>
           </el-step>
-          <el-step title="Task Received">
+          <el-step :title="$t('task.received')">
             <template v-if="+active > 1">
               <template slot="description">
                 <div>{{ base.installer }}</div>
@@ -24,7 +24,7 @@
               </template>
             </template>
           </el-step>
-          <el-step title="Completed">
+          <el-step :title="$t('task.completed')">
             <template v-if="+active > 2">
               <template slot="description">
                 <div>{{ base.installer }}</div>
@@ -39,17 +39,17 @@
       </div>
     </el-card>
     <el-card class="pages-task-modify-card">
-      <div class="pages-task-modify-card-title">Task Info</div>
+      <div class="pages-task-modify-card-title mb10">{{ $t('task.info') }}</div>
       <el-form class="pages-task-modify-card-form" :model="base" :rules="rules" ref="ruleForm">
         <el-form-item v-for="(i, index) of formList" :key="i.prop" :prop="i.prop">
           <template slot="label"><span>{{ i.label }}</span></template>
           <template v-if="['remark', 'address'].includes(i.prop)">
-            <el-input show-word-limit maxlength="200" style="width: 60vw" type="textarea" v-model="base[i.prop]"></el-input>
+            <el-input show-word-limit maxlength="200" style="width: 60vw" type="textarea" :placeholder="$t('common.pleaseEnter')" v-model="base[i.prop]"></el-input>
           </template>
           <template v-else-if="i.prop === 'appointTime'">
             <el-date-picker style="width: 100%" type="datetime" format="M/d/yyyy HH:mm"
                             v-model="base.appointTime"
-                            size="medium"
+                            :placeholder="$t('common.pleaseSelect')"
             >
             </el-date-picker>
           </template>
@@ -62,7 +62,7 @@
             <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskInstallStatus" :value="base.status"/>
           </template>
           <template v-else-if="i.prop === 'phone'">
-            <el-input @input="checkPhone" v-model="base[i.prop]" type="text" maxlength="20"></el-input>
+            <el-input @input="checkPhone" v-model="base[i.prop]" type="text" :placeholder="$t('common.pleaseEnter')" maxlength="20"></el-input>
           </template>
           <template v-else>
             <el-input :disabled="!(index > 5)" v-model="base[i.prop]"></el-input>
@@ -72,10 +72,9 @@
 
     </el-card>
     <el-card class="pages-task-modify-card">
-      <div class="pages-task-modify-card-title">Installer</div>
+      <div class="pages-task-modify-card-title">{{ $t('task.installer') }}</div>
       <el-form class="pages-task-modify-card-form" :model="base" :rules="installRule" ref="installForm">
-        <el-form-item label="Installer" class="my-item" prop="userName">
-          <template slot="label"><span>Installer</span></template>
+        <el-form-item :label="$t('task.installer')" class="my-item" prop="userName">
           <div class="posr">
             <el-input readonly style="width: 100%" v-model="base.installer" @focus="openAdd"></el-input>
             <i @click="openAdd" class="el-icon-search posa right-search"></i>
@@ -85,11 +84,11 @@
     </el-card>
     <el-card class="pages-task-modify-footer">
       <common-flex justify="center">
-        <el-button type="primary" @click="submitForm('ruleForm')">Submit</el-button>
-        <el-button @click="cancel">Cancel</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">{{ $t('common.submit') }}</el-button>
+        <el-button @click="cancel">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-card>
-    <AddDialog :show.sync="showModel" :type="2" @change="getInstaller" :haveSelect="base.installUid" header="Please select a installer" />
+    <AddDialog :show.sync="showModel" :type="2" @change="getInstaller" :haveSelect="base.installUid" :header="`${$t('common.pleaseSelect')}${$t('task.installer')}`" />
   </div>
 </template>
 
@@ -99,6 +98,7 @@ import AddDialog from "@subComp/task/install/add-dialog.vue"
 import {mapState} from "vuex";
 import { taskType, taskInstallStatus } from '@sub/utils/dict'
 import { formList } from "./config"
+import I18n from "@/i18n"
 
 export default {
   name: "pages-task-modify",
@@ -117,18 +117,18 @@ export default {
       id: '',
       installRule: {
         installer: [
-          { required: true, message: 'Please select a installer', trigger: 'change'}
+          { required: true, message: I18n.t('common.pleaseSelect'), trigger: 'change'}
         ]
       },
       rules: {
         phone: [
-          { required: true, message: 'Please enter phone', trigger: 'blur'}
+          { required: true, message: I18n.t('common.pleaseEnter'), trigger: 'blur'}
         ],
         appointTime: [
-          { required: true, message: 'Please enter appoint time', trigger: 'change'}
+          { required: true, message: I18n.t('common.pleaseSelect'), trigger: 'change'}
         ],
         address: [
-          { required: true, message: 'Please enter address', trigger: 'blur'}
+          { required: true, message: I18n.t('common.pleaseEnter'), trigger: 'blur'}
         ],
       },
       formList,
@@ -194,7 +194,7 @@ export default {
             // Add successfully!
             this.$message({
               type: 'success',
-              message: 'Succeeded!'
+              message: this.$t('common.succeeded')
             })
             setTimeout(() => {
               this.$router.push(`/task/install?refresh=${true}`)
@@ -264,7 +264,7 @@ export default {
       }
     }
     .my-item {
-      margin-top: 20px;
+      margin-top: 10px;
       display: flex;
       flex-direction: column;
       .el-form-item__label {

@@ -1,7 +1,7 @@
 <template>
   <div class="comp-analysis-fault-rank">
     <common-flex justify="space-between" align="center">
-      <strong>Alarm Ranking (Top 10)</strong>
+      <strong>{{ $t('analysis.alarmRank') }}</strong>
       <DateTypePicker @emitDate="getDateParams" />
     </common-flex>
     <el-row :gutter="16">
@@ -25,14 +25,16 @@
 import DateTypePicker from "@/components/common/dateTypePicker.vue";
 import * as echarts from "echarts";
 import { alarmRank, siteAlarmRank } from '@/api/fault'
-import {mapState} from "vuex";
+import {mapState} from "vuex"
+import I18n from "@/i18n"
+
 let lineAxis = [], chartsInstanceOne = null, chartsInstanceTwo = null, alarmNameArr = [], siteNameArr = []
 for (let i = 10; i > 0; i--) {
   lineAxis.push(i)
 }
 let optionOne = {
   title: {
-    text: 'Alarm Name Ranking  (Top 10)',
+    text: I18n.t('analysis.alarmNameRank'),
     textStyle: {
       fontSize: 12,
       color: '#909399'
@@ -164,7 +166,7 @@ let optionOne = {
 }
 let optionTwo = {
   title: {
-    text: 'Site Alarm Ranking  (Top 10)',
+    text: I18n.t('analysis.siteAlarmRank'),
     textStyle: {
       fontSize: 12,
       color: '#909399'

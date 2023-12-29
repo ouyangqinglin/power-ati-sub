@@ -2,25 +2,26 @@
   <div class="pages-fault app-container">
     <el-card class="pages-fault-card pane">
       <el-tabs v-model="queryParams.recoveryStatus" @tab-click="changePane">
-        <el-tab-pane name="0" label="Open"></el-tab-pane>
-        <el-tab-pane name="1" label="Closed"></el-tab-pane>
+        <template v-for="i of alarmStatus">
+          <el-tab-pane :name="i.value+''" :label="i.label"></el-tab-pane>
+        </template>
       </el-tabs>
     </el-card>
     <el-card style="margin-top: 24px">
       <el-form :model="queryParams" label-width="100px" ref="queryForm">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="Site Name：" prop="siteName">
-              <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.siteName"></el-input>
+            <el-form-item :label="`${$t('site.name')}：`" prop="siteName">
+              <el-input @keyup.enter.native="handleQuery" :placeholder="$t('common.pleaseEnter')" v-model="queryParams.siteName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="Alarm：" prop="fault">
-              <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.fault"></el-input>
+            <el-form-item :label="`${$t('alarm.alarm')}：`" prop="fault">
+              <el-input @keyup.enter.native="handleQuery" :placeholder="$t('common.pleaseEnter')" v-model="queryParams.fault"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Occurrence Time：" label-width="150px">
+            <el-form-item :label="`${$t('alarm.occurrenceTime')}：`" label-width="150px">
               <el-date-picker
                 ref="dataEnd"
                 @change="sureDate"
@@ -29,16 +30,16 @@
                 range-separator="->"
                 :format="displayFormat"
                 :value-format="dateFormat"
-                start-placeholder="Start Time"
-                end-placeholder="End Time">
+                :start-placeholder="$t('common.startTime')"
+                :end-placeholder="$t('common.endTime')">
               </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="space-between">
           <el-col :span="6">
-            <el-form-item label-width="100px" label="Fault Code：" prop="faultCode">
-              <el-input @keyup.enter.native="handleQuery" placeholder="Please enter" v-model="queryParams.faultCode"></el-input>
+            <el-form-item label-width="100px" :label="`${$t('alarm.faultCode')}：`" prop="faultCode">
+              <el-input @keyup.enter.native="handleQuery" :placeholder="$t('common.pleaseEnter')" v-model="queryParams.faultCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -51,28 +52,27 @@
       </el-form>
     </el-card>
     <el-card style="margin-top: 24px">
-      <common-flex justify="space-between" align="center">
-        <p>Alarm List</p>
+      <common-flex justify="flex-end" align="center" class="mb10">
         <common-flex style="margin-right: 6px">
           <el-checkbox-group v-model="queryParams.alarmTypes" class="my-check" @change="getList">
             <el-checkbox label="2">
               <common-flex align="center">
                 <img :src="require('@subImg/fault.svg')" alt="">
-                <span>Fault</span>
+                <span>{{ $t('alarm.fault') }}</span>
                 <span style="margin-left: 4px">{{faultItem}}</span>
               </common-flex>
             </el-checkbox>
             <el-checkbox label="1">
               <common-flex align="center">
                 <img :src="require('@subImg/warning.svg')" alt="">
-                <span>Warning</span>
+                <span>{{ $t('alarm.warning') }}</span>
                 <span style="margin-left: 4px">{{warnItem}}</span>
               </common-flex>
             </el-checkbox>
             <el-checkbox label="3">
               <common-flex align="center">
                 <img :src="require('@subImg/notice.svg')" alt="">
-                <span>Notice</span>
+                <span>{{ $t('alarm.notice') }}</span>
                 <span style="margin-left: 4px">{{noticeItem}}</span>
               </common-flex>
             </el-checkbox>
@@ -116,12 +116,12 @@
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 v-loading="loading" :data="list" border
       >
-        <el-table-column label="No" align="center" width="60">
+        <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="Importance" prop="type" width="120">
+        <el-table-column :label="$t('alarm.importance')" prop="type" width="120">
           <template slot-scope="{ row }">
             <common-flex justify="center" align="center" class="level" :style="{backgroundColor: ['', '#FFF4C9', '#FCD5D9', '#C4F8E2'][+row.type], color: ['', '#F99600', '#F0142F', '#06A561'][+row.type]}">
               <img :src="require('@subImg/warning.svg')" alt="" v-if="+row.type === 1">
@@ -131,20 +131,20 @@
             </common-flex>
           </template>
         </el-table-column>
-        <el-table-column label="Alarm" prop="fault" min-width="180" show-overflow-tooltip>
+        <el-table-column :label="$t('alarm.alarm')" prop="fault" min-width="180" show-overflow-tooltip>
           <template slot-scope="{row}">
             <span>{{ row.deviceErrorInfo }}：{{row.fault}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Site Name" prop="siteName" min-width="160" show-overflow-tooltip>
+        <el-table-column :label="$t('site.name')" prop="siteName" min-width="160" show-overflow-tooltip>
           <template slot-scope="{ row }">
             <router-link v-hasPermi="['ati:site:view']" :to="`/site/details/${row.siteId}?tab=${1}&siteCode=${row.siteCode}`"><span class="themeColor">{{ row.siteName }}</span></router-link>
           </template>
         </el-table-column>
-        <el-table-column label="Fault code" prop="faultCode" min-width="120" />
-        <el-table-column label="Collection Source" prop="collectionSource" min-width="140" />
-        <el-table-column label="Collection Source SN" prop="sn" show-overflow-tooltip min-width="160" />
-        <el-table-column label="Status" prop="recoveryStatus" width="120">
+        <el-table-column :label="$t('alarm.faultCode')" prop="faultCode" min-width="120" />
+        <el-table-column :label="$t('alarm.collectionSource')" prop="collectionSource" min-width="140" />
+        <el-table-column :label="$t('alarm.collectionSourceSn')" prop="sn" show-overflow-tooltip min-width="160" />
+        <el-table-column :label="$t('common.status')" prop="recoveryStatus" width="120">
           <template slot-scope="{ row }">
             <common-flex justify="center" align="center">
               <span class="dot" :style="{backgroundColor: ['#06A561', '#92929D'][+row.recoveryStatus]}"></span>
@@ -152,24 +152,24 @@
             </common-flex>
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Alarm Clearing Type" prop="cleanType" width="160">
+        <el-table-column v-if="+queryParams.recoveryStatus === 1" :label="$t('alarm.alarmClearingType')" prop="cleanType" width="160">
           <template slot-scope="{ row }">
             <dict-tag :options="alarmClearType" :value="row.cleanType" />
           </template>
         </el-table-column>
-        <el-table-column label="Occurrence Time" prop="createTime" min-width="160">
+        <el-table-column :label="$t('alarm.occurrenceTime')" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(row.createTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.recoveryStatus === 1" label="Recovery Time" prop="recoveryTime" min-width="160">
+        <el-table-column v-if="+queryParams.recoveryStatus === 1" :label="$t('alarm.recoveryTime')" prop="recoveryTime" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.recoveryTime && row.recoveryTime !== '--'">{{ UTC_DATE_FORMAT(row.recoveryTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.recoveryStatus === 0" label="Operation" prop="" fixed="right" min-width="90px">
+        <el-table-column v-if="+queryParams.recoveryStatus === 0" :label="$t('alarm.operation')" prop="" fixed="right" min-width="90px">
           <template slot-scope="{ row }">
             <img :src="require('@subImg/clear.svg')" @click="cleanFault(row.id)" style="cursor: pointer" alt="">
           </template>
@@ -190,7 +190,7 @@
 import {alarmList, editAlarm} from "@/api/site"
 import {pileNum} from "@/api/fault"
 import {mapState} from "vuex"
-import { alarmImportance, alarmStatus, alarmClearType } from '@sub/utils/dict'
+import { alarmImportance, alarmClearType, alarmStatus } from '@sub/utils/dict'
 
 let storage_id = ''
 export default {
@@ -200,13 +200,6 @@ export default {
       alarmImportance,
       alarmStatus,
       alarmClearType,
-      deviceType: {
-        '1': 'Inverter',
-        '2': 'Battery',
-        '3': 'EV Charger',
-        '4': 'Stick Logger',
-        '6': 'PV'
-      },
       total: 0,
       loading: false,
       list: [],
@@ -226,20 +219,6 @@ export default {
         status: '',
         alarmTypes: ['1', '2', '3']
       },
-      impOptions: [
-        {
-          label: "Warning",
-          value: 1,
-        },
-        {
-          label: "Fault",
-          value: 2,
-        },
-        {
-          label: "Notice",
-          value: 3,
-        },
-      ],
       noticeItem: 0,
       warnItem: 0,
       faultItem: 0,
@@ -281,13 +260,13 @@ export default {
       this.$msgbox({
         message: h('p', null, [
           h('i', { style: 'color: #fa8c15; fontSize: 18px; marginRight: 4px', class: 'el-icon-warning'}),
-          h('span', { style: 'fontWeight: 600'}, 'It is possible that this alarm has not been truly cleared yet. Please confirm whether to manually clear this alarm.'),
+          h('span', { style: 'fontWeight: 600'}, this.$t('alarm.clearTipContent')),
           h('br'),
-          h('p', {style: 'fontSize: 12px'}, 'Note:After manual clearing, the site will no longer report this alarm within 24 hours')
+          h('p', {style: 'fontSize: 12px'}, this.$t('alarm.clearTipNote'))
         ]),
         showCancelButton: true,
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         beforeClose: (action, instance, done) => {
           if (action === 'confirm') {
             instance.confirmButtonLoading = true;
@@ -300,7 +279,7 @@ export default {
               if (+res.code === 200) {
                 done()
                 instance.confirmButtonLoading = false
-                that.$modal.msgSuccess("Deleted!")
+                that.$modal.msgSuccess(this.$t('common.deleted'))
                 this.getList()
                 this.getPileNum()
               }

@@ -1,7 +1,7 @@
 <template>
   <div class="comp-analysis-fault-static">
     <common-flex style="height: 76px" justify="space-between" align="center">
-      <strong>Alarm statistics</strong>
+      <strong>{{ $t('analysis.alarmStatistics') }}</strong>
       <DateTypePicker @emitDate="getDateParams" />
     </common-flex>
     <div class="posr">
@@ -15,7 +15,9 @@
 import DateTypePicker from "@/components/common/dateTypePicker.vue";
 import * as echarts from "echarts";
 import { statisticsNum } from '@/api/fault'
-import {mapState} from "vuex";
+import {mapState} from "vuex"
+import I18n from "@/i18n"
+
 let chartsInstance = null
 let lineOption = {
   tooltip: {
@@ -44,7 +46,7 @@ let lineOption = {
     },
   },
   yAxis: {
-    name: 'Quantity',
+    name: I18n.t('analysis.quantity'),
     splitLine: {
       lineStyle: {
         type: 'dashed'
@@ -99,7 +101,7 @@ let barOption = {
     },
   },
   yAxis: {
-    name: 'Quantity',
+    name: I18n.t('analysis.quantity'),
     splitLine: {
       lineStyle: {
         type: 'dashed'

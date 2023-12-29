@@ -5,6 +5,7 @@ export default {
   'alarm.faultCode': 'Fault Code',
   'alarm.occurrenceTime': 'Occurrence Time',
   'alarm.alarmList': 'Alarm List',
+  'alarm.importance': 'Importance',
   'alarm.fault': 'Fault',
   'alarm.warning': 'Warning',
   'alarm.notice': 'Notice',
@@ -13,5 +14,7 @@ export default {
   'alarm.alarmClearingType': 'Alarm Clearing Type',
   'alarm.recoveryTime': 'Recovery Time',
   'alarm.operation': 'Operation',
+  'alarm.clearTipContent': 'It is possible that this alarm has not been truly cleared yet. Please confirm whether to manually clear this alarm.',
+  'alarm.clearTipNote': 'Note After manual clearing, the site will no longer report this alarm within 24 hours',
 
 }

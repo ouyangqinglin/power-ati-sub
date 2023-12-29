@@ -2,7 +2,7 @@
   <div class="comp-device">
     <el-card class="comp-device-card">
       <common-flex align="center" class="comp-device-card-header">
-        <div class="title-text">Device Info</div>
+        <div class="title-text">{{ $t('device.deviceInfo') }}</div>
         <common-flex auto justify="flex-end" v-has-permi="['ati:site:device']">
           <el-button type="primary" @click="addDevice">{{ $t('common.add') }}</el-button>
           <el-button @click="delShow = true">{{ $t('common.delete') }}</el-button>
@@ -19,14 +19,14 @@
         <Inverter :curDevInfo="curDevInfo" v-else />
       </common-flex>
     </el-card>
-    <el-dialog v-if="addShow" :visible.sync="addShow" title="Add Device"
+    <el-dialog v-if="addShow" :visible.sync="addShow" :title="$t('site.addDevice')"
                :before-close="beforeClose"
                :close-on-click-modal ="false"
                width="66%">
       <common-flex align="center">
-        <strong>Stick Logger</strong>
+        <strong>{{ $t('device.type.stickLogger') }}</strong>
         <common-flex v-if="!addDialogInfo[4]">
-          <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
+          <el-tooltip class="item" effect="dark" :content="$t('site.addManually')" placement="top">
             <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(4)">
           </el-tooltip>
           <img v-if="easyShow" class="device-refresh" :class="{rotateAni: activeStick}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Stick')">
@@ -35,16 +35,16 @@
       <el-form @submit.native.prevent v-if="addDialogInfo[4]">
         <div class="dialog-form">
           <el-form-item label="SN">
-            <el-input maxlength="20" @input="verifySn($event, 4)" @change="change(4)" :disabled="addDialogInfo[4].disabled" v-model.trim="addDialogInfo[4].serialNumber" placeholder="Please enter the serial number"></el-input>
+            <el-input maxlength="20" @input="verifySn($event, 4)" @change="change(4)" :disabled="addDialogInfo[4].disabled" v-model.trim="addDialogInfo[4].serialNumber" :placeholder="`${$t('common.pleaseEnter')}${$t('common.sn')}`"></el-input>
           </el-form-item>
           <div style="margin-top: 15px; cursor: pointer" v-if="!addDialogInfo[4].disabled" @click="deleteSn(4)"><img style="width: 20px" :src="require('@img/site/delete.svg')" alt=""></div>
         </div>
       </el-form>
       <div class="empty" v-else>No data</div>
       <common-flex align="center">
-        <strong>Inverter</strong>
+        <strong>{{ $t('device.type.inverter') }}</strong>
         <common-flex v-if="!addDialogInfo[1]">
-          <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
+          <el-tooltip class="item" effect="dark" :content="$t('site.addManually')" placement="top">
             <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(1)">
           </el-tooltip>
           <img v-if="easyShow" class="device-refresh" :class="{rotateAni: activeInverter}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Inverter')">
@@ -53,14 +53,14 @@
       <el-form @submit.native.prevent v-if="addDialogInfo[1]" style="margin-top: 16px">
         <div class="dialog-form">
           <el-form-item label="SN">
-            <el-input maxlength="20" @input="verifySn($event, 1)" @change="change(1)" :disabled="addDialogInfo[1].disabled" v-model.trim="addDialogInfo[1].serialNumber" placeholder="Please enter the serial number"></el-input>
+            <el-input maxlength="20" @input="verifySn($event, 1)" @change="change(1)" :disabled="addDialogInfo[1].disabled" v-model.trim="addDialogInfo[1].serialNumber" :placeholder="`${$t('common.pleaseEnter')}${$t('common.sn')}`"></el-input>
           </el-form-item>
-          <el-form-item label="Rated Power (kW)">
-            <el-input maxlength="20" @input="checkCapacity(1)" :disabled="addDialogInfo[1].disabled" v-model.trim="addDialogInfo[1].nameplateCapacity" placeholder="Please enter"></el-input>
+          <el-form-item :label="`${$t('site.ratedPower')} (kW)`">
+            <el-input maxlength="20" @input="checkCapacity(1)" :disabled="addDialogInfo[1].disabled" v-model.trim="addDialogInfo[1].nameplateCapacity" :placeholder="$t('common.pleaseEnter')"></el-input>
             <div class="err-msg posa">{{ inverterCapacityMsg['msg'] }}</div>
           </el-form-item>
-          <el-form-item label="New installation or not">
-            <el-select style="width: 100%" :disabled="addDialogInfo[1].disabled" @change="checkInstall(1)" v-model="addDialogInfo[1].installation" placeholder="Please select">
+          <el-form-item :label="$t('site.newInstallationOrNot')">
+            <el-select style="width: 100%" :disabled="addDialogInfo[1].disabled" @change="checkInstall(1)" v-model="addDialogInfo[1].installation" :placeholder="$t('common.pleaseSelect')">
               <el-option v-for="(i, k) of installOption" :value="i.value" :label="i.label" :key="k"></el-option>
             </el-select>
             <div class="err-msg posa">{{ inverterInstallMsg['msg'] }}</div>
@@ -71,9 +71,9 @@
       <div class="empty" v-else>No data</div>
       <template v-if="addDialogInfo[2]">
         <common-flex align="center">
-          <strong>Battery</strong>
+          <strong>{{ $t('device.type.battery') }}</strong>
           <common-flex v-if="easyShow|| addDialogInfo[2].length < 1">
-            <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
+            <el-tooltip class="item" effect="dark" :content="$t('site.addManually')" placement="top">
               <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(2)">
             </el-tooltip>
             <img v-if="easyShow" class="device-refresh" :class="{rotateAni: activeBat}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Bat')">
@@ -82,16 +82,15 @@
         <template v-for="(i, k) of addDialogInfo[2]">
           <el-form @submit.native.prevent :model="i">
             <div class="dialog-form">
-<!--              11111-->
               <el-form-item label="SN">
-                <el-input maxlength="20" @input="verifySn($event, 2, k)" @change="change(2, k)" :disabled="i.disabled" v-model.trim="i.serialNumber" placeholder="Please enter the serial number"></el-input>
+                <el-input maxlength="20" @input="verifySn($event, 2, k)" @change="change(2, k)" :disabled="i.disabled" v-model.trim="i.serialNumber" :placeholder="`${$t('common.pleaseEnter')}${$t('common.sn')}`"></el-input>
               </el-form-item>
-              <el-form-item label="Capacity (kWh)">
-                <el-input @input="checkCapacity(2, k)" type="text" :disabled="i.disabled" v-model.trim="i.nameplateCapacity" placeholder="Please enter the capacity"></el-input>
+              <el-form-item :label="`${$t('common.capacity')} (kWh)`">
+                <el-input @input="checkCapacity(2, k)" type="text" :disabled="i.disabled" v-model.trim="i.nameplateCapacity" :placeholder="`${$t('common.pleaseEnter')}${$t('common.capacity')}`"></el-input>
                 <div class="err-msg posa">{{ batCapacityMsg[k] }}</div>
               </el-form-item>
-              <el-form-item label="New installation or not">
-                <el-select style="width: 100%" :disabled="i.disabled" @change="checkInstall(2, k)" v-model="i.installation" placeholder="Please select">
+              <el-form-item :label="$t('site.newInstallationOrNot')">
+                <el-select style="width: 100%" :disabled="i.disabled" @change="checkInstall(2, k)" v-model="i.installation" :placeholder="$t('common.pleaseSelect')">
                   <el-option v-for="(i, k) of installOption" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
                 <div class="err-msg posa">{{ batInstallMsg[k] }}</div>
@@ -104,9 +103,9 @@
       </template>
       <el-form @submit.native.prevent v-if="addDialogInfo[3]" style="margin-top: 16px">
         <common-flex align="center">
-          <strong>EV Charger</strong>
+          <strong>{{ $t('device.type.charger') }}</strong>
           <common-flex v-if="easyShow || addDialogInfo[3].length < 1">
-            <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
+            <el-tooltip class="item" effect="dark" :content="$t('site.addManually')" placement="top">
               <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(3)">
             </el-tooltip>
             <img v-if="easyShow" class="device-refresh" :class="{rotateAni: activeCharger}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Charger')">
@@ -114,10 +113,10 @@
         </common-flex>
         <div class="dialog-form" v-for="(i, k) of addDialogInfo[3]">
           <el-form-item label="SN">
-            <el-input maxlength="20" @input="verifySn($event, 3, k)" @change="change(3, k)" :disabled="i.disabled" v-model.trim="i.serialNumber" placeholder="Please enter the serial number"></el-input>
+            <el-input maxlength="20" @input="verifySn($event, 3, k)" @change="change(3, k)" :disabled="i.disabled" v-model.trim="i.serialNumber" :placeholder="`${$t('common.pleaseEnter')}${$t('common.sn')}`"></el-input>
           </el-form-item>
-          <el-form-item label="New installation or not">
-            <el-select style="width: 100%" :disabled="i.disabled" @change="checkInstall(3, k)" v-model="i.installation" placeholder="Please select">
+          <el-form-item :label="$t('site.newInstallationOrNot')">
+            <el-select style="width: 100%" :disabled="i.disabled" @change="checkInstall(3, k)" v-model="i.installation" :placeholder="$t('common.pleaseSelect')">
               <el-option v-for="(i, k) of installOption" :value="i.value" :label="i.label" :key="k"></el-option>
             </el-select>
             <div class="err-msg posa">{{ chargeInstallMsg[k] }}</div>
@@ -128,9 +127,9 @@
       </el-form>
       <template v-if="addDialogInfo[6]">
         <common-flex align="center" style="margin-top: 16px">
-          <strong>Photovoltaic</strong>
+          <strong>{{ $t('device.type.pv') }}</strong>
           <template v-if="addDialogInfo[6].length < 1">
-            <el-tooltip class="item" effect="dark" content="Add Manually" placement="top">
+            <el-tooltip class="item" effect="dark" :content="$t('site.addManually')" placement="top">
               <img class="device-plus" :src="require('@img/site/device-plus.svg')" alt="" @click="addSn(6)">
             </el-tooltip>
             <img v-if="easyShow" class="device-refresh" :class="{rotateAni: activePhotovoltaic}" :src="require('@img/site/refresh.svg')" alt="" @click="findDevice('Photovoltaic')">
@@ -140,15 +139,14 @@
           <el-form @submit.native.prevent :model="i" style="margin-top: 16px">
             <div class="dialog-form" >
               <el-form-item label="SN">
-                <!--            1111111-->
-                <el-input maxlength="20" @input="verifySn($event, 6, k)" @change="change(6, k)" :disabled="i.disabled" v-model.trim="i.serialNumber" placeholder="Please enter the serial number"></el-input>
+                <el-input maxlength="20" @input="verifySn($event, 6, k)" @change="change(6, k)" :disabled="i.disabled" v-model.trim="i.serialNumber" :placeholder="`${$t('common.pleaseEnter')}${$t('common.sn')}`"></el-input>
               </el-form-item>
-              <el-form-item label="Capacity (kW)">
-                <el-input @input="checkCapacity(6, k)" type="text" :disabled="i.disabled" v-model.trim="i.nameplateCapacity" placeholder="Please enter the capacity"></el-input>
+              <el-form-item :label="`${$t('common.capacity')} (kWh)`">
+                <el-input @input="checkCapacity(6, k)" type="text" :disabled="i.disabled" v-model.trim="i.nameplateCapacity" :placeholder="`${$t('common.pleaseEnter')}${$t('common.capacity')}`"></el-input>
                 <div class="err-msg posa">{{ pvCapacityMsg[k] }}</div>
               </el-form-item>
-              <el-form-item label="New installation or not">
-                <el-select style="width: 100%" :disabled="i.disabled" @change="checkInstall(6, k)" v-model="i.installation" placeholder="Please select">
+              <el-form-item :label="$t('site.newInstallationOrNot')">
+                <el-select style="width: 100%" :disabled="i.disabled" @change="checkInstall(6, k)" v-model="i.installation" :placeholder="$t('common.pleaseSelect')">
                   <el-option v-for="(i, k) of installOption" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
                 <div class="err-msg posa">{{ pvInstallMsg[k] }}</div>
@@ -161,16 +159,16 @@
       </template>
 
       <common-flex style="margin-top: 30px" justify="center">
-        <el-button @click="submitAdd" :disabled="addSubType">Submit</el-button>
-        <el-button @click="addShow = false; fillAddDialog(); addSubType = true;">Cancel</el-button>
+        <el-button @click="submitAdd" :disabled="addSubType">{{ $t('common.submit') }}</el-button>
+        <el-button @click="addShow = false; fillAddDialog(); addSubType = true;">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-dialog>
-    <el-dialog v-if="delShow" :visible.sync="delShow" title="Delete Device"
+    <el-dialog v-if="delShow" :visible.sync="delShow" :title="$t('site.delDevice')"
                :before-close="beforeClose"
                :close-on-click-modal ="false"
                width="50%">
       <el-form @submit.native.prevent class="dialog-form" label-position="top">
-        <el-form-item class="select" label=" Product Type">
+        <el-form-item class="select" :label="$t('device.type')">
           <el-select @change="watchSelect" style="width: 100%" v-model="delDialogInfo.deviceType">
             <el-option v-for="i of delDialogInfo.option"
                        :label="i.label"
@@ -184,13 +182,13 @@
             <el-option v-for="(i, k) of delDialogInfo.snOption" :value="i" :label="i" :key="k"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Capacity(KWh)">
+        <el-form-item :label="`${$t('common.capacity')} (kWh)`">
           <el-input disabled v-model="delDialogInfo.nameplateCapacity"></el-input>
         </el-form-item>
       </el-form>
       <common-flex style="margin-top: 30px" justify="center">
-        <el-button :type="delSubType" :disabled="!delSubType" @click="delDevice">Delete</el-button>
-        <el-button @click="cancelDelete">Cancel</el-button>
+        <el-button :type="delSubType" :disabled="!delSubType" @click="delDevice">{{ $t('common.delete') }}</el-button>
+        <el-button @click="cancelDelete">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-dialog>
 
@@ -346,7 +344,7 @@ export default {
         netList(params).then(res => {
           let findBatList = res.data.batteryList || []
           let inverList = res.data.inverterSnList || []
-          if (!findBatList.length && !inverList.length) return this.$modal.alert('Device not found')
+          if (!findBatList.length && !inverList.length) return this.$modal.alert(this.$t('site.deviceNotFound'))
           if (findBatList.length) {
             let arr = [...findBatList, ...this.addDialogInfo[2]]
             this.addDialogInfo[2] = Array.from(arr.reduce((acc, cur) => {
@@ -362,14 +360,14 @@ export default {
             }
           }
         }).catch(err => {
-          this.$modal.alert('Device not found')
+          this.$modal.alert(this.$t('site.deviceNotFound'))
         }).finally(() => {
           this[`active${str}`] = false
           this.$modal.closeLoading()
         })
       } else {
         this.$modal.closeLoading()
-        this.$modal.alert('Device not found')
+        this.$modal.alert(this.$t('site.deviceNotFound'))
         this[`active${str}`] = false
       }
     },
@@ -396,7 +394,7 @@ export default {
         if (+res.code === 200) {
           this.$message({
             type: 'success',
-            message: 'Succeeded!'
+            message: this.$t('common.succeeded')
           })
           this.cancelDelete()
           this.getList()
@@ -496,7 +494,7 @@ export default {
       let uniqueObj = {}
       for (let i = 0; i < deviceList.length; i++) {
         if (!uniqueObj[deviceList[i].serialNumber]) uniqueObj[deviceList[i].serialNumber] = 1
-        else return this.$modal.msgError("sn:Coding repetition")
+        else return this.$modal.msgError(this.$t('site.snRepetition'))
       }
       if (!deviceList.length) return
       let i = 0
@@ -515,15 +513,15 @@ export default {
         // 先检验容量
         if ([1, 2, 6].includes(+deviceList[i].deviceType)) {
           if (typeof deviceList[i].nameplateCapacity === 'string' && !(deviceList[i].nameplateCapacity.length)) {
-            if (deviceList[i].index) this.$set(this[mapCapacity[+deviceList[i].deviceType]], deviceList[i].index - 1, 'please enter capacity')
-            else this.$set(this[mapCapacity[+deviceList[i].deviceType]], 'msg', 'please enter rated power')
+            if (deviceList[i].index) this.$set(this[mapCapacity[+deviceList[i].deviceType]], deviceList[i].index - 1, this.$t('site.pleaseEnterCapacity'))
+            else this.$set(this[mapCapacity[+deviceList[i].deviceType]], 'msg', this.$t('site.pleaseEnterRatedPower'))
           }
         }
         // 校验是否选择new installation or not
         if (+deviceList[i].deviceType !== 4) {
           if (!deviceList[i].installation) {
-            if (+deviceList[i].deviceType !== 1) this.$set(this[mapInstall[+deviceList[i].deviceType]], deviceList[i].index - 1, 'please select')
-            else this.$set(this[mapInstall[+deviceList[i].deviceType]], 'msg', 'please select')
+            if (+deviceList[i].deviceType !== 1) this.$set(this[mapInstall[+deviceList[i].deviceType]], deviceList[i].index - 1, this.$t('common.pleaseSelect'))
+            else this.$set(this[mapInstall[+deviceList[i].deviceType]], 'msg', this.$t('common.pleaseSelect'))
           }
         }
       }
@@ -539,7 +537,7 @@ export default {
         if (+res.code === 200) {
           this.$message({
             type: 'success',
-            message: 'Succeeded!'
+            message: this.$t('common.succeeded')
           })
           this.beforeClose()
           this.getList()
@@ -564,15 +562,15 @@ export default {
       if (deviceType === 1) capacity = this.addDialogInfo[deviceType].nameplateCapacity.replace(/\s*/g,"")
       else capacity = this.addDialogInfo[deviceType][index].nameplateCapacity.replace(/\s*/g,"")
       if (!capacity.length) {
-        if (deviceType === 1) this.$set(this[msgType], 'msg', 'please enter rated power')
-        else this.$set(this[msgType], index, 'please enter capacity')
+        if (deviceType === 1) this.$set(this[msgType], 'msg', this.$t('site.pleaseEnterRatedPower'))
+        else this.$set(this[msgType], index, this.$t('site.pleaseEnterCapacity'))
       } else {
         if (reg.test(capacity)) {
           if (deviceType === 1) this.$set(this[msgType], 'msg', '')
           else this.$set(this[msgType], index, '')
         } else {
-          if (deviceType === 1) this.$set(this[msgType], 'msg', 'At most three significant decimals')
-          else this.$set(this[msgType], index, 'At most three significant decimals')
+          if (deviceType === 1) this.$set(this[msgType], 'msg', this.$t('site.threeSignificantDecimals'))
+          else this.$set(this[msgType], index, this.$t('site.threeSignificantDecimals'))
         }
       }
     },
@@ -1042,6 +1040,9 @@ export default {
     @include wh(16);
     cursor: pointer;
   }
+  .device-refresh {
+    margin-top: 3px;
+  }
   .device-plus {
     @include wh(20);
   }
@@ -1071,8 +1072,8 @@ export default {
     }
   }
   .status-tips {
-    margin-right: 10px;
-    @include nFont(14 #828282)
+    @include nFont(14 #828282);
+    text-align: center;
   }
   input[type='number'] {
     -moz-appearance: textfield !important;

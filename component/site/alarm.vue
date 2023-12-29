@@ -10,10 +10,10 @@
         <common-flex>
           <common-flex style="flex-grow: 1">
             <el-form-item :label="`${$t('alarm.alarm')}：`" prop="fault">
-              <el-input v-model="queryParams.fault" placeholder="Please enter"></el-input>
+              <el-input v-model="queryParams.fault" :placeholder="$t('common.pleaseEnter')"></el-input>
             </el-form-item>
             <el-form-item :label="`${$t('alarm.faultCode')}：`" prop="faultCode" label-width="100px">
-              <el-input v-model="queryParams.faultCode" placeholder="Please enter"></el-input>
+              <el-input v-model="queryParams.faultCode" :placeholder="$t('common.pleaseEnter')"></el-input>
             </el-form-item>
             <el-form-item :label="`${$t('alarm.occurrenceTime')}：`" label-width="160px">
               <el-date-picker
@@ -69,12 +69,12 @@
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}" border
                 v-loading="loading" :data="list"
       >
-        <el-table-column label="No" align="center" width="60">
+        <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="Importance" prop="type" width="120" align="center">
+        <el-table-column :label="$t('alarm.importance')" prop="type" width="120" align="center">
           <template slot-scope="{ row }">
             <common-flex justify="center" align="center" class="level" :style="{backgroundColor: ['', '#FFF4C9', '#FCD5D9', '#C4F8E2'][+row.type], color: ['', '#F99600', '#F0142F', '#06A561'][+row.type]}">
               <img :src="require('@subImg/warning.svg')" alt="" v-if="+row.type === 1">
@@ -164,30 +164,6 @@ export default {
       noticeItem: 0,
       warnItem: 0,
       faultItem: 0,
-      impOptions: [
-        {
-          label: "Warning",
-          value: 1,
-        },
-        {
-          label: "Fault",
-          value: 2,
-        },
-        {
-          label: "Notice",
-          value: 3,
-        },
-      ],
-      statusOptions: [
-        {
-          label: 'Open',
-          value: 0
-        },
-        {
-          label: 'Closed',
-          value: 1
-        },
-      ],
       queryParams: {
         startTime: '',
         endTime: '',
@@ -218,13 +194,13 @@ export default {
       this.$msgbox({
         message: h('p', null, [
           h('i', { style: 'color: #fa8c15; fontSize: 18px; marginRight: 4px', class: 'el-icon-warning'}),
-          h('span', { style: 'fontWeight: 600'}, 'It is possible that this alarm has not been truly cleared yet. Please confirm whether to manually clear this alarm.'),
+          h('span', { style: 'fontWeight: 600'}, this.$t('alarm.clearTipContent')),
           h('br'),
-          h('p', {style: 'fontSize: 12px'}, 'Note:After manual clearing, the site will no longer report this alarm within 24 hours')
+          h('p', {style: 'fontSize: 12px'}, this.$t('alarm.clearTipNote'))
         ]),
         showCancelButton: true,
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         beforeClose: (action, instance, done) => {
           if (action === 'confirm') {
             instance.confirmButtonLoading = true;
@@ -235,7 +211,7 @@ export default {
             }
             editAlarm(data).then(res => {
               if (+res.code === 200) {
-                that.$modal.msgSuccess("Deleted!")
+                that.$modal.msgSuccess(this.$t('common.deleted'))
                 this.getList()
                 this.getPileNum()
               }

@@ -1,10 +1,10 @@
 <template>
   <div class="pages-task-view">
     <el-card class="pages-task-view-card">
-      <div class="pages-task-view-card-title">Process</div>
+      <div class="pages-task-view-card-title">{{ $t('task.process') }}</div>
       <div style="padding: 0 80px">
         <el-steps class="custom-step" :active="active" finish-status="success">
-          <el-step title="Task Created">
+          <el-step :title="$t('task.created')">
             <template slot="description">
               <div>{{ base.createBy }}</div>
             </template>
@@ -13,7 +13,7 @@
               <div v-else>--</div>
             </template>
           </el-step>
-          <el-step title="Task Received">
+          <el-step :title="$t('task.received')">
             <template v-if="+active > 1">
               <template slot="description">
                 <div>{{ base.installer }}</div>
@@ -24,7 +24,7 @@
               </template>
             </template>
           </el-step>
-          <el-step title="Completed">
+          <el-step :title="$t('task.completed')">
             <template v-if="+active > 2">
               <template slot="description">
                 <div>{{ base.installer }}</div>
@@ -39,8 +39,8 @@
       </div>
     </el-card>
     <el-card class="pages-task-view-card">
-      <div class="pages-task-view-card-title">Task Info</div>
-      <el-form class="pages-task-view-card-form" :model="base" :rules="rules" ref="ruleForm">
+      <div class="pages-task-view-card-title">{{ $t('task.info') }}</div>
+      <el-form class="pages-task-view-card-form mt10" :model="base" :rules="rules" ref="ruleForm">
         <el-form-item v-for="(i, index) of formList" :key="i.prop" :prop="i.prop">
           <template slot="label"><span>{{ i.label }}</span></template>
           <template v-if="i.prop === 'remark'">
@@ -75,10 +75,9 @@
 
     </el-card>
     <el-card class="pages-task-view-card">
-      <div class="pages-task-view-card-title">Installer</div>
+      <div class="pages-task-view-card-title">{{ $t('task.installer') }}</div>
       <el-form class="pages-task-view-card-form" :model="base" :rules="installRule" ref="installForm">
-        <el-form-item label="Installer" class="my-item" prop="userName">
-          <template slot="label"><span>Installer</span></template>
+        <el-form-item :label="$t('task.installer')" class="my-item" prop="userName">
           <div class="posr">
             <el-input disabled style="width: 100%" v-model="base.installer"></el-input>
             <i class="el-icon-search posa right-search"></i>
@@ -88,7 +87,7 @@
     </el-card>
     <el-card class="pages-task-view-footer">
       <common-flex justify="center">
-        <el-button @click="cancel">Cancel</el-button>
+        <el-button @click="cancel">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-card>
   </div>
@@ -212,7 +211,6 @@ export default {
       }
     }
     .my-item {
-      margin-top: 20px;
       display: flex;
       flex-direction: column;
       .el-form-item__label {

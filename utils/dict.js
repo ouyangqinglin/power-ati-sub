@@ -1,4 +1,5 @@
 import i18n from "@/i18n";
+import I18n from "@/i18n";
 
 export const taskFaultStatus = [
   {
@@ -322,26 +323,26 @@ export const siteUpgradeStatus = [
 
 export const alarmImportance = [
   {
-    label: 'Warning',
+    label: I18n.t('alarm.warning'),
     value: 1
   },
   {
-    label: 'Fault',
+    label: I18n.t('alarm.fault'),
     value: 2
   },
   {
-    label: 'Notice',
+    label: I18n.t('alarm.notice'),
     value: 3
   }
 ]
 
 export const alarmClearType = [
   {
-    label: 'Automatic',
+    label: I18n.t('dict.clear.automatic'),
     value: 0
   },
   {
-    label: 'Manual',
+    label: I18n.t('dict.clear.manual'),
     value: 1
   }
 ]
@@ -359,11 +360,11 @@ export const alarmStatus = [
 
 export const deviceInstallStatus = [
   {
-    label: 'Unbind',
+    label: I18n.t('device.install.status.unbind'),
     value: 0
   },
   {
-    label: 'Installed',
+    label: I18n.t('device.install.status.installed'),
     value: 1
   }
 ]
@@ -400,19 +401,19 @@ export const dateRadioBtn = [
 
 export const batInfoItemBtn = [
   {
-    label: 'Voltage',
+    label: i18n.t('common.voltage'),
     value: 'Voltage'
   },  {
-    label: 'Current',
+    label: i18n.t('common.current'),
     value: 'Current'
   },  {
-    label: 'Power',
+    label: i18n.t('common.power'),
     value: 'Power'
   },  {
     label: 'SOC',
     value: 'SOC'
   },  {
-    label: 'Temperature',
+    label: i18n.t('common.temperature'),
     value: 'Temperature'
   },
 ]

@@ -31,5 +31,9 @@ export default {
   'dict.waiting': '等待中',
   'dict.upgrading': '升级中',
   'dict.fail': '失败',
+  'dict.clear.automatic': '自动',
+  'dict.clear.manual': '手动',
+  'device.install.status.installed': '已安装',
+  'device.install.status.unbind': '解绑',
 
 }

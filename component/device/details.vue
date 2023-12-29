@@ -1,24 +1,24 @@
 <template>
   <div class="comp-device-details app-container">
     <el-card>
-      <span style="font-weight: 600">Device Info</span>
+      <span style="font-weight: 600">{{ $t('device.deviceInfo') }}</span>
       <el-form class="form" disabled :model="base">
         <common-flex wrap="wrap">
-          <el-form-item label="Product Type" prop="deviceType">
+          <el-form-item :label="$t('device.type')" prop="deviceType">
             <el-input disabled type="text" />
             <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="productType" :value="base.deviceType"/>
           </el-form-item>
           <el-form-item label="SN" prop="sn">
             <el-input v-model="base.sn"></el-input>
           </el-form-item>
-          <el-form-item label="Agency" prop="agency">
+          <el-form-item :label="$t('common.agency')" prop="agency">
             <el-input v-model="base.agency"></el-input>
           </el-form-item>
-          <el-form-item label="Installation Status" prop="installStatus">
+          <el-form-item :label="$t('device.installationStatus')" prop="installStatus">
             <el-input disabled type="text" />
             <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="deviceInstallStatus" :value="base.installStatus"/>
           </el-form-item>
-          <el-form-item label="Networking Status" prop="net" v-if="+base.installStatus === 1">
+          <el-form-item :label="$t('device.networkingStatus')" prop="net" v-if="+base.installStatus === 1">
             <el-input disabled type="text" />
             <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="base.net"/>
           </el-form-item>
@@ -27,93 +27,93 @@
           </el-form-item>
         </common-flex>
         <el-row type="flex" justify="end" v-if="[1, 2, 6].includes(+base.deviceType)">
-          <el-button type="primary" :disabled="false" @click="openShow">Edit</el-button>
+          <el-button type="primary" :disabled="false" @click="openShow">{{ $t('common.edit') }}</el-button>
         </el-row>
       </el-form>
     </el-card>
     <el-card style="margin-top: 20px" v-if="+base.installStatus === 0">
-      <span style="font-weight: 600">Unbind Info</span>
+      <span style="font-weight: 600">{{ $t('device.unbindInfo') }}</span>
       <el-form class="form" disabled :model="base">
         <common-flex wrap="wrap">
-          <el-form-item label="Time of Device Unbind" prop="unBindTime">
+          <el-form-item :label="$t('device.deviceUnbindTime')" prop="unBindTime">
             <el-input v-model="base.unBindTime"></el-input>
           </el-form-item>
-          <el-form-item label="Unbind Operator" prop="unBindOperator">
+          <el-form-item :label="$t('device.unbindOperator')" prop="unBindOperator">
             <el-input v-model="base.unBindOperator"></el-input>
           </el-form-item>
         </common-flex>
       </el-form>
     </el-card>
     <el-card style="margin-top: 20px">
-      <span style="font-weight: 600">Historical Installation Info</span>
+      <span style="font-weight: 600">{{ $t('device.historicalInstallationInfo') }}</span>
       <el-form class="form" disabled :model="base">
         <common-flex wrap="wrap">
-          <el-form-item label="Time of Device Installed" prop="installTime">
+          <el-form-item :label="$t('device.deviceInstalledTime')" prop="installTime">
             <el-input v-model="base.installTime"></el-input>
           </el-form-item>
-          <el-form-item label="Installed Operator" prop="bindOperator">
+          <el-form-item :label="$t('device.unbindOperator')" prop="bindOperator">
             <el-input v-model="base.bindOperator"></el-input>
           </el-form-item>
-          <el-form-item label="Site Name" prop="siteName">
+          <el-form-item :label="$t('site.name')" prop="siteName">
             <el-input v-model="base.siteName"></el-input>
           </el-form-item>
-          <el-form-item label="Site Code" prop="siteCode">
+          <el-form-item :label="$t('site.code')" prop="siteCode">
             <el-input v-model="base.siteCode"></el-input>
           </el-form-item>
-          <el-form-item label="Address" prop="address">
+          <el-form-item :label="$t('common.address')" prop="address">
             <el-input type="textarea" v-model="base.address"></el-input>
           </el-form-item>
-          <el-form-item label="Region" prop="city">
+          <el-form-item :label="$t('site.region')" prop="city">
             <el-input v-model="base.region || '--'"></el-input>
           </el-form-item>
         </common-flex>
       </el-form>
     </el-card>
     <el-card v-if="[1, 2, 4].includes(+base.deviceType)" style="margin-top: 20px">
-      <div style="font-weight: 600; margin-bottom: 20px">Firmware update</div>
+      <div style="font-weight: 600; margin-bottom: 20px">{{ $t('upgrade.firmWare') }}</div>
       <el-form disabled :model="currentApk">
         <el-row :gutter="36">
           <el-col :span="6">
-            <el-form-item label="Software Version" prop="currentVersion">
+            <el-form-item :label="$t('common.softwareVersion')" prop="currentVersion">
               <el-input v-model="currentApk.version"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="Hardware Version" prop="hardVersion">
+            <el-form-item :label="$t('common.hardwareVersion')" prop="hardVersion">
               <el-input v-model="currentApk.hardVersion"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="Upgrade Time" prop="upgradeTime">
+            <el-form-item :label="$t('upgrade.time')" prop="upgradeTime">
               <el-input v-model="currentApk.upgradeTime"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <div style="font-weight: 600; margin: 20px 0">Upgrade Record</div>
+      <div style="font-weight: 600; margin: 20px 0">{{ $t('upgrade.upgradeRecord') }}</div>
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 v-loading="loading" :data="list" border
       >
-        <el-table-column label="No." align="center" width="60">
+        <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="File Type" prop="fileType" min-width="160">
+        <el-table-column :label="$t('upgrade.fileType')" prop="fileType" min-width="160">
           <template slot-scope="{ row }">
             <dict-tag :options="fileType" :value="row.fileType"/>
           </template>
         </el-table-column>
-        <el-table-column label="Software version" prop="versionNum"></el-table-column>
-        <el-table-column label="Operation time" prop="">
+        <el-table-column :label="$t('common.softwareVersion')" prop="versionNum"></el-table-column>
+        <el-table-column :label="$t('common.operationTime')" prop="">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ DATE_FORMAT('M/d/yyyy hh:mm:ss', row.createTime) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Status" prop="status">
+        <el-table-column :label="$t('common.status')" prop="status">
           <template slot-scope="{ row }">
-            <span>{{ ['', 'Success', 'Fail', 'Upgrading'][row.status] }}</span>
+            <dict-tag :options="upgradeResStatus" :value="row.status" />
           </template>
         </el-table-column>
       </el-table>
@@ -125,9 +125,9 @@
         @pagination="getList"
       />
     </el-card>
-    <common-flex style="margin-top: 20px" justify="center"><el-button @click="cancel">Cancel</el-button></common-flex>
+    <common-flex style="margin-top: 20px" justify="center"><el-button @click="cancel">{{ $t('common.cancel') }}</el-button></common-flex>
     <el-dialog
-      title="Device Info"
+      :title="$t('device.deviceInfo')"
       :before-close="beforeClose"
       :close-on-click-modal="false"
       width="46%"
@@ -142,8 +142,8 @@
         </el-row>
       </el-form>
       <el-row type="flex" justify="center">
-        <el-button type="primary" :disabled="!modal.capacity" @click="editDevice">Save</el-button>
-        <el-button @click="beforeClose">Cancel</el-button>
+        <el-button type="primary" :disabled="!modal.capacity" @click="editDevice">{{ $t('common.save') }}</el-button>
+        <el-button @click="beforeClose">{{ $t('common.cancel') }}</el-button>
       </el-row>
     </el-dialog>
   </div>
@@ -153,7 +153,7 @@
 import { baseDevice, updateDevice } from '@/api/device'
 import { versionRecord } from "@/api/remote"
 import {mapState} from "vuex"
-import { productType, deviceInstallStatus, networkStatus, fileType } from '@sub/utils/dict'
+import { productType, deviceInstallStatus, networkStatus, fileType, upgradeResStatus } from '@sub/utils/dict'
 import { deviceCapacityLabel } from '@sub/utils/map'
 
 export default {
@@ -174,6 +174,7 @@ export default {
       deviceInstallStatus,
       networkStatus,
       fileType,
+      upgradeResStatus,
       currentApk: {
         version: '',
         hardVersion: '',

@@ -20,5 +20,7 @@ export default {
   'upgrade.upgradeMode': 'Upgrade Mode',
   'upgrade.upgradeVersion': 'Upgrade Version',
   'upgrade.clickUpgradeAgain': 'Click here to Upgrade again',
+  'upgrade.time': 'Upgrade Time',
+  'upgrade.fileType': 'File Type',
 
 }

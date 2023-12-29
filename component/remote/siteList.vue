@@ -1,24 +1,24 @@
 <template>
-  <el-dialog :visible.sync="show" title="Please select"
+  <el-dialog :visible.sync="show" :title="$t('common.pleaseSelect')"
              :before-close="beforeClose"
              :close-on-click-modal ="false"
              width="66%">
-    <el-form @submit.native.prevent :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form @submit.native.prevent :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
       <common-flex justify="space-between">
         <div>
-          <el-form-item label="Site:" prop="siteName">
+          <el-form-item :label="`${$t('site.name')}:`" prop="siteName">
             <el-input
               v-model="queryParams.siteName"
-              placeholder="Please enter"
+              :placeholder="$t('common.pleaseEnter')"
               maxlength="200"
               clearable
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="Agency:" prop="agency">
+          <el-form-item :label="`${$t('common.agency')}:`" prop="agency">
             <el-input
               v-model="queryParams.agency"
-              placeholder="Please enter"
+              :placeholder="$t('common.pleaseEnter')"
               maxlength="200"
               clearable
               @keyup.enter.native="handleQuery"
@@ -26,8 +26,8 @@
           </el-form-item>
         </div>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="handleQuery">Query</el-button>
-          <el-button size="mini" @click="resetQuery">Reset</el-button>
+          <el-button type="primary" size="mini" @click="handleQuery">{{ $t('common.query') }}</el-button>
+          <el-button size="mini" @click="resetQuery">{{ $t('common.reset') }}</el-button>
         </el-form-item>
       </common-flex>
     </el-form>
@@ -42,8 +42,8 @@
               @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" :reserve-selection="true" width="75"></el-table-column>
-      <el-table-column label="Site" align="center" prop="siteName" show-tooltip-when-overflow />
-      <el-table-column label="Logger SN" align="center" prop="serialNumber" min-width="260">
+      <el-table-column :label="$t('site.name')" align="center" prop="siteName" show-tooltip-when-overflow />
+      <el-table-column :label="$t('task.loggerSn')" align="center" prop="serialNumber" min-width="260">
         <template slot-scope="{row}">
           <common-flex justify="center">
             <span>{{ row.serialNumber }}/</span>
@@ -51,7 +51,7 @@
           </common-flex>
         </template>
       </el-table-column>
-      <el-table-column label="Agency" align="center" prop="agency" />
+      <el-table-column :label="$t('common.agency')" align="center" prop="agency" />
     </el-table>
 
     <pagination
@@ -63,9 +63,9 @@
     />
     <common-flex style="margin-top: 30px" justify="center">
       <el-button :type="btnType" :disabled="!selected.length" @click="change">
-        <span>Confirm</span>
+        <span>{{ $t('common.confirm') }}</span>
       </el-button>
-      <el-button @click="cancel">Cancel</el-button>
+      <el-button @click="cancel">{{ $t('common.cancel') }}</el-button>
     </common-flex>
 
   </el-dialog>

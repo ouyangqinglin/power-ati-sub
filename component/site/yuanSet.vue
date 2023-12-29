@@ -361,7 +361,13 @@ export default {
   },
   methods: {
     enterLimit(v, index) {
-      this.peakShaving[index].battPowerLimit = v.replace(/\D/g, "")
+      const reg = /^(\d+\.\d{1,1}|\d+)$/
+      let temp
+      if (reg.test(v)) {
+        if (v < 0 || v > 100) temp = ''
+        else temp = v
+      } else temp = ''
+      this.peakShaving[index].battPowerLimit = temp
     },
     setTimeList() {
       let params = {
@@ -465,11 +471,31 @@ export default {
       })
     },
     moreOneDot(v) {
-      const reg = /^(\d+\.\d{1,1}|\d+)$/
+      const reg = /^-?\d+(.\d{1})?$/
       return reg.test(v)
     },
-    inputVerify(type) {
-      console.log(this.moreOneDot(+this.deviceBase[type]))
+    inputPfVerify(type) {
+      const minArr = [-1, -0.800], maxArr = [0.800, 1]
+      const reg = /^[-+]?[0-9]*\.?[0-9]{0,3}$/
+      for(let key in this.rules) {
+        this.rules[key][0].required = false
+        this.rules[key][0].message = ''
+      }
+      if (!reg.test(+this.deviceBase[type])) {
+        this.deviceBase[type] = ''
+        this.rules[+type][0].message = 'Please enter a number of up to three decimal place'
+        this.rules[+type][0].required = true
+      } else if (+this.deviceBase[type] > maxArr[1] || +this.deviceBase[type] < minArr[0] || ( +this.deviceBase[type] > minArr[1] && +this.deviceBase[type] < maxArr[0])) {
+        this.deviceBase[type] = ''
+        this.rules[+type][0].message = `Please enter the number in [-1, -0.800], [0.800, 1]`
+        this.rules[+type][0].required = true
+      } else {
+        this.rules[+type][0].required = false
+        this.rules[+type][0].message = ''
+      }
+      this.rules = {...this.rules}
+    },
+    inputOtherVerify(type) {
       for(let key in this.rules) {
         this.rules[key][0].required = false
         this.rules[key][0].message = ''
@@ -477,6 +503,25 @@ export default {
       if (!this.moreOneDot(+this.deviceBase[type])) {
         this.deviceBase[type] = ''
         this.rules[+type][0].message = 'Please enter a number of up to one decimal place'
+        this.rules[+type][0].required = true
+      } else {
+        this.rules[+type][0].required = false
+        this.rules[+type][0].message = ''
+      }
+      this.rules = {...this.rules}
+    },
+    inputVerify(min, max, type) {
+      for(let key in this.rules) {
+        this.rules[key][0].required = false
+        this.rules[key][0].message = ''
+      }
+      if (!this.moreOneDot(+this.deviceBase[type])) {
+        this.deviceBase[type] = ''
+        this.rules[+type][0].message = 'Please enter a number of up to one decimal place'
+        this.rules[+type][0].required = true
+      } else if (+this.deviceBase[type] > max || +this.deviceBase[type] < min) {
+        this.deviceBase[type] = ''
+        this.rules[+type][0].message = `Please enter the number in [${min}.0, ${max}.0]`
         this.rules[+type][0].required = true
       } else {
         this.rules[+type][0].required = false
@@ -568,8 +613,8 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Export Limit(%)" prop="303">
-                <el-input @blur="inputVerify(303)" v-model="deviceBase[303]" style="width: 60%" placeholder="Please enter"></el-input>
+              <el-form-item label="Feed in Grid(%)" prop="303">
+                <el-input @blur="inputVerify(-100.0, 100.0, 303)" v-model="deviceBase[303]" style="width: 60%" placeholder="[-100.0, 100.0]"></el-input>
                 <el-button :disabled="!deviceBase[303]" type="primary" plain class="ml10" @click="setDevice(303)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -590,7 +635,7 @@ export default {
             </el-col>
             <el-col :span="8">
               <el-form-item label="On-grid End SOC(%)" prop="329">
-                <el-input @blur="inputVerify(329)" v-model="deviceBase[329]" style="width: 60%" placeholder="Please enter"></el-input>
+                <el-input @blur="inputVerify(10.0, 90.0,329)" v-model="deviceBase[329]" style="width: 60%" placeholder="[10.0, 90.0]"></el-input>
                 <el-button :disabled="!deviceBase[329]" type="primary" plain class="ml10" @click="setDevice(329)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -606,7 +651,7 @@ export default {
           <el-row :gutter="16">
             <el-col :span="8">
               <el-form-item label="Off-Grid End SOC(%)" prop="331">
-                <el-input @blur="inputVerify(331)" v-model="deviceBase[331]" style="width: 60%" placeholder="Please enter"></el-input>
+                <el-input @blur="inputVerify(10.0, 90.0,331)" v-model="deviceBase[331]" style="width: 60%" placeholder="[10.0, 90.0]"></el-input>
                 <el-button :disabled="!deviceBase[331]" type="primary" plain class="ml10" @click="setDevice(331)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -648,7 +693,7 @@ export default {
           <div class="peak-yuan" v-if="+deviceBase[307] === 258">
             <span>Economic Mode</span><el-button type="primary" plain class="ml10" size="small" @click="setTimeList">Set</el-button>
             <template v-for="(i, k) of peakShaving">
-              <el-row :gutter="16" class="mt15">
+              <el-row :gutter="16" class="mt20">
                 <el-col :span="2"><span class="mt10" style="font-size: 14px">time{{ k+1 }}：</span></el-col>
                 <el-col :span="7">
                   <common-flex class="time-range" align="center">
@@ -675,12 +720,12 @@ export default {
                   </common-flex>
                 </el-col>
               </el-row>
-              <el-row :gutter="16" class="mt10">
+              <el-row :gutter="16" class="mt5">
                 <el-col :span="2"><span class="mt5 opacity">time{{ k+1 }}}：</span></el-col>
                 <el-col :span="7">
                   <common-flex class="time-range" align="center">
                     <div class="time-range-label" style="min-width: 100px">Power Limit(%)</div>
-                    <el-input @input="enterLimit(i.battPowerLimit, k)" placeholder="Enter" v-model="i.battPowerLimit" style="width: 60%" size="small"></el-input>
+                    <el-input @blur="enterLimit(i.battPowerLimit, k)" placeholder="[0.0, 100.0]" v-model="i.battPowerLimit" style="width: 60%" size="small"></el-input>
                   </common-flex>
                 </el-col>
                 <el-col :span="7">
@@ -706,13 +751,13 @@ export default {
               </el-col>
               <el-col :span="8">
                 <el-form-item label="Total AC Power Scheduling(kW)" prop="317">
-                  <el-input @blur="inputVerify(317)" v-model="deviceBase[317]" style="width: 60%" placeholder="Please enter"></el-input>
+                  <el-input @blur="inputOtherVerify(317)" v-model="deviceBase[317]" style="width: 60%" placeholder="Please enter"></el-input>
                   <el-button type="primary" plain class="ml10" :disabled="!deviceBase[317]" @click="setDevice(317)">Set</el-button>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="Phase A Power Scheduling(kW)" prop="318">
-                  <el-input @blur="inputVerify(318)" v-model="deviceBase[318]" style="width: 60%" placeholder="Please enter"></el-input>
+                  <el-input @blur="inputOtherVerify(318)" v-model="deviceBase[318]" style="width: 60%" placeholder="Please enter"></el-input>
                   <el-button type="primary" plain class="ml10" :disabled="!deviceBase[318]" @click="setDevice(318)">Set</el-button>
                 </el-form-item>
               </el-col>
@@ -720,13 +765,13 @@ export default {
             <el-row :gutter="16">
               <el-col :span="8">
                 <el-form-item label="Phase B Power Scheduling(kW)" prop="319">
-                  <el-input @blur="inputVerify(319)" v-model="deviceBase[319]" style="width: 60%" placeholder="Please enter"></el-input>
+                  <el-input @blur="inputOtherVerify(319)" v-model="deviceBase[319]" style="width: 60%" placeholder="Please enter"></el-input>
                   <el-button type="primary" plain class="ml10" :disabled="!deviceBase[319]" @click="setDevice(319)">Set</el-button>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="Phase C Power Scheduling(kW)" prop="320">
-                  <el-input @blur="inputVerify(320)" v-model="deviceBase[320]" style="width: 60%" placeholder="Please enter"></el-input>
+                  <el-input @blur="inputOtherVerify(320)" v-model="deviceBase[320]" style="width: 60%" placeholder="Please enter"></el-input>
                   <el-button type="primary" plain class="ml10" :disabled="!deviceBase[320]" @click="setDevice(320)">Set</el-button>
                 </el-form-item>
               </el-col>
@@ -737,19 +782,19 @@ export default {
             <el-row :gutter="16">
               <el-col :span="8">
                 <el-form-item label="Battery Power Scheduling(kW)" prop="321">
-                  <el-input @blur="inputVerify(321)" v-model="deviceBase[321]" style="width: 60%" placeholder="Please enter"></el-input>
+                  <el-input @blur="inputOtherVerify(321)" v-model="deviceBase[321]" style="width: 60%" placeholder="Please enter"></el-input>
                   <el-button type="primary" :disabled="!deviceBase[321]" plain class="ml10" @click="setDevice(321)">Set</el-button>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="Max AC Power Limit(kW)" prop="322">
-                  <el-input @blur="inputVerify(322)" v-model="deviceBase[322]" style="width: 60%" placeholder="Please enter"></el-input>
+                  <el-input @blur="inputOtherVerify(322)" v-model="deviceBase[322]" style="width: 60%" placeholder="Please enter"></el-input>
                   <el-button :disabled="!deviceBase[322]" type="primary" plain class="ml10" @click="setDevice(322)">Set</el-button>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="Min AC Power Limit(kW)" prop="323">
-                  <el-input @blur="inputVerify(323)" v-model="deviceBase[323]" style="width: 60%" placeholder="Please enter"></el-input>
+                  <el-input @blur="inputOtherVerify(323)" v-model="deviceBase[323]" style="width: 60%" placeholder="Please enter"></el-input>
                   <el-button :disabled="!deviceBase[323]" type="primary" plain class="ml10" @click="setDevice(323)">Set</el-button>
                 </el-form-item>
               </el-col>
@@ -765,7 +810,7 @@ export default {
               </el-col>
               <el-col :span="8">
                 <el-form-item label="PV Power Scheduling(kW)" prop="325">
-                  <el-input @blur="inputVerify(325)" v-model="deviceBase[325]" style="width: 60%" placeholder="Please enter"></el-input>
+                  <el-input @blur="inputOtherVerify(325)" v-model="deviceBase[325]" style="width: 60%" placeholder="Please enter"></el-input>
                   <el-button :disabled="!deviceBase[325]" type="primary" plain class="ml10" @click="setDevice(325)">Set</el-button>
                 </el-form-item>
               </el-col>
@@ -786,14 +831,14 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Export Limit(%)" prop="303">
-                <el-input @blur="inputVerify(303)" v-model="deviceBase[303]" style="width: 60%" placeholder="Please enter"></el-input>
+              <el-form-item label="Feed in Grid(%)" prop="303">
+                <el-input @blur="inputVerify(-100.0, 100.0, 303)" v-model="deviceBase[303]" style="width: 60%" placeholder="[-100.0, 100.0]"></el-input>
                 <el-button :disabled="!deviceBase[303]" type="primary" plain class="ml10" @click="setDevice(303)">Set</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="Reactive Power Limit Percentage(%)" prop="304">
-                <el-input @blur="inputVerify(304)" v-model="deviceBase[304]" style="width: 60%" placeholder="Please enter"></el-input>
+                <el-input @blur="inputVerify(-60.0, 60.0, 304)" v-model="deviceBase[304]" style="width: 60%" placeholder="[-60.0, 60.0]"></el-input>
                 <el-button :disabled="!deviceBase[304]" type="primary" plain class="ml10" @click="setDevice(304)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -801,7 +846,7 @@ export default {
           <el-row :gutter="16">
             <el-col :span="8">
               <el-form-item label="Power Factor" prop="305">
-                <el-input @blur="inputVerify(305)" v-model="deviceBase[305]" style="width: 60%" placeholder="Please enter"></el-input>
+                <el-input @blur="inputPfVerify(305)" v-model="deviceBase[305]" style="width: 60%" placeholder="[-1, -0.800], [0.800, 1]"></el-input>
                 <el-button :disabled="!deviceBase[305]" type="primary" plain class="ml10" @click="setDevice(305)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -856,19 +901,19 @@ export default {
             </el-col>
             <el-col :span="8">
               <el-form-item label="Off Grid Voltage(V)" prop="309">
-                <el-input @blur="inputVerify(309)" v-model="deviceBase[309]" style="width: 60%" placeholder="Please enter"></el-input>
+                <el-input @blur="inputVerify(100.0, 300.0, 309)" v-model="deviceBase[309]" style="width: 60%" placeholder="[100.0, 300.0]"></el-input>
                 <el-button :disabled="!deviceBase[309]" type="primary" plain class="ml10" @click="setDevice(309)">Set</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="Max Grid Power Value(kVA)" prop="313">
-                <el-input @blur="inputVerify(313)" v-model="deviceBase[313]" style="width: 60%" placeholder="Please enter"></el-input>
+                <el-input @blur="inputVerify(0.0, 650.0, 313)" v-model="deviceBase[313]" style="width: 60%" placeholder="[0.0, 650.0]"></el-input>
                 <el-button :disabled="!deviceBase[313]" type="primary" plain class="ml10" @click="setDevice(313)">Set</el-button>
               </el-form-item>
             </el-col>
 <!--            <el-col :span="8">-->
 <!--              <el-form-item label="Off Grid Frequency(Hz)" prop="310">-->
-<!--                <el-input @blur="inputVerify(310)" v-model="deviceBase[310]" style="width: 60%" placeholder="Please enter"></el-input>-->
+<!--                <el-input @blur="inputOtherVerify(310)" v-model="deviceBase[310]" style="width: 60%" placeholder="Please enter"></el-input>-->
 <!--                <el-button :disabled="!deviceBase[310]" type="primary" plain class="ml10" @click="setDevice(310)">Set</el-button>-->
 <!--              </el-form-item>-->
 <!--            </el-col>-->
@@ -889,7 +934,7 @@ export default {
             </el-col>
             <el-col :span="8">
               <el-form-item label="On-grid End SOC(%)" prop="329">
-                <el-input @blur="inputVerify(329)" v-model="deviceBase[329]" style="width: 60%" placeholder="Please enter"></el-input>
+                <el-input @blur="inputVerify(10.0, 90.0,329)" v-model="deviceBase[329]" style="width: 60%" placeholder="[10.0, 90.0]"></el-input>
                 <el-button :disabled="!deviceBase[329]" type="primary" plain class="ml10" @click="setDevice(329)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -905,7 +950,7 @@ export default {
           <el-row :gutter="16">
             <el-col :span="8">
               <el-form-item label="Off-Grid End SOC(%)" prop="331">
-                <el-input @blur="inputVerify(331)" v-model="deviceBase[331]" style="width: 60%" placeholder="Please enter"></el-input>
+                <el-input @blur="inputVerify(10.0, 90.0,331)" v-model="deviceBase[331]" style="width: 60%" placeholder="[10.0, 90.0]"></el-input>
                 <el-button :disabled="!deviceBase[331]" type="primary" plain class="ml10" @click="setDevice(331)">Set</el-button>
               </el-form-item>
             </el-col>

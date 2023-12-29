@@ -71,8 +71,8 @@
               <el-col :span="20">
                 <el-table class="table" :data="curDevInfo.exportList">
                   <el-table-column label="" prop="pvNum"></el-table-column>
-                  <el-table-column label="Voltage(V)" prop="v"></el-table-column>
-                  <el-table-column label="Current(A)" prop="A"></el-table-column>
+                  <el-table-column :label="`${$t('common.voltage')}(V)`" prop="v"></el-table-column>
+                  <el-table-column :label="`${$t('common.current')}(A)`" prop="A"></el-table-column>
                 </el-table>
               </el-col>
             </el-row>

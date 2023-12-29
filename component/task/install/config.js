@@ -1,42 +1,43 @@
+import I18n from "@/i18n"
 export const formList = [
   {
-    label: 'Task Type',
+    label: I18n.t('task.type'),
     prop: 'type'
   },
   {
-    label: 'Task Code',
+    label: I18n.t('task.code'),
     prop: 'taskCode'
   },
   {
-    label: 'Task Status',
+    label: I18n.t('common.status'),
     prop: 'status'
   },
   {
-    label: 'Customer',
+    label: I18n.t('common.customer'),
     prop: 'customer'
   },
   {
-    label: 'Agency',
+    label: I18n.t('common.agency'),
     prop: 'agentName'
   },
   {
-    label: 'Mail',
+    label: I18n.t('common.mail'),
     prop: 'email'
   },
   {
-    label: 'Phone',
+    label: I18n.t('common.phone'),
     prop: 'phone'
   },
   {
-    label: 'Time of Appointment',
+    label: I18n.t('task.appointmentTime'),
     prop: 'appointTime'
   },
   {
-    label: 'Address',
+    label: I18n.t('common.address'),
     prop: 'address'
   },
   {
-    label: 'Remarks',
+    label: I18n.t('common.remarks'),
     prop: 'remark'
   },
 ]

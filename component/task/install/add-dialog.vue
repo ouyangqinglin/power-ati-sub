@@ -5,18 +5,18 @@
              width="65%">
     <el-form @submit.native.prevent :model="optionParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <common-flex justify="space-between">
-        <el-form-item label="Name" prop="userName">
+        <el-form-item :label="`${$t('common.name')}:`" prop="userName">
           <el-input
             v-model="optionParams.userName"
-            placeholder="Please enter"
+            :placeholder="$t('common.pleaseEnter')"
             maxlength="200"
             clearable
             @keyup.enter.native="handleQuery"
           />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="handleQuery">Query</el-button>
-          <el-button size="mini" @click="resetQuery">Reset</el-button>
+          <el-button type="primary" size="mini" @click="handleQuery">{{ $t('common.query') }}</el-button>
+          <el-button size="mini" @click="resetQuery">{{ $t('common.reset') }}</el-button>
         </el-form-item>
       </common-flex>
     </el-form>
@@ -27,9 +27,9 @@
           <el-radio class="my-radio" v-model="chooseRadio" :label="row.id"></el-radio>
         </template>
       </el-table-column>
-      <el-table-column label="Name" align="center" prop="userName" show-tooltip-when-overflow />
-      <el-table-column label="Account" align="center" prop="email" />
-      <el-table-column label="Agency" align="center" prop="agentName" />
+      <el-table-column :label="$t('common.name')" align="center" prop="userName" show-tooltip-when-overflow />
+      <el-table-column :label="$t('login.account')" align="center" prop="email" />
+      <el-table-column :label="$t('common.agency')" align="center" prop="agentName" />
     </el-table>
 
     <pagination
@@ -40,8 +40,8 @@
       @pagination="getList"
     />
     <common-flex style="margin-top: 30px" justify="center">
-      <el-button :type="btnType" :disabled="!chooseRadio" @click="change">Confirm</el-button>
-      <el-button @click="cancel">Cancel</el-button>
+      <el-button :type="btnType" :disabled="!chooseRadio" @click="change">{{ $t('common.confirm') }}</el-button>
+      <el-button @click="cancel">{{ $t('common.cancel') }}</el-button>
     </common-flex>
 
   </el-dialog>

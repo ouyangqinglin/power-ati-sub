@@ -1,24 +1,24 @@
 <template>
   <div class="app-container pages-analysis-fault">
-    <common-flex justify="flex-end" class="time-zone">Statistical basis time zone: {{ utc }}</common-flex>
+    <common-flex justify="flex-end" class="time-zone">{{ $t('analysis.time.zone') }}：{{ utc }}</common-flex>
     <el-card class="echarts-card">
-      <p>Alarm Quantity</p>
+      <p>{{ $t('analysis.alarm.quantity') }}</p>
       <el-row>
         <el-col :span="6">
           <div class="num" style="color: #FF6464">{{ total.open }}</div>
-          <div class="date">Currently Open</div>
+          <div class="date">{{ $t('analysis.currentlyOpen') }}</div>
         </el-col>
         <el-col :span="6">
           <div class="num">{{ total.day }}</div>
-          <div class="date">Today</div>
+          <div class="date">{{ $t('common.today') }}</div>
         </el-col>
         <el-col :span="6">
           <div class="num">{{ total.month }}</div>
-          <div class="date">This Month</div>
+          <div class="date">{{ $t('common.thisMonth') }}</div>
         </el-col>
         <el-col :span="6">
           <div class="num">{{ total.year }}</div>
-          <div class="date">This Year</div>
+          <div class="date">{{ $t('common.thisYear') }}</div>
         </el-col>
       </el-row>
     </el-card>

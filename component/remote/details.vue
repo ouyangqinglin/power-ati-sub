@@ -78,7 +78,7 @@
               <el-input clearable prefix-icon="el-icon-search" @input="searchList()" v-model.trim="params.name" :placeholder="$t('upgrade.pleaseEnterTaskName')"></el-input>
             </el-col>
             <el-col :span="2">
-              <el-button type="primary" @click="addShow = true">Add</el-button>
+              <el-button type="primary" @click="addShow = true">{{ $t('common.add') }}</el-button>
             </el-col>
           </el-row>
           <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
@@ -150,7 +150,7 @@
                 <dict-tag :options="upgradeResStatus" :value="row.status" />
               </template>
             </el-table-column>
-            <el-table-column :label="$t('common.remark')" prop="remark"></el-table-column>
+            <el-table-column :label="$t('common.remarks')" prop="remark"></el-table-column>
             <el-table-column :label="$t('common.operationTime')" prop="createTime" min-width="160">
               <template slot-scope="{row}">
                 <span>{{DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(row.createTime))}}</span>
@@ -242,30 +242,30 @@
         @pagination="getNumList"
       />
       <common-flex justify="center" style="margin-top: 16px">
-        <el-button @click="show = false">Cancel</el-button>
+        <el-button @click="show = false">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-dialog>
 
-    <el-dialog :visible.sync="addShow" title="Newly Upgrade Task"
+    <el-dialog :visible.sync="addShow" :title="$t('task.newUpgradeTask')"
                :before-close="beforeClose"
                width="66%">
       <el-form label-position="top" :model="addModal" :rules="rules" ref="addModal">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="Task Name" prop="name">
-              <el-input maxlength="50" type="text" placeholder="Please enter" v-model.trim="addModal.name"></el-input>
+            <el-form-item :label="$t('task.name')" prop="name">
+              <el-input maxlength="50" type="text" :placeholder="$t('common.pleaseEnter')" v-model.trim="addModal.name"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="Remarks">
-          <el-input maxlength="200" type="textarea" placeholder="Please enter" v-model.trim="addModal.remark"></el-input>
+        <el-form-item :label="$t('common.remarks')">
+          <el-input maxlength="200" type="textarea" :placeholder="$t('common.pleaseEnter')" v-model.trim="addModal.remark"></el-input>
         </el-form-item>
       </el-form>
       <el-row type="flex" justify="space-between">
-        <strong>Upgrade List</strong>
+        <strong>{{ $t('task.upgradeList') }}</strong>
         <div>
-          <el-button type="primary" size="mini" @click="siteShow = true">Add</el-button>
-          <el-button size="mini" @click="deleteSel">Delete</el-button>
+          <el-button type="primary" size="mini" @click="siteShow = true">{{ $t('common.add') }}</el-button>
+          <el-button size="mini" @click="deleteSel">{{ $t('common.delete') }}</el-button>
         </div>
       </el-row>
       <el-table style="margin-top: 20px" :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
@@ -275,9 +275,9 @@
           v-if="deleteShow"
           type="selection"
           width="55" />
-        <el-table-column label="No." type="index" align="center" width="60"></el-table-column>
-        <el-table-column label="Site Name" prop="siteName"></el-table-column>
-        <el-table-column label="Logger SN" prop="sn">
+        <el-table-column :label="$t('common.no')" type="index" align="center" width="60"></el-table-column>
+        <el-table-column :label="$t('site.name')" prop="siteName"></el-table-column>
+        <el-table-column :label="$t('task.loggerSn')" prop="sn">
           <template slot-scope="{row}">
             <common-flex justify="center">
               <span>{{ row.serialNumber }}/</span>
@@ -285,15 +285,15 @@
             </common-flex>
           </template>
         </el-table-column>
-        <el-table-column label="Operation" prop="createTime">
+        <el-table-column :label="$t('common.operation')" prop="createTime">
           <template slot-scope="{row}">
-            <el-button type="text" @click="removeArrItem(row.id)">Delete</el-button>
+            <el-button type="text" @click="removeArrItem(row.id)">{{ $t('common.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
       <common-flex justify="center" style="margin-top: 16px">
-        <el-button :type="siteList.length ? 'primary' : ''" :disabled="!siteList.length" @click="addUpgrade">Upgrade</el-button>
-        <el-button @click="closeAdd">Cancel</el-button>
+        <el-button :type="siteList.length ? 'primary' : ''" :disabled="!siteList.length" @click="addUpgrade">{{ $t('upgrade.upgrade') }}</el-button>
+        <el-button @click="closeAdd">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-dialog>
 

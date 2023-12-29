@@ -8,6 +8,8 @@ import alarm from './alarm'
 import upgrade from './upgrade'
 import task from './task'
 import weather from './weather'
+import device from './device'
+import analysis from './analysis'
 
 export default {
   ...common,
@@ -19,5 +21,7 @@ export default {
   ...alarm,
   ...upgrade,
   ...task,
-  ...weather
+  ...weather,
+  ...device,
+  ...analysis
 }

@@ -84,5 +84,7 @@ export default {
   'common.operationTime': '操作时间',
   'common.import': '输入',
   'common.export': '输出',
+  'common.operator': '操作人',
+  'common.systemGeneration': '系统生成',
 
 }

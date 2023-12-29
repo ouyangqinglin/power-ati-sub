@@ -31,5 +31,9 @@ export default {
   'dict.waiting': 'Waiting',
   'dict.upgrading': 'Upgrading',
   'dict.fail': 'Fail',
+  'dict.clear.automatic': 'Automatic',
+  'dict.clear.manual': 'Manual',
+  'device.install.status.installed': 'Installed',
+  'device.install.status.unbind': 'Unbind',
 
 }

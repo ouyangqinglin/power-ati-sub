@@ -1,10 +1,10 @@
 <template>
   <div class="pages-task-repair-view">
     <el-card class="pages-task-repair-view-card">
-      <div class="pages-task-repair-view-card-title">Process</div>
+      <div class="pages-task-repair-view-card-title">{{ $t('task.process') }}</div>
       <div style="padding: 0 80px">
         <el-steps class="custom-step" :active="active" finish-status="success">
-          <el-step title="Task Created">
+          <el-step :title="$t('task.created')">
             <template slot="description">
               <div>{{ base.createBy }}</div>
             </template>
@@ -13,7 +13,7 @@
               <div v-else>--</div>
             </template>
           </el-step>
-          <el-step title="Task Received">
+          <el-step :title="$t('task.received')">
             <template v-if="+active > 1">
               <template slot="description">
                 <div>{{ base.installer }}</div>
@@ -24,7 +24,7 @@
               </template>
             </template>
           </el-step>
-          <el-step title="Completed">
+          <el-step :title="$t('task.completed')">
             <template v-if="+active > 2">
               <template slot="description">
                 <div>{{ base.installer }}</div>
@@ -39,31 +39,34 @@
       </div>
     </el-card>
     <el-card class="pages-task-repair-view-card">
-      <div class="pages-task-repair-view-card-title">Task Info</div>
+      <div class="pages-task-repair-view-card-title">{{ $t('task.info') }}</div>
       <el-form class="pages-task-repair-view-card-form" :model="base" :rules="rule" ref="ruleForm">
-        <el-form-item prop="title" label="Fault Title">
+        <el-form-item prop="title" :label="$t('task.faultTitle')">
           <el-input disabled v-model="base.title" type="text" />
         </el-form-item>
-        <el-form-item prop="remark" label="Fault Description">
+        <el-form-item prop="remark" :label="$t('task.faultDescription')">
           <el-input disabled v-model="base.remark" type="textarea" />
         </el-form-item>
         <common-flex>
-          <el-form-item prop="type" label="Task Type" style="margin-right: 90px">
+          <el-form-item prop="type" :label="$t('task.type')" style="margin-right: 90px">
             <el-input disabled type="text" />
             <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskType" :value="base.type"/>
           </el-form-item>
-          <el-form-item prop="taskCode" label="Task Code">
-            <el-input v-model="base.taskCode" placeholder="System generation" disabled type="text" />
+          <el-form-item prop="taskCode" :label="$t('task.code')" style="margin-right: 90px">
+            <el-input v-model="base.taskCode" :placeholder="$t('common.systemGeneration')" disabled type="text" />
+          </el-form-item>
+          <el-form-item prop="customer" :label="$t('common.customer')" style="margin-right: 90px">
+            <el-input v-model="base.customer" disabled type="text" />
           </el-form-item>
         </common-flex>
         <common-flex justify="space-between">
-          <el-form-item prop="siteName" label="Site" style="margin-right: 90px">
+          <el-form-item prop="siteName" :label="$t('site.name')" style="margin-right: 90px">
             <el-input v-model="base.siteName" disabled type="text" />
           </el-form-item>
-          <el-form-item prop="agentName" label="Agency" style="margin-right: 90px">
+          <el-form-item prop="agentName" :label="$t('common.agency')" style="margin-right: 90px">
             <el-input v-model="base.agentName" disabled type="text" />
           </el-form-item>
-          <el-form-item prop="appointTime" label="Time of Appointment" style="margin-right: 90px">
+          <el-form-item prop="appointTime" :label="$t('task.appointmentTime')" style="margin-right: 90px">
             <el-date-picker style="width: 100%" type="datetime" format="M/d/yyyy HH:mm"
                             v-model="base.appointTime"
                             value-format="yyyy-MM-dd HH:mm"
@@ -72,32 +75,28 @@
           </el-form-item>
         </common-flex>
         <common-flex>
-          <el-form-item prop="customer" label="Customer" style="margin-right: 90px">
-            <el-input v-model="base.customer" disabled type="text" />
-          </el-form-item>
-          <el-form-item prop="phone" label="Phone" style="margin-right: 90px">
+          <el-form-item prop="phone" :label="$t('common.phone')" style="margin-right: 90px">
             <el-input disabled v-model="base.phone" type="text" />
           </el-form-item>
         </common-flex>
-        <el-form-item prop="address" label="Address">
+        <el-form-item prop="address" :label="$t('common.address')">
           <el-input disabled v-model="base.address" type="text" />
         </el-form-item>
       </el-form>
     </el-card>
     <el-card class="pages-task-repair-view-card">
-      <div class="pages-task-repair-view-card-title">Repaired Info</div>
+      <div class="pages-task-repair-view-card-title">{{ $t('task.repairedInfo') }}</div>
       <el-form class="pages-task-repair-view-card-form" :model="base">
-        <el-form-item label="Repair Description">
+        <el-form-item :label="$t('task.repairDescription')">
           <el-input type="textarea" disabled v-model="base.finishDesc"></el-input>
         </el-form-item>
       </el-form>
     </el-card>
     <el-card class="pages-task-repair-view-card">
-      <div class="pages-task-repair-view-card-title">Repairman</div>
+      <div class="pages-task-repair-view-card-title">{{ $t('task.repairman') }}</div>
       <el-form class="pages-task-repair-view-card-form" :model="repairmanInfo" :rules="manRule" ref="installForm">
         <common-flex>
-          <el-form-item label="RepairMan" class="my-item" prop="userName">
-            <template slot="label"><span>Repairman</span></template>
+          <el-form-item :label="$t('task.repairman')" class="my-item" prop="userName">
             <div class="posr">
               <el-input disabled @focus="openMan" style="width: 100%" readonly v-model="repairmanInfo.userName"></el-input>
               <i @click="openMan" class="el-icon-search posa right-search"></i>
@@ -108,7 +107,7 @@
     </el-card>
     <el-card class="pages-task-repair-view-footer">
       <common-flex justify="center">
-        <el-button @click="cancel">Cancel</el-button>
+        <el-button @click="cancel">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-card>
   </div>
@@ -244,7 +243,6 @@ export default {
     }
   }
   .my-item {
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
     .el-form-item__label {

@@ -4,7 +4,7 @@
       <el-form :model="queryParams" ref="queryForm" :inline="true">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="Code：" prop="code" class="same-input">
+            <el-form-item :label="`Code：`" prop="code" class="same-input">
               <el-input
                 v-model="queryParams.code"
                 placeholder="Please enter"

@@ -1,18 +1,18 @@
 <template>
   <div class="pages-task-add">
     <el-card class="pages-task-add-card">
-      <div class="pages-task-add-card-title">Task Info</div>
+      <div class="pages-task-add-card-title mb10">{{ $t('task.info') }}</div>
       <el-form class="pages-task-add-card-form" :model="base" :rules="rules" ref="ruleForm">
         <el-form-item v-for="(i, index) of formList" :key="i.prop" :prop="i.prop">
           <template slot="label"><span>{{ i.label }}</span></template>
           <template v-if="['remark', 'address'].includes(i.prop)">
-            <el-input maxlength="200" show-word-limit style="width: 60vw" type="textarea" v-model="base[i.prop]"></el-input>
+            <el-input maxlength="200" show-word-limit style="width: 60vw" type="textarea" :placeholder="$t('common.pleaseEnter')" v-model="base[i.prop]"></el-input>
           </template>
           <template v-else-if="i.prop === 'appointTime'">
             <el-date-picker style="width: 100%" type="datetime" format="M/d/yyyy HH:mm"
                             v-model="base.appointTime"
                             value-format="yyyy-MM-dd HH:mm:ss"
-                            size="medium"
+                            :placeholder="$t('common.pleaseSelect')"
             />
           </template>
           <template v-else-if="i.prop === 'type'">
@@ -20,7 +20,7 @@
             <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskType" :value="base.type"/>
           </template>
           <template v-else-if="i.prop === 'phone'">
-            <el-input @input="checkPhone" v-model="base[i.prop]" type="text" maxlength="20"></el-input>
+            <el-input @input="checkPhone" v-model="base[i.prop]" type="text" maxlength="20" :placeholder="$t('common.pleaseEnter')"></el-input>
           </template>
           <template v-else-if="i.prop === 'status'">
             <el-input disabled type="text" />
@@ -34,12 +34,11 @@
 
     </el-card>
     <el-card class="pages-task-add-card">
-      <div class="pages-task-add-card-title">Installer</div>
+      <div class="pages-task-add-card-title">{{ $t('task.installer') }}</div>
       <el-form class="pages-task-add-card-form" :model="installerInfo" :rules="installRule" ref="installForm">
-        <el-form-item label="Installer" class="my-item" prop="userName">
-          <template slot="label"><span>Installer</span></template>
+        <el-form-item :label="$t('task.installer')" class="my-item" prop="userName">
           <div class="posr">
-            <el-input @focus="openAdd" style="width: 100%" readonly v-model="installerInfo.userName" placeholder="Please Select"></el-input>
+            <el-input @focus="openAdd" style="width: 100%" readonly v-model="installerInfo.userName" :placeholder="$t('common.pleaseSelect')"></el-input>
             <i @click="openAdd" class="el-icon-search posa right-search"></i>
           </div>
         </el-form-item>
@@ -47,11 +46,11 @@
     </el-card>
     <el-card class="pages-task-add-footer">
       <common-flex justify="center">
-        <el-button type="primary" @click="submitForm('ruleForm')">Submit</el-button>
-        <el-button @click="cancel">Cancel</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">{{ $t('common.submit') }}</el-button>
+        <el-button @click="cancel">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-card>
-    <AddDialog :show.sync="showModel" :type="2" @change="getInstaller" :haveSelect="base.installUid" header="Please select a installer" />
+    <AddDialog :show.sync="showModel" :type="2" @change="getInstaller" :haveSelect="base.installUid" :header="`${$t('common.pleaseSelect')}${$t('task.installer')}`" />
   </div>
 </template>
 
@@ -61,6 +60,7 @@ import { createTask } from '@/api/task'
 import AddDialog from "@subComp/task/install/add-dialog.vue"
 import { taskType, taskInstallStatus } from '@sub/utils/dict'
 import { formList } from "./config"
+import I18n from "@/i18n"
 
 export default {
   name: "pages-task-add",
@@ -72,7 +72,7 @@ export default {
       baseInfo: {
         type: 2,
         address: '',
-        taskCode: 'System generation',
+        taskCode: I18n.t('common.systemGeneration'),
         appointTime: '',
         uid: '',
         installUid: '',
@@ -89,18 +89,18 @@ export default {
       id: '',
       installRule: {
         userName: [
-          { required: true, message: 'Please select a installer', trigger: 'change'}
+          { required: true, message: I18n.t('common.pleaseSelect'), trigger: 'change'}
         ]
       },
       rules: {
         phone: [
-          { required: true, message: 'Please enter phone', trigger: 'blur'}
+          { required: true, message: I18n.t('common.pleaseEnter'), trigger: 'blur'}
         ],
         appointTime: [
-          { type: 'string', required: true, message: 'Please enter appoint time', trigger: 'blur'}
+          { type: 'string', required: true, message: I18n.t('common.pleaseSelect'), trigger: 'blur'}
         ],
         address: [
-          { required: true, message: 'Please enter address', trigger: 'blur'}
+          { required: true, message: I18n.t('common.pleaseEnter'), trigger: 'blur'}
         ],
       },
       formList,
@@ -156,7 +156,7 @@ export default {
           if (+res.code === 200) {
             this.$message({
               type: 'success',
-              message: 'Succeeded!'
+              message: this.$t('common.succeeded')
             })
             setTimeout(() => {
               this.$router.push(`/task/install?refresh=${true}`)
@@ -195,7 +195,7 @@ export default {
       }
     }
     .my-item {
-      margin-top: 20px;
+      margin-top: 10px;
       display: flex;
       flex-direction: column;
       .el-form-item__label {

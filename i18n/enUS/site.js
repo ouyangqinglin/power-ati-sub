@@ -66,6 +66,15 @@ export default {
   'site.setResult': 'Set Result',
   'site.clientType': 'Client Type',
   'site.systemSetting': 'System Setting',
+  'site.addDevice': 'Add Device',
+  'site.delDevice': 'Delete Device',
+  'site.addManually': 'Add Manually',
+  'site.newInstallationOrNot': 'New installation or not',
+  'site.deviceNotFound': 'Device not found',
+  'site.snRepetition': 'sn:Coding repetition',
+  'site.pleaseEnterCapacity': 'please enter capacity',
+  'site.pleaseEnterRatedPower': 'please enter rated power',
+  'site.threeSignificantDecimals': 'At most three significant decimals',
 
 
 }

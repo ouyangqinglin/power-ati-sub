@@ -5,19 +5,19 @@
         <el-row>
           <el-col :span="8">
             <el-form-item :label="`${$t('common.version')}：`" prop="versionNum">
-              <el-input clearable placeholder="Please enter" v-model="queryParams.versionNum"></el-input>
+              <el-input clearable :placeholder="$t('common.pleaseEnter')" v-model="queryParams.versionNum"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item :label="`${$t('upgrade.componentM')}：`" prop="fileType">
-              <el-select placeholder="All" v-model="queryParams.fileType">
+              <el-select :placeholder="$t('common.all')" v-model="queryParams.fileType">
                 <el-option v-for="i of compMOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item :label="`${$t('common.manufacturer')}：`" prop="manufacturer">
-              <el-select placeholder="All" v-model="queryParams.manufacturer" :disabled="queryManuDisabled">
+              <el-select :placeholder="$t('common.all')" v-model="queryParams.manufacturer" :disabled="queryManuDisabled">
                 <el-option v-for="i of manufacturerQueryOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
               </el-select>
             </el-form-item>
@@ -26,14 +26,14 @@
         <el-row type="flex" justify="space-between">
           <el-col :span="8">
             <el-form-item :label="`${$t('upgrade.submodule')}：`" prop="subModule">
-              <el-select placeholder="All" v-model="queryParams.subModule" :disabled="querySubDisabled">
+              <el-select :placeholder="$t('common.all')" v-model="queryParams.subModule" :disabled="querySubDisabled">
                 <el-option v-for="i of submoduleQueryOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item :label="`${$t('upgrade.applicationType')}：`" prop="applicationType" label-width="140px">
-              <el-select placeholder="All" v-model="queryParams.applicationType">
+              <el-select :placeholder="$t('common.all')" v-model="queryParams.applicationType">
                 <el-option v-for="i of appOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
               </el-select>
             </el-form-item>
@@ -150,7 +150,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="10">
-              <el-form-item :label="$t('upgrade.subModule')" prop="subModule">
+              <el-form-item :label="$t('upgrade.submodule')" prop="subModule">
                 <el-select style="width: 100%" v-model="base.subModule" placeholder="Please select" :disabled="disabledSubmodule">
                   <el-option v-for="i of submoduleOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
