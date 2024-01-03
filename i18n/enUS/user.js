@@ -16,6 +16,17 @@ export default {
   'user.supportPhone': "Support Phone",
   'user.supportEmail': "Support Email",
   'user.salesEmail': "Sales Email",
+  'user.nickname': "User Nickname",
+  'user.phone': "Phone Number",
+  'user.clickUploadProfilePicture': "Click Upload profile picture",
+  'user.modifyAvatar': "Modify Avatar",
+  'user.email': "User Email",
+  'user.basicInformation': "Basic information",
+  'user.changePassword': "Change Password",
+  'user.maximumSize': "The maximum size of the image is 5M. Please select a new one",
+  'user.imgType': "The file format is incorrect. Please upload the image type, such as JPG or PNG file.",
+  'user.logOut': "Are you sure to log out and exit the system?",
+  'user.Tips': "Tips",
 
 
 }

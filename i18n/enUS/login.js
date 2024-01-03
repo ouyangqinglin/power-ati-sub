@@ -6,6 +6,7 @@ export default {
   'login.loginIn': 'Log In',
   'login.resetPsw': 'Reset Password',
   'login.email': 'Email',
+  'login.oldPassword': 'Old Password',
   'login.newPassword': 'New Password',
   'login.confirmPassword': 'Password Again',
   'login.verificationCode': 'Verification Code',

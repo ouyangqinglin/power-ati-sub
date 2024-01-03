@@ -93,6 +93,7 @@ export default {
   'common.administrator': 'Administrator',
   'common.systemTips': 'System tips',
   'common.loading': 'Loading',
+  'common.choose': 'Choose',
 
 
 }

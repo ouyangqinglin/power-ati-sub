@@ -16,6 +16,16 @@ export default {
   'user.supportPhone': "支持电话",
   'user.supportEmail': "支持邮箱",
   'user.salesEmail': "销售邮箱",
-
+  'user.nickname': "用户昵称",
+  'user.phone': "电话号码",
+  'user.clickUploadProfilePicture': "单击上传个人头像",
+  'user.modifyAvatar': "修改头像",
+  'user.email': "用户邮箱",
+  'user.basicInformation': "基本信息",
+  'user.changePassword': "修改密码",
+  'user.maximumSize': "图像的最大为5M，请重新选择。",
+  'user.imgType': "请上传正确的文件类型，如JPG或PNG文件。",
+  'user.logOut': "您确定要退出系统吗？",
+  'user.Tips': "提示",
 
 }

@@ -92,5 +92,6 @@ export default {
   'common.administrator': '管理员',
   'common.systemTips': '系统提示',
   'common.loading': '加载中...',
+  'common.choose': '选择',
 
 }

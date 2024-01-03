@@ -6,6 +6,7 @@ export default {
   'login.loginIn': '登录',
   'login.resetPsw': '重置密码',
   'login.email': '邮箱',
+  'login.oldPassword': '老密码',
   'login.newPassword': '新密码',
   'login.confirmPassword': '请再次输入新密码',
   'login.send': '发送',
