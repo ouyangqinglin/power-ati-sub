@@ -420,16 +420,16 @@ export const batInfoItemBtn = [
 
 export const cellInfoItemBtn = [
   {
-    label: 'Voltage(V)',
+    label: i18n.t('common.voltage') + '(V)',
     value: 0
   },  {
-    label: 'Cell_T(°C)',
+    label: i18n.t('bms.cellT') + '(°C)',
     value: 1
   },  {
-    label: 'Env_T(°C)',
+    label: i18n.t('bms.envT') + '(°C)',
     value: 2
   },  {
-    label: 'MOS_T(°C)',
+    label: i18n.t('bms.mosT') + '(°C)',
     value: 3
   }
 ]

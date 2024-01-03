@@ -1,4 +1,5 @@
 import I18n from "@/i18n";
+import i18n from "@/i18n";
 
 export const weatherCodeEnum = {
   "200": "thunderstorm", //雷雨
@@ -99,4 +100,10 @@ export const newInstall = {
 export const clientType = {
   1: 'APP',
   2: 'Web'
+}
+
+export const batteryStatus =   {
+  1: I18n.t('store.status.notChargeDischarge'),
+  2: I18n.t('store.status.charging'),
+  3: I18n.t('store.status.discharging')
 }

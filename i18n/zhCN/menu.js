@@ -46,7 +46,7 @@ export default {
   'menu.cacheList': "缓存列表",
   'menu.operationLog': "操作日志",
   'menu.loginLog': "登录日志",
-  'menu.profile': "我的详细信息",
+  'menu.profile': "个人资料",
 
 
 }

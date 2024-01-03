@@ -7,10 +7,10 @@
             <el-form-item label="SN：" prop="serialNumber">
               <el-input clearable :placeholder="$t('common.pleaseEnter')" @keyup.enter.native="handleQuery" v-model="queryParams.serialNumber"></el-input>
             </el-form-item>
-            <el-form-item label="Site：" prop="siteName">
+            <el-form-item :label="`${$t('task.site')}：`" prop="siteName">
               <el-input clearable :placeholder="$t('common.pleaseEnter')" @keyup.enter.native="handleQuery" v-model="queryParams.siteName"></el-input>
             </el-form-item>
-            <el-form-item label="Follow：" prop="followBms">
+            <el-form-item :label="`${$t('bms.follow')}：`" prop="followBms">
               <el-select clearable v-model="queryParams.followBms" :placeholder="$t('common.pleaseSelect')">
                 <el-option v-for="i of followOption" :value="i.value" :label="i.label" :key="i.value"></el-option>
               </el-select>
@@ -27,30 +27,23 @@
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 v-loading="loading" :data="list" border
       >
-        <el-table-column label="No." type="index">
+        <el-table-column :label="$t('common.no')" type="index">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
         <el-table-column label="SN" prop="serialNumber"></el-table-column>
-        <el-table-column label="Capacity(kWh)" prop="nameplateCapacity"></el-table-column>
-        <el-table-column label="Site" prop="siteName" show-tooltip-when-overflow>
+        <el-table-column :label="`${$t('common.capacity')}(kWh)`" prop="nameplateCapacity"></el-table-column>
+        <el-table-column :label="$t('task.site')" prop="siteName" show-tooltip-when-overflow>
           <template slot-scope="{ row }">
             <span>{{ row.siteName }}</span>
           </template>
         </el-table-column>
         <el-table-column fixed="right" align="center" class-name="small-padding fixed-width" min-width="100">
           <common-flex justify="center" align="center" slot="header">
-            <span>Operat</span>
+            <span>{{ $t('common.operation') }}</span>
             <el-tooltip effect="dark" placement="top">
-              <span slot="content">
-                Click 'Follow' to retain the collected real-time data<br>
-                of battery cells and temperature; Cancel 'Follow' and<br>
-                only view battery cells and temperature real-time data<br>
-                and data retained during historical follow periods.<br>
-                Regardless of whether it is' followed 'or not,the data <br>
-                viewing ofthe battery pack is not affected
-              </span>
+              <span slot="content" v-html="$t('bms.operateTips')"></span>
               <img style="width: 18px; margin-left: 14px" :src="require('@img/question.svg')" alt="">
             </el-tooltip>
           </common-flex>
@@ -58,10 +51,10 @@
 <!--            // 设备类型 1-1.5 2-mini  3-1.0-->
             <common-flex justify="center" align="center">
               <router-link :to="{name: 'monitoring-view', params: {id: scope.row.id, info: scope.row.extInfo, sn: scope.row.serialNumber, siteCode: scope.row.siteCode}}">
-                <el-button type="text" :disabled="+scope.row.type !== 1">Monitoring</el-button>
+                <el-button type="text" :disabled="+scope.row.type !== 1">{{ $t('bms.monitoring') }}</el-button>
               </router-link>
               <img @click="follow(2, scope.row.id)" v-if="+scope.row.followBms === 1" class="follow" :src="require('@img/followed.svg')" alt="">
-              <img title="Follow" @click="follow(1, scope.row.id)" v-else class="follow" :src="require('@img/follow.svg')" alt="Follow">
+              <img :title="$t('bms.follow')" @click="follow(1, scope.row.id)" v-else class="follow" :src="require('@img/follow.svg')" alt="Follow">
             </common-flex>
           </template>
         </el-table-column>
@@ -97,11 +90,11 @@ export default {
       },
       followOption: [
         {
-          label: 'All battery',
+          label: this.$t('bms.allBattery'),
           value: '',
         },
         {
-          label: 'Battery i followed',
+          label: this.$t('bms.followedBattery'),
           value: 1,
         },
       ]
@@ -117,7 +110,7 @@ export default {
         id
       }
       if (type === 2) {
-        this.$modal.confirm(`Please confirm whether to cancel followed`).then(() => {
+        this.$modal.confirm(this.$t('bms.followedConfirm')).then(() => {
           this.changeFollow(data)
         })
       } else this.changeFollow(data)
@@ -125,7 +118,7 @@ export default {
     changeFollow(data) {
       this.$modal.loading()
       editDevice(data).then(res => {
-        this.$modal.msgSuccess("Succeeded!")
+        this.$modal.msgSuccess(this.$t('common.success'))
       }).finally(() => {
         this.$modal.closeLoading()
         this.getList()

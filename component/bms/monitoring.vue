@@ -3,7 +3,7 @@
     <el-drawer
       :before-close="cancelExport"
       :visible.sync="drawer">
-      <strong slot="title" style="color: #000">Choose the fields to export</strong>
+      <strong slot="title" style="color: #000">{{ $t('bms.chooseFieldsExport') }}</strong>
       <div class="drawer-main">
         <common-flex align="center">
           <div style="flex: 1">
@@ -25,33 +25,33 @@
             />
           </div>
           <div style="flex: 1">
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Select all field</el-checkbox>
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">{{ $t('bms.selectField') }}</el-checkbox>
           </div>
         </common-flex>
         <div class="drawer-main-info" v-if="exportInfo">
-          <strong>Battery Info</strong>
+          <strong>{{ $t('bms.batteryInfo') }}</strong>
           <el-checkbox-group v-model="checkedInfo" @change="changeCheckInfo">
             <el-checkbox style="width: calc(100% / 4); margin-top: 12px" v-for="(i, k) in batInfo" :label="i.value" :key="k">{{ i.label }}</el-checkbox>
           </el-checkbox-group>
         </div>
         <div class="drawer-main-info" v-if="cellFlag && exportCell">
-          <strong>Battery cells monitoring</strong>
+          <strong>{{ $t('bms.batteryCellsMonitoring') }}</strong>
           <el-checkbox-group v-model="checkedCell" @change="changeCheckCell">
             <el-checkbox style="width: calc(100% / 4); margin-top: 12px" v-for="(i, k) in batCell" :label="i.value" :key="k">{{ i.label }}</el-checkbox>
           </el-checkbox-group>
         </div>
         <common-flex justify="center" style="margin-top: 60px">
           <download-excel :data="excelData" :fields="excelHead" :name="excelName">
-            <el-button type="primary" v-if="exportInfo" :disabled="!flag">Export</el-button>
-            <el-button type="primary" v-if="exportCell" :disabled="exportCellDisabled">Export</el-button>
+            <el-button type="primary" v-if="exportInfo" :disabled="!flag">{{ $t('bms.export') }}</el-button>
+            <el-button type="primary" v-if="exportCell" :disabled="exportCellDisabled">{{ $t('bms.export') }}</el-button>
           </download-excel>
-          <el-button style="margin-left: 24px" @click="cancelExport">Cancel</el-button>
+          <el-button style="margin-left: 24px" @click="cancelExport">{{ $t('common.cancel') }}</el-button>
         </common-flex>
       </div>
     </el-drawer>
     <el-card>
       <common-flex slot="header" justify="space-between" align="center">
-        <strong>Battery Info</strong>
+        <strong>{{ $t('bms.batteryInfo') }}</strong>
         <el-button type="primary" @click="drawerInfo"><i style="font-size: 16px" class="el-icon-download"></i></el-button>
       </common-flex>
       <common-flex style="width: 100%">
@@ -64,11 +64,11 @@
         <div style="flex: 1">
           <el-row>
             <el-col :span="6">
-              <div class="label">Serial Number</div>
+              <div class="label">{{ $t('common.serialNumber') }}</div>
               <div class="value">{{ base.sn || '--' }}</div>
             </el-col>
             <el-col :span="6">
-              <div class="label">Capacity (kWh)</div>
+              <div class="label">{{ $t('common.capacity') }} (kWh)</div>
               <div class="value">{{ base.capacity || '--' }}</div>
             </el-col>
             <el-col :span="6">
@@ -76,26 +76,26 @@
               <div class="value">{{ base.soh || '--' }}</div>
             </el-col>
             <el-col :span="6">
-              <div class="label">Cycle Time</div>
+              <div class="label">{{ $t('bms.cycleTime') }}</div>
               <div class="value">{{ base.cycles || '--' }}</div>
             </el-col>
           </el-row>
           <el-row style="margin-top: 12px">
             <el-col :span="6">
-              <div class="label">Lifetime</div>
+              <div class="label">{{ $t('common.lifetime') }}</div>
               <div class="value"> {{base.periodDay}}Days    {{base.periodMonth}}Months  {{base.periodYear}}Year</div>
             </el-col>
             <el-col :span="6">
-              <div class="label">Hardware Version</div>
+              <div class="label">{{ $t('common.hardwareVersion') }}</div>
               <div class="value">{{ base.hardVersion || '--' }}</div>
             </el-col>
             <el-col :span="6">
-              <div class="label">Software Version</div>
+              <div class="label">{{ $t('common.softwareVersion') }}</div>
               <div class="value">{{ base.version || '--' }}</div>
             </el-col>
             <el-col :span="6">
-              <div class="label">Status</div>
-              <div class="value">{{ ['', 'Not charge-discharge', 'Charging', 'Discharging'][+base.storeStatus] }}</div>
+              <div class="label">{{ $t('common.status') }}</div>
+              <div class="value">{{ batteryStatus[+base.storeStatus] }}</div>
             </el-col>
           </el-row>
         </div>
@@ -114,7 +114,7 @@
     </el-card>
     <el-card style="margin-top: 24px">
       <common-flex v-if="cellFlag" slot="header" justify="space-between" align="center">
-        <strong>Battery cells monitoring</strong>
+        <strong>{{ $t('bms.batteryCellsMonitoring') }}</strong>
         <el-button type="primary" @click="drawerCell"><i style="font-size: 16px" class="el-icon-download"></i></el-button>
       </common-flex>
       <el-radio-group v-model="dataType" style="margin-bottom: 30px;" @change="changeType">
@@ -136,14 +136,14 @@
           </common-flex>
         </common-flex>
         <common-flex v-if="dataList.length > 64" @click.native="foldShow = !foldShow" align="center" class="posa themeColor" style="bottom: -18px; right: 4px; cursor: pointer">
-          {{ foldShow ? 'Collapse' : 'Unfold'}}
+          {{ foldShow ? $t('bms.collapse') : $t('bms.unfold') }}
           <i class="el-icon-arrow-down themeColor" :class="{rotateAni: foldShow}" style="bottom: -16px; right: 5px; font-size: 18px; cursor: pointer"></i>
         </common-flex>
       </common-flex>
     </el-card>
     <el-card style="margin-top: 24px">
       <template v-if="[0, 1].includes(+dataType)">
-        <strong slot="header">Analysis curve</strong>
+        <strong slot="header">{{ $t('bms.analysisCurve') }}</strong>
         <common-flex wrap="wrap" class="flex-container">
           <common-flex class="item" v-for="(i, k) of lineList"
                        :class="{activeBorder: curSeries.includes(k)}"
@@ -190,6 +190,7 @@ import {infoDevice, cellData, batHistoryData} from '@/api/device'
 import Trend from '@/views/components/monitor/trend.vue'
 import * as echarts from "echarts"
 import { cellInfoItemBtn } from '@sub/utils/dict'
+import { batteryStatus } from '@sub/utils/map'
 
 let arr = [], chartIns = null, timer = null, dataList = [], batCellData = []
 let viewH = window.innerHeight
@@ -320,6 +321,7 @@ export default {
     let dateVal = new Date()
     return {
       cellInfoItemBtn,
+      batteryStatus,
       exportCellDisabled: false,
       excelData: [],
       solidExcelHead: {
@@ -370,15 +372,15 @@ export default {
           value: ''
         },
         {
-          label: 'Power (kW)',
+          label: this.$t('common.power') + ' (kW)',
           value: ''
         },
         {
-          label: 'Voltage(V)',
+          label: this.$t('common.voltage') + ' (V)',
           value: ''
         },
         {
-          label: 'Current(A)',
+          label: this.$t('common.current') + ' (A)',
           value: ''
         }
       ],
@@ -389,48 +391,48 @@ export default {
       flag: true,
       zooList: [
         {
-          label: 'Cell Highest_Voltage(V)',
+          label: this.$t('bms.cell') + this.$t('bms.cellHighestVoltage') + '(V)',
           key: 'highVoltage',
           value: 0,
-          name: 'Highest_Voltage'
+          name: this.$t('bms.cellHighestVoltage')
         },
         {
-          label: 'Cell Lowest_Voltage(V)',
+          label: this.$t('bms.cell') + this.$t('bms.cellLowestVoltage') + '(V)',
           key: 'lowVoltage',
           value: 0,
-          name: 'Lowest_Voltage'
+          name: this.$t('bms.cellLowestVoltage')
         },
         {
-          label: 'Cell Average_Voltage(V)',
+          label: this.$t('bms.cell') + this.$t('bms.cellAverageVoltage') + '(V)',
           key: 'avgVoltage',
           value: 0,
-          name: 'Average_Voltage'
+          name: this.$t('bms.cellAverageVoltage')
         },
         {
-          label: 'Cell Dropout_Voltage(V)',
+          label: this.$t('bms.cell') + this.$t('bms.cellDropoutVoltage') + '(V)',
           key: 'differVoltage',
           value: 0,
-          name: 'Dropout_Voltage'
+          name: this.$t('bms.cellDropoutVoltage')
         },
       ],
       oneList: [
         {
-          label: 'Cell Highest_T(°C)',
+          label: this.$t('bms.cell') + this.$t('bms.cellHighestT') + '(°C)',
           key: 'maxTemperature',
           value: 0,
-          name: 'Highest_T'
+          name: this.$t('bms.cellHighestT')
         },
         {
-          label: 'Cell Lowest_T(°C)',
+          label: this.$t('bms.cell') + this.$t('bms.cellLowestT') + '(°C)',
           key: 'minTemperature',
           value: 0,
-          name: 'Lowest_T'
+          name: this.$t('bms.cellLowestT')
         },
         {
-          label: 'Cell Dropout_T(°C)',
+          label: this.$t('bms.cell') + this.$t('bms.cellDropoutT') + '(°C)',
           key: 'differTemplate',
           value: 0,
-          name: 'Dropout_T'
+          name: this.$t('bms.cellDropoutT')
         }
       ],
     }
@@ -547,8 +549,8 @@ export default {
   },
   methods: {
     changeExportDate() {
-      if (this.exportInfo) this.getInfoData('loading')
-      else this.getCellData('loading')
+      if (this.exportInfo) this.getInfoData(this.$t('common.loading'))
+      else this.getCellData(this.$t('common.loading'))
     },
     drawerInfo() {
       this.exportInfo = true

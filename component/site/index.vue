@@ -65,7 +65,7 @@
           <el-form-item :label="$t('site.name')+'：'" prop="siteName" label-width="110px">
             <el-input
               v-model="queryParams.siteName"
-              :placeholder="$t('common.pleaseEnter') + $t('site.name')"
+              :placeholder="$t('common.pleaseEnter')"
               clearable
               @keyup.enter.native="handleQuery"
             />
@@ -73,7 +73,7 @@
           <el-form-item :label="$t('site.code')+'：'" prop="siteCode">
             <el-input
               v-model="queryParams.siteCode"
-              :placeholder="$t('common.pleaseEnter') + $t('site.code')"
+              :placeholder="$t('common.pleaseEnter')"
               clearable
               @keyup.enter.native="handleQuery"
             />
@@ -90,7 +90,7 @@
               type="date"
               format="M/d/yyyy"
               value-format="yyyy-MM-dd"
-              :placeholder="$t('common.pleaseSelect') + $t('site.localTime')"
+              :placeholder="$t('common.pleaseSelect')"
               >
             </el-date-picker>
           </el-form-item>

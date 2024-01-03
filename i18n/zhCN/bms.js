@@ -1,3 +1,30 @@
 export default {
-  'bms.follow': ''
+  'bms.follow': '关注',
+  'bms.allBattery': '所有电池',
+  'bms.followedBattery': '我关注的电池',
+  'bms.monitoring': '监控',
+  'bms.followedConfirm': '请确认是否取消关注',
+  'bms.chooseFieldsExport': '选择要导出的字段',
+  'bms.selectField': '选择所有字段',
+  'bms.batteryInfo': '电池信息',
+  'bms.batteryCellsMonitoring': '电池电芯监控',
+  'bms.export': '导出',
+  'bms.cycleTime': '循环周期',
+  'bms.analysisCurve': '分析曲线',
+  'bms.cellT': '电芯温度',
+  'bms.envT': '环境温度',
+  'bms.mosT': 'MOS温度',
+  'bms.collapse': '收缩',
+  'bms.unfold': '展开',
+  'bms.cellHighestVoltage': '最高电压',
+  'bms.cellLowestVoltage': '最低电压',
+  'bms.cellAverageVoltage': '平均电压',
+  'bms.cellDropoutVoltage': '压差',
+  'bms.cellHighestT': '最高温度',
+  'bms.cellLowestT': '最低温度',
+  'bms.cellDropoutT': '温差',
+  'bms.cell': '电芯',
+
+  'bms.operateTips': '点击“关注”，可保存采集到的电池电芯和温度的实时数据；<br>取消“关注”，仅查看电池电芯和温度的实时数据以及历史关注期间保留的数据。<br>无论是否“关注”，电池组的数据查看都不受影响',
+
 }
