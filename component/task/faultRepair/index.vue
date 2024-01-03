@@ -4,32 +4,32 @@
       <el-form :model="queryParams" ref="queryForm" :inline="true">
         <el-row>
           <el-col :span="6">
-            <el-form-item :label="`Code：`" prop="code" class="same-input">
+            <el-form-item :label="`${$t('task.faultCode')}：`" prop="code" class="same-input">
               <el-input
                 v-model="queryParams.code"
-                placeholder="Please enter"
+                :placeholder="$t('common.pleaseEnter')"
                 clearable
                 @keyup.enter.native="handleQuery"
               />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Creation Time：" prop="createTime">
+            <el-form-item :label="`${$t('common.creationTime')}：`" prop="createTime">
               <el-date-picker
                 clearable
                 v-model="queryTime"
                 type="date"
                 format="MM/dd/yyyy"
                 value-format="yyyy-M-d"
-                placeholder="Please select">
+                :placeholder="$t('common.pleaseSelect')">
               </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="Status：" prop="status" class="same-input">
+            <el-form-item :label="`${$t('common.status')}：`" prop="status" class="same-input">
               <el-select
                 v-model="queryParams.status"
-                placeholder="All"
+                :placeholder="$t('common.all')"
                 clearable
                 @keyup.enter.native="handleQuery"
               >
@@ -56,46 +56,45 @@
     </el-card>
     <div style="height: 20px"></div>
     <el-card>
-      <div class="table-title">Task List</div>
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}" border
                 v-loading="loading" :data="taskList" @selection-change="handleSelectionChange">
-        <el-table-column label="No" align="center" width="60">
+        <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="Code" align="center" prop="code" min-width="160" show-overflow-tooltip />
-        <el-table-column label="Fault Title" align="center" prop="title" min-width="130">
+        <el-table-column :label="$t('task.faultCode')" align="center" prop="code" min-width="160" show-overflow-tooltip />
+        <el-table-column :label="$t('task.faultTitle')" align="center" prop="title" min-width="130">
         </el-table-column>
-        <el-table-column label="Status" align="center" prop="status" min-width="100">
+        <el-table-column :label="$t('common.status')" align="center" prop="status" min-width="100">
           <template slot-scope="{ row }">
             <dict-tag :options="taskFaultStatus" :value="row.status"/>
           </template>
         </el-table-column>
-        <el-table-column label="Site" align="center" prop="siteName" show-overflow-tooltip min-width="130" />
-        <el-table-column label="Customer" align="center" show-tooltip-when-overflow prop="customer" min-width="130"/>
-        <el-table-column label="Time of Task Completed" align="center" prop="endTime" min-width="180">
+        <el-table-column :label="$t('task.site')" align="center" prop="siteName" show-overflow-tooltip min-width="130" />
+        <el-table-column :label="$t('common.customer')" align="center" show-tooltip-when-overflow prop="customer" min-width="130"/>
+        <el-table-column :label="$t('task.taskCompletedTime')" align="center" prop="endTime" min-width="180">
           <template slot-scope="{ row }">
             <span v-if="row.endTime && row.endTime !== '--'">{{ UTC_DATE_FORMAT(row.endTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Agency" align="center" prop="agentName" min-width="130" show-overflow-tooltip />
-        <el-table-column label="Creation Time" align="center" prop="createTime" min-width="180">
+        <el-table-column :label="$t('common.agency')" align="center" prop="agentName" min-width="130" show-overflow-tooltip />
+        <el-table-column :label="$t('common.creationTime')" align="center" prop="createTime" min-width="180">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(row.createTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Created by" align="center" prop="createBy" min-width="140" show-overflow-tooltip />
-        <el-table-column label="Last update Time" align="center" prop="updateTime" min-width="140">
+        <el-table-column :label="$t('common.creationBy')" align="center" prop="createBy" min-width="140" show-overflow-tooltip />
+        <el-table-column :label="$t('common.lastUpdateTime')" align="center" prop="updateTime" min-width="140">
           <template slot-scope="{ row }">
             <span v-if="row.updateTime && row.updateTime !== '--'">{{ UTC_DATE_FORMAT(row.updateTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Last update by" align="center" prop="updateBy" min-width="140" />
-        <el-table-column fixed="right" label="Operat" align="center" class-name="small-padding fixed-width" min-width="100">
+        <el-table-column :label="$t('common.lastUpdateBy')" align="center" prop="updateBy" min-width="140" />
+        <el-table-column fixed="right" :label="$t('common.operation')" align="center" class-name="small-padding fixed-width" min-width="100">
           <template slot-scope="scope">
             <el-button type="text">
               <router-link v-hasPermi="['ati:task:fault:view']" :to="`/task/fault/view/${scope.row.id}`">{{ $t('common.detail') }}</router-link>

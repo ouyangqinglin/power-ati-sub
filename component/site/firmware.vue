@@ -174,25 +174,25 @@ export default {
       },
       rules: {
         newVersion: [
-          { required: true, trigger: 'change', message: 'Please select'}
+          { required: true, trigger: 'change', message: this.$t('common.pleaseSelect') }
         ],
         fileType: [
-          { required: true, message: 'Please select', trigger: ['change', 'blur']}
+          { required: true, message: this.$t('common.pleaseSelect'), trigger: ['change', 'blur']}
         ],
         component: [
-          { required: true, message: 'Please select', trigger: ['change', 'blur']}
+          { required: true, message: this.$t('common.pleaseSelect'), trigger: ['change', 'blur']}
         ],
         subModule: [
-          { required: true, message: 'Please select', trigger: ['change', 'blur']}
+          { required: true, message: this.$t('common.pleaseSelect'), trigger: ['change', 'blur']}
         ],
         manufacturer: [
-          { required: true, message: 'Please select', trigger: ['change', 'blur']}
+          { required: true, message: this.$t('common.pleaseSelect'), trigger: ['change', 'blur']}
         ],
         applicationType: [
-          { required: true, message: 'Please select', trigger: ['change', 'blur']}
+          { required: true, message: this.$t('common.pleaseSelect'), trigger: ['change', 'blur']}
         ],
         name: [
-          { required: true, message: 'Please enter', trigger: 'blur'}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: 'blur'}
         ],
       },
       compMOptions: comMType,
@@ -296,14 +296,14 @@ export default {
     submit() {
       this.$refs.toastRef.validate(v => {
         if (v) {
-          this.$modal.loading("Upgrading")
+          this.$modal.loading(this.$t('upgrade.upgrading'))
           let data = {
             siteCode: this.$route.query?.siteCode,
             version: this.toastData.newVersion
           }
           versionUpgrade({...data, ...this.toastData}).then(res => {
             if (+res.code === 200) {
-              this.$modal.msgSuccess("Succeeded")
+              this.$modal.msgSuccess(this.$t('common.success'))
               this.getList()
               this.beforeClose()
             }

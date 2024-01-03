@@ -21,5 +21,11 @@ export default {
   'task.repairedInfo': 'Repaired Info',
   'task.repairDescription': 'Repair Description',
   'task.faultCode': 'Code',
+  'task.site': 'Site',
+  'task.repairedTime': 'Repaired Time',
+  'task.finishedTime': 'Finished Time',
+  'task.associatedRepairCode': 'Associated Repair Code',
+  'task.finishedReason': 'Finished Reason',
+  'task.toRepair': 'Go to Repair',
 
 }

@@ -22,5 +22,6 @@ export default {
   'upgrade.clickUpgradeAgain': '单击此处再次升级',
   'upgrade.time': '升级时间',
   'upgrade.fileType': '文件类型',
+  'upgrade.upgrading': '正在升级',
 
 }

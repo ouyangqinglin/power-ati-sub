@@ -55,10 +55,10 @@
             </el-select>
           </template>
           <template v-else-if="['siteName', 'nickName'].includes(i.prop)">
-            <el-input v-model="copyBase[i.prop]" maxlength="50"></el-input>
+            <el-input v-model.trim="copyBase[i.prop]" maxlength="50" :placeholder="$t('common.pleaseEnter')"></el-input>
           </template>
           <template v-else-if="i.prop === 'address'">
-            <el-input type="textarea" autosize show-word-limit maxlength="200" v-model="copyBase[i.prop]"></el-input>
+            <el-input type="textarea" autosize show-word-limit maxlength="200" :placeholder="$t('common.pleaseEnter')" v-model="copyBase[i.prop]"></el-input>
           </template>
           <template v-else>
             <el-input :disabled="index > 0 && index < 5" v-model="copyBase[i.prop]"></el-input>

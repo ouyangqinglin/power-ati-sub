@@ -21,5 +21,12 @@ export default {
   'task.repairedInfo': '维修信息',
   'task.repairDescription': '维修描述',
   'task.faultCode': '编码',
+  'task.site': '站点',
+  'task.repairedTime': '维修时间',
+  'task.finishedTime': '完成时间',
+  'task.associatedRepairCode': '关联维修码',
+  'task.finishedReason': '完成原因',
+  'task.toRepair': '转维修',
+
 
 }

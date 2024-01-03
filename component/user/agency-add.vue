@@ -1,7 +1,7 @@
 <template>
   <div v-if="show" class="agency-add">
     <el-dialog :visible.sync="show"
-               :title="type === 'add' ? 'Newly Build' : 'Modify'"
+               :title="type === 'add' ? $t('common.newlyBuild') : $t('common.modify')"
                :before-close="beforeClose"
                :close-on-click-modal ="false"
                width="65%"
@@ -38,8 +38,8 @@
       </el-form>
       <div class="table-content">
         <common-flex justify="center" style="margin-top: 29px">
-          <el-button size="small" type="primary" @click="submit">Submit</el-button>
-          <el-button size="small" @click="$emit('update:show', false)">Cancel</el-button>
+          <el-button size="small" type="primary" @click="submit">{{ $t('common.submit') }}</el-button>
+          <el-button size="small" @click="$emit('update:show', false)">{{ $t('common.cancel') }}</el-button>
         </common-flex>
       </div>
     </el-dialog>
@@ -69,34 +69,34 @@ export default {
       options: agencyStatus,
       rules: {
         agency: [
-          { required: true, message: 'Please enter', trigger: 'blur'}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: 'blur'}
         ]
       },
       formList: [
         {
-          label: 'Agency',
+          label: this.$t('common.agency'),
           prop: 'agency',
-          placeholder: 'Please enter'
+          placeholder: this.$t('common.pleaseEnter'),
         },
         {
-          label: 'Agency Code',
+          label: this.$t('user.agencyCode'),
           prop: 'agencyCode',
           disabled: true
         },
         {
-          label: 'Status',
+          label: this.$t('common.status'),
           prop: 'status',
-          placeholder: 'Please select'
+          placeholder: this.$t('common.pleaseSelect'),
         },
         {
-          label: 'Phone',
+          label: this.$t('common.phone'),
           prop: 'phone',
-          placeholder: 'Please enter'
+          placeholder: this.$t('common.pleaseEnter'),
         },
         {
-          label: 'Remarks',
+          label: this.$t('common.remarks'),
           prop: 'remark',
-          placeholder: 'Please enter'
+          placeholder: this.$t('common.pleaseEnter'),
         }
       ],
     }
@@ -144,7 +144,7 @@ export default {
           // Add successfully!
           this.$message({
             type: 'success',
-            message: 'Succeeded!'
+            message: this.$t('common.success')
           })
           this.beforeClose()
           this.$emit('refresh')
@@ -158,7 +158,7 @@ export default {
           // Add successfully!
           this.$message({
             type: 'success',
-            message: 'Succeeded!'
+            message: this.$t('common.success')
           })
           this.beforeClose()
           this.$emit('refresh')

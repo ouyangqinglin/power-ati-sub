@@ -86,5 +86,11 @@ export default {
   'common.export': '输出',
   'common.operator': '操作人',
   'common.systemGeneration': '系统生成',
+  'common.finish': '完成',
+  'common.close': '关闭',
+  'common.reason': '原因',
+  'common.administrator': '管理员',
+  'common.systemTips': '系统提示',
+  'common.loading': '加载中...',
 
 }

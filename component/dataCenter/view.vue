@@ -8,12 +8,12 @@
     <el-form :model="addBase" label-position="top" :rules="rules" ref="formBase" :disabled="+type === 1">
       <el-row :gutter="24">
         <el-col :span="8">
-          <el-form-item label="Data Center Name" prop="name">
-            <el-input placeholder="Please enter" v-model="addBase.name" show-word-limit maxlength="50"></el-input>
+          <el-form-item :label="$t('dataCenter.name')" prop="name">
+            <el-input :placeholder="$t('common.pleaseEnter')" v-model="addBase.name" show-word-limit maxlength="50"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="Status" prop="status">
+          <el-form-item :label="$t('common.status')" prop="status">
             <el-select style="width: 100%" class="status-select" v-model="addBase.status">
               <el-option v-for="i of statusOptions" :value="i.value" :key="i.value" :label="i.label" />
             </el-select>
@@ -22,8 +22,8 @@
       </el-row>
       <el-row :gutter="24">
         <el-col :span="8">
-          <el-form-item label="API" prop="api">
-            <el-input placeholder="Please enter" v-model="addBase.api" show-word-limit maxlength="50"></el-input>
+          <el-form-item :label="$t('dataCenter.port')" prop="api">
+            <el-input :placeholder="$t('common.pleaseEnter')" v-model="addBase.api" show-word-limit maxlength="50"></el-input>
           </el-form-item>
         </el-col>
         <!--          <el-col :span="9">-->
@@ -34,33 +34,33 @@
       </el-row>
       <el-row :gutter="24">
         <el-col :span="8">
-          <el-form-item label="Logger Server Address--Version 1.0" prop="loggerV1Url">
-            <el-input @change="checkUrl('loggerV1')" placeholder="Please enter" v-model="addBase.loggerV1Url" maxlength="50"></el-input>
+          <el-form-item :label="`${$t('dataCenter.serverAddressV')}1.0`" prop="loggerV1Url">
+            <el-input @change="checkUrl('loggerV1')" :placeholder="$t('common.pleaseEnter')" v-model="addBase.loggerV1Url" maxlength="50"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="Port" prop="loggerV1Port">
-            <el-input @change="checkUrl('loggerV1')" maxlength="5" placeholder="Please enter" v-model.number="addBase.loggerV1Port"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="24">
-        <el-col :span="8">
-          <el-form-item label="Logger Server Address--Non 1.0 version" prop="loggerV2Url">
-            <el-input @change="checkUrl('loggerV2')" placeholder="Please enter" v-model="addBase.loggerV2Url" maxlength="50"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="Port" prop="loggerV2Port">
-            <el-input @change="checkUrl('loggerV2')" maxlength="5" placeholder="Please enter" v-model.number="addBase.loggerV2Port"></el-input>
+          <el-form-item :label="$t('dataCenter.port')" prop="loggerV1Port">
+            <el-input @change="checkUrl('loggerV1')" maxlength="5" :placeholder="$t('common.pleaseEnter')" v-model.number="addBase.loggerV1Port"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="24">
         <el-col :span="8">
-          <el-form-item label="EV Charger Address" prop="pileUrl">
-            <el-input placeholder="Please enter" @change="checkUrl('pile')" maxlength="50" v-model="addBase.pileUrl">
-              <el-select size="small" class="ws-select" v-model="addBase.schema" slot="prepend" placeholder="Please select">
+          <el-form-item :label="$t('dataCenter.serverAddressNon')" prop="loggerV2Url">
+            <el-input @change="checkUrl('loggerV2')" :placeholder="$t('common.pleaseEnter')" v-model="addBase.loggerV2Url" maxlength="50"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item :label="$t('dataCenter.port')" prop="loggerV2Port">
+            <el-input @change="checkUrl('loggerV2')" maxlength="5" :placeholder="$t('common.pleaseEnter')" v-model.number="addBase.loggerV2Port"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="24">
+        <el-col :span="8">
+          <el-form-item :label="$t('dataCenter.chargerAddress')" prop="pileUrl">
+            <el-input :placeholder="$t('common.pleaseEnter')" @change="checkUrl('pile')" maxlength="50" v-model="addBase.pileUrl">
+              <el-select size="small" class="ws-select" v-model="addBase.schema" slot="prepend" :placeholder="$t('common.pleaseSelect')">
                 <el-option label="ws://" :value="1"></el-option>
                 <el-option label="wss://" :value="2"></el-option>
               </el-select>
@@ -68,18 +68,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="Port" prop="pilePort">
-            <el-input @change="checkUrl('pile')" maxlength="5" placeholder="Please enter" v-model.number="addBase.pilePort"></el-input>
+          <el-form-item :label="$t('dataCenter.port')" prop="pilePort">
+            <el-input @change="checkUrl('pile')" maxlength="5" :placeholder="$t('common.pleaseEnter')" v-model.number="addBase.pilePort"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item label="Remarks" prop="remarks">
-        <el-input type="textarea" v-model="addBase.remarks" maxlength="200" show-word-limit placeholder="Please enter"></el-input>
+      <el-form-item :label="$t('common.remarks')" prop="remarks">
+        <el-input type="textarea" v-model="addBase.remarks" maxlength="200" show-word-limit :placeholder="$t('common.pleaseEnter')"></el-input>
       </el-form-item>
     </el-form>
     <common-flex justify="center" style="margin-top: 29px">
-      <el-button type="primary" @click="submit" v-if="type === 2">Submit</el-button>
-      <el-button @click="beforeClose">Cancel</el-button>
+      <el-button type="primary" @click="submit" v-if="type === 2">{{ $t('common.submit') }}</el-button>
+      <el-button @click="beforeClose">{{ $t('common.cancel') }}</el-button>
     </common-flex>
   </el-dialog>
 </template>
@@ -96,7 +96,7 @@ export default {
   },
   computed: {
     title() {
-      return this.type === 1 ? 'Detail' : 'Modify'
+      return this.type === 1 ? this.$t('common.detail') : this.$t('common.modify')
     }
   },
   data() {
@@ -117,28 +117,28 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
         api: [
-          { required: true, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: true, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
         loggerV1Url: [
-          { required: false, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: false, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
         loggerV1Port: [
-          { required: false, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: false, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
         loggerV2Url: [
-          { required: false, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: false, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
         loggerV2Port: [
-          { required: false, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: false, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
         pileUrl: [
-          { required: false, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: false, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
         pilePort: [
-          { required: false, message: 'Please enter', trigger: ['blur', 'change']}
+          { required: false, message: this.$t('common.pleaseEnter'), trigger: ['blur', 'change']}
         ],
       }
 

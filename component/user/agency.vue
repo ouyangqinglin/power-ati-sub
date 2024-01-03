@@ -3,29 +3,29 @@
     <el-card class="pages-user-agency-card pane">
       <el-form :model="queryParams" :inline="true" ref="queryForm">
         <common-flex>
-          <el-form-item label="Agency:" prop="agency">
+          <el-form-item :label="`${$t('common.agency')}:`" prop="agency">
             <el-input
               class="same-input"
               v-model="queryParams.agency"
-              placeholder="Please enter"
+              :placeholder="$t('common.pleaseEnter')"
               clearable
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="Agency Code:" prop="agencyCode">
+          <el-form-item :label="`${$t('user.agencyCode')}:`" prop="agencyCode">
             <el-input
               class="same-input"
               v-model="queryParams.agencyCode"
-              placeholder="Please enter"
+              :placeholder="$t('common.pleaseEnter')"
               clearable
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="Status:" prop="status">
+          <el-form-item :label="`${$t('common.status')}:`" prop="status">
             <el-select
               class="same-input"
               v-model="queryParams.status"
-              placeholder="All"
+              :placeholder="$t('common.all')"
               clearable
               @keyup.enter.native="handleQuery"
             >
@@ -48,43 +48,40 @@
       </el-form>
     </el-card>
     <el-card class="pages-user-agency-card">
-      <common-flex justify="space-between">
-        <div class="pages-user-agency-card-title">Agency List</div>
-        <div>
-          <el-button v-hasPermi="['ati:user:agency:add']" type="primary" @click="openToast(1)">{{ $t('common.add') }}</el-button>
-        </div>
+      <common-flex justify="flex-end" class="mb10">
+        <el-button v-hasPermi="['ati:user:agency:add']" type="primary" @click="openToast(1)">{{ $t('common.add') }}</el-button>
       </common-flex>
       <el-table v-loading="loading" :data="agencyList" border
                 :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}">
-        <el-table-column label="No" align="center" width="60">
+        <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="Agency" align="center" prop="agency" min-width="120" show-overflow-tooltip />
-        <el-table-column label="Agency Code" align="center" prop="agencyCode" min-width="120"/>
-        <el-table-column label="Status" align="center" prop="status">
+        <el-table-column :label="$t('common.agency')" align="center" prop="agency" min-width="120" show-overflow-tooltip />
+        <el-table-column :label="$t('user.agencyCode')" align="center" prop="agencyCode" min-width="120"/>
+        <el-table-column :label="$t('common.status')" align="center" prop="status">
           <template slot-scope="{ row }">
             <dict-tag v-if="row.status && row.status !== '--'" :options="options" :value="row.status" />
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Remarks" align="center" prop="remark" show-overflow-tooltip></el-table-column>
-        <el-table-column label="Creation Time" align="center" prop="createTime" min-width="160">
+        <el-table-column :label="$t('common.remarks')" align="center" prop="remark" show-overflow-tooltip></el-table-column>
+        <el-table-column :label="$t('common.creationTime')" align="center" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(row.createTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Created by" align="center" prop="createBy" min-width="120" />
-        <el-table-column label="Last update Time" align="center" prop="updateTime" min-width="160">
+        <el-table-column :label="$t('common.creationBy')" align="center" prop="createBy" min-width="120" />
+        <el-table-column :label="$t('common.lastUpdateTime')" align="center" prop="updateTime" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.updateTime && row.updateTime !== '--'">{{ UTC_DATE_FORMAT(row.updateTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Last updated by" align="center" prop="updateBy" min-width="160" />
-        <el-table-column label="Opreat" align="center" fixed="right" class-name="small-padding fixed-width" min-width="120">
+        <el-table-column :label="$t('common.lastUpdateBy')" align="center" prop="updateBy" min-width="160" />
+        <el-table-column :label="$t('common.operation')" align="center" fixed="right" class-name="small-padding fixed-width" min-width="120">
           <template slot-scope="scope">
             <el-button
               type="text"
@@ -157,12 +154,12 @@ export default {
     },
     handleDelete(row) {
       const ids = row.id
-      this.$modal.confirm('Please confirm whether to delete').then(() => {
+      this.$modal.confirm(this.$t('common.deleteConfirm')).then(() => {
         this.$modal.loading()
         return delAtiAgency(ids)
       }).then(() => {
         this.getList()
-        this.$modal.msgSuccess("Deleted!")
+        this.$modal.msgSuccess(this.$t('common.deleted'))
       }).finally(() => this.$modal.closeLoading())
     },
     getList() {

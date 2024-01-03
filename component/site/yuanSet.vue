@@ -361,13 +361,13 @@ export default {
   },
   methods: {
     enterLimit(v, index) {
-      const reg = /^(\d+\.\d{1,1}|\d+)$/
-      let temp
-      if (reg.test(v)) {
-        if (v < 0 || v > 100) temp = ''
-        else temp = v
-      } else temp = ''
-      this.peakShaving[index].battPowerLimit = temp
+      let temp = v.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1')
+      if ((temp.split('.')[1] || []).length > 1) {
+        temp = temp.slice(0, -1)
+      }
+      if (+temp < 0 || +temp > 100) this.peakShaving[index].battPowerLimit = ''
+      else this.peakShaving[index].battPowerLimit = temp
+
     },
     setTimeList() {
       let params = {
@@ -725,7 +725,7 @@ export default {
                 <el-col :span="7">
                   <common-flex class="time-range" align="center">
                     <div class="time-range-label" style="min-width: 100px">Power Limit(%)</div>
-                    <el-input @blur="enterLimit(i.battPowerLimit, k)" placeholder="[0.0, 100.0]" v-model="i.battPowerLimit" style="width: 60%" size="small"></el-input>
+                    <el-input @input="enterLimit(i.battPowerLimit, k)" placeholder="[0.0, 100.0]" v-model="i.battPowerLimit" style="width: 60%" size="small"></el-input>
                   </common-flex>
                 </el-col>
                 <el-col :span="7">

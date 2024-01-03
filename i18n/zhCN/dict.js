@@ -35,5 +35,11 @@ export default {
   'dict.clear.manual': '手动',
   'device.install.status.installed': '已安装',
   'device.install.status.unbind': '解绑',
+  'dict.valid': '有效',
+  'dict.invalid': '无效',
+  'dict.systemPresets': '系统预置',
+  'dict.manual': '手工',
+  'dict.active': '已激活',
+  'dict.notActive': '未激活',
 
 }

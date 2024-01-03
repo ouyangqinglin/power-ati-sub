@@ -1,13 +1,13 @@
 <template>
   <div class="comp-authority" v-if="show">
     <el-dialog :visible.sync="show"
-               title="Authority  Configuration"
+               :title="$t('user.authorityConfiguration')"
                :before-close="beforeClose"
                :close-on-click-modal ="false"
                width="50%"
     >
      <common-flex style="width: 66%; margin: 0 auto" direction="column">
-       <div class="comp-authority-title">Please check the required permission</div>
+       <div class="comp-authority-title">{{ $t('user.checkPermission') }}</div>
        <el-tree
          :data="menuData"
          class="tree-border"
@@ -20,8 +20,8 @@
        ></el-tree>
      </common-flex>
       <common-flex justify="center" style="margin-top: 29px">
-        <el-button size="small" type="primary" @click="submit" :disabled="submitDisable">Submit</el-button>
-        <el-button size="small" @click="$emit('update:show', false)">Cancel</el-button>
+        <el-button size="small" type="primary" @click="submit" :disabled="submitDisable">{{ $t('common.submit') }}</el-button>
+        <el-button size="small" @click="$emit('update:show', false)">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-dialog>
   </div>

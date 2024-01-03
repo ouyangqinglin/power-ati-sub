@@ -2,7 +2,7 @@
   <div class="pages-aboutus app-container">
     <el-card style="height: 100%">
       <common-flex justify="space-between">
-        <h3>Contact Info</h3>
+        <h3>{{ $t('user.contactInfo') }}</h3>
         <div v-if="edit"><el-button type="primary" @click="edit = false">{{ $t('common.edit') }}</el-button></div>
         <div v-else>
           <el-button type="primary" @click="save">{{ $t('common.save') }}</el-button>
@@ -13,17 +13,17 @@
         <el-row>
           <el-col :span="8">
             <el-form :rules="rule" :model="base" ref="baseForm" :disabled="edit">
-              <el-form-item label="Address" prop="address">
-                <el-input v-model="base.address" type="textarea" maxlength="200" show-word-limit></el-input>
+              <el-form-item :label="$t('common.address')" prop="address">
+                <el-input v-model="base.address" type="textarea" maxlength="200" show-word-limit :placeholder="$t('common.pleaseEnter')"></el-input>
               </el-form-item>
-              <el-form-item label="Support Phone" prop="phone">
-                <el-input v-model="base.phone" @input="checkPhone" maxlength="20"></el-input>
+              <el-form-item :label="$t('user.supportPhone')" prop="phone">
+                <el-input v-model="base.phone" @input="checkPhone" maxlength="20" :placeholder="$t('common.pleaseEnter')"></el-input>
               </el-form-item>
-              <el-form-item label="Support Email" prop="email">
-                <el-input v-model="base.email" maxlength="50"></el-input>
+              <el-form-item :label="$t('user.supportEmail')" prop="email">
+                <el-input v-model="base.email" maxlength="50" :placeholder="$t('common.pleaseEnter')"></el-input>
               </el-form-item>
-              <el-form-item label="Sales Email" prop="salesEmail">
-                <el-input v-model="base.salesEmail" maxlength="50"></el-input>
+              <el-form-item :label="$t('user.salesEmail')" prop="salesEmail">
+                <el-input v-model="base.salesEmail" maxlength="50" :placeholder="$t('common.pleaseEnter')"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -89,7 +89,7 @@ export default {
             if (+res.code === 200) {
               this.$message({
                 type: 'success',
-                message: 'Succeeded!'
+                message: this.$t('common.success')
               })
             }
           }).finally(() => {

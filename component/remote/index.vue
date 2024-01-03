@@ -48,8 +48,7 @@
       </el-form>
     </el-card>
     <el-card style="margin-top: 24px">
-      <common-flex justify="space-between">
-        <p>List</p>
+      <common-flex justify="flex-end" class="mb10">
         <div v-hasPermi="['ati:remote:add']"><el-button type="primary" @click="show = true">{{ $t('common.add') }}</el-button></div>
       </common-flex>
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
@@ -127,7 +126,7 @@
           <el-row :gutter="24">
             <el-col :span="10">
               <el-form-item :label="$t('upgrade.componentM')" prop="fileType">
-                <el-select style="width: 100%" v-model="base.fileType" placeholder="Please select">
+                <el-select style="width: 100%" v-model="base.fileType" :placeholder="$t('common.pleaseSelect')">
                   <el-option v-for="i of compMOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -135,7 +134,7 @@
 <!--            111-->
             <el-col :span="10">
               <el-form-item :label="$t('upgrade.componentS')" prop="component">
-                <el-select style="width: 100%" v-model="base.component" placeholder="Please select" :disabled="disabledComp">
+                <el-select style="width: 100%" v-model="base.component" :placeholder="$t('common.pleaseSelect')" :disabled="disabledComp">
                   <el-option v-for="i of compSOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -144,14 +143,14 @@
           <el-row :gutter="24">
             <el-col :span="10">
               <el-form-item :label="$t('common.manufacturer')" prop="manufacturer">
-                <el-select style="width: 100%" v-model="base.manufacturer" placeholder="Please select" :disabled="disabledManu">
+                <el-select style="width: 100%" v-model="base.manufacturer" :placeholder="$t('common.pleaseSelect')" :disabled="disabledManu">
                   <el-option v-for="i of manufacturerOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item :label="$t('upgrade.submodule')" prop="subModule">
-                <el-select style="width: 100%" v-model="base.subModule" placeholder="Please select" :disabled="disabledSubmodule">
+                <el-select style="width: 100%" v-model="base.subModule" :placeholder="$t('common.pleaseSelect')" :disabled="disabledSubmodule">
                   <el-option v-for="i of submoduleOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -160,21 +159,21 @@
           <el-row :gutter="24">
             <el-col :span="10">
               <el-form-item :label="$t('upgrade.applicationType')" prop="applicationType">
-                <el-select style="width: 100%" v-model="base.applicationType" placeholder="Please select">
+                <el-select style="width: 100%" v-model="base.applicationType" :placeholder="$t('common.pleaseSelect')">
                   <el-option v-for="i of appOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item :label="$t('common.version')" prop="versionNum">
-                <el-input placeholder="Please enter" v-model="base.versionNum"></el-input>
+                <el-input :placeholder="$t('common.pleaseEnter')" v-model="base.versionNum"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="24">
             <el-col :span="10">
               <el-form-item :label="$t('upgrade.firmwareName')" prop="name">
-                <el-input placeholder="Please enter" v-model="base.name" maxlength="50"></el-input>
+                <el-input :placeholder="$t('common.pleaseEnter')" v-model="base.name" maxlength="50"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
@@ -195,7 +194,7 @@
             </el-col>
           </el-row>
           <el-form-item :label="$t('upgrade.versionDescription')" style="margin-top: 24px">
-            <el-input type="textarea" show-word-limit maxlength="200" v-model="base.remark" placeholder="Please enter"></el-input>
+            <el-input type="textarea" show-word-limit maxlength="200" v-model="base.remark" :placeholder="$t('common.pleaseEnter')"></el-input>
           </el-form-item>
         </el-form>
         <common-flex justify="center">

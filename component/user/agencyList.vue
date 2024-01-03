@@ -1,22 +1,22 @@
 <template>
-  <el-dialog :visible.sync="show" title="Please select"
+  <el-dialog :visible.sync="show" :title="$t('common.pleaseSelect')"
              :before-close="beforeClose"
              :close-on-click-modal ="false"
              width="46%">
     <el-form @submit.native.prevent :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <common-flex justify="space-between">
-        <el-form-item label="Agency" prop="siteName">
+        <el-form-item :label="`${$t('common.agency')}:`" prop="agency">
           <el-input
             v-model="queryParams.agency"
-            placeholder="Please enter"
+            :placeholder="$t('common.pleaseEnter')"
             maxlength="200"
             clearable
             @keyup.enter.native="handleQuery"
           />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="handleQuery">Query</el-button>
-          <el-button size="mini" @click="resetQuery">Reset</el-button>
+          <el-button type="primary" size="mini" @click="handleQuery">{{ $t('common.query') }}</el-button>
+          <el-button size="mini" @click="resetQuery">{{ $t('common.reset') }}</el-button>
         </el-form-item>
       </common-flex>
     </el-form>
@@ -30,8 +30,8 @@
                 <el-radio class="my-radio" v-model="chooseRadio" :label="row.id"></el-radio>
               </template>
             </el-table-column>
-      <el-table-column label="Agency" align="center" prop="agency" />
-      <el-table-column label="Agency Code" align="center" prop="agencyCode" />
+      <el-table-column :label="$t('common.agency')" align="center" prop="agency" />
+      <el-table-column :label="$t('user.agencyCode')" align="center" prop="agencyCode" />
     </el-table>
 
     <pagination
@@ -43,9 +43,9 @@
     />
     <common-flex style="margin-top: 30px" justify="center">
       <el-button :type="btnType" :disabled="!chooseRadio" @click="change" size="small">
-        <span>Confirm</span>
+        <span>{{ $t('common.confirm') }}</span>
       </el-button>
-      <el-button @click="cancel" size="small">Cancel</el-button>
+      <el-button @click="cancel" size="small">{{ $t('common.cancel') }}</el-button>
     </common-flex>
 
   </el-dialog>

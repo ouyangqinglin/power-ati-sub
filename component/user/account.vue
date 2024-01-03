@@ -2,36 +2,36 @@
   <div class="app-container pages-user-account">
     <el-card class="pages-user-account-card pane">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="Customer" name="1"></el-tab-pane>
-        <el-tab-pane label="Installer" name="2"></el-tab-pane>
-        <el-tab-pane label="Agency" name="3"></el-tab-pane>
-        <el-tab-pane v-if="+($store.state.user.userType) !== 3" label="Administrator" name="5"></el-tab-pane>
+        <el-tab-pane :label="$t('common.customer')" name="1"></el-tab-pane>
+        <el-tab-pane :label="$t('task.installer')" name="2"></el-tab-pane>
+        <el-tab-pane :label="$t('common.agency')" name="3"></el-tab-pane>
+        <el-tab-pane v-if="+($store.state.user.userType) !== 3" :label="$t('common.administrator')" name="5"></el-tab-pane>
       </el-tabs>
     </el-card>
     <el-card class="pages-user-account-card pane">
       <el-form :model="queryParams" :inline="true" ref="queryForm">
         <common-flex>
           <common-flex wrap="wrap">
-            <el-form-item label="User:" prop="userName">
+            <el-form-item :label="`${$t('user.userName')}:`" prop="userName">
               <el-input
                 v-model="queryParams.userName"
-                placeholder="Please enter"
+                :placeholder="$t('common.pleaseEnter')"
                 clearable
                 @keyup.enter.native="handleQuery"
               />
             </el-form-item>
-            <el-form-item label="User Account:" prop="email">
+            <el-form-item :label="`${$t('user.userAccount')}:`" prop="email">
               <el-input
                 v-model="queryParams.email"
-                placeholder="Please enter"
+                :placeholder="$t('common.pleaseEnter')"
                 clearable
                 @keyup.enter.native="handleQuery"
               />
             </el-form-item>
-            <el-form-item label="Status:" prop="status">
+            <el-form-item :label="`${$t('common.status')}:`" prop="status">
               <el-select
                 v-model="queryParams.status"
-                placeholder="All"
+                :placeholder="$t('common.all')"
                 clearable
                 @keyup.enter.native="handleQuery"
               >
@@ -44,10 +44,10 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item v-if="![4, 5].includes(+queryParams.type)" label="Agency:" prop="agentName">
+            <el-form-item v-if="![4, 5].includes(+queryParams.type)" :label="`${$t('common.agency')}:`" prop="agentName">
               <el-input
                 v-model="queryParams.agentName"
-                placeholder="Please enter"
+                :placeholder="$t('common.pleaseEnter')"
                 clearable
                 @keyup.enter.native="handleQuery"
               />
@@ -63,56 +63,53 @@
       </el-form>
     </el-card>
     <el-card class="pages-user-account-card">
-      <common-flex justify="space-between">
-        <div class="pages-user-account-card-title">User List</div>
-        <div>
-          <el-button type="primary" @click="show = true" v-hasPermi="['ati:user:account:add']">{{ $t('common.add') }}</el-button>
-        </div>
+      <common-flex justify="flex-end" class="mb10">
+        <el-button type="primary" @click="show = true" v-hasPermi="['ati:user:account:add']">{{ $t('common.add') }}</el-button>
       </common-flex>
       <el-table v-loading="loading" :data="atiUserList"
                 key="1" border
                 :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 @selection-change="handleSelectionChange">
-        <el-table-column label="No" align="center" width="60">
+        <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column v-if="+queryParams.type === 1" label="User Account" align="center" prop="email" min-width="270">
+        <el-table-column v-if="+queryParams.type === 1" :label="$t('user.userAccount')" align="center" prop="email" min-width="270">
           <template slot-scope="{ row }">
             <span style="margin-right: 6px">{{ row.email }}</span>
             <el-tag v-if="+queryParams.type === 1" size="mini" :type="tagType[+row.active]">{{accountActive[+row.active] }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column v-else label="User Account" align="center" prop="email" min-width="160" />
-        <el-table-column label="User" align="center" prop="userName" min-width="120" show-overflow-tooltip />
-        <el-table-column label="Role" align="center" prop="rolesList" min-width="120" show-overflow-tooltip>
+        <el-table-column v-else :label="$t('user.userAccount')" align="center" prop="email" min-width="160" />
+        <el-table-column :label="$t('user.userName')" align="center" prop="userName" min-width="120" show-overflow-tooltip />
+        <el-table-column :label="$t('user.role')" align="center" prop="rolesList" min-width="120" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column v-if="+queryParams.type === 1" label="Phone" align="center" prop="phone" min-width="120" show-overflow-tooltip/>
-        <el-table-column v-if="+queryParams.type !== 5" label="Agency" align="center" prop="agentName" min-width="140" show-overflow-tooltip />
-        <el-table-column v-if="+queryParams.type === 3" label="Agency Code" align="center" prop="agencyCode" min-width="120" />
-        <el-table-column label="Status" align="center" prop="status">
+        <el-table-column v-if="+queryParams.type === 1" :label="$t('common.phone')" align="center" prop="phone" min-width="120" show-overflow-tooltip/>
+        <el-table-column v-if="+queryParams.type !== 5" :label="$t('common.agency')" align="center" prop="agentName" min-width="140" show-overflow-tooltip />
+        <el-table-column v-if="+queryParams.type === 3" :label="$t('user.agencyCode')" align="center" prop="agencyCode" min-width="120" />
+        <el-table-column :label="$t('common.status')" align="center" prop="status">
           <template slot-scope="{ row }">
             <dict-tag v-if="row.status && row.status !== '--'" :options="options" :value="row.status" />
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Remarks" align="center" show-overflow-tooltip prop="remark" min-width="120" />
-        <el-table-column label="Creation Time" align="center" prop="createTime" min-width="160">
+        <el-table-column :label="$t('common.remarks')" align="center" show-overflow-tooltip prop="remark" min-width="120" />
+        <el-table-column :label="$t('common.creationTime')" align="center" prop="createTime" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.createTime && row.createTime !== '--'">{{ UTC_DATE_FORMAT(row.createTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Created by" align="center" prop="createBy" min-width="130" show-overflow-tooltip />
-        <el-table-column label="Last update Time" align="center" prop="updateTime" min-width="160">
+        <el-table-column :label="$t('common.creationBy')" align="center" prop="createBy" min-width="130" show-overflow-tooltip />
+        <el-table-column :label="$t('common.lastUpdateTime')" align="center" prop="updateTime" min-width="160">
           <template slot-scope="{ row }">
             <span v-if="row.updateTime && row.updateTime !== '--'">{{ UTC_DATE_FORMAT(row.updateTime, timeZone) }}</span>
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="Last updated by" align="center" prop="updateBy" min-width="130" show-overflow-tooltip />
-        <el-table-column label="Operat" align="center" fixed="right" class-name="small-padding fixed-width" min-width="120">
+        <el-table-column :label="$t('common.lastUpdateBy')" align="center" prop="updateBy" min-width="130" show-overflow-tooltip />
+        <el-table-column :label="$t('common.operation')" align="center" fixed="right" class-name="small-padding fixed-width" min-width="120">
           <template slot-scope="scope">
             <el-button
               :disabled="+($store.state.user.userId) === +scope.row.id"
@@ -254,51 +251,16 @@ export default {
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加用户";
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const id = row.id || this.ids
-      getAtiUser(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改用户";
-      });
-    },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.id != null) {
-            updateAtiUser(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addAtiUser(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
-      });
-    },
+
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('Please confirm whether to delete').then(() => {
+      this.$modal.confirm(this.$t('common.deleteConfirm')).then(() => {
         this.$modal.loading()
         return delAtiUser(ids);
       }).then(() => {
         this.getList();
-        this.$modal.msgSuccess("Deleted!");
+        this.$modal.msgSuccess(this.$t('common.deleted'));
       }).finally(() => this.$modal.closeLoading());
     },
     /** 导出按钮操作 */

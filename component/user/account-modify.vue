@@ -1,29 +1,29 @@
 <template>
   <div v-if="show" class="account-modify">
     <el-dialog :visible.sync="show"
-               title="Modify"
+               :title="$t('common.modify')"
                :before-close="beforeClose"
                :close-on-click-modal ="false"
                width="65%"
     >
       <el-form class="account-modify-form" :model="base" :rules="rules" ref="ruleForm">
-        <el-form-item label="Agency" prop="agencyId" v-if="+type !== 5">
+        <el-form-item :label="$t('common.agency')" prop="agencyId" v-if="+type !== 5">
           <div class="posr">
-            <el-input :disabled="!(+($store.state.user.agencyId) === -1)" readonly @focus="agencyShow = true" placeholder="Please select" v-model="base['agentName']"></el-input>
+            <el-input :disabled="!(+($store.state.user.agencyId) === -1)" readonly @focus="agencyShow = true" :placeholder="$t('common.pleaseSelect')" v-model="base['agentName']"></el-input>
             <i @click="+($store.state.user.agencyId) === -1? agencyShow = true : ''" class="el-icon-search posa right-search"></i>
           </div>
         </el-form-item>
-        <el-form-item label="User Account" prop="email">
-          <el-input placeholder="Please enter email" disabled v-model="base.email" maxlength="50"></el-input>
+        <el-form-item :label="$t('user.userAccount')" prop="email">
+          <el-input disabled v-model="base.email" maxlength="50"></el-input>
         </el-form-item>
-        <el-form-item label="User Name" prop="userName">
-          <el-input placeholder="Please enter" disabled maxlength="50" v-model="base.userName"></el-input>
+        <el-form-item :label="$t('common.userName')" prop="userName">
+          <el-input disabled maxlength="50" v-model="base.userName"></el-input>
         </el-form-item>
-        <el-form-item label="Phone" prop="phone">
-          <el-input @input="checkPhone" maxlength="20" v-model="base.phone" placeholder="Please enter"></el-input>
+        <el-form-item :label="$t('common.phone')" prop="phone">
+          <el-input @input="checkPhone" maxlength="20" v-model="base.phone" :placeholder="$t('common.pleaseEnter')"></el-input>
         </el-form-item>
-        <el-form-item label="Role" prop="roleIds">
-          <el-select style="width: 100%" value-key="value" v-model="base.roleIds" multiple placeholder="Please select" @change="changeSelect">
+        <el-form-item :label="$t('user.role')" prop="roleIds">
+          <el-select style="width: 100%" value-key="value" v-model="base.roleIds" multiple :placeholder="$t('common.pleaseSelect')" @change="changeSelect">
             <el-option v-for="item of roleList"
                        :key="item.value"
                        :disabled="item.disabled"
@@ -32,8 +32,8 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Status" prop="status">
-          <el-select style="width: 100%" v-model="base.status" placeholder="Please select">
+        <el-form-item :label="$t('common.status')" prop="status">
+          <el-select style="width: 100%" v-model="base.status" :placeholder="$t('common.pleaseSelect')">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -43,32 +43,32 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Remarks" prop="remark">
-          <el-input style="width: 40vw" type="textarea" show-word-limit maxlength="200" v-model="base.remark" placeholder="Please enter"></el-input>
+        <el-form-item :label="$t('common.remarks')" prop="remark">
+          <el-input style="width: 40vw" type="textarea" show-word-limit maxlength="200" v-model="base.remark" :placeholder="$t('common.pleaseEnter')"></el-input>
         </el-form-item>
       </el-form>
       <div class="table-content" v-if="+type === 1">
         <common-flex justify="space-between" align="center" style="margin-bottom: 10px">
-          <div>Site List</div>
-          <div><el-button size="small" type="primary" @click="siteShow = true">Add</el-button></div>
+          <div>{{ $t('site.siteList') }}</div>
+          <div><el-button size="small" type="primary" @click="siteShow = true">{{  $t('common.add')  }}</el-button></div>
         </common-flex>
         <el-table :data="siteList"
                   max-height="530" border
                   :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
         >
-          <el-table-column type="index" label="No." prop="id" width="55"></el-table-column>
-          <el-table-column label="Site" prop="siteName" show-tooltip-when-overflow></el-table-column>
-          <el-table-column label="Site Code" prop="siteCode"></el-table-column>
-          <el-table-column label="Operat">
+          <el-table-column type="index" :label="$t('common.no')" prop="id" width="55"></el-table-column>
+          <el-table-column :label="$t('site.name')" prop="siteName" show-tooltip-when-overflow></el-table-column>
+          <el-table-column :label="$t('site.code')" prop="siteCode"></el-table-column>
+          <el-table-column :label="$t('common.operation')">
             <template slot-scope="scope">
-              <el-button type="text" @click="deleteItem(scope)">Delete</el-button>
+              <el-button type="text" @click="deleteItem(scope)">{{ $t('common.delete') }}</el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
       <common-flex justify="center" style="margin-top: 29px">
-        <el-button size="small" type="primary" @click="submit">Submit</el-button>
-        <el-button size="small" @click="$emit('update:show', false)">Cancel</el-button>
+        <el-button size="small" type="primary" @click="submit">{{ $t('common.submit') }}</el-button>
+        <el-button size="small" @click="$emit('update:show', false)">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-dialog>
     <siteList v-if="siteShow" :show.sync="siteShow" @change="getSelectSite" :haveSiteList="siteList" />

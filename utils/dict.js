@@ -304,19 +304,19 @@ export const upgradeMode = [
 
 export const siteUpgradeStatus = [
   {
-    label: 'Success',
+    label: i18n.t('dict.success'),
     value: 1
   },
   {
-    label: 'Fail',
+    label: i18n.t('dict.fail'),
     value: 2
   },
   {
-    label: 'Upgrading',
+    label: i18n.t('dict.upgrading'),
     value: 3
   },
   {
-    label: 'Waiting',
+    label: i18n.t('dict.waiting'),
     value: 4
   }
 ]
@@ -371,11 +371,11 @@ export const deviceInstallStatus = [
 
 export const roleSource = [
   {
-    label: 'System Presets',
+    label: I18n.t('dict.systemPresets'),
     value: 1
   },
   {
-    label: 'Manual',
+    label: I18n.t('dict.manual'),
     value: 2
   }
 ]
@@ -436,20 +436,20 @@ export const cellInfoItemBtn = [
 
 export const agencyStatus = [
   {
-    label: 'Valid',
+    label: i18n.t('dict.valid'),
     value: 1
   },  {
-    label: 'Invalid',
+    label: i18n.t('dict.invalid'),
     value: 2
   },
 ]
 
 export const authStatus = [
   {
-    label: 'Valid',
+    label: i18n.t('dict.valid'),
     value: 0
   },  {
-    label: 'Invalid',
+    label: i18n.t('dict.invalid'),
     value: 1
   },
 ]

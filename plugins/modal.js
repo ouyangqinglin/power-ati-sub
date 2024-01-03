@@ -1,4 +1,5 @@
 import { Message, MessageBox, Notification, Loading } from 'element-ui'
+import I18n from "@/i18n"
 
 let loadingInstance;
 
@@ -21,19 +22,19 @@ export default {
   },
   // 弹出提示
   alert(content) {
-    MessageBox.alert(content, "System tips")
+    MessageBox.alert(content, I18n.t('common.systemTips'))
   },
   // 错误提示
   alertError(content) {
-    MessageBox.alert(content, "System tips", { type: 'error' })
+    MessageBox.alert(content, I18n.t('common.systemTips'), { type: 'error' })
   },
   // 成功提示
   alertSuccess(content) {
-    MessageBox.alert(content, "System tips", { type: 'success' })
+    MessageBox.alert(content, I18n.t('common.systemTips'), { type: 'success' })
   },
   // 警告提示
   alertWarning(content) {
-    MessageBox.alert(content, "System tips", { type: 'warning' })
+    MessageBox.alert(content, I18n.t('common.systemTips'), { type: 'warning' })
   },
   // 通知提示
   notify(content) {
@@ -53,17 +54,17 @@ export default {
   },
   // 确认窗体
   confirm(content) {
-    return MessageBox.confirm(content, "System tips", {
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel',
+    return MessageBox.confirm(content, I18n.t('common.systemTips'), {
+      confirmButtonText: I18n.t('common.confirm'),
+      cancelButtonText: I18n.t('common.cancel'),
       type: "warning",
     })
   },
   // 提交内容
   prompt(content) {
-    return MessageBox.prompt(content, "System tips", {
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel',
+    return MessageBox.prompt(content, I18n.t('common.systemTips'), {
+      confirmButtonText: I18n.t('common.confirm'),
+      cancelButtonText: I18n.t('common.cancel'),
       type: "warning",
     })
   },
@@ -71,7 +72,7 @@ export default {
   loading(content) {
     loadingInstance = Loading.service({
       lock: true,
-      text: content || 'Loading',
+      text: content || I18n.t('common.loading'),
       spinner: "el-icon-loading",
       background: "rgba(0, 0, 0, 0.7)",
     })

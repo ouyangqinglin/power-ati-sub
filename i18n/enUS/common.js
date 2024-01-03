@@ -87,6 +87,12 @@ export default {
   'common.export': 'Export',
   'common.operator': 'Operator',
   'common.systemGeneration': 'System Generation',
+  'common.finish': 'Finish',
+  'common.close': 'Close',
+  'common.reason': 'Reason',
+  'common.administrator': 'Administrator',
+  'common.systemTips': 'System tips',
+  'common.loading': 'Loading',
 
 
 }

@@ -5,13 +5,13 @@
         <common-flex>
           <common-flex style="flex-grow: 1">
             <el-form-item label="SN：" prop="serialNumber">
-              <el-input clearable placeholder="Please enter" @keyup.enter.native="handleQuery" v-model="queryParams.serialNumber"></el-input>
+              <el-input clearable :placeholder="$t('common.pleaseEnter')" @keyup.enter.native="handleQuery" v-model="queryParams.serialNumber"></el-input>
             </el-form-item>
             <el-form-item label="Site：" prop="siteName">
-              <el-input clearable placeholder="Please enter" @keyup.enter.native="handleQuery" v-model="queryParams.siteName"></el-input>
+              <el-input clearable :placeholder="$t('common.pleaseEnter')" @keyup.enter.native="handleQuery" v-model="queryParams.siteName"></el-input>
             </el-form-item>
             <el-form-item label="Follow：" prop="followBms">
-              <el-select clearable v-model="queryParams.followBms" placeholder="Please select">
+              <el-select clearable v-model="queryParams.followBms" :placeholder="$t('common.pleaseSelect')">
                 <el-option v-for="i of followOption" :value="i.value" :label="i.label" :key="i.value"></el-option>
               </el-select>
             </el-form-item>
@@ -24,7 +24,6 @@
       </el-form>
     </el-card>
     <el-card style="margin-top: 24px">
-      <p>List</p>
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 v-loading="loading" :data="list" border
       >

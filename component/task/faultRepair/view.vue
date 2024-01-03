@@ -1,59 +1,59 @@
 <template>
   <div class="pages-task-fault-view">
     <el-card class="pages-task-fault-view-card">
-      <div class="pages-task-fault-view-card-title">Task Info</div>
+      <div class="pages-task-fault-view-card-title">{{ $t('task.info') }}</div>
       <el-form class="pages-task-fault-view-card-form" :model="base" ref="ruleForm">
         <common-flex justify="space-between">
-          <el-form-item style="flex: 1" prop="title" label="Fault Title">
+          <el-form-item style="flex: 1" prop="title" :label="$t('task.faultTitle')">
             <el-input v-model="base.title" disabled type="text" />
           </el-form-item>
-          <el-form-item prop="taskCode" label="Code" style="margin-left: 90px">
+          <el-form-item prop="taskCode" :label="$t('task.code')" style="margin-left: 90px">
             <el-input v-model="base.taskCode" disabled type="text" />
           </el-form-item>
         </common-flex>
-        <el-form-item style="flex-grow: 1" prop="title" label="Fault Description">
+        <el-form-item style="flex-grow: 1" prop="title" :label="$t('task.faultDescription')">
           <el-input v-model="base.remark" disabled type="textarea" />
         </el-form-item>
         <common-flex justify="space-between">
-          <el-form-item prop="siteName" label="Site">
+          <el-form-item prop="siteName" :label="$t('task.site')">
             <el-input v-model="base.siteName" disabled type="text" />
           </el-form-item>
-          <el-form-item prop="agentName" label="Agency">
+          <el-form-item prop="agentName" :label="$t('common.agency')">
             <el-input v-model="base.agentName" disabled type="text" />
           </el-form-item>
-          <el-form-item prop="siteCode" label="Customer">
+          <el-form-item prop="siteCode" :label="$t('common.customer')">
             <el-input v-model="base.customer" disabled type="text" />
           </el-form-item>
         </common-flex>
         <common-flex justify="space-between">
-          <el-form-item prop="phone" label="Phone" style="margin-right: 90px">
+          <el-form-item prop="phone" :label="$t('common.phone')" style="margin-right: 90px">
             <el-input v-model="base.phone" disabled type="text" />
           </el-form-item>
-          <el-form-item style="flex: 1" prop="address" label="Address">
+          <el-form-item style="flex: 1" prop="address" :label="$t('common.address')">
             <el-input type="textarea" v-model="base.address" disabled />
           </el-form-item>
         </common-flex>
         <common-flex :style="{ justifyContent: [4, 5].includes(+base.status) ? 'space-between' : '' }">
-          <el-form-item prop="status" label="Status" class="posr">
+          <el-form-item prop="status" :label="$t('common.status')" class="posr">
             <el-input disabled type="text" />
             <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="taskFaultStatus" :value="base.status"/>
           </el-form-item>
-          <el-form-item prop="createTime" label="Creation Time" :style="{marginLeft: [4, 5].includes(+base.status) ? '' : '90px'}">
+          <el-form-item prop="createTime" :label="$t('common.creationTime')" :style="{marginLeft: [4, 5].includes(+base.status) ? '' : '90px'}">
             <el-input v-model="base.createTime" disabled type="text" />
           </el-form-item>
-          <el-form-item v-if="[4, 5].includes(+base.status)" prop="endTime" label="Repaired Time">
+          <el-form-item v-if="[4, 5].includes(+base.status)" prop="endTime" :label="$t('task.repairedTime')">
             <el-input v-model="base.endTime" disabled type="text" />
           </el-form-item>
-          <el-form-item v-if="(+base.status) === 3" prop="endTime" label="Finished Time" style="margin-left: 90px">
+          <el-form-item v-if="(+base.status) === 3" prop="endTime" :label="$t('task.finishedTime')" style="margin-left: 90px">
             <el-input v-model="base.endTime" disabled type="text" />
           </el-form-item>
         </common-flex>
         <common-flex v-if="[4, 5].includes(+base.status)">
-          <el-form-item prop="relationCode" label="Associated Repair Code">
+          <el-form-item prop="relationCode" :label="$t('task.associatedRepairCode')">
             <el-input v-model="base.relationCode" disabled type="text" />
           </el-form-item>
         </common-flex>
-        <el-form-item v-if="(+base.status) === 3" prop="finishDesc" label="Finished Reason">
+        <el-form-item v-if="(+base.status) === 3" prop="finishDesc" :label="$t('task.finishedReason')">
           <el-input v-model="base.finishDesc" disabled type="textarea" />
         </el-form-item>
       </el-form>
@@ -61,25 +61,25 @@
     </el-card>
     <el-card class="pages-task-fault-view-footer">
       <common-flex justify="center">
-        <el-button @click="cancel">Cancel</el-button>
+        <el-button @click="cancel">{{ $t('common.cancel') }}</el-button>
         <template v-if="+base.status === 1">
-          <el-button v-hasPermi="['ati:task:fault:remove']" @click="show = true">Finish</el-button>
-          <router-link style="margin-left: 10px" :to="`/task/fault/toRepair/${id}`"><el-button type="primary">Go to Repair</el-button></router-link>
+          <el-button v-hasPermi="['ati:task:fault:remove']" @click="show = true">{{ $t('common.finish') }}</el-button>
+          <router-link style="margin-left: 10px" :to="`/task/fault/toRepair/${id}`"><el-button type="primary">{{ $t('task.toRepair') }}</el-button></router-link>
         </template>
       </common-flex>
     </el-card>
-    <el-dialog :visible.sync="show" title="Close"
+    <el-dialog :visible.sync="show" :title="$t('common.close')"
                :before-close="beforeClose"
                :close-on-click-modal ="false"
                width="46%">
       <el-form :model="reason" :rules="rule" ref="reasonForm">
-        <el-form-item label="Reason" prop="closeReason">
-          <el-input v-model.trim="reason.closeReason" maxlength="200" show-word-limit type="textarea" placeholder="Please enter"></el-input>
+        <el-form-item :label="$t('common.reason')" prop="closeReason">
+          <el-input v-model.trim="reason.closeReason" maxlength="200" show-word-limit type="textarea" :placeholder="$t('common.pleaseEnter')"></el-input>
         </el-form-item>
       </el-form>
       <common-flex style="margin-top: 60px" justify="center">
-        <el-button type="primary" @click="submit">Submit</el-button>
-        <el-button @click="beforeClose">Cancel</el-button>
+        <el-button type="primary" @click="submit">{{ $t('common.submit') }}</el-button>
+        <el-button @click="beforeClose">{{ $t('common.cancel') }}</el-button>
       </common-flex>
     </el-dialog>
   </div>
@@ -139,7 +139,7 @@ export default {
             if (+res.code === 200) {
               this.$message({
                 type: 'success',
-                message: 'Succeeded!'
+                message: this.$t('common.success')
               })
               setTimeout(() => {
                 this.cancel()

@@ -204,13 +204,13 @@
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                :data="numList" border
       >
-        <el-table-column label="No." align="center" width="60">
+        <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
             {{ (+numParams.pageNum - 1) * (+numParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column label="Site Name" prop="siteName"></el-table-column>
-        <el-table-column label="Logger SN" prop="sn">
+        <el-table-column :label="$t('site.name')" prop="siteName"></el-table-column>
+        <el-table-column :label="$t('task.loggerSn')" prop="sn">
           <template slot-scope="{row}">
             <common-flex justify="center">
               <span>{{ row.sn }}/</span>
@@ -218,17 +218,17 @@
             </common-flex>
           </template>
         </el-table-column>
-        <el-table-column label="Upgrade Version" prop="versionNum">
+        <el-table-column :label="$t('upgrade.upgradeVersion')" prop="versionNum">
           <template slot-scope="{row}">
             <span>{{ row.oldVersion }}->{{row.versionNum}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Status" prop="status">
+        <el-table-column :label="$t('common.status')" prop="status">
           <template slot-scope="{ row }">
             <dict-tag :options="siteUpgradeStatus" :value="row.status" />
           </template>
         </el-table-column>
-        <el-table-column label="Operation Time" prop="createTime">
+        <el-table-column :label="$t('common.operationTime')" prop="createTime">
           <template slot-scope="{row}">
             <span>{{DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(row.createTime))}}</span>
           </template>

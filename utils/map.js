@@ -70,13 +70,13 @@ export const tagType = {
 }
 
 export const accountActive = {
-  1: 'Active',
-  2: 'Not active'
+  1: I18n.t('dict.active'),
+  2: I18n.t('dict.notActive'),
 }
 
 export const validMap = {
-  1: 'Valid',
-  2: 'Invalid'
+  1: I18n.t('dict.valid'),
+  2: I18n.t('dict.invalid')
 }
 
 export const inverterSetRes = {
@@ -92,8 +92,8 @@ export const inverterVersion = {
 }
 
 export const newInstall = {
-  1: 'Yes',
-  2: 'No'
+  1: I18n.t('device.newInstall.yes'),
+  2: I18n.t('device.newInstall.no')
 }
 
 export const clientType = {

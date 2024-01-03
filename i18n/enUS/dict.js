@@ -35,5 +35,11 @@ export default {
   'dict.clear.manual': 'Manual',
   'device.install.status.installed': 'Installed',
   'device.install.status.unbind': 'Unbind',
+  'dict.valid': 'Valid',
+  'dict.invalid': 'Invalid',
+  'dict.systemPresets': 'System Presets',
+  'dict.manual': 'Manual',
+  'dict.active': 'Active',
+  'dict.notActive': 'Not active',
 
 }

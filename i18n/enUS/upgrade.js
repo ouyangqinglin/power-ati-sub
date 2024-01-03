@@ -22,5 +22,6 @@ export default {
   'upgrade.clickUpgradeAgain': 'Click here to Upgrade again',
   'upgrade.time': 'Upgrade Time',
   'upgrade.fileType': 'File Type',
+  'upgrade.upgrading': 'Upgrading',
 
 }

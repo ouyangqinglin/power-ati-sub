@@ -10,6 +10,9 @@ import task from './task'
 import weather from './weather'
 import device from './device'
 import analysis from './analysis'
+import user from './user'
+import dataCenter from './dataCenter'
+import bms from './bms'
 
 export default {
   ...common,
@@ -23,5 +26,8 @@ export default {
   ...task,
   ...weather,
   ...device,
-  ...analysis
+  ...analysis,
+  ...user,
+  ...dataCenter,
+  ...bms
 }

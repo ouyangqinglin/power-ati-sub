@@ -1,22 +1,22 @@
 <template>
-  <el-dialog :visible.sync="show" title="Please select"
+  <el-dialog :visible.sync="show" :title="$t('common.pleaseSelect')"
              :before-close="beforeClose"
              :close-on-click-modal ="false"
              width="46%">
-    <el-form @submit.native.prevent :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form @submit.native.prevent :model="queryParams" ref="queryForm" size="small" :inline="true">
       <common-flex justify="space-between">
-        <el-form-item label="Site" prop="siteName">
+        <el-form-item :label="`${$t('site.name')}:`" prop="siteName">
           <el-input
             v-model="queryParams.siteName"
-            placeholder="Please enter"
+            :placeholder="$t('common.pleaseEnter')"
             maxlength="200"
             clearable
             @keyup.enter.native="handleQuery"
           />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="handleQuery">Query</el-button>
-          <el-button size="mini" @click="resetQuery">Reset</el-button>
+          <el-button type="primary" size="mini" @click="handleQuery">{{ $t('common.query') }}</el-button>
+          <el-button size="mini" @click="resetQuery">{{ $t('common.reset') }}</el-button>
         </el-form-item>
       </common-flex>
     </el-form>
@@ -31,8 +31,8 @@
               @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" :reserve-selection="true" width="75"></el-table-column>
-      <el-table-column label="Site" align="center" prop="siteName" show-tooltip-when-overflow />
-      <el-table-column label="Site Code" align="center" prop="siteCode" />
+      <el-table-column :label="$t('site.name')" align="center" prop="siteName" show-tooltip-when-overflow />
+      <el-table-column :label="$t('site.code')" align="center" prop="siteCode" />
     </el-table>
 
     <pagination
@@ -44,9 +44,9 @@
     />
     <common-flex style="margin-top: 30px" justify="center">
       <el-button size="small" :type="btnType" :disabled="!selected.length" @click="change">
-        <span>Confirm</span>
+        <span>{{ $t('common.confirm') }}</span>
       </el-button>
-      <el-button @click="cancel" size="small">Cancel</el-button>
+      <el-button @click="cancel" size="small">{{ $t('common.cancel') }}</el-button>
     </common-flex>
 
   </el-dialog>
