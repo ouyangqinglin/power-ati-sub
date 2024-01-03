@@ -1,5 +1,4 @@
 import I18n from "@/i18n";
-import i18n from "@/i18n";
 
 export const weatherCodeEnum = {
   "200": "thunderstorm", //雷雨
@@ -81,9 +80,9 @@ export const validMap = {
 }
 
 export const inverterSetRes = {
-  1: 'Success',
-  2: 'Failed',
-  3: 'Timeout'
+  1: I18n.t('dict.success'),
+  2: I18n.t('dict.fail'),
+  3: I18n.t('dict.timeout')
 }
 
 export const inverterVersion = {

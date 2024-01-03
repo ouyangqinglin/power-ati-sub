@@ -28,6 +28,7 @@ export default {
   'device.type.stickLogger': 'Stick Logger',
   'device.type.pv': 'Photovoltaic',
   'dict.success': 'Success',
+  'dict.timeout': 'Timeout',
   'dict.waiting': 'Waiting',
   'dict.upgrading': 'Upgrading',
   'dict.fail': 'Fail',
@@ -41,5 +42,7 @@ export default {
   'dict.manual': 'Manual',
   'dict.active': 'Active',
   'dict.notActive': 'Not active',
+  'dict.inProgress': 'In progress',
+  'dict.toBeStarted': 'To be started',
 
 }
