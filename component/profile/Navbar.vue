@@ -32,7 +32,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="right-menu">
+    <div class="right-menu" v-if="!atiShow">
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
           <common-flex align="center">
@@ -103,6 +103,11 @@ export default {
         return this.$store.state.settings.topNav
       }
     },
+  },
+  data() {
+    return {
+      atiShow: process.env.VUE_APP_TITLE === 'ASPIRE TECH',
+    }
   },
   methods: {
     ...mapMutations({
