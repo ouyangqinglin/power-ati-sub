@@ -27,5 +27,9 @@ export default {
   'user.imgType': "请上传正确的文件类型，如JPG或PNG文件。",
   'user.logOut': "您确定要退出系统吗？",
   'user.Tips': "提示",
+  'user.loginStatusExpired': "登录状态已过期。您可以留在页面上或再次登录",
+  'user.loginAgain': '再次登录',
+  'user.sessionExpired': '会话无效或已过期。请重新登录',
+  'user.dataProcessed': '数据正在处理中，请不要重复提交',
 
 }

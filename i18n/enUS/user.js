@@ -27,6 +27,9 @@ export default {
   'user.imgType': "The file format is incorrect. Please upload the image type, such as JPG or PNG file.",
   'user.logOut': "Are you sure to log out and exit the system?",
   'user.Tips': "Tips",
-
+  'user.loginStatusExpired': "The login status has expired. You can stay on the page or log in again",
+  'user.loginAgain': 'Log in again',
+  'user.sessionExpired': 'The session is invalid or has expired. Please log in again',
+  'user.dataProcessed': 'Data is being processed, please do not repeat submission',
 
 }
