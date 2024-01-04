@@ -354,9 +354,8 @@ export default {
           }
           if (inverList.length) {
             this.addDialogInfo[1] = {
-              deviceType: 1,
-              disabled: true,
-              serialNumber: inverList[0].serialNumber,
+              ...this.addDialogInfo[1],
+              ...inverList[0]
             }
           }
         }).catch(err => {

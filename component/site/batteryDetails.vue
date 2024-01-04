@@ -16,21 +16,21 @@
               <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="batteryInfo.net"/>
             </el-form-item>
           </el-col>
-          <el-col :span="8"><el-form-item :label="$t('common.status')">
-            <template v-if="+batteryInfo.storeConnectStatus === 1">
-              <el-input disabled type="text" />
-              <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="batteryInfo.storeStatus"/>
-            </template>
-            <el-input v-else></el-input>
-          </el-form-item></el-col>
+          <el-col :span="8">
+            <el-form-item :label="$t('common.status')">
+              <template v-if="+batteryInfo.storeConnectStatus === 1">
+                <el-input disabled type="text" />
+                <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="batteryInfo.storeStatus"/>
+              </template>
+              <el-input v-else></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8"><el-form-item :label="`${$t('common.current')} (A)`"><el-input v-model="batteryInfo.current"></el-input></el-form-item></el-col>
         </el-row>
         <el-row type="flex" :gutter="24">
           <el-col :span="8"><el-form-item label="SOC(%)"><el-input v-model="batteryInfo.soc"></el-input></el-form-item></el-col>
           <el-col :span="8"><el-form-item :label="`${$t('common.power')} (kW)`"><el-input v-model="batteryInfo.power"></el-input></el-form-item></el-col>
           <el-col :span="8"><el-form-item :label="`${$t('common.voltage')} (V)`"><el-input v-model="batteryInfo.voltage"></el-input></el-form-item></el-col>
-        </el-row>
-        <el-row type="flex" :gutter="24">
-          <el-col :span="8"><el-form-item :label="`${$t('common.current')} (A)`"><el-input v-model="batteryInfo.current"></el-input></el-form-item></el-col>
         </el-row>
       </el-form>
       <el-form style="padding: 0 24px 24px; background-color: #F5F7FA; border-top: 1px solid #D8DCE6" label-width="260px" label-position="top">
