@@ -361,7 +361,7 @@ export default {
   },
   methods: {
     changeCharge(item) {
-      if (+item.chargeDischargeSetting === 2) item.battChargeBy = '--'
+      if ([0, 2].includes(+item.chargeDischargeSetting)) item.battChargeBy = '--'
       else item.battChargeBy = item.battChargeBy === '--' ? '' : item.battChargeBy
     },
     enterLimit(v, index) {
@@ -466,7 +466,7 @@ export default {
           const temp = JSON.parse(this.deviceBase[333])
           temp.forEach(item => {
             item.chargeDischargeSetting = +item.chargeDischargeSetting
-            if (item.chargeDischargeSetting === 2) item.battChargeBy = '--'
+            if ([0, 2].includes(item.chargeDischargeSetting)) item.battChargeBy = '--'
             else item.battChargeBy = +item.battChargeBy
             item.ecoModePeriodEnable = +item.ecoModePeriodEnable
           })
@@ -579,7 +579,7 @@ export default {
                 <el-col :span="7">
                   <common-flex class="time-range" align="center">
                     <div class="time-range-label">Battery Charge By</div>
-                    <el-select v-model="i.battChargeBy" size="small" style="width: 60%" :disabled="+i.chargeDischargeSetting === 2">
+                    <el-select v-model="i.battChargeBy" size="small" style="width: 60%" :disabled="[0, 2].includes(+i.chargeDischargeSetting)">
                       <el-option v-for="(i, k) of chargeByOptions" :label="i.label" :value="i.value" :key="k"></el-option>
                     </el-select>
                   </common-flex>
@@ -719,7 +719,7 @@ export default {
                 <el-col :span="7">
                   <common-flex class="time-range" align="center">
                     <div class="time-range-label">Battery Charge By</div>
-                    <el-select v-model="i.battChargeBy" size="small" style="width: 60%" :disabled="+i.chargeDischargeSetting === 2">
+                    <el-select v-model="i.battChargeBy" size="small" style="width: 60%" :disabled="[0, 2].includes(+i.chargeDischargeSetting)">
                       <el-option v-for="(i, k) of chargeByOptions" :label="i.label" :value="i.value" :key="k"></el-option>
                     </el-select>
                   </common-flex>
