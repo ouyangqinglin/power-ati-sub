@@ -346,9 +346,13 @@ export default {
           let inverList = res.data.inverterSnList || []
           if (!findBatList.length && !inverList.length) return this.$modal.alert(this.$t('site.deviceNotFound'))
           if (findBatList.length) {
+            findBatList.forEach(i => {
+              i.serialNumber = i.sn
+              i.nameplateCapacity = i.capacity
+            })
             let arr = [...findBatList, ...this.addDialogInfo[2]]
             this.addDialogInfo[2] = Array.from(arr.reduce((acc, cur) => {
-              acc.has(cur.serialNumber) || acc.set(cur.serialNumber, cur)
+              acc.has(cur.sn) || acc.set(cur.sn, cur)
               return acc;
             }, new Map()).values())
           }
