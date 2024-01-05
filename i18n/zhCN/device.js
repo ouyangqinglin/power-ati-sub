@@ -9,5 +9,6 @@ export default {
   'device.unbindInfo': '解绑信息',
   'device.unbindOperator': '操作人',
   'device.historicalInstallationInfo': '历史安装信息',
+  'device.systemSetting': '系统设置',
 
 }

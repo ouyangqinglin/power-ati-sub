@@ -9,4 +9,5 @@ export default {
   'device.unbindInfo': 'Unbind Info',
   'device.unbindOperator': 'Unbind Operator',
   'device.historicalInstallationInfo': 'Historical Installation Info',
+  'device.systemSetting': 'System Setting',
 }

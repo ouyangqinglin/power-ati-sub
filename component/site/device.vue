@@ -349,17 +349,19 @@ export default {
             findBatList.forEach(i => {
               i.serialNumber = i.sn
               i.nameplateCapacity = i.capacity
+              i.deviceType = 2
             })
-            let arr = [...findBatList, ...this.addDialogInfo[2]]
-            this.addDialogInfo[2] = Array.from(arr.reduce((acc, cur) => {
-              acc.has(cur.sn) || acc.set(cur.sn, cur)
-              return acc;
-            }, new Map()).values())
+            let arr = [...this.addDialogInfo[2], ...findBatList]
+            const prop = 'serialNumber'
+            const uniqueArr = arr.reduce((all,next)=>all.some((item) => item[prop] === next[prop])?all:[...all,next],[])
+            if (uniqueArr.length > this.addDialogInfo[2].length || inverList.length > this.addDialogInfo[1].length) this.addSubType = false
+            this.addDialogInfo[2] = uniqueArr
           }
           if (inverList.length) {
             this.addDialogInfo[1] = {
               ...this.addDialogInfo[1],
-              ...inverList[0]
+              ...inverList[0],
+              deviceType: 1
             }
           }
         }).catch(err => {
