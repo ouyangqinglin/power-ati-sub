@@ -3,7 +3,7 @@ import {deviceSet, getSettingInfo, orderRes} from "@/api/device";
 import {mapState} from "vuex";
 let timerInter = null
 let times = 1
-let copyDeviceInfo = {}
+let copyDeviceInfo = {}, copyPeakShaving = []
 export default {
   name: "yuanSet",
   props: {
@@ -374,10 +374,15 @@ export default {
 
     },
     setTimeList() {
+      let timeList = []
+      this.peakShaving.forEach((i, index) => {
+        if (i.battChargeBy === '--') timeList.push({...i, battChargeBy: copyPeakShaving[index].battChargeBy})
+        else timeList.push(i)
+      })
       let params = {
         type: 333,
         siteCode: this.siteCode,
-        timeList: this.peakShaving
+        timeList
       }
       deviceSet(params).then(res => {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
@@ -463,6 +468,7 @@ export default {
         })
         this.deviceBase = item
         if (this.deviceBase[333]) {
+          copyPeakShaving = JSON.parse(this.deviceBase[333])
           const temp = JSON.parse(this.deviceBase[333])
           temp.forEach(item => {
             item.chargeDischargeSetting = +item.chargeDischargeSetting
