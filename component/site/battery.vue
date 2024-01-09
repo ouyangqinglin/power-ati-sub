@@ -493,7 +493,7 @@ export default {
       }
       infoDevice(data).then(res => {
         let item = this.batList.find(i => i.serialNumber === this.sn)
-        let data = {...res.data, ...item}
+        let data = {...item, ...res.data}
         if (+data.installation === 2) {
           data.lifetime = '--'
         } else {
