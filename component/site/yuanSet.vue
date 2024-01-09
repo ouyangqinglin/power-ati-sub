@@ -548,7 +548,7 @@ export default {
   <div class="remote">
     <template v-if="+userType === 1">
       <div class="set-part">
-        <div class="set-type">System Setting</div>
+        <div class="set-type">{{ $t('device.systemSetting') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -612,7 +612,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Power Control</div>
+        <div class="set-type">{{ $t('device.powerControl') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -633,7 +633,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Battery Parameters</div>
+        <div class="set-type">{{ $t('device.batteryParameters') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -672,7 +672,7 @@ export default {
     </template>
     <template v-else>
       <div class="set-part">
-        <div class="set-type">System Setting</div>
+        <div class="set-type">{{ $t('device.systemSetting') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -830,7 +830,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Power Control</div>
+        <div class="set-type">{{ $t('device.powerControl') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -873,7 +873,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Grid Parameters</div>
+        <div class="set-type">{{ $t('device.gridParameters') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -932,7 +932,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Battery Parameters</div>
+        <div class="set-type">{{ $t('device.batteryParameters') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -969,7 +969,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Feature Parameters</div>
+        <div class="set-type">{{ $t('device.featureParameters') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">

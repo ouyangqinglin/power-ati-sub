@@ -10,4 +10,12 @@ export default {
   'device.unbindOperator': 'Unbind Operator',
   'device.historicalInstallationInfo': 'Historical Installation Info',
   'device.systemSetting': 'System Setting',
+  'device.powerControl': 'Power Control',
+  'device.batteryParameters': 'Battery Parameters',
+  'device.gridParameters': 'Grid Parameters',
+  'device.featureParameters': 'Feature Parameters',
+  'device.operatingParameters': 'Operating parameters',
+  'device.gridStandard': 'Grid Standard',
+  'device.clearRecord': 'Clear record',
+  'device.restoreFactorySetting': 'Restore Factory Setting',
 }
