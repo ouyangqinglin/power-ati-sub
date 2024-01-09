@@ -56,9 +56,9 @@ export default {
         305: [
           { required: false, message: '', trigger: ['blur', 'change'] }
         ],
-        309: [
-          { required: false, message: '', trigger: ['blur', 'change'] }
-        ],
+        // 309: [
+        //   { required: false, message: '', trigger: ['blur', 'change'] }
+        // ],
         310: [
           { required: false, message: '', trigger: ['blur', 'change'] }
         ],
@@ -910,12 +910,12 @@ export default {
                 <el-button type="primary" plain class="ml10" @click="setDevice(312)">Set</el-button>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="Off Grid Voltage(V)" prop="309">
-                <el-input @blur="inputVerify(100.0, 300.0, 309)" v-model="deviceBase[309]" style="width: 60%" placeholder="[100.0, 300.0]"></el-input>
-                <el-button :disabled="!deviceBase[309]" type="primary" plain class="ml10" @click="setDevice(309)">Set</el-button>
-              </el-form-item>
-            </el-col>
+<!--            <el-col :span="8">-->
+<!--              <el-form-item label="Off Grid Voltage(V)" prop="309">-->
+<!--                <el-input @blur="inputVerify(100.0, 300.0, 309)" v-model="deviceBase[309]" style="width: 60%" placeholder="[100.0, 300.0]"></el-input>-->
+<!--                <el-button :disabled="!deviceBase[309]" type="primary" plain class="ml10" @click="setDevice(309)">Set</el-button>-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
             <el-col :span="8">
               <el-form-item label="Max Grid Power Value(kVA)" prop="313">
                 <el-input @blur="inputVerify(0.0, 650.0, 313)" v-model="deviceBase[313]" style="width: 60%" placeholder="[0.0, 650.0]"></el-input>
