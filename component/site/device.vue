@@ -354,10 +354,11 @@ export default {
             let arr = [...this.addDialogInfo[2], ...findBatList]
             const prop = 'serialNumber'
             const uniqueArr = arr.reduce((all,next)=>all.some((item) => item[prop] === next[prop])?all:[...all,next],[])
-            if (uniqueArr.length > this.addDialogInfo[2].length || inverList.length ) this.addSubType = false
+            if (uniqueArr.length > this.addDialogInfo[2].length) this.addSubType = false
             this.addDialogInfo[2] = uniqueArr
           }
           if (inverList.length) {
+            this.addSubType = false
             this.addDialogInfo[1] = {
               ...this.addDialogInfo[1],
               ...inverList[0],
@@ -367,6 +368,7 @@ export default {
             }
           }
         }).catch(err => {
+          console.log('err', err)
           this.$modal.alert(this.$t('site.deviceNotFound'))
         }).finally(() => {
           this[`active${str}`] = false
