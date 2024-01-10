@@ -334,46 +334,53 @@ export default {
       this.$delete(this[mapInstall[deviceType]], index)
     },
     findDevice(str) {
-      let item = this.listDev.find(i => +i.deviceType === 4)
       this.$modal.loading()
       this[`active${str}`] = true
-      if (item && item.serialNumber) {
-        let params = {
-          sn: item.serialNumber
-        }
-        netList(params).then(res => {
-          let findBatList = res.data.batteryList || []
-          let inverList = res.data.inverterSnList || []
-          if (!findBatList.length && !inverList.length) return this.$modal.alert(this.$t('site.deviceNotFound'))
-          if (findBatList.length) {
-            findBatList.forEach(i => {
-              i.serialNumber = i.sn
-              i.nameplateCapacity = i.capacity
-              i.deviceType = 2
-            })
-            let arr = [...this.addDialogInfo[2], ...findBatList]
-            const prop = 'serialNumber'
-            const uniqueArr = arr.reduce((all,next)=>all.some((item) => item[prop] === next[prop])?all:[...all,next],[])
-            if (uniqueArr.length > this.addDialogInfo[2].length) this.addSubType = false
-            this.addDialogInfo[2] = uniqueArr
+      if (['Inverter', 'Bat'].includes(str)) {
+        let item = this.listDev.find(i => +i.deviceType === 4)
+        if (item && item.serialNumber) {
+          let params = {
+            sn: item.serialNumber
           }
-          if (inverList.length) {
-            this.addSubType = false
-            this.addDialogInfo[1] = {
-              ...this.addDialogInfo[1],
-              ...inverList[0],
-              deviceType: 1,
-              serialNumber: inverList[0].sn,
-              nameplateCapacity: +inverList[0].capacity === -1 ? '' : inverList[0].capacity
+          netList(params).then(res => {
+            let findBatList = res.data.batteryList || []
+            let inverList = res.data.inverterSnList || []
+            if (str === 'Bat') {
+              if (!findBatList.length) return this.$modal.alert(this.$t('site.deviceNotFound'))
+              findBatList.forEach(i => {
+                i.serialNumber = i.sn
+                i.nameplateCapacity = i.capacity
+                i.deviceType = 2
+              })
+              let arr = [...this.addDialogInfo[2], ...findBatList]
+              const prop = 'serialNumber'
+              const uniqueArr = arr.reduce((all,next)=>all.some((item) => item[prop] === next[prop])?all:[...all,next],[])
+              if (uniqueArr.length > this.addDialogInfo[2].length) this.addSubType = false
+              this.addDialogInfo[2] = uniqueArr
             }
-          }
-        }).catch(err => {
-          console.log('err', err)
-          this.$modal.alert(this.$t('site.deviceNotFound'))
-        }).finally(() => {
-          this[`active${str}`] = false
+            if (str === 'Inverter') {
+              if (!inverList.length) return this.$modal.alert(this.$t('site.deviceNotFound'))
+              this.addSubType = false
+              this.addDialogInfo[1] = {
+                ...this.addDialogInfo[1],
+                ...inverList[0],
+                deviceType: 1,
+                serialNumber: inverList[0].sn,
+                nameplateCapacity: +inverList[0].capacity === -1 ? '' : inverList[0].capacity
+              }
+            }
+          }).catch(err => {
+            console.log('err', err)
+            this.$modal.alert(this.$t('site.deviceNotFound'))
+          }).finally(() => {
+            this[`active${str}`] = false
+            this.$modal.closeLoading()
+          })
+        } else {
           this.$modal.closeLoading()
-        })
+          this.$modal.alert(this.$t('site.deviceNotFound'))
+          this[`active${str}`] = false
+        }
       } else {
         this.$modal.closeLoading()
         this.$modal.alert(this.$t('site.deviceNotFound'))
