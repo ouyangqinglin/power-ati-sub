@@ -364,7 +364,7 @@ export default {
               ...inverList[0],
               deviceType: 1,
               serialNumber: inverList[0].sn,
-              nameplateCapacity: inverList[0].capacity
+              nameplateCapacity: +inverList[0].capacity === -1 ? '' : inverList[0].capacity
             }
           }
         }).catch(err => {
