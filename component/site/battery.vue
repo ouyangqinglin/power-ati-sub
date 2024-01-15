@@ -28,7 +28,7 @@
           </el-row>
           <el-row type="flex" :gutter="60">
             <el-col :span="10"><el-form-item :label="$t('site.siteBatteryQuantity')"><el-input v-model="batList.length"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item :label="`${$t('site.totalCapacity')} (kWh)`"><el-input v-model="curDevInfo.nameplateCapacity"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('site.totalCapacity')} (kWh)`"><el-input v-model="batEnergy.totalCapacity"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
