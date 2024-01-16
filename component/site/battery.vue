@@ -347,6 +347,7 @@ export default {
     }
   },
   mounted() {
+    batteryStorage = {}
     this.getBatEnergy()
   },
   beforeDestroy() {
