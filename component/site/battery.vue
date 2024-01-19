@@ -171,7 +171,7 @@ const optionBat = {
       return [pt[0] + 20, pt[1] - 10];
     },
     formatter(v) {
-      if (v.length === 1 && v[0].value === 'NaN') return 'No data'
+      if (v[0].value === 'NaN') return 'No data'
       if (optionBat.yAxis.name === 'kW') {
         let t1, unit1
         if (v[0].value < 1) {
@@ -185,10 +185,7 @@ const optionBat = {
           unit1 = 'MW'
         }
         return `${v[0].name}<br>${v[0].marker} ${t1}${unit1}`
-      } else {
-        if (v.length > 1) return `${v[0].name}<br>${v[0].marker}${v[0].seriesName}: ${v[0].value === 'NaN' ? '--' : v[0].value}<br>${v[1].marker}${v[1].seriesName}: ${v[1].value === 'NaN' ? '--' : v[1].value}`
-        else return `${v[0].name}<br>${v[0].marker} ${v[0].value}`
-      }
+      } else return `${v[0].name}<br>${v[0].marker} ${v[0].value}`
     }
   },
   grid: {
@@ -384,7 +381,6 @@ export default {
     },
     changeBatType() {
       arr1 = []
-      let arr2 = []
       optionBat.series = []
       if (this.batteryHis.batteryType === 'Voltage') {
         optionBat.yAxis.name = 'V'
@@ -412,39 +408,18 @@ export default {
       }
       if (this.batteryHis.batteryType === 'Temperature') {
         optionBat.yAxis.name = '℃'
-        optionBat.legend = {
-          left: 40,
-          data: [this.$t('site.minTemperature'), this.$t('site.maxTemperature')],
-          icon: 'circle'
-        }
         for(let i = 0; i < batData.length; i++) {
           arr1.push((+batData[i].maxTemperature).toFixed(2))
-          arr2.push((+batData[i].minTemperature).toFixed(2))
         }
-      } else optionBat.legend = {}
+      }
       let itemOne = {
         symbol: "none",
-        // name: 'A相',
         type: 'line',
         smooth: true,
         itemStyle: {
           color: '#3EBCD4'
         },
         data: arr1
-      }
-      if (this.batteryHis.batteryType === 'Temperature') {
-        let itemTwo = {
-          name: this.$t('site.minTemperature'),
-          symbol: 'none',
-          type: 'line',
-          smooth: true,
-          itemStyle: {
-            color: '#FFB968'
-          },
-          data: arr2
-        }
-        itemOne.name = this.$t('site.maxTemperature')
-        optionBat.series.push(itemTwo)
       }
       optionBat.series.push(itemOne)
       if (batteryInstance) {
