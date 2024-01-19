@@ -104,7 +104,7 @@ const optionBat = {
       return [pt[0] + 20, pt[1] - 10];
     },
     formatter(v) {
-      if (v[0].value === 'NaN') return 'No data'
+      if (v.length === 1 && v[0].value === 'NaN') return 'No data'
       if (optionBat.yAxis.name === 'kW') {
         let t1, unit1
         if (v[0].value < 1) {
@@ -119,7 +119,7 @@ const optionBat = {
         }
         return `${v[0].name}<br>${v[0].marker} ${t1}${unit1}`
       } else {
-        if (v.length > 1) return `${v[0].name}<br>${v[0].marker}${v[0].seriesName}: ${v[0].value}<br>${v[1].marker}${v[1].seriesName}: ${v[1].value}`
+        if (v.length > 1) return `${v[0].name}<br>${v[0].marker}${v[0].seriesName}: ${v[0].value === 'NaN' ? '--' : v[0].value}<br>${v[1].marker}${v[1].seriesName}: ${v[1].value === 'NaN' ? '--' : v[1].value}`
         else return `${v[0].name}<br>${v[0].marker} ${v[0].value}`
       }
     }
