@@ -182,7 +182,7 @@
             <el-option v-for="(i, k) of delDialogInfo.snOption" :value="i" :label="i" :key="k"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="`${$t('common.capacity')} (kWh)`">
+        <el-form-item :label="`${$t('common.capacity')} (kWh)`" v-if="![3, 4].includes(+delDialogInfo.deviceType)">
           <el-input disabled v-model="delDialogInfo.nameplateCapacity"></el-input>
         </el-form-item>
       </el-form>
