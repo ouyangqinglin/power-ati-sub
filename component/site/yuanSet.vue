@@ -472,7 +472,7 @@ export default {
           const temp = JSON.parse(this.deviceBase[333])
           temp.forEach(item => {
             item.chargeDischargeSetting = +item.chargeDischargeSetting
-            if ([0, 2].includes(item.chargeDischargeSetting)) item.battChargeBy = '--'
+            if ([0, 2].includes(+item.chargeDischargeSetting)) item.battChargeBy = '--'
             else item.battChargeBy = +item.battChargeBy
             item.ecoModePeriodEnable = +item.ecoModePeriodEnable
           })

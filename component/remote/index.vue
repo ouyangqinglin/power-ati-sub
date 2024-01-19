@@ -457,6 +457,11 @@ export default {
     getList() {
       this.loading = true
       versionList(this.queryParams).then(res => {
+        if (res.rows.length) {
+          res.rows.forEach(i => {
+            if (+i.fileType === 1) i.component = 10 // BMS下的Components没有
+          })
+        }
         this.list = res.rows
         this.total = res.total
       }).finally(() => {

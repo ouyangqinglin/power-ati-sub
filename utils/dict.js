@@ -257,6 +257,10 @@ export const inverterVersion = [
   {
     label: 'V1.0',
     value: 2
+  },
+  {
+    label: '--',
+    value: 10
   }
 ]
 

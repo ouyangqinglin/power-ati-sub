@@ -570,6 +570,7 @@ export default {
     },
     getVersionBase() {
       versionDetails(this.id).then(res => {
+        if (+res.data.fileType === 1) res.data.component = 10 // BMS下的Components没有
         this.base = res.data
       })
     },

@@ -21,13 +21,13 @@
             <el-col :span="10"><el-form-item :label="$t('common.status')">
               <template v-if="+base.storeConnectStatus === 1">
                 <el-input disabled type="text" />
-                <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="curDevInfo.storeStatus"/>
+                <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="batEnergy.batteryStatus"/>
               </template>
               <el-input v-else></el-input>
             </el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item :label="$t('site.siteBatteryQuantity')"><el-input v-model="batList.length"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('site.siteBatteryQuantity')"><el-input v-model="batEnergy.batteryNum"></el-input></el-form-item></el-col>
             <el-col :span="10"><el-form-item :label="`${$t('site.totalCapacity')} (kWh)`"><el-input v-model="batEnergy.totalCapacity"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
