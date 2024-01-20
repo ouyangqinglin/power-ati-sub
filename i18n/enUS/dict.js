@@ -17,7 +17,7 @@ export default {
   'grid.status.free': 'Free',
   'grid.status.export': 'Export',
   'grid.status.import': 'Import',
-  'store.status.notChargeDischarge': 'Not charge-discharge',
+  'store.status.notChargeDischarge': 'Idle',
   'store.status.charging': 'Charging',
   'store.status.discharging': 'Discharging',
   'device.newInstall.yes': 'Yes',
