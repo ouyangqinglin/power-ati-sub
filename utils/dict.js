@@ -184,11 +184,11 @@ export const manufacturerPcs = [
 
 export const manufacturerBms = [
   {
-    label: 'TIANBDA',
+    label: 'TIAN POWER',
     value: 1
   },
   {
-    label: 'PACEEX',
+    label: 'PACE',
     value: 2
   }
 ]
