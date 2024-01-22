@@ -3,7 +3,7 @@
     <el-card>
       <el-row type="flex" justify="space-between" align="center" style="margin-bottom: 20px">
         <strong>{{ $t('upgrade.firmWare') }}</strong>
-        <el-button type="primary" @click="openShow">{{ $t('upgrade.upgrade') }}</el-button>
+        <el-button v-has-permi="['device:upgrade']" type="primary" @click="openShow">{{ $t('upgrade.upgrade') }}</el-button>
       </el-row>
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
                 v-loading="loading" :data="list" border
