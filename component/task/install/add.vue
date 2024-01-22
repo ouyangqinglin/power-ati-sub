@@ -112,6 +112,7 @@ export default {
     this.id = this.$route.params?.id
     this.base.uid = this.id
     getAtiUser(this.id).then(res => {
+      res.data.remark = ''
       this.base = {...this.baseInfo, ...res.data, customer: res.data.userName, type: 2}
     })
   },
