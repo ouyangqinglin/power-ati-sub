@@ -71,14 +71,14 @@
           <el-row :gutter="24">
             <el-col :span="10">
               <el-form-item :label="$t('upgrade.componentM')" prop="fileType">
-                <el-select style="width: 100%" v-model="toastData.fileType" :placeholder="$t('common.pleaseSelect')">
+                <el-select style="width: 100%" v-model="toastData.fileType" :placeholder="$t('common.pleaseSelect')" @change="getVersionList()">
                   <el-option v-for="i of compMOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item :label="$t('upgrade.componentS')" prop="component">
-                <el-select style="width: 100%" v-model="toastData.component" :placeholder="$t('common.pleaseSelect')" :disabled="disabledComp">
+                <el-select style="width: 100%" v-model="toastData.component" :placeholder="$t('common.pleaseSelect')" :disabled="disabledComp" @change="getVersionList()">
                   <el-option v-for="i of compSOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -87,14 +87,14 @@
           <el-row :gutter="24">
             <el-col :span="10">
               <el-form-item :label="$t('common.manufacturer')" prop="manufacturer">
-                <el-select style="width: 100%" v-model="toastData.manufacturer" :placeholder="$t('common.pleaseSelect')" :disabled="disabledManu">
+                <el-select style="width: 100%" v-model="toastData.manufacturer" :placeholder="$t('common.pleaseSelect')" :disabled="disabledManu" @change="getVersionList()">
                   <el-option v-for="i of manufacturerOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item :label="$t('upgrade.submodule')" prop="subModule">
-                <el-select style="width: 100%" v-model="toastData.subModule" :placeholder="$t('common.pleaseSelect')" :disabled="disabledSubmodule">
+                <el-select style="width: 100%" v-model="toastData.subModule" :placeholder="$t('common.pleaseSelect')" :disabled="disabledSubmodule" @change="getVersionList()">
                   <el-option v-for="i of submoduleOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -103,7 +103,7 @@
           <el-row :gutter="24">
             <el-col :span="10">
               <el-form-item :label="$t('upgrade.applicationType')" prop="applicationType">
-                <el-select style="width: 100%" v-model="toastData.applicationType" :placeholder="$t('common.pleaseSelect')">
+                <el-select style="width: 100%" v-model="toastData.applicationType" :placeholder="$t('common.pleaseSelect')" @change="getVersionList()">
                   <el-option v-for="i of appOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -174,7 +174,7 @@ export default {
       },
       rules: {
         newVersion: [
-          { required: true, trigger: 'change', message: this.$t('common.pleaseSelect') }
+          { required: true, trigger: 'blur', message: this.$t('common.pleaseSelect') }
         ],
         fileType: [
           { required: true, message: this.$t('common.pleaseSelect'), trigger: ['change', 'blur']}
@@ -235,12 +235,6 @@ export default {
         this.getList()
       },
       immediate: true
-    },
-    toastData: {
-      deep: true,
-      handler() {
-        this.getVersionList()
-      },
     },
     disabledComp(v) {
       this.rules.component[0].required = !v
@@ -317,6 +311,8 @@ export default {
       this.show = true
     },
     getVersionList() {
+      this.toastData.newVersion = ''
+      this.toastData.name = ''
       let version = {
         siteCode: this.$route.query?.siteCode
       }

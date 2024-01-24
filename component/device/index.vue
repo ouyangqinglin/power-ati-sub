@@ -152,7 +152,7 @@ export default {
       }
       let str = '', list = []
       warnList(data).then(res => {
-        list = res.data.faultList
+        list = res.data
         if (list.length) {
           list.forEach(i => str += i)
           this.hoverWarn = str
