@@ -124,7 +124,7 @@
             {{ (+queryParams.pageNum - 1) * (+queryParams.pageSize) + scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column :label="$t('site.name')" align="center" prop="siteName" min-width="180">
+        <el-table-column :label="$t('site.name')" align="center" prop="siteName" min-width="180" show-overflow-tooltip>
           <template slot-scope="{ row }">
             <common-flex align="center" justify="center">
               <span class="dot" v-if="+row.netStatus === 0" style="background-color: #92929D"></span>

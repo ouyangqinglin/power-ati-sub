@@ -84,7 +84,7 @@
             <dict-tag :options="appOptions" :value="row.applicationType"></dict-tag>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('common.version')" prop="versionNum" min-width="140"></el-table-column>
+        <el-table-column :label="$t('common.version')" prop="versionNum" min-width="160" show-overflow-tooltip></el-table-column>
         <el-table-column :label="$t('upgrade.firmwareName')" prop="name" show-overflow-tooltip min-width="160"></el-table-column>
         <el-table-column :label="$t('upgrade.firmwarePackage')" prop="name" show-overflow-tooltip min-width="160">
           <template slot-scope="{ row }">
