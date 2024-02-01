@@ -490,7 +490,7 @@ export default {
             if (i.serialNumber) deviceList.push(item)
           })
         } else if (+v === 1) {
-          this.checkCapacity(1)
+          if (this.addDialogInfo[1]) this.checkCapacity(1)
           item = {
             siteCode: this.queryParams.siteCode,
             deviceType: +v,
@@ -577,7 +577,7 @@ export default {
       // At most three significant decimals
       let capacity
       if (deviceType === 1) capacity = this.addDialogInfo[deviceType].nameplateCapacity.toString().replace(/\s*/g,"")
-      else capacity = this.addDialogInfo[deviceType][index].nameplateCapacity.replace(/\s*/g,"")
+      else capacity = this.addDialogInfo[deviceType][index]?.nameplateCapacity?.replace(/\s*/g,"")
       if (!capacity.length) {
         if (deviceType === 1) this.$set(this[msgType], 'msg', this.$t('site.pleaseEnterRatedPower'))
         else this.$set(this[msgType], index, this.$t('site.pleaseEnterCapacity'))

@@ -422,14 +422,7 @@ export default {
         data: arr1
       }
       optionBat.series.push(itemOne)
-      if (batteryInstance) {
-        batteryInstance.dispose()
-        batteryInstance= null
-      }
-      this.$nextTick(() => {
-        batteryInstance = echarts.init(document.getElementById('batteryChart'))
-        batteryInstance.setOption(optionBat)
-      })
+      batteryInstance.setOption(optionBat, true)
     },
     getBatHisData() {
       this.loading = true
@@ -451,7 +444,11 @@ export default {
           arr5.push(res.data[i].timestamp)
         }
         optionBat.xAxis[0].data = arr5
-        this.changeBatType()
+        this.$nextTick(() => {
+          if (!batteryInstance) batteryInstance = echarts.init(document.getElementById('batteryChart'))
+          batteryInstance.setOption(optionBat)
+          this.changeBatType()
+        })
       })
     },
     getBatEnergy() {

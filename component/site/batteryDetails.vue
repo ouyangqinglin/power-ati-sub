@@ -289,6 +289,10 @@ export default {
       this.$emit('date', this.batteryHis.dateVal)
     },
     changeBatType() {
+      if (batteryInstance) {
+        batteryInstance.dispose()
+        batteryInstance= null
+      }
       arr5 = []
       for(let i = 0; i < this.dialogHisData.length; i++) {
         arr5.push(this.dialogHisData[i].timestamp)
@@ -358,10 +362,7 @@ export default {
         optionBat.series.push(itemTwo)
       }
       optionBat.series.push(itemOne)
-      if (batteryInstance) {
-        batteryInstance.dispose()
-        batteryInstance= null
-      }
+
       this.loading = false
       this.$nextTick(() => {
         batteryInstance = echarts.init(document.getElementById('batteryDetailsChart'))

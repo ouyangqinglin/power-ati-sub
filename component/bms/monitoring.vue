@@ -669,7 +669,27 @@ export default {
         if (this.curSeries.length !== 1) this.curSeries.splice(this.curSeries.indexOf(k), 1)
       } else this.curSeries.push(k)
       this.curSeries = this.curSeries.sort((a, b) => a - b)
-      this.initCanvas()
+      // this.initCanvas()
+      let series = []
+      for(let k = 0; k < this.curSeries.length; k++) {
+        let arr = []
+        for(let i = 0; i < dataList.length; i++) {
+          arr.push((+dataList[i][this.lineList[this.curSeries[k]].key]).toFixed(3)) // 添加key属性的值
+        }
+        let item = {
+          name: this.lineList[this.curSeries[k]].name,
+          symbol: "none",
+          type: 'line',
+          smooth: true,
+          itemStyle: {
+            color: color[this.curSeries[k]]
+          },
+          data: arr
+        }
+        series.push(item)
+      }
+      option.series = series
+      chartIns.setOption(option, true)
     },
     changeSize() {
       if(chartIns) chartIns.resize()
