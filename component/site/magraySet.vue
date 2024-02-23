@@ -2,8 +2,9 @@
 import {mapState} from "vuex"
 import {getSettingInfo, deviceSet, orderRes} from '@/api/device'
 
-let timerInter = null
-let times = 1
+let timerInter = null, timeCount = null
+let times = 1, resTime = 0, requestTimes = 0
+let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
 let copyDeviceInfo = {}
 export default {
   name: "site-magraySet",
@@ -255,7 +256,6 @@ export default {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
         } else {
-          let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
           if (+res.data === 3) {
             this.openLoading()
             this.getOrderRes()
@@ -272,35 +272,62 @@ export default {
         return this.setDevice(type)
       })
     },
+    // 请求次数大于3次
+    timeOut() {
+      requestTimes = 0
+      this.getDeviceSet()
+      this.setLoading.close()
+      return this.$modal.msgError('Timeout')
+    },
+    // 重读请求 设置间隔时间防止重复提交警告
+    getRepeatQuest() {
+      setTimeout(() => {
+        this.getOrderRes()
+      }, 1000)
+    },
     getOrderRes() {
-      let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
+      clearInterval(timeCount)
+      resTime = 0
+      timeCount = setInterval(() => {
+        resTime++
+      }, 1000)
       let data = {
         siteCode: this.siteCode
       }
-      clearInterval(timerInter)
-      timerInter = setInterval(() => {
-        times++
-        orderRes(data).then(res => {
+      orderRes(data).then(res => {
+        clearInterval(timeCount)
+        requestTimes++
+        console.log('请求响应时间', resTime)
+        if (resTime < 3) { // 响应时间
           if (+res.data === 3) {
-            if(times > 15) {
-              times = 1
-              clearInterval(timerInter)
-              this.getDeviceSet()
-              this.setLoading.close()
-              return this.$modal.msgError('Timeout')
+            // 判断重复几次 > 3次直接timeout
+            if (requestTimes < 3) {
+              // 重复
+              this.getRepeatQuest()
+            } else {
+              // > 3次直接timeout
+              this.timeOut()
             }
-            this.getOrderRes()
-          } else {
-            times = 1
+          } else { // 返回值状态
+            requestTimes = 0
             if (+res.data === 1) {
               this.$modal.msgSuccess('SUCCESS')
             } else this.$modal.msgError(statusList[+res.data])
-            clearInterval(timerInter)
             this.getDeviceSet()
             this.setLoading.close()
           }
-        })
-      }, 1000)
+        } else { // 大于3s
+          // 判断重复几次 > 3次直接timeout
+          // < 3次 重复指令
+          if (requestTimes < 3) {
+            // 重复
+            this.getRepeatQuest()
+          } else {
+            // > 3次直接timeout
+            this.timeOut()
+          }
+        }
+      })
     },
     setDevice(type) {
       if (copyDeviceInfo[type] === this.deviceBase[type]) {
@@ -321,7 +348,6 @@ export default {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
         } else {
-          let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
           if (+res.data === 3) {
             this.openLoading()
             this.getOrderRes()
