@@ -437,7 +437,6 @@ export default {
               // > 3次重新下发指令
               this.setRepeatQuest(type)
               requestTimes = 0
-              setDeviceTimes++
             }
           } else { // 返回值状态
             requestTimes = 0
@@ -457,12 +456,12 @@ export default {
             // > 3次重新下发指令
             this.setRepeatQuest(type)
             requestTimes = 0
-            setDeviceTimes++
           }
         }
       })
     },
     setRepeatQuest(type) {
+      setDeviceTimes++
       if (setDeviceTimes > 3) return this.timeOut()
       setTimeout(() => {
         this.repeatSetDevice(type)
