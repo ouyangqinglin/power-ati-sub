@@ -3,7 +3,7 @@ import {mapState} from "vuex"
 import {getSettingInfo, deviceSet, orderRes} from '@/api/device'
 
 let timerInter = null, timeCount = null
-let times = 1, resTime = 0, requestTimes = 0
+let times = 1, resTime = 0, requestTimes = 0, setDeviceTimes = 1
 let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
 let copyDeviceInfo = {}
 export default {
@@ -275,6 +275,7 @@ export default {
     // 请求次数大于3次
     timeOut() {
       requestTimes = 0
+      setDeviceTimes = 1
       this.getDeviceSet()
       this.setLoading.close()
       return this.$modal.msgError('Timeout')
@@ -285,7 +286,7 @@ export default {
         this.getOrderRes()
       }, 1000)
     },
-    getOrderRes() {
+    getOrderRes(type) {
       clearInterval(timeCount)
       resTime = 0
       timeCount = setInterval(() => {
@@ -303,10 +304,12 @@ export default {
             // 判断重复几次 > 3次直接timeout
             if (requestTimes < 3) {
               // 重复
-              this.getRepeatQuest()
+              this.getRepeatQuest(type)
             } else {
-              // > 3次直接timeout
-              this.timeOut()
+              // > 3次重新下发指令
+              this.setRepeatQuest(type)
+              requestTimes = 0
+              setDeviceTimes++
             }
           } else { // 返回值状态
             requestTimes = 0
@@ -321,10 +324,38 @@ export default {
           // < 3次 重复指令
           if (requestTimes < 3) {
             // 重复
-            this.getRepeatQuest()
+            this.getRepeatQuest(type)
           } else {
-            // > 3次直接timeout
-            this.timeOut()
+            // > 3次重新下发指令
+            this.setRepeatQuest(type)
+            requestTimes = 0
+            setDeviceTimes++
+          }
+        }
+      })
+    },
+    setRepeatQuest(type) {
+      if (setDeviceTimes > 3) return this.timeOut()
+      setTimeout(() => {
+        this.repeatSetDevice(type)
+      }, 1000)
+    },
+    repeatSetDevice(type) {
+      let data = {
+        siteCode: this.siteCode,
+        type,
+        baseParam: this.deviceBase[type]
+      }
+      deviceSet(data).then(res => {
+        if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
+          this.$modal.msgError(res.msg)
+          this.getDeviceSet()
+        } else {
+          if (+res.data === 3) {
+            this.getOrderRes(type)
+          } else {
+            this.$modal.msgError(statusList[+res.data])
+            this.getDeviceSet()
           }
         }
       })
