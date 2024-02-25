@@ -404,7 +404,7 @@ export default {
     timeOut() {
       requestTimes = 0
       this.getDeviceSet()
-      this.setLoading.close()
+      this.$modal.closeLoading()
       return this.$modal.msgError('Timeout')
     },
     // 重读请求 设置间隔时间防止重复提交警告
@@ -442,7 +442,7 @@ export default {
               this.$modal.msgSuccess('SUCCESS')
             } else this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()
-            this.setLoading.close()
+            this.$modal.closeLoading()
           }
         } else { // 大于3s
           // 判断重复几次 > 3次直接timeout
