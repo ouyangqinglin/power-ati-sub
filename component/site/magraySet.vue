@@ -299,7 +299,7 @@ export default {
         clearInterval(timeCount)
         requestTimes++
         console.log('请求响应时间', resTime)
-        if (resTime < 3) { // 响应时间
+        if (resTime < 5) { // 响应时间
           if (+res.data === 3) {
             // 判断重复几次 > 3次直接timeout
             if (requestTimes < 3) {
