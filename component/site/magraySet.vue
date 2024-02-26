@@ -281,9 +281,9 @@ export default {
       return this.$modal.msgError('Timeout')
     },
     // 重读请求 设置间隔时间防止重复提交警告
-    getRepeatQuest() {
+    getRepeatQuest(type) {
       setTimeout(() => {
-        this.getOrderRes()
+        this.getOrderRes(type)
       }, 1000)
     },
     getOrderRes(type) {
@@ -380,7 +380,7 @@ export default {
         } else {
           if (+res.data === 3) {
             this.openLoading()
-            this.getOrderRes()
+            this.getOrderRes(type)
           } else {
             this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()
