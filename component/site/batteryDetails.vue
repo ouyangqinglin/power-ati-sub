@@ -246,7 +246,7 @@ export default {
     dialogHisData() {
       this.loading = true
       this.$nextTick(() => {
-        this.changeBatType()
+        this.initCharts()
       })
     },
   },
@@ -288,16 +288,21 @@ export default {
       }
       this.$emit('date', this.batteryHis.dateVal)
     },
-    changeBatType() {
-      if (batteryInstance) {
-        batteryInstance.dispose()
-        batteryInstance= null
-      }
+    initCharts() {
+      this.loading = false
       arr5 = []
       for(let i = 0; i < this.dialogHisData.length; i++) {
         arr5.push(this.dialogHisData[i].timestamp)
       }
       optionBat.xAxis[0].data = arr5
+      this.$nextTick(() => {
+        batteryInstance = echarts.init(document.getElementById('batteryDetailsChart'))
+        batteryInstance.setOption(optionBat)
+        window.addEventListener('resize', this.changeSize)
+        this.changeBatType()
+      })
+    },
+    changeBatType() {
       arr1 = []
       let arr2 = []
       optionBat.series = []
@@ -362,13 +367,7 @@ export default {
         optionBat.series.push(itemTwo)
       }
       optionBat.series.push(itemOne)
-
-      this.loading = false
-      this.$nextTick(() => {
-        batteryInstance = echarts.init(document.getElementById('batteryDetailsChart'))
-        batteryInstance.setOption(optionBat)
-        window.addEventListener('resize', this.changeSize)
-      })
+      batteryInstance.setOption(optionBat, true)
     },
 
   }
