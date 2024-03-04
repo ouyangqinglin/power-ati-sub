@@ -392,7 +392,7 @@ export default {
         } else {
           if (+res.data === 3) {
             this.$modal.loading()
-            this.getOrderRes()
+            this.getOrderRes(333)
           } else {
             this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()

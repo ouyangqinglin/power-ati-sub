@@ -258,7 +258,7 @@ export default {
         } else {
           if (+res.data === 3) {
             this.openLoading()
-            this.getOrderRes()
+            this.getOrderRes(34)
           } else {
             this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()
