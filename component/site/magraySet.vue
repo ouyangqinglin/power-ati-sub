@@ -255,6 +255,7 @@ export default {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
+          if (this.setLoading) this.setLoading.close()
         } else {
           if (+res.data === 3) {
             this.openLoading()
@@ -349,6 +350,7 @@ export default {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
+          if (this.setLoading) this.setLoading.close()
         } else {
           if (+res.data === 3) {
             this.getOrderRes(type)

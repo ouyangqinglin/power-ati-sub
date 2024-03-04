@@ -389,6 +389,7 @@ export default {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
+          this.$modal.closeLoading()
         } else {
           if (+res.data === 3) {
             this.$modal.loading()
@@ -477,6 +478,7 @@ export default {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
+          this.$modal.closeLoading()
         } else {
           if (+res.data === 3) {
             this.getOrderRes(type)
@@ -498,6 +500,7 @@ export default {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
+          this.$modal.closeLoading()
         } else {
           if (+res.data === 3) {
             this.$modal.loading()
