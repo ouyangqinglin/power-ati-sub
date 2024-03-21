@@ -633,7 +633,7 @@ export default {
             <el-col :span="4">
               <el-form-item prop="25" label="Battery awaken"><el-switch v-model="deviceBase[25]" @change="setDevice(25)" /></el-form-item>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="6">
               <el-form-item prop="13" label="Anti reflux/Disable Grid Sell">
                 <common-flex slot="label">
                   <span>Anti reflux/Disable Grid Sell</span>
