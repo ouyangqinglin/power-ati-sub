@@ -413,7 +413,7 @@ export default {
     getRepeatQuest(type) {
       setTimeout(() => {
         this.getOrderRes(type)
-      }, 1000)
+      }, 2000)
     },
     getOrderRes(type) {
       clearInterval(timeCount)
@@ -441,6 +441,7 @@ export default {
             }
           } else { // 返回值状态
             requestTimes = 0
+            setDeviceTimes = 1
             if (+res.data === 1) {
               this.$modal.msgSuccess('SUCCESS')
             } else this.$modal.msgError(statusList[+res.data])

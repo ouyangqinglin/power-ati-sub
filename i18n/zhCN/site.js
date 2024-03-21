@@ -31,6 +31,7 @@ export default {
   'site.selfConsumption': '自给自足',
   'site.import': '购买电量',
   'site.siteCorrelationDetails': '站点关联信息',
+  'site.sitePhoto': '站点图片',
   'site.siteProfile': '基础信息',
   'site.nickName': '站点别名',
   'site.wirelessStrength': '信号强度',

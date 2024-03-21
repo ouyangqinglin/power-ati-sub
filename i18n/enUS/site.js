@@ -31,6 +31,7 @@ export default {
   'site.selfConsumption': 'Self Consumption',
   'site.import': 'Import',
   'site.siteCorrelationDetails': 'Site Correlation Details',
+  'site.sitePhoto': 'Site Photo',
   'site.siteProfile': 'Site Profile',
   'site.nickName': 'Nick Name',
   'site.wirelessStrength': 'Wireless Signal Strength',

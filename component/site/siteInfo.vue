@@ -23,6 +23,15 @@
         <el-form-item v-if="brandShow" :label="$t('site.productBrand')" prop="brand"><el-input v-model="['', 'Yoho', 'Jasper'][+base.brand]"></el-input></el-form-item>
       </el-form>
     </el-card>
+<!--    <el-card class="comp-site-info-card">-->
+<!--      <div class="comp-site-info-card-title">{{ $t('site.sitePhoto') }}</div>-->
+<!--      <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload">-->
+<!--        <el-button size="small">-->
+<!--          {{ $t('common.choose') }}-->
+<!--          <i class="el-icon-upload el-icon&#45;&#45;right"></i>-->
+<!--        </el-button>-->
+<!--      </el-upload>-->
+<!--    </el-card>-->
     <el-card class="comp-site-info-card">
       <div class="comp-site-info-card-title">{{ $t('site.siteCorrelationDetails') }}</div>
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}" border class="comp-site-info-card-table" :data="base.userList">
@@ -206,6 +215,8 @@ export default {
     })
   },
   methods: {
+    requestUpload() {},
+    beforeUpload() {},
     getCityJson() {
       return new Promise((resolve, reject) => {
         import('../../../public/country.json').then(res => {

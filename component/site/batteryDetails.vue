@@ -107,17 +107,18 @@ const optionBat = {
       if (v.length === 1 && v[0].value === 'NaN') return 'No data'
       if (optionBat.yAxis.name === 'kW') {
         let t1, unit1
-        if (v[0].value < 1) {
-          t1 = `${(v[0].value * 1000).toFixed(2)}`
+        if (Math.abs(+v[0].value) < 1) {
+          t1 = `${(v[0].value * 1000).toFixed(0)}`
           unit1 = 'W'
-        } else if (v[0].value > 1 && v[0].value < 1000) {
+        } else if (Math.abs(+v[0].value) > 1 && Math.abs(+v[0].value) < 1000) {
           t1 = `${(+v[0].value).toFixed(2)}`
           unit1 = 'kW'
         } else {
           t1 = `${(+v[0].value / 1000).toFixed(2)}`
           unit1 = 'MW'
         }
-        return `${v[0].name}<br>${v[0].marker} ${t1}${unit1}`
+        let str = +t1 > 0 ? 'Charge' : 'Discharge'
+        return `${v[0].name}<br>${v[0].marker}${str}: ${t1}${unit1}`
       } else {
         if (v.length > 1) return `${v[0].name}<br>${v[0].marker}${v[0].seriesName}: ${v[0].value === 'NaN' ? '--' : v[0].value}<br>${v[1].marker}${v[1].seriesName}: ${v[1].value === 'NaN' ? '--' : v[1].value}`
         else return `${v[0].name}<br>${v[0].marker} ${v[0].value}`
