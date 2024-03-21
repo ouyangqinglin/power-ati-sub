@@ -574,12 +574,12 @@ export default {
               <el-form-item prop="25" label="Battery awaken"><el-switch v-model="deviceBase[25]" @change="setDevice(25)" /></el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item prop="13" label="Anti reflux/Grid Sell">
+              <el-form-item prop="13" label="Anti reflux/Disable Grid Sell">
                 <common-flex slot="label">
-                  <span>Anti reflux/Grid Sell</span>
+                  <span>Anti reflux/Disable Grid Sell</span>
                   <el-tooltip effect="dark" placement="top">
                           <span slot="content">
-                            Enable Anti reflux/Grid Sell: indicates that electricity sales are not allowed
+                            Enable Anti reflux/Disable Grid Sell: indicates that electricity sales are not allowed
                           </span>
                     <img class="question" :src="require('@img/question.svg')" alt="">
                   </el-tooltip>
