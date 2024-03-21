@@ -84,7 +84,7 @@
             <dict-tag :options="appOptions" :value="row.applicationType"></dict-tag>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('common.version')" prop="versionNum" min-width="140"></el-table-column>
+        <el-table-column :label="$t('common.version')" prop="versionNum" min-width="160" show-overflow-tooltip></el-table-column>
         <el-table-column :label="$t('upgrade.firmwareName')" prop="name" show-overflow-tooltip min-width="160"></el-table-column>
         <el-table-column :label="$t('upgrade.firmwarePackage')" prop="name" show-overflow-tooltip min-width="160">
           <template slot-scope="{ row }">
@@ -368,8 +368,8 @@ export default {
   methods: {
     manuLabel(row) {
       if (+row.manufacturer === 0) return 'Yotai'
-      if (+row.fileType === 1 && +row.manufacturer === 1) return 'TIANBDA'
-      if (+row.fileType === 1 && +row.manufacturer === 2) return 'PACEEX'
+      if (+row.fileType === 1 && +row.manufacturer === 1) return 'TIAN POWER'
+      if (+row.fileType === 1 && +row.manufacturer === 2) return 'PACE'
       if (+row.fileType === 2 && +row.manufacturer === 1) return 'MEGAREVO'
       if (+row.fileType === 2 && +row.manufacturer === 2) return 'LUXPOWER'
     },
@@ -457,6 +457,11 @@ export default {
     getList() {
       this.loading = true
       versionList(this.queryParams).then(res => {
+        if (res.rows.length) {
+          res.rows.forEach(i => {
+            if (+i.fileType === 1) i.component = 10 // BMS下的Components没有
+          })
+        }
         this.list = res.rows
         this.total = res.total
       }).finally(() => {

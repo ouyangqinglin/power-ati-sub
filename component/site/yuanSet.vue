@@ -1,9 +1,10 @@
 <script>
 import {deviceSet, getSettingInfo, orderRes} from "@/api/device";
 import {mapState} from "vuex";
-let timerInter = null
-let times = 1
-let copyDeviceInfo = {}
+let timerInter = null, timeCount = null
+let times = 1, resTime = 0, requestTimes = 0, setDeviceTimes = 1
+let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
+let copyDeviceInfo = {}, copyPeakShaving = []
 export default {
   name: "yuanSet",
   props: {
@@ -56,9 +57,9 @@ export default {
         305: [
           { required: false, message: '', trigger: ['blur', 'change'] }
         ],
-        309: [
-          { required: false, message: '', trigger: ['blur', 'change'] }
-        ],
+        // 309: [
+        //   { required: false, message: '', trigger: ['blur', 'change'] }
+        // ],
         310: [
           { required: false, message: '', trigger: ['blur', 'change'] }
         ],
@@ -361,7 +362,7 @@ export default {
   },
   methods: {
     changeCharge(item) {
-      if (+item.chargeDischargeSetting === 2) item.battChargeBy = '--'
+      if ([0, 2].includes(+item.chargeDischargeSetting)) item.battChargeBy = '--'
       else item.battChargeBy = item.battChargeBy === '--' ? '' : item.battChargeBy
     },
     enterLimit(v, index) {
@@ -374,20 +375,25 @@ export default {
 
     },
     setTimeList() {
+      let timeList = []
+      this.peakShaving.forEach((i, index) => {
+        if (i.battChargeBy === '--') timeList.push({...i, battChargeBy: copyPeakShaving[index].battChargeBy})
+        else timeList.push(i)
+      })
       let params = {
         type: 333,
         siteCode: this.siteCode,
-        timeList: this.peakShaving
+        timeList
       }
       deviceSet(params).then(res => {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
+          this.$modal.closeLoading()
         } else {
-          let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
           if (+res.data === 3) {
             this.$modal.loading()
-            this.getOrderRes()
+            this.getOrderRes(333)
           } else {
             this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()
@@ -395,35 +401,93 @@ export default {
         }
       })
     },
-    getOrderRes() {
-      let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
+    // 请求次数大于3次
+    timeOut() {
+      requestTimes = 0
+      setDeviceTimes = 1
+      this.getDeviceSet()
+      this.$modal.closeLoading()
+      return this.$modal.msgError('Timeout')
+    },
+    // 重读请求 设置间隔时间防止重复提交警告
+    getRepeatQuest(type) {
+      setTimeout(() => {
+        this.getOrderRes(type)
+      }, 1000)
+    },
+    getOrderRes(type) {
+      clearInterval(timeCount)
+      resTime = 0
+      timeCount = setInterval(() => {
+        resTime++
+      }, 1000)
       let data = {
         siteCode: this.siteCode
       }
-      clearInterval(timerInter)
-      timerInter = setInterval(() => {
-        times++
-        orderRes(data).then(res => {
+      orderRes(data).then(res => {
+        clearInterval(timeCount)
+        requestTimes++
+        console.log('请求响应时间', resTime)
+        if (resTime < 5) { // 响应时间
           if (+res.data === 3) {
-            if(times > 15) {
-              times = 1
-              clearInterval(timerInter)
-              this.getDeviceSet()
-              this.$modal.closeLoading()
-              return this.$modal.msgError('Timeout')
+            // 判断重复几次 > 3次直接timeout
+            if (requestTimes < 3) {
+              // 重复
+              this.getRepeatQuest(type)
+            } else {
+              // > 3次重新下发指令
+              this.setRepeatQuest(type)
+              requestTimes = 0
             }
-            this.getOrderRes()
-          } else {
-            times = 1
+          } else { // 返回值状态
+            requestTimes = 0
             if (+res.data === 1) {
               this.$modal.msgSuccess('SUCCESS')
             } else this.$modal.msgError(statusList[+res.data])
-            clearInterval(timerInter)
             this.getDeviceSet()
             this.$modal.closeLoading()
           }
-        })
+        } else { // 大于3s
+          // 判断重复几次 > 3次直接timeout
+          // < 3次 重复指令
+          if (requestTimes < 3) {
+            // 重复
+            this.getRepeatQuest(type)
+          } else {
+            // > 3次重新下发指令
+            this.setRepeatQuest(type)
+            requestTimes = 0
+          }
+        }
+      })
+    },
+    setRepeatQuest(type) {
+      setDeviceTimes++
+      if (setDeviceTimes > 3) return this.timeOut()
+      setTimeout(() => {
+        this.repeatSetDevice(type)
       }, 1000)
+    },
+    repeatSetDevice(type) {
+      let data = {
+        siteCode: this.siteCode,
+        type,
+        baseParam: this.deviceBase[type]
+      }
+      deviceSet(data).then(res => {
+        if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
+          this.$modal.msgError(res.msg)
+          this.getDeviceSet()
+          this.$modal.closeLoading()
+        } else {
+          if (+res.data === 3) {
+            this.getOrderRes(type)
+          } else {
+            this.$modal.msgError(statusList[+res.data])
+            this.getDeviceSet()
+          }
+        }
+      })
     },
     setDevice(type) {
       if (copyDeviceInfo[type] === this.deviceBase[type]) return this.$modal.confirm('Value not changed').catch((err) => console.log(err))
@@ -436,11 +500,11 @@ export default {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
+          this.$modal.closeLoading()
         } else {
-          let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
           if (+res.data === 3) {
             this.$modal.loading()
-            this.getOrderRes()
+            this.getOrderRes(type)
           } else {
             this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()
@@ -463,10 +527,11 @@ export default {
         })
         this.deviceBase = item
         if (this.deviceBase[333]) {
+          copyPeakShaving = JSON.parse(this.deviceBase[333])
           const temp = JSON.parse(this.deviceBase[333])
           temp.forEach(item => {
             item.chargeDischargeSetting = +item.chargeDischargeSetting
-            if (item.chargeDischargeSetting === 2) item.battChargeBy = '--'
+            if ([0, 2].includes(+item.chargeDischargeSetting)) item.battChargeBy = '--'
             else item.battChargeBy = +item.battChargeBy
             item.ecoModePeriodEnable = +item.ecoModePeriodEnable
           })
@@ -542,7 +607,7 @@ export default {
   <div class="remote">
     <template v-if="+userType === 1">
       <div class="set-part">
-        <div class="set-type">System Setting</div>
+        <div class="set-type">{{ $t('device.systemSetting') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -579,7 +644,7 @@ export default {
                 <el-col :span="7">
                   <common-flex class="time-range" align="center">
                     <div class="time-range-label">Battery Charge By</div>
-                    <el-select v-model="i.battChargeBy" size="small" style="width: 60%" :disabled="+i.chargeDischargeSetting === 2">
+                    <el-select v-model="i.battChargeBy" size="small" style="width: 60%" :disabled="[0, 2].includes(+i.chargeDischargeSetting)">
                       <el-option v-for="(i, k) of chargeByOptions" :label="i.label" :value="i.value" :key="k"></el-option>
                     </el-select>
                   </common-flex>
@@ -606,7 +671,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Power Control</div>
+        <div class="set-type">{{ $t('device.powerControl') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -627,7 +692,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Battery Parameters</div>
+        <div class="set-type">{{ $t('device.batteryParameters') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -666,7 +731,7 @@ export default {
     </template>
     <template v-else>
       <div class="set-part">
-        <div class="set-type">System Setting</div>
+        <div class="set-type">{{ $t('device.systemSetting') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -719,7 +784,7 @@ export default {
                 <el-col :span="7">
                   <common-flex class="time-range" align="center">
                     <div class="time-range-label">Battery Charge By</div>
-                    <el-select v-model="i.battChargeBy" size="small" style="width: 60%" :disabled="+i.chargeDischargeSetting === 2">
+                    <el-select v-model="i.battChargeBy" size="small" style="width: 60%" :disabled="[0, 2].includes(+i.chargeDischargeSetting)">
                       <el-option v-for="(i, k) of chargeByOptions" :label="i.label" :value="i.value" :key="k"></el-option>
                     </el-select>
                   </common-flex>
@@ -824,7 +889,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Power Control</div>
+        <div class="set-type">{{ $t('device.powerControl') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -867,7 +932,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Grid Parameters</div>
+        <div class="set-type">{{ $t('device.gridParameters') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -904,12 +969,12 @@ export default {
                 <el-button type="primary" plain class="ml10" @click="setDevice(312)">Set</el-button>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="Off Grid Voltage(V)" prop="309">
-                <el-input @blur="inputVerify(100.0, 300.0, 309)" v-model="deviceBase[309]" style="width: 60%" placeholder="[100.0, 300.0]"></el-input>
-                <el-button :disabled="!deviceBase[309]" type="primary" plain class="ml10" @click="setDevice(309)">Set</el-button>
-              </el-form-item>
-            </el-col>
+<!--            <el-col :span="8">-->
+<!--              <el-form-item label="Off Grid Voltage(V)" prop="309">-->
+<!--                <el-input @blur="inputVerify(100.0, 300.0, 309)" v-model="deviceBase[309]" style="width: 60%" placeholder="[100.0, 300.0]"></el-input>-->
+<!--                <el-button :disabled="!deviceBase[309]" type="primary" plain class="ml10" @click="setDevice(309)">Set</el-button>-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
             <el-col :span="8">
               <el-form-item label="Max Grid Power Value(kVA)" prop="313">
                 <el-input @blur="inputVerify(0.0, 650.0, 313)" v-model="deviceBase[313]" style="width: 60%" placeholder="[0.0, 650.0]"></el-input>
@@ -926,7 +991,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Battery Parameters</div>
+        <div class="set-type">{{ $t('device.batteryParameters') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -963,7 +1028,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Feature Parameters</div>
+        <div class="set-type">{{ $t('device.featureParameters') }}</div>
         <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">

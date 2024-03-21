@@ -416,8 +416,8 @@ export default {
   methods: {
     manuLabel(row) {
       if (+row.manufacturer === 0) return 'Yotai'
-      if (+row.fileType === 1 && +row.manufacturer === 1) return 'TIANBDA'
-      if (+row.fileType === 1 && +row.manufacturer === 2) return 'PACEEX'
+      if (+row.fileType === 1 && +row.manufacturer === 1) return 'TIAN POWER'
+      if (+row.fileType === 1 && +row.manufacturer === 2) return 'PACE'
       if (+row.fileType === 2 && +row.manufacturer === 1) return 'MEGAREVO'
       if (+row.fileType === 2 && +row.manufacturer === 2) return 'LUXPOWER'
     },
@@ -570,6 +570,7 @@ export default {
     },
     getVersionBase() {
       versionDetails(this.id).then(res => {
+        if (+res.data.fileType === 1) res.data.component = 10 // BMS下的Components没有
         this.base = res.data
       })
     },

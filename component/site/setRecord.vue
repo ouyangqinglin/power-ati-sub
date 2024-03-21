@@ -26,9 +26,14 @@ export default {
       list: [],
     }
   },
-  mounted() {
-    this.queryParams.siteCode = this.$route.query?.siteCode
-    this.getList()
+  watch: {
+    base: {
+      immediate: true,
+      handler(v) {
+        this.queryParams.siteCode = this.$route.query?.siteCode
+        this.getList()
+      }
+    }
   },
   methods: {
     getList() {

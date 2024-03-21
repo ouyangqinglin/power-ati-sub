@@ -2,8 +2,9 @@
 import {mapState} from "vuex"
 import {getSettingInfo, deviceSet, orderRes} from '@/api/device'
 
-let timerInter = null
-let times = 1
+let timerInter = null, timeCount = null
+let times = 1, resTime = 0, requestTimes = 0, setDeviceTimes = 1
+let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
 let copyDeviceInfo = {}
 export default {
   name: "site-magraySet",
@@ -254,11 +255,11 @@ export default {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
+          if (this.setLoading) this.setLoading.close()
         } else {
-          let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
           if (+res.data === 3) {
             this.openLoading()
-            this.getOrderRes()
+            this.getOrderRes(34)
           } else {
             this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()
@@ -272,35 +273,93 @@ export default {
         return this.setDevice(type)
       })
     },
-    getOrderRes() {
-      let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
+    // 请求次数大于3次
+    timeOut() {
+      requestTimes = 0
+      setDeviceTimes = 1
+      this.getDeviceSet()
+      this.setLoading.close()
+      return this.$modal.msgError('Timeout')
+    },
+    // 重读请求 设置间隔时间防止重复提交警告
+    getRepeatQuest(type) {
+      setTimeout(() => {
+        this.getOrderRes(type)
+      }, 1000)
+    },
+    getOrderRes(type) {
+      clearInterval(timeCount)
+      resTime = 0
+      timeCount = setInterval(() => {
+        resTime++
+      }, 1000)
       let data = {
         siteCode: this.siteCode
       }
-      clearInterval(timerInter)
-      timerInter = setInterval(() => {
-        times++
-        orderRes(data).then(res => {
+      orderRes(data).then(res => {
+        clearInterval(timeCount)
+        requestTimes++
+        console.log('请求响应时间', resTime)
+        if (resTime < 5) { // 响应时间
           if (+res.data === 3) {
-            if(times > 15) {
-              times = 1
-              clearInterval(timerInter)
-              this.getDeviceSet()
-              this.setLoading.close()
-              return this.$modal.msgError('Timeout')
+            // 判断重复几次 > 3次直接timeout
+            if (requestTimes < 3) {
+              // 重复
+              this.getRepeatQuest(type)
+            } else {
+              // > 3次重新下发指令
+              this.setRepeatQuest(type)
+              requestTimes = 0
             }
-            this.getOrderRes()
-          } else {
-            times = 1
+          } else { // 返回值状态
+            requestTimes = 0
             if (+res.data === 1) {
               this.$modal.msgSuccess('SUCCESS')
             } else this.$modal.msgError(statusList[+res.data])
-            clearInterval(timerInter)
             this.getDeviceSet()
             this.setLoading.close()
           }
-        })
+        } else { // 大于3s
+          // 判断重复几次 > 3次直接timeout
+          // < 3次 重复指令
+          if (requestTimes < 3) {
+            // 重复
+            this.getRepeatQuest(type)
+          } else {
+            // > 3次重新下发指令
+            this.setRepeatQuest(type)
+            requestTimes = 0
+          }
+        }
+      })
+    },
+    setRepeatQuest(type) {
+      setDeviceTimes++
+      if (setDeviceTimes > 3) return this.timeOut()
+      setTimeout(() => {
+        this.repeatSetDevice(type)
       }, 1000)
+    },
+    repeatSetDevice(type) {
+      let data = {
+        siteCode: this.siteCode,
+        type,
+        baseParam: this.deviceBase[type]
+      }
+      deviceSet(data).then(res => {
+        if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
+          this.$modal.msgError(res.msg)
+          this.getDeviceSet()
+          if (this.setLoading) this.setLoading.close()
+        } else {
+          if (+res.data === 3) {
+            this.getOrderRes(type)
+          } else {
+            this.$modal.msgError(statusList[+res.data])
+            this.getDeviceSet()
+          }
+        }
+      })
     },
     setDevice(type) {
       if (copyDeviceInfo[type] === this.deviceBase[type]) {
@@ -320,11 +379,11 @@ export default {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
+          if (this.setLoading) this.setLoading.close()
         } else {
-          let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
           if (+res.data === 3) {
             this.openLoading()
-            this.getOrderRes()
+            this.getOrderRes(type)
           } else {
             this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()
@@ -457,7 +516,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Battery parameters</div>
+        <div class="set-type">{{ $t('device.batteryParameters') }}</div>
         <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="16">
             <el-col :span="8">
@@ -478,7 +537,7 @@ export default {
     </div>
     <div v-else class="remote">
       <div class="set-part">
-        <div class="set-type">System Setting</div>
+        <div class="set-type">{{ $t('device.systemSetting') }}</div>
         <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="20">
             <el-col :span="8">
@@ -597,7 +656,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Battery parameters</div>
+        <div class="set-type">{{ $t('device.batteryParameters') }}</div>
         <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="20">
             <el-col :span="8">
@@ -640,7 +699,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Operating parameters</div>
+        <div class="set-type">{{ $t('device.operatingParameters') }}</div>
         <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="20">
             <el-col :span="8">
@@ -679,7 +738,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Grid Standard</div>
+        <div class="set-type">{{ $t('device.gridStandard') }}</div>
         <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="20">
             <el-col :span="8">
@@ -694,7 +753,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Clear record</div>
+        <div class="set-type">{{ $t('device.clearRecord') }}</div>
         <el-form>
           <el-form-item label="Clear record">
             <el-button size="small" type="primary" plain style="margin-left: 10px" @click="confirmSetDevice(23)">Set</el-button>
@@ -702,7 +761,7 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
-        <div class="set-type">Restore Factory Setting</div>
+        <div class="set-type">{{ $t('device.restoreFactorySetting') }}</div>
         <el-form>
           <el-form-item label="Restore Factory Setting"><el-button size="small" type="primary" plain style="margin-left: 10px" @click="confirmSetDevice(22)">Set</el-button></el-form-item>
         </el-form>

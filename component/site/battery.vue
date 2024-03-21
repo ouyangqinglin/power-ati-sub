@@ -21,14 +21,14 @@
             <el-col :span="10"><el-form-item :label="$t('common.status')">
               <template v-if="+base.storeConnectStatus === 1">
                 <el-input disabled type="text" />
-                <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="curDevInfo.storeStatus"/>
+                <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="batEnergy.batteryStatus"/>
               </template>
               <el-input v-else></el-input>
             </el-form-item></el-col>
           </el-row>
           <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item :label="$t('site.siteBatteryQuantity')"><el-input v-model="batList.length"></el-input></el-form-item></el-col>
-            <el-col :span="10"><el-form-item :label="`${$t('site.totalCapacity')} (kWh)`"><el-input v-model="curDevInfo.nameplateCapacity"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('site.siteBatteryQuantity')"><el-input v-model="batEnergy.batteryNum"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="`${$t('site.totalCapacity')} (kWh)`"><el-input v-model="batEnergy.totalCapacity"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
@@ -185,10 +185,7 @@ const optionBat = {
           unit1 = 'MW'
         }
         return `${v[0].name}<br>${v[0].marker} ${t1}${unit1}`
-      } else {
-        if (v.length > 1) return `${v[0].name}<br>${v[0].marker}${v[0].seriesName}: ${v[0].value}<br>${v[1].marker}${v[1].seriesName}: ${v[1].value}`
-        else return `${v[0].name}<br>${v[0].marker} ${v[0].value}`
-      }
+      } else return `${v[0].name}<br>${v[0].marker} ${v[0].value}`
     }
   },
   grid: {
@@ -347,6 +344,7 @@ export default {
     }
   },
   mounted() {
+    batteryStorage = {}
     this.getBatEnergy()
   },
   beforeDestroy() {
@@ -383,7 +381,6 @@ export default {
     },
     changeBatType() {
       arr1 = []
-      let arr2 = []
       optionBat.series = []
       if (this.batteryHis.batteryType === 'Voltage') {
         optionBat.yAxis.name = 'V'
@@ -411,19 +408,12 @@ export default {
       }
       if (this.batteryHis.batteryType === 'Temperature') {
         optionBat.yAxis.name = '℃'
-        optionBat.legend = {
-          left: 40,
-          data: [this.$t('site.minTemperature'), this.$t('site.maxTemperature')],
-          icon: 'circle'
-        }
         for(let i = 0; i < batData.length; i++) {
           arr1.push((+batData[i].maxTemperature).toFixed(2))
-          arr2.push((+batData[i].minTemperature).toFixed(2))
         }
-      } else optionBat.legend = {}
+      }
       let itemOne = {
         symbol: "none",
-        // name: 'A相',
         type: 'line',
         smooth: true,
         itemStyle: {
@@ -431,29 +421,8 @@ export default {
         },
         data: arr1
       }
-      if (this.batteryHis.batteryType === 'Temperature') {
-        let itemTwo = {
-          name: this.$t('site.minTemperature'),
-          symbol: 'none',
-          type: 'line',
-          smooth: true,
-          itemStyle: {
-            color: '#FFB968'
-          },
-          data: arr2
-        }
-        itemOne.name = this.$t('site.maxTemperature')
-        optionBat.series.push(itemTwo)
-      }
       optionBat.series.push(itemOne)
-      if (batteryInstance) {
-        batteryInstance.dispose()
-        batteryInstance= null
-      }
-      this.$nextTick(() => {
-        batteryInstance = echarts.init(document.getElementById('batteryChart'))
-        batteryInstance.setOption(optionBat)
-      })
+      batteryInstance.setOption(optionBat, true)
     },
     getBatHisData() {
       this.loading = true
@@ -475,7 +444,11 @@ export default {
           arr5.push(res.data[i].timestamp)
         }
         optionBat.xAxis[0].data = arr5
-        this.changeBatType()
+        this.$nextTick(() => {
+          if (!batteryInstance) batteryInstance = echarts.init(document.getElementById('batteryChart'))
+          batteryInstance.setOption(optionBat)
+          this.changeBatType()
+        })
       })
     },
     getBatEnergy() {
@@ -493,7 +466,7 @@ export default {
       }
       infoDevice(data).then(res => {
         let item = this.batList.find(i => i.serialNumber === this.sn)
-        let data = {...res.data, ...item}
+        let data = {...item, ...res.data}
         if (+data.installation === 2) {
           data.lifetime = '--'
         } else {

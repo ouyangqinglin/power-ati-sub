@@ -28,6 +28,7 @@ export default {
   'device.type.stickLogger': '通信棒',
   'device.type.pv': '光伏',
   'dict.success': '成功',
+  'dict.timeout': '超时',
   'dict.waiting': '等待中',
   'dict.upgrading': '升级中',
   'dict.fail': '失败',
@@ -41,5 +42,7 @@ export default {
   'dict.manual': '手工',
   'dict.active': '已激活',
   'dict.notActive': '未激活',
+  'dict.inProgress': '进行中',
+  'dict.toBeStarted': '待执行',
 
 }

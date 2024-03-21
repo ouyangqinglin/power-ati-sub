@@ -207,7 +207,7 @@
                   <common-flex style="height: 100%" direction="column" align="center">
                     <common-flex direction="column" align="center">
                       <div class="des ellipsis" title="CO₂ Emission Saved">{{ $t('home.emissionSaved') }}</div>
-                      <div class="val" style="margin-bottom: 4px">{{ homeData.emissionSaved || '-- ' }}<span> kg</span></div>
+                      <div class="val" style="margin-bottom: 4px">{{ homeData.emissionSaved }}<span> kg</span></div>
                     </common-flex>
                     <img class="benefit-left" :src="require('@img/home/benefit-left.svg')" alt="">
                   </common-flex>
@@ -219,7 +219,7 @@
                   <common-flex style="height: 100%" direction="column" align="center">
                     <common-flex direction="column" align="center">
                       <div class="des ellipsis" title="Equivalent Trees Planted">{{ $t('home.equivalentTreesPlanted') }}</div>
-                      <div class="val" style="margin-top: 10px">{{ homeData.trees || '--' }}</div>
+                      <div class="val" style="margin-top: 10px">{{ homeData.trees }}</div>
                     </common-flex>
                     <img class="benefit-right" :src="require('@img/home/benefit-right.svg')" alt="">
                   </common-flex>

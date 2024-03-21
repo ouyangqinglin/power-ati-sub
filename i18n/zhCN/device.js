@@ -9,5 +9,13 @@ export default {
   'device.unbindInfo': '解绑信息',
   'device.unbindOperator': '操作人',
   'device.historicalInstallationInfo': '历史安装信息',
-
+  'device.systemSetting': '系统设置',
+  'device.powerControl': '功率控制',
+  'device.batteryParameters': '电池参数',
+  'device.gridParameters': '电网参数',
+  'device.featureParameters': '特性参数',
+  'device.operatingParameters': '操作参数',
+  'device.gridStandard': '电网标准',
+  'device.clearRecord': '清除记录',
+  'device.restoreFactorySetting': '恢复出厂设置',
 }

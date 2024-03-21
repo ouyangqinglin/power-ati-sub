@@ -16,21 +16,21 @@
               <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="batteryInfo.net"/>
             </el-form-item>
           </el-col>
-          <el-col :span="8"><el-form-item :label="$t('common.status')">
-            <template v-if="+batteryInfo.storeConnectStatus === 1">
-              <el-input disabled type="text" />
-              <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="batteryInfo.storeStatus"/>
-            </template>
-            <el-input v-else></el-input>
-          </el-form-item></el-col>
+          <el-col :span="8">
+            <el-form-item :label="$t('common.status')">
+              <template v-if="+batteryInfo.storeConnectStatus === 1">
+                <el-input disabled type="text" />
+                <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="storeStatus" :value="batteryInfo.storeStatus"/>
+              </template>
+              <el-input v-else></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8"><el-form-item :label="`${$t('common.current')} (A)`"><el-input v-model="batteryInfo.current"></el-input></el-form-item></el-col>
         </el-row>
         <el-row type="flex" :gutter="24">
           <el-col :span="8"><el-form-item label="SOC(%)"><el-input v-model="batteryInfo.soc"></el-input></el-form-item></el-col>
           <el-col :span="8"><el-form-item :label="`${$t('common.power')} (kW)`"><el-input v-model="batteryInfo.power"></el-input></el-form-item></el-col>
           <el-col :span="8"><el-form-item :label="`${$t('common.voltage')} (V)`"><el-input v-model="batteryInfo.voltage"></el-input></el-form-item></el-col>
-        </el-row>
-        <el-row type="flex" :gutter="24">
-          <el-col :span="8"><el-form-item :label="`${$t('common.current')} (A)`"><el-input v-model="batteryInfo.current"></el-input></el-form-item></el-col>
         </el-row>
       </el-form>
       <el-form style="padding: 0 24px 24px; background-color: #F5F7FA; border-top: 1px solid #D8DCE6" label-width="260px" label-position="top">
@@ -104,7 +104,7 @@ const optionBat = {
       return [pt[0] + 20, pt[1] - 10];
     },
     formatter(v) {
-      if (v[0].value === 'NaN') return 'No data'
+      if (v.length === 1 && v[0].value === 'NaN') return 'No data'
       if (optionBat.yAxis.name === 'kW') {
         let t1, unit1
         if (v[0].value < 1) {
@@ -119,7 +119,7 @@ const optionBat = {
         }
         return `${v[0].name}<br>${v[0].marker} ${t1}${unit1}`
       } else {
-        if (v.length > 1) return `${v[0].name}<br>${v[0].marker}${v[0].seriesName}: ${v[0].value}<br>${v[1].marker}${v[1].seriesName}: ${v[1].value}`
+        if (v.length > 1) return `${v[0].name}<br>${v[0].marker}${v[0].seriesName}: ${v[0].value === 'NaN' ? '--' : v[0].value}<br>${v[1].marker}${v[1].seriesName}: ${v[1].value === 'NaN' ? '--' : v[1].value}`
         else return `${v[0].name}<br>${v[0].marker} ${v[0].value}`
       }
     }
@@ -246,7 +246,7 @@ export default {
     dialogHisData() {
       this.loading = true
       this.$nextTick(() => {
-        this.changeBatType()
+        this.initCharts()
       })
     },
   },
@@ -288,12 +288,21 @@ export default {
       }
       this.$emit('date', this.batteryHis.dateVal)
     },
-    changeBatType() {
+    initCharts() {
+      this.loading = false
       arr5 = []
       for(let i = 0; i < this.dialogHisData.length; i++) {
         arr5.push(this.dialogHisData[i].timestamp)
       }
       optionBat.xAxis[0].data = arr5
+      this.$nextTick(() => {
+        batteryInstance = echarts.init(document.getElementById('batteryDetailsChart'))
+        batteryInstance.setOption(optionBat)
+        window.addEventListener('resize', this.changeSize)
+        this.changeBatType()
+      })
+    },
+    changeBatType() {
       arr1 = []
       let arr2 = []
       optionBat.series = []
@@ -358,16 +367,7 @@ export default {
         optionBat.series.push(itemTwo)
       }
       optionBat.series.push(itemOne)
-      if (batteryInstance) {
-        batteryInstance.dispose()
-        batteryInstance= null
-      }
-      this.loading = false
-      this.$nextTick(() => {
-        batteryInstance = echarts.init(document.getElementById('batteryDetailsChart'))
-        batteryInstance.setOption(optionBat)
-        window.addEventListener('resize', this.changeSize)
-      })
+      batteryInstance.setOption(optionBat, true)
     },
 
   }
