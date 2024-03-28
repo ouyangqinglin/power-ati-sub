@@ -130,7 +130,7 @@ export default {
           value: 0
         },
         {
-          label: 'Overloading',
+          label: 'Overload',
           value: 1
         },
         {
