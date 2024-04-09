@@ -5,41 +5,45 @@
       <el-row>
         <el-col :span="6">
           <common-flex class="comp-overview-card-total" direction="column" align="center">
-            <div v-if="+base.dayProduce < 1000"><span class="num">{{ (+base.dayProduce).toFixed(2) }}</span><span class="unit">（Wh）</span></div>
-            <div v-else-if="+base.dayProduce > 1000 && +base.dayProduce < 1000000"><span class="num">{{ (base.dayProduce / 1000).toFixed(2) }}</span><span class="unit">（kWh）</span></div>
-            <div v-else><span class="num">{{ (+base.dayProduce / 1000000).toFixed(2) }}</span><span class="unit">（MWh）</span></div>
+            <div>
+              <span class="num">{{ dayProduce }}</span>
+              <span v-if="+base.dayProduce < 1000" class="unit">（Wh）</span>
+              <span v-else-if="+base.dayProduce > 1000 && +base.dayProduce < 1000000" class="unit">（KWh）</span>
+              <span v-else class="unit">（MWh）</span>
+            </div>
             <div>{{ $t('common.today') }}</div>
           </common-flex>
         </el-col>
         <el-col :span="6">
           <common-flex class="comp-overview-card-total" direction="column" align="center">
-            <div v-if="+base.monthProduce < 1000"><span class="num">{{ (base.monthProduce).toFixed(2) }}</span><span class="unit">（Wh）</span></div>
-            <div v-else-if="+base.monthProduce > 1000 && +base.monthProduce < 1000000"><span class="num">{{ (base.monthProduce / 1000).toFixed(2) }}</span><span class="unit">（kWh）</span></div>
-            <div v-else><span class="num">{{ (+base.monthProduce / 1000000).toFixed(2) }}</span><span class="unit">（MWh）</span></div>
+            <div>
+              <span class="num">{{ monthProduce }}</span>
+              <span v-if="+base.monthProduce < 1000" class="unit">（Wh）</span>
+              <span v-else-if="+base.monthProduce > 1000 && +base.monthProduce < 1000000" class="unit">（KWh）</span>
+              <span v-else class="unit">（MWh）</span>
+            </div>
             <div>{{ $t('common.thisMonth') }}</div>
           </common-flex>
         </el-col>
         <el-col :span="6">
           <common-flex class="comp-overview-card-total" direction="column" align="center">
-            <div v-if="+base.yearProduct < 1000">
-              <span class="num">{{ (+base.yearProduct).toFixed(2) }}</span><span class="unit">（Wh）</span>
+            <div>
+              <span class="num">{{ yearProduct }}</span>
+              <span v-if="+base.yearProduct < 1000" class="unit">（Wh）</span>
+              <span v-else-if="+base.yearProduct > 1000 && +base.yearProduct < 1000000" class="unit">（KWh）</span>
+              <span v-else class="unit">（MWh）</span>
             </div>
-            <div v-else-if="+base.yearProduct > 1000 && +base.yearProduct < 1000000">
-              <span class="num">{{ (base.yearProduct / 1000).toFixed(2) }}</span><span class="unit">（kWh）</span>
-            </div>
-            <div v-else><span class="num">{{ (+base.yearProduct / 1000000).toFixed(2) }}</span><span class="unit">（MWh）</span></div>
             <div>{{ $t('common.thisYear') }}</div>
           </common-flex>
         </el-col>
         <el-col :span="6">
           <common-flex class="comp-overview-card-total" direction="column" align="center">
-            <div v-if="+base.allProduce < 1000">
-              <span class="num" >{{ (+base.allProduce).toFixed(2) }}</span><span class="unit">（Wh）</span>
+            <div>
+              <span class="num">{{ allProduce }}</span>
+              <span v-if="+base.allProduce < 1000" class="unit">（Wh）</span>
+              <span v-else-if="+base.allProduce > 1000 && +base.allProduce < 1000000" class="unit">（KWh）</span>
+              <span v-else class="unit">（MWh）</span>
             </div>
-            <div v-else-if="+base.allProduce > 1000 && +base.allProduce < 1000000">
-              <span class="num" >{{ (+base.allProduce / 1000).toFixed(2) }}</span><span class="unit">（kWh）</span>
-            </div>
-            <div v-else><span class="num">{{ (+base.allProduce / 1000000).toFixed(2) }}</span><span class="unit">（MWh）</span></div>
             <div>{{ $t('common.lifetime') }}</div>
           </common-flex>
         </el-col>
@@ -75,37 +79,37 @@
               <common-flex direction="column" justify="center" align="center" class="circle top posa">
                 <span class="posa pvAfter">{{ $t('common.pv') }}</span>
                 <img :src="require('@img/site/pv.svg')" alt="">
-                <div v-if="+base.solarPower < 1000">{{ base.solarPower }}<br><span>kW</span></div>
-                <div v-else>{{ (+base.solarPower / 1000).toFixed(2) }}<br><span>MW</span></div>
+                <div v-if="+base.solarPower < 1000">{{ solarPower }}<br><span>kW</span></div>
+                <div v-else>{{ solarPower }}<br><span>MW</span></div>
               </common-flex>
               <common-flex direction="column" justify="center" align="center" class="circle left posa">
                 <span class="posa batteryAfter">{{ $t('common.battery') }}</span>
                 <div class="posa soc">{{ base.soc || 0 }}%<br><span style="color: #666">SOC</span></div>
                 <img :src="require('@img/site/battery.svg')" alt="">
                 <template v-if="+base.storeConnectStatus === 1">
-                  <div v-if="+base.storePower < 1000">{{ base.storePower }}<br><span>kW</span></div>
-                  <div v-else>{{ (+base.storePower / 1000).toFixed(2) }}<br><span>MW</span></div>
+                  <div v-if="+base.storePower < 1000">{{ storePower }}<br><span>kW</span></div>
+                  <div v-else>{{ storePower }}<br><span>MW</span></div>
                 </template>
                 <div v-else>--<br><span>kW</span></div>
               </common-flex>
               <common-flex direction="column" justify="center" align="center" class="circle right posa">
                 <span class="posa gridAfter">{{ $t('common.grid') }}</span>
                 <img :src="require('@img/site/grid.svg')" alt="">
-                <div v-if="+base.electricPower < 1000">{{ base.electricPower }}<br><span>kW</span></div>
-                <div v-else>{{ (+base.electricPower / 1000).toFixed(2) }}<br><span>MW</span></div>
+                <div v-if="+base.electricPower < 1000">{{ electricPower }}<br><span>kW</span></div>
+                <div v-else>{{ electricPower }}<br><span>MW</span></div>
               </common-flex>
               <common-flex direction="column" justify="center" align="center" class="circle bottom-left posa">
                 <span class="posa loadAfter">{{ $t('common.load') }}</span>
                 <img :src="require('@img/site/load.svg')" alt="">
-                <div v-if="+base.devicePower < 1000">{{ base.devicePower }}<br><span>kW</span></div>
-                <div v-else>{{ (+base.devicePower / 1000).toFixed(2) }}<br><span>MW</span></div>
+                <div v-if="+base.devicePower < 1000">{{ devicePower }}<br><span>kW</span></div>
+                <div v-else>{{ devicePower }}<br><span>MW</span></div>
               </common-flex>
               <common-flex v-if="+base.pileNum" direction="column" justify="center" align="center" class="circle bottom-right posa">
                 <span class="posa pileAfter">{{ $t('common.charger') }}</span>
                 <div v-if="base.pilePower" class="bottom-right-dot posa"></div>
                 <img :src="require('@img/site/pile.svg')" alt="">
-                <div v-if="+base.pilePower < 1000">{{ base.pilePower }}<br><span>kW</span></div>
-                <div v-else>{{ (+base.pilePower / 1000).toFixed(2) }}<br><span>MW</span></div>
+                <div v-if="+base.pilePower < 1000">{{ pilePower }}<br><span>kW</span></div>
+                <div v-else>{{ pilePower }}<br><span>MW</span></div>
               </common-flex>
             </common-flex>
           </common-flex>
@@ -496,7 +500,16 @@ export default {
       barConsumption: null,
       timer: null,
       online: 1,
-      weatherLoading: true
+      weatherLoading: true,
+      dayProduce: '--',
+      monthProduce: '--',
+      yearProduct: '--',
+      allProduce: '--',
+      solarPower: '--',
+      storePower: '--',
+      electricPower: '--',
+      devicePower: '--',
+      pilePower: '--',
     }
   },
   watch: {
@@ -516,6 +529,14 @@ export default {
           this.getDataOption()
         })
       } else this.dateType = 'date'
+      const produceNameList = ['dayProduce', 'monthProduce', 'yearProduct', 'allProduce']
+      const realTimeNameList = ['pilePower', 'electricPower', 'storePower', 'solarPower', 'devicePower']
+      produceNameList.forEach(i => {
+        this[`${i}`] = this.transformData(+v[`${i}`])
+      })
+      realTimeNameList.forEach(i => {
+        this[`${i}`] = this.transformRealData(+v[`${i}`])
+      })
     },
     dateType(v) {
       if (v === 'date' || v === 'week') {
@@ -588,6 +609,15 @@ export default {
     window.removeEventListener('resize', this.changeSize)
   },
   methods: {
+    transformData(v) {
+      if (+v < 1000) return v.toFixed(2)
+      else if (+v > 1000 && +v < 1000000) return (v / 1000).toFixed(2)
+      else return (v / 1000000).toFixed(2)
+    },
+    transformRealData(v) {
+      if (+v < 1000) return v
+      else return (v / 1000).toFixed(2)
+    },
     getOnline() {
       let p = {
         deviceType: 4,

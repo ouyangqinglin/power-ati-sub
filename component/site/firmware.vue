@@ -46,11 +46,15 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('common.status')" prop="status">
+        <el-table-column :label="$t('common.status')" prop="status" min-width="160">
           <template slot-scope="{ row }">
-            <dict-tag :options="upgradeResStatus" :value="row.status"></dict-tag>
+            <common-flex style="width: 100%" align="center" justify="center">
+              <el-progress :percentage="50" style="flex-grow: 0.7" v-if="+row.status === 3"></el-progress>
+              <dict-tag :options="upgradeResStatus" :value="row.status"></dict-tag>
+            </common-flex>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('upgrade.failReason')" prop="reason" min-width="120"></el-table-column>
       </el-table>
       <div style="padding-bottom: 20px">
         <pagination

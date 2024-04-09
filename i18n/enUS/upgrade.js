@@ -7,6 +7,7 @@ export default {
   'upgrade.applicationType': 'Application Type',
   'upgrade.firmwareName': 'Firmware Name',
   'upgrade.operationTime': 'Operation time',
+  'upgrade.failReason': 'failure Reason',
   'upgrade.firmwarePackage': 'Firmware package',
   'upgrade.versionDescription': 'Version description',
   'upgrade.uploadTime': 'Upload Time',

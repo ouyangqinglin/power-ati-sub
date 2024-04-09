@@ -8,8 +8,9 @@
         <div style="flex-grow: 1; min-height: 650px">
           <template v-if="+active === 1">
             <template v-if="!atiShow">
-              <MagraySet v-if="base.inverterMf === 'MEGAREVO'" :base="base" />
-              <YuanSet v-else-if="base.inverterMf === 'SOLINTEG'" :base="base" />
+              <template v-if="base.inverterMf">
+                <component :is="dynamicComp" :base="base"></component>
+              </template>
               <NoData v-else />
             </template>
             <MagraySet v-else :base="base" />
@@ -25,18 +26,26 @@
 
 <script>
 import SetRecord from "@subComp/site/setRecord.vue";
-import MagraySet from "@subComp/site/magraySet.vue";
-import YuanSet from "@subComp/site/yuanSet.vue";
 
 export default {
   name: "siteSetting",
-  components: { SetRecord, MagraySet, YuanSet },
+  components: { SetRecord,
+    MagraySet: () => import('@subComp/site/magraySet.vue'),
+    YuanSet: () => import('@subComp/site/yuanSet.vue'),
+    luxPower: () => import('@subComp/site/luxPower.vue')
+  },
   props: {
     base: {
       type: Object,
       default: () => {
         return {}
       }
+    }
+  },
+  computed: {
+    dynamicComp() {
+      // return 'luxPower'
+      return this.base.inverterMf === 'MEGAREVO' ? 'MagraySet' : 'YuanSet'
     }
   },
   data() {
@@ -54,8 +63,6 @@ export default {
       this.active = v
     },
   }
-
-
 }
 </script>
 

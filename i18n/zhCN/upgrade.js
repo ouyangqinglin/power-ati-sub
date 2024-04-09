@@ -7,6 +7,7 @@ export default {
   'upgrade.applicationType': '应用程序类型',
   'upgrade.firmwareName': '固件名称',
   'upgrade.operationTime': '操作时间',
+  'upgrade.failReason': '失败原因',
   'upgrade.firmwarePackage': '固件包',
   'upgrade.versionDescription': '版本说明',
   'upgrade.uploadTime': '上传时间',
