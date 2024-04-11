@@ -8,11 +8,16 @@
         <div style="flex-grow: 1; min-height: 650px">
           <template v-if="+active === 1">
             <template v-if="!atiShow">
-              <template v-if="base.inverterMf">
+<!--              为null时未绑定设备-->
+              <NoData v-if="typeof base.inverterMf === 'object'"></NoData>
+<!--              有特定字符串值时渲染对应逆变器厂商设置界面-->
+              <template v-else-if="base.inverterMf">
                 <component :is="dynamicComp" :base="base"></component>
               </template>
-              <NoData v-else />
+<!--              没有特定字符串值表示为设备1.0类型，直接展示麦格瑞能逆变器设置界面-->
+              <MagraySet v-else :base="base" />
             </template>
+<!--            ATI逆变器设置界面-->
             <MagraySet v-else :base="base" />
           </template>
           <template v-else-if="+active === 2">
