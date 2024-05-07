@@ -276,6 +276,14 @@ export const upgradeResStatus = [
   {
     label: I18n.t('dict.upgrading'),
     value: 3
+  },
+  {
+    label: I18n.t('dict.waiting'),
+    value: 4
+  },
+  {
+    label: I18n.t('dict.timeout'),
+    value: 5
   }
 ]
 
@@ -321,6 +329,10 @@ export const siteUpgradeStatus = [
   {
     label: I18n.t('dict.waiting'),
     value: 4
+  },
+  {
+    label: I18n.t('dict.timeout'),
+    value: 5
   }
 ]
 

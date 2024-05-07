@@ -25,7 +25,7 @@
         </el-col>
       </el-row>
     </el-card>
-    <keep-alive>
+    <keep-alive exclude="Firmware">
       <component :is="dynamicComp" :base="details" @refresh="refresh" />
     </keep-alive>
     <el-backtop />
@@ -34,16 +34,17 @@
 
 <script>
 import { getSite } from "@/api/site"
-import Overview from '@subComp/site/overview'
-import SiteInfo from '@subComp/site/siteInfo.vue'
-import Device from '@subComp/site/device'
-import Alarm from '@subComp/site/alarm'
-import Firmware from '@subComp/site/firmware'
-import OtherSettings from '@subComp/site/siteSetting'
 
 export default {
   name: "Site-view",
-  components: { Overview, SiteInfo, Device, OtherSettings, Alarm, Firmware },
+  components: {
+    Overview: () => import('@subComp/site/overview'),
+    SiteInfo: () => import('@subComp/site/siteInfo'),
+    Device: () => import('@subComp/site/device'),
+    OtherSettings: () => import('@subComp/site/siteSetting'),
+    Alarm: () => import('@subComp/site/alarm'),
+    Firmware: () => import('@subComp/site/firmware'),
+  },
   data() {
     return {
       refreshDate: '',

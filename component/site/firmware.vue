@@ -6,7 +6,7 @@
         <el-button v-has-permi="['device:upgrade']" type="primary" @click="openShow">{{ $t('upgrade.upgrade') }}</el-button>
       </el-row>
       <el-table :header-cell-style="{'text-align': 'center', 'border-bottom': 'none' }" :cell-style="{'text-align': 'center', 'border-left': 'none', 'border-right': 'none', 'border-top': 'none'}"
-                v-loading="loading" :data="list" border
+                :data="list" border
       >
         <el-table-column :label="$t('common.no')" align="center" width="60">
           <template slot-scope="scope">
@@ -49,12 +49,12 @@
         <el-table-column :label="$t('common.status')" prop="status" min-width="160">
           <template slot-scope="{ row }">
             <common-flex style="width: 100%" align="center" justify="center">
-              <el-progress :percentage="50" style="flex-grow: 0.7" v-if="+row.status === 3"></el-progress>
+              <el-progress :percentage="row.progress" style="flex-grow: 0.7" v-if="+row.status === 3"></el-progress>
               <dict-tag :options="upgradeResStatus" :value="row.status"></dict-tag>
             </common-flex>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('upgrade.failReason')" prop="reason" min-width="120"></el-table-column>
+<!--        <el-table-column :label="$t('upgrade.failReason')" prop="reason" min-width="120"></el-table-column>-->
       </el-table>
       <div style="padding-bottom: 20px">
         <pagination
@@ -132,6 +132,7 @@
           <el-button type="primary" @click="submit">{{ $t('common.submit') }}</el-button>
           <el-button @click="abort">{{ $t('common.cancel') }}</el-button>
         </common-flex>
+        <common-flex class="mt10" justify="center" style="color: #65c9dd;" v-show="[1, 2].includes(toastData.fileType)">This upgrade is expected to take 20 minutes. Please be patient and wait!</common-flex>
       </el-dialog>
     </div>
   </div>
@@ -151,7 +152,7 @@ import {
   submodulePcs,
   upgradeResStatus
 } from '@sub/utils/dict'
-
+let timer = null
 export default {
   name: "comp-site-firmware",
   props: {
@@ -211,7 +212,6 @@ export default {
         upgradeTime: ''
       },
       total: 0,
-      loading: false,
       newVersionList: [],
       list: [],
       queryParams: {
@@ -233,13 +233,6 @@ export default {
     }
   },
   watch: {
-    base: {
-      handler() {
-        this.queryParams.siteCode = this.$route.query?.siteCode
-        this.getList()
-      },
-      immediate: true
-    },
     disabledComp(v) {
       this.rules.component[0].required = !v
     },
@@ -267,6 +260,16 @@ export default {
         }
       }
     }
+  },
+  beforeDestroy() {
+    if (timer) clearInterval(timer)
+  },
+  activated() {
+    this.queryParams.siteCode = this.$route.query?.siteCode
+    this.getList()
+  },
+  deactivated() {
+    if (timer) clearInterval(timer)
   },
   methods: {
     getVersion(v) {
@@ -325,12 +328,14 @@ export default {
       })
     },
     getList() {
-      this.loading = true
       versionRecord(this.queryParams).then(res => {
         this.list = res.rows
         this.total = res.total
       }).finally(() => {
-        this.loading = false
+        if (timer) clearInterval(timer)
+        timer = setInterval(() => {
+          this.getList()
+        }, 3000)
       })
     },
     beforeClose() {

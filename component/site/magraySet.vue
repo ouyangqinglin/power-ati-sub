@@ -280,8 +280,8 @@ export default {
       }
       getSettingInfo(data).then(res => {
         let item = {}
+        let arr = [13, 21, 25, 31, 38]
         res.data.forEach(i => {
-          let arr = [13, 21, 25, 31, 38]
           if (arr.includes(+i.type)) {
             item[+i.type] = +i.param === 1
           } else item[i.type] = i.param

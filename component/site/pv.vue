@@ -426,7 +426,11 @@ export default {
           arrX2.push(res.data[i].timestamp)
         }
         optionPv.xAxis[0].data = arrX2
-        this.changePvType()
+        this.$nextTick(() => {
+          pvInstance = echarts.init(document.getElementById('pvChart'))
+          pvInstance.setOption(optionPv)
+          this.changePvType()
+        })
       })
     },
     changePvType() {
@@ -451,14 +455,7 @@ export default {
       optionPv.series[1].data = pv2
       optionPv.series[2].data = pv3
       optionPv.series[3].data = pv4
-      if (pvInstance) {
-        pvInstance.dispose()
-        pvInstance = null
-      }
-      this.$nextTick(() => {
-        pvInstance = echarts.init(document.getElementById('pvChart'))
-        pvInstance.setOption(optionPv)
-      })
+      pvInstance.setOption(optionPv, true)
     },
     changeSize() {
       clearTimeout(timer)

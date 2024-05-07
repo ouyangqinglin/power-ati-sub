@@ -49,8 +49,12 @@ export default {
   },
   computed: {
     dynamicComp() {
-      // return 'luxPower'
-      return this.base.inverterMf === 'MEGAREVO' ? 'MagraySet' : 'YuanSet'
+      const inverterMap = {
+        'MEGAREVO': 'MagraySet',
+        'SOLINTEG': 'YuanSet',
+        'LUX': 'luxPower'
+      }
+      return inverterMap[this.base.inverterMf]
     }
   },
   data() {

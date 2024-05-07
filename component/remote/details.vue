@@ -225,7 +225,10 @@
         </el-table-column>
         <el-table-column :label="$t('common.status')" prop="status">
           <template slot-scope="{ row }">
-            <dict-tag :options="siteUpgradeStatus" :value="row.status" />
+            <common-flex style="width: 100%" align="center" justify="center">
+              <el-progress :percentage="row.progress" style="flex-grow: 0.7" v-if="+row.status === 3"></el-progress>
+              <dict-tag :options="siteUpgradeStatus" :value="row.status" />
+            </common-flex>
           </template>
         </el-table-column>
         <el-table-column :label="$t('common.operationTime')" prop="createTime">
@@ -323,7 +326,7 @@ import {
 import siteList from '@subComp/remote/siteList.vue'
 import {mapState} from "vuex"
 
-let timer = null
+let timer = null, timerList = null, timeNum = null
 export default {
   name: "pages-remote-details",
   components: { siteList },
@@ -412,6 +415,10 @@ export default {
     this.id = this.$route.params.id
     this.getVersionBase()
     this.getUpgradeTaskList()
+  },
+  beforeDestroy() {
+    if (timerList) clearInterval(timerList)
+    if (timeNum) clearInterval(timeNum)
   },
   methods: {
     manuLabel(row) {
@@ -512,6 +519,8 @@ export default {
     beforeClose() {
       this.show = false
       this.addShow = false
+      if (timerList) clearInterval(timerList)
+      if (timeNum) clearInterval(timeNum)
     },
     searchList() {
       clearTimeout(timer)
@@ -548,24 +557,32 @@ export default {
       })
     },
     getNumList() {
-      this.$modal.loading()
+      if (!this.show) return
       upgradeTaskRecord({...this.numParams, versionId: this.id }).then(res => {
         this.numList = res.rows
         this.numParams.total = res.total
-        this.show = true
-      }).finally(() => this.$modal.closeLoading())
+      }).finally(() => {
+        if (timerList) clearInterval(timerList)
+        timerList = setInterval(() => {
+          this.getNumList()
+        }, 3000)
+      })
     },
     lookNum(code) {
       this.numParams.taskCode = code
+      this.show = true
       this.getNumList()
       this.getUpgradeNum()
     },
     getUpgradeNum() {
-      let data = {
-        taskCode: this.numParams.taskCode
-      }
-      upgradeNum(data).then(res => {
+      if (!this.show) return
+      upgradeNum({ taskCode: this.numParams.taskCode }).then(res => {
         this.upgradeNumber = res.data
+      }).finally(() => {
+        if (timeNum) clearInterval(timeNum)
+        timeNum = setInterval(() => {
+          this.getUpgradeNum()
+        }, 5000)
       })
     },
     getVersionBase() {
