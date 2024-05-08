@@ -335,7 +335,7 @@ export default {
         if (timer) clearInterval(timer)
         timer = setInterval(() => {
           this.getList()
-        }, 3000)
+        }, 5000)
       })
     },
     beforeClose() {

@@ -565,7 +565,7 @@ export default {
         if (timerList) clearInterval(timerList)
         timerList = setInterval(() => {
           this.getNumList()
-        }, 3000)
+        }, 5000)
       })
     },
     lookNum(code) {
@@ -582,7 +582,7 @@ export default {
         if (timeNum) clearInterval(timeNum)
         timeNum = setInterval(() => {
           this.getUpgradeNum()
-        }, 5000)
+        }, 7000)
       })
     },
     getVersionBase() {
