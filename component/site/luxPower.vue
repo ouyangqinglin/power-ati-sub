@@ -3,7 +3,7 @@ import inverterMixin from "@sub/utils/inverterMixin";
 import {deviceSet, getSettingInfo} from "@/api/device";
 let copyDeviceInfo = {}
 let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
-
+let inputList = [334, 337, 345, 349, 353, 354, 356, 355, 357, 358, 361, 362, 363, 373, 371, 372, 380, 381, 387, 385, 383, 386, 384, 389, 391, 390, 399, 400, 401, 402, 403, 409, 410, 412, 411, 413]
 export default {
   name: "luxPower",
   mixins: [inverterMixin],
@@ -163,6 +163,11 @@ export default {
         },
       ],
     }
+  },
+  created() {
+    inputList.forEach(i => {
+      this.rules[i] = [ { required: false, message: '', trigger: ['blur', 'change'] } ]
+    })
   },
   methods: {
     confirmSetDevice(type) {

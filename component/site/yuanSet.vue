@@ -401,10 +401,6 @@ export default {
         copyDeviceInfo = JSON.parse(JSON.stringify(this.deviceBase))
       })
     },
-    moreOneDot(v) {
-      const reg = /^-?\d+(.\d{1})?$/
-      return reg.test(v)
-    },
     inputPfVerify(type) {
       const minArr = [-1, -0.800], maxArr = [0.800, 1]
       const reg = /^[-+]?[0-9]*\.?[0-9]{0,3}$/

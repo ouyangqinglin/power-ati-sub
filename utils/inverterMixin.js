@@ -36,6 +36,10 @@ export default {
     clearInterval(timerInter)
   },
   methods: {
+    moreOneDot(v) {
+      const reg = /^-?\d+(.\d{1})?$/
+      return reg.test(v)
+    },
     // 请求次数大于3次
     timeOut() {
       requestTimes = 0
