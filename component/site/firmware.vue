@@ -46,11 +46,12 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('common.status')" prop="status" min-width="160">
+        <el-table-column :label="$t('common.status')" prop="status" min-width="160" fixed="right">
           <template slot-scope="{ row }">
             <common-flex style="width: 100%" align="center" justify="center">
               <el-progress :percentage="row.progress" style="flex-grow: 0.7" v-if="+row.status === 3"></el-progress>
-              <dict-tag :options="upgradeResStatus" :value="row.status"></dict-tag>
+              <span v-if="+row.status === 3">{{ +row.progress > 10 ? 'update device…' : 'download from cloud...'}}</span>
+              <dict-tag v-else :options="upgradeResStatus" :value="row.status"></dict-tag>
             </common-flex>
           </template>
         </el-table-column>
