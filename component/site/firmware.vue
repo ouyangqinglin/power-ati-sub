@@ -55,7 +55,11 @@
             </common-flex>
           </template>
         </el-table-column>
-<!--        <el-table-column :label="$t('upgrade.failReason')" prop="reason" min-width="120"></el-table-column>-->
+        <el-table-column :label="$t('upgrade.failReason')" prop="reasonForFailure" min-width="120">
+          <template slot-scope="{ row }">
+            <span v-if="row.status === 2">{{ updateFailReasonMap[row.failReason] }}</span>
+          </template>
+        </el-table-column>
       </el-table>
       <div style="padding-bottom: 20px">
         <pagination
@@ -153,6 +157,7 @@ import {
   submodulePcs,
   upgradeResStatus
 } from '@sub/utils/dict'
+import { updateFailReasonMap } from '@sub/utils/map'
 let timer = null
 export default {
   name: "comp-site-firmware",
@@ -169,6 +174,7 @@ export default {
       fileType,
       inverterVersion,
       upgradeResStatus,
+      updateFailReasonMap,
       toastData: {
         fileType: '',
         newVersion: '',

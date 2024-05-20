@@ -231,6 +231,11 @@
             </common-flex>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('upgrade.failReason')" prop="reasonForFailure" min-width="120">
+          <template slot-scope="{ row }">
+            <span v-if="row.status === 2">{{ updateFailReasonMap[row.failReason] }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('common.operationTime')" prop="createTime">
           <template slot-scope="{row}">
             <span>{{DATE_FORMAT('M/d/yyyy hh:mm:ss', new Date(row.createTime))}}</span>
@@ -323,6 +328,7 @@ import {
   networkStatus,
   siteUpgradeStatus
 } from '@sub/utils/dict'
+import { updateFailReasonMap } from '@sub/utils/map'
 import siteList from '@subComp/remote/siteList.vue'
 import {mapState} from "vuex"
 
@@ -337,6 +343,7 @@ export default {
       upgradeResStatus,
       inverterVersion,
       applicationType,
+      updateFailReasonMap,
       upgradeTaskStatus,
       networkStatus,
       siteUpgradeStatus,

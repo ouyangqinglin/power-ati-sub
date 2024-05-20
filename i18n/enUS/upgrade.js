@@ -24,5 +24,10 @@ export default {
   'upgrade.time': 'Upgrade Time',
   'upgrade.fileType': 'File Type',
   'upgrade.upgrading': 'Upgrading',
-
+  'upgrade.fail.reason.crc': 'CRC check error',
+  'upgrade.fail.reason.ota': 'device is in OTA error',
+  'upgrade.fail.reason.oversize': 'firm oversize',
+  'upgrade.fail.reason.manu': 'Manufacturer not in list',
+  'upgrade.fail.reason.extern': 'extern flash erase fail',
+  'upgrade.fail.reason.md': 'MD5 code check error',
 }

@@ -391,7 +391,7 @@ export default {
         this.$modal.msgSuccess(this.$t('common.deleted'));
       }).finally(() => this.$modal.closeLoading());
     },
-    changeFile() {
+    changeFile(e) {
       this.fileItem = document.getElementById('file')
       let file = this.fileItem.files
       const isLt = (+(file[0].size / 1024 / 1024)) < 5

@@ -16,12 +16,24 @@ export default {
       activeDischargeSet: '1',
       langOptions: [
         {
-          label: 'English',
+          label: 'Italian',
           value: 0
         },
         {
-          label: 'German',
+          label: 'English',
           value: 1
+        },
+        {
+          label: 'German',
+          value: 2
+        },
+        {
+          label: 'Spanish',
+          value: 3
+        },
+        {
+          label: 'French',
+          value: 4
         },
       ],
       pvInputModeOptions: [
@@ -489,7 +501,7 @@ export default {
           <el-row>
             <el-col :span="8">
               <el-form-item label="AC Charge Power(kW)" prop="361">
-                <el-input @blur="inputVerify(0, 25.5, 361)" v-model="deviceBase[361]" style="width: 60%" placeholder="[0, 25.5]"></el-input>
+                <el-input @blur="inputVerify(0, 100, 361)" v-model="deviceBase[361]" style="width: 60%" placeholder="[0, 100]"></el-input>
                 <el-button :disabled="!deviceBase[361]" type="primary" plain class="ml10" @click="setDevice(361)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -719,7 +731,7 @@ export default {
           <el-row>
             <el-col :span="8">
               <el-form-item label="Forced Discharge Power(kW)" prop="389">
-                <el-input @blur="inputVerify(0, 25.5, 389)" v-model="deviceBase[389]" style="width: 60%" placeholder="[0, 25.5]"></el-input>
+                <el-input @blur="inputVerify(0, 100, 389)" v-model="deviceBase[389]" style="width: 60%" placeholder="[0, 100]"></el-input>
                 <el-button :disabled="!deviceBase[389]" type="primary" plain class="ml10" @click="setDevice(389)">Set</el-button>
               </el-form-item>
             </el-col>

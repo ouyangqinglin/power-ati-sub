@@ -106,3 +106,12 @@ export const batteryStatus =   {
   2: I18n.t('store.status.charging'),
   3: I18n.t('store.status.discharging')
 }
+
+export const updateFailReasonMap = {
+  2: I18n.t('upgrade.fail.reason.crc'),
+  3: I18n.t('upgrade.fail.reason.ota'),
+  4: I18n.t('upgrade.fail.reason.oversize'),
+  5: I18n.t('upgrade.fail.reason.manu'),
+  6: I18n.t('upgrade.fail.reason.extern'),
+  7: I18n.t('upgrade.fail.reason.md'),
+}

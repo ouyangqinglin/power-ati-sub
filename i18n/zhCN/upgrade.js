@@ -24,5 +24,10 @@ export default {
   'upgrade.time': '升级时间',
   'upgrade.fileType': '文件类型',
   'upgrade.upgrading': '正在升级',
-
+  'upgrade.fail.reason.crc': 'CRC校验错误',
+  'upgrade.fail.reason.ota': '当前有OTA进程未结束',
+  'upgrade.fail.reason.oversize': '固件大小超限',
+  'upgrade.fail.reason.manu': '固件商非列表范围内',
+  'upgrade.fail.reason.extern': '存储区擦除失败',
+  'upgrade.fail.reason.md': 'MD5校验错误',
 }
