@@ -57,7 +57,7 @@
         </el-table-column>
         <el-table-column :label="$t('upgrade.failReason')" prop="reasonForFailure" min-width="120">
           <template slot-scope="{ row }">
-            <span v-if="row.status === 2">{{ updateFailReasonMap[row.failReason] }}</span>
+            <span v-if="row.status === 2">{{ updateFailReasonMap[row.reasonForFailure] }}</span>
           </template>
         </el-table-column>
       </el-table>
