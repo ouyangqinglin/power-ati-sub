@@ -500,7 +500,7 @@ export default {
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="AC Charge Power(kW)" prop="361">
+              <el-form-item label="AC Charge Power(%)" prop="361">
                 <el-input @blur="inputVerify(0, 100, 361)" v-model="deviceBase[361]" style="width: 60%" placeholder="[0, 100]"></el-input>
                 <el-button :disabled="!deviceBase[361]" type="primary" plain class="ml10" @click="setDevice(361)">Set</el-button>
               </el-form-item>
@@ -730,7 +730,7 @@ export default {
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="Forced Discharge Power(kW)" prop="389">
+              <el-form-item label="Forced Discharge Power(%)" prop="389">
                 <el-input @blur="inputVerify(0, 100, 389)" v-model="deviceBase[389]" style="width: 60%" placeholder="[0, 100]"></el-input>
                 <el-button :disabled="!deviceBase[389]" type="primary" plain class="ml10" @click="setDevice(389)">Set</el-button>
               </el-form-item>
