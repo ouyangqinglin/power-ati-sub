@@ -81,15 +81,15 @@ export default {
       systemTypeOptions: [
         {
           label: '1 Phase Primary',
-          value: 0
-        },
-        {
-          label: 'Subordinates',
           value: 1
         },
         {
-          label: '3 Phase Primary',
+          label: 'Subordinates',
           value: 2
+        },
+        {
+          label: '3 Phase Primary',
+          value: 3
         },
       ],
       composedPhaseOptions: [
