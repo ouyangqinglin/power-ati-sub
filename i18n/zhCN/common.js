@@ -42,6 +42,7 @@ export default {
   'common.device': '设备',
   'common.alarm': '报警',
   'common.realtimePower': '实时功率',
+  'common.chargeSet': '充电设置',
   'common.offLine': '离线',
   'common.onLine': '在线',
   'common.inverter': '逆变器',

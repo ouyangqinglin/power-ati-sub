@@ -65,6 +65,7 @@ export default {
   'common.historicalInformation': 'Historical Information',
   'common.manufacturer': 'Manufacturer',
   'common.realtimeData': 'Real-Time Data',
+  'common.chargeSet': 'Charge Setting',
   'common.voltage': 'Voltage',
   'common.current': 'Current',
   'common.power': 'Power',

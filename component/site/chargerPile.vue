@@ -96,14 +96,43 @@
         </common-flex>
       </div>
     </div>
+    <div style="margin-top: 24px">
+      <div class="part">
+        <div class="part-title">{{ $t('common.chargeSet') }}</div>
+        <common-flex style="margin: 24px 0">
+          <common-flex class="part-img-box" justify="flex-end"></common-flex>
+          <el-form :model="chargeModel" ref="chargeForm" :rules="rules" size="small" style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
+            <el-row type="flex" :gutter="60">
+              <el-col :span="10">
+                <el-form-item label="Charging Type" prop="chargingType">
+                  <el-select v-model="chargeModel['chargingType']" style="width: 100%" @change="changeChargeType">
+                    <el-option v-for="(i, k) of chargeTypeOptions" :value="i.value" :label="i.label" :key="k"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" v-if="chargeModel['chargingType']">
+                <el-form-item :label="`Charging Params${chargeParamsLabel}`" prop="chargingPara">
+                  <el-input @input="verifyChargeParams" v-model="chargeModel['chargingPara']" style="width: 100%" :placeholder="chargeTypeOptions[chargeModel['chargingType']].placeholder"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="4">
+                <el-form-item label="1" label-width="0px" class="form-btn">
+                  <el-button @click="chargeForm" type="primary">Start Charge</el-button>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </common-flex>
 
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import {orderRes, stopCharge} from "@/api/device"
+import {orderRes, stopCharge, chargeSet, getChargeSet} from "@/api/device"
 import { networkStatus, newInstall } from '@sub/utils/dict'
-
+const statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
 let timerInter = null, times = 1
 export default {
   name: 'comp-charger',
@@ -126,22 +155,117 @@ export default {
       handler(v) {
         if (v.length) {
           this.sn = v[0].serialNumber
+          this.getChargeSetFn()
         }
       },
       immediate: true
     },
     sn() {
       this.changeCurPile()
+      this.getChargeSetFn()
     },
   },
   data() {
     return {
       networkStatus,
       newInstall,
-      sn: ''
+      sn: '',
+      chargeModel: {
+        chargingType: undefined,
+        chargingPara: undefined
+      },
+      rules: {
+        chargingType: [
+          {
+            required: true, message: '请选择充电类型', trigger: 'change'
+          }
+        ],
+        chargingPara: [
+          {
+            required: true, message: '请输入充电参数', trigger: ['blur', 'change']
+          }
+        ]
+      },
+      chargeTypeOptions: [
+        {
+          label: '立即充电',
+          value: 0,
+          placeholder: ''
+        },
+        {
+          label: '预约充电',
+          value: 1,
+          placeholder: '[1,24]'
+        },
+        {
+          label: '按时长充电',
+          value: 2,
+          placeholder: '[1,24]'
+        },
+        {
+          label: '按电量充电',
+          value: 3,
+          placeholder: '[1,100]'
+        },
+      ]
+    }
+  },
+  computed: {
+    chargeParamsLabel() {
+      const labelMap = {
+        0: '(h)',
+        1: '(h)',
+        2: '(h)',
+        3: '(kWh)'
+      }
+      return labelMap[this.chargeModel.chargingType]
     }
   },
   methods: {
+    changeChargeType(v) {
+      if(v === 0) this.chargeModel.chargingPara = 0
+      else this.chargeModel.chargingPara = undefined
+    },
+    chargeForm() {
+      this.$refs.chargeForm.validate(v => {
+        if(v) {
+          const data = {
+            siteCode: this.$route.query.siteCode,
+            deviceSn: this.sn,
+            type: 20001,
+            baseParam: JSON.stringify([{...this.chargeModel}])
+          }
+          chargeSet(data).then(res => {
+            if (+res.data === 3) {
+              this.$modal.loading()
+              this.getOrderRes()
+            } else this.$modal.msg(statusList[+res.data])
+          })
+        }
+      })
+    },
+    getChargeSetFn() {
+      getChargeSet({ siteCode: this.$route.query.siteCode, deviceSn: this.sn}).then(res => {
+        const item = res.data.find(i => i.type === 20001)
+        this.chargeModel.chargingType = JSON.parse(item.param)[0].ChargingType
+        this.chargeModel.chargingPara = JSON.parse(item.param)[0].ChargingPara
+      })
+    },
+    verifyChargeParams(v) {
+      this.chargeModel.chargingPara = v.replace(/^(0+)|[^\d]+/g, '')
+      if (this.chargeModel.chargingType === 3) { // 1-100
+        if(+this.chargeModel.chargingPara < 1 || +this.chargeModel.chargingPara > 100) {
+          this.rules.chargingPara[0].message = '请输入充电参数[0, 100]范围内'
+          this.chargeModel.chargingPara = ''
+        } else this.rules.chargingPara[0].message = ''
+      } else {
+        if(+this.chargeModel.chargingPara < 1 || +this.chargeModel.chargingPara > 24) {
+          this.rules.chargingPara[0].message = '请输入充电参数[0, 24]范围内'
+          this.chargeModel.chargingPara = ''
+        } else this.rules.chargingPara[0].message = ''
+      }
+      this.rules = {...this.rules}
+    },
     changeCurPile() {
       this.$emit('common', this.sn)
     },
@@ -151,7 +275,6 @@ export default {
         sn: this.sn
       }
       stopCharge(data).then(res => {
-        let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
         if (+res.data === 3) {
           this.$modal.loading()
           this.getOrderRes()
@@ -162,7 +285,6 @@ export default {
       let data = {
         sn: this.sn,
       }
-      let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
       clearInterval(timerInter)
       timerInter = setInterval(() => {
         times++
@@ -188,3 +310,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.form-btn {
+  .el-form-item__label {
+    width: 0;
+    opacity: 0;
+  }
+}
+</style>
