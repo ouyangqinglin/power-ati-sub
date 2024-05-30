@@ -119,6 +119,9 @@
                 <el-form-item label="1" label-width="0px" class="form-btn">
                   <el-button @click="chargeForm" type="primary">Start Charge</el-button>
                 </el-form-item>
+                <el-form-item label="1" label-width="0px" class="form-btn-stop">
+                  <el-button @click="stopChargeBtn" type="primary">Stop Charge</el-button>
+                </el-form-item>
               </el-col>
             </el-row>
           </el-form>
@@ -235,13 +238,25 @@ export default {
             type: 20001,
             baseParam: JSON.stringify([{...this.chargeModel}])
           }
-          chargeSet(data).then(res => {
-            if (+res.data === 3) {
-              this.$modal.loading()
-              this.getOrderRes()
-            } else this.$modal.msg(statusList[+res.data])
-          })
+          this.setChargeControl(data)
         }
+      })
+    },
+    stopChargeBtn() {
+      const data = {
+        siteCode: this.$route.query.siteCode,
+        deviceSn: this.sn,
+        type: 20002,
+        baseParam: '1'
+      }
+      this.setChargeControl(data)
+    },
+    setChargeControl(data) {
+      chargeSet(data).then(res => {
+        if (+res.data === 3) {
+          this.$modal.loading()
+          this.getOrderRes()
+        } else this.$modal.msg(statusList[+res.data])
       })
     },
     getChargeSetFn() {
@@ -252,7 +267,7 @@ export default {
       })
     },
     verifyChargeParams(v) {
-      this.chargeModel.chargingPara = v.replace(/^(0+)|[^\d]+/g, '')
+      this.chargeModel.chargingPara = +v.replace(/^(0+)|[^\d]+/g, '')
       if (this.chargeModel.chargingType === 3) { // 1-100
         if(+this.chargeModel.chargingPara < 1 || +this.chargeModel.chargingPara > 100) {
           this.rules.chargingPara[0].message = '请输入充电参数[0, 100]范围内'
@@ -312,10 +327,18 @@ export default {
 </script>
 
 <style lang="scss">
-.form-btn {
+.form-btn, .form-btn-stop {
   .el-form-item__label {
     width: 0;
     opacity: 0;
+  }
+}
+.form-btn-stop {
+  margin-top: -20px;
+  .el-form-item__label {
+    width: 0;
+    opacity: 0;
+    height: 0;
   }
 }
 </style>
