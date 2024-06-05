@@ -566,6 +566,11 @@ export default {
     getNumList() {
       if (!this.show) return
       upgradeTaskRecord({...this.numParams, versionId: this.id }).then(res => {
+        if(res.rows.length) {
+          res.rows.forEach((row) => {
+            if(row.progress) row.progress = (+row.progress).toFixed(2)
+          })
+        }
         this.numList = res.rows
         this.numParams.total = res.total
       }).finally(() => {

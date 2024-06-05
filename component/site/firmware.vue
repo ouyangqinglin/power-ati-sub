@@ -336,6 +336,11 @@ export default {
     },
     getList() {
       versionRecord(this.queryParams).then(res => {
+        if(res.rows.length) {
+          res.rows.forEach((row) => {
+            if(row.progress) row.progress = (+row.progress).toFixed(2)
+          })
+        }
         this.list = res.rows
         this.total = res.total
       }).finally(() => {
