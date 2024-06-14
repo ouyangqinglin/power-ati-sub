@@ -52,7 +52,7 @@ export default {
     getRepeatQuest(type, params) {
       setTimeout(() => {
         this.getOrderRes(type, params)
-      }, 2000)
+      }, 3000)
     },
     getOrderRes(type, params) {
       clearInterval(timeCount)
@@ -66,7 +66,7 @@ export default {
       orderRes(data).then(res => {
         clearInterval(timeCount)
         requestTimes++
-        if (resTime < 5) { // 响应时间
+        if (resTime < 10) { // 响应时间
           if (+res.data === 3) {
             // 判断重复几次 > 3次直接timeout
             if (requestTimes < 3) {
@@ -86,7 +86,7 @@ export default {
             this.getDeviceSet()
             this.$modal.closeLoading()
           }
-        } else { // 大于3s
+        } else { // 大于10s
           // 判断重复几次 > 3次直接timeout
           // < 3次 重复指令
           if (requestTimes < 3) {
@@ -105,7 +105,7 @@ export default {
       if (setDeviceTimes > 3) return this.timeOut()
       setTimeout(() => {
         this.repeatSetDevice(type, params)
-      }, 1000)
+      }, 3000)
     },
     repeatSetDevice(type, params) {
       deviceSet(params).then(res => {
