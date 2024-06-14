@@ -155,7 +155,8 @@ import {
   manufacturerBms,
   submoduleBms,
   submodulePcs,
-  upgradeResStatus
+  upgradeResStatus,
+  bmsType
 } from '@sub/utils/dict'
 import { updateFailReasonMap } from '@sub/utils/map'
 let timer = null
@@ -173,6 +174,7 @@ export default {
     return {
       fileType,
       inverterVersion,
+      bmsType,
       upgradeResStatus,
       updateFailReasonMap,
       toastData: {
@@ -230,7 +232,7 @@ export default {
   },
   computed: {
     compSOptions() {
-      return +this.toastData.fileType === 0 ? inverterVersion : []
+      return +this.toastData.fileType === 0 ? inverterVersion : +this.toastData.fileType === 1 ? bmsType: []
     },
     manufacturerOptions() {
       return +this.toastData.fileType === 0 ? manufacturerTBox : +this.toastData.fileType === 1 ? manufacturerBms : +this.toastData.fileType === 2 ? manufacturerPcs : []
@@ -258,7 +260,7 @@ export default {
           this.toastData.manufacturer = 0
           this.toastData.subModule = ''
         } else {
-          this.disabledComp = true
+          this.disabledComp = +v !== 1;
           this.disabledManu = false
           this.disabledSubmodule = false
           this.toastData.manufacturer = ''

@@ -218,7 +218,7 @@ import {
   manufacturerPcs,
   manufacturerBms,
   submoduleBms,
-  submodulePcs
+  submodulePcs, bmsType
 } from '@sub/utils/dict'
 
 export default {
@@ -237,6 +237,7 @@ export default {
     return {
       fileType,
       inverterVersion,
+      bmsType,
       baseUrl: process.env.VUE_APP_BASE_API,
       show: false,
       total: 0,
@@ -305,7 +306,7 @@ export default {
       'timeZone': state => state.user.timeZone,
     }),
     compSOptions() {
-      return +this.base.fileType === 0 ? inverterVersion : []
+      return +this.base.fileType === 0 ? inverterVersion : +this.base.fileType === 1 ? bmsType: []
     },
     manufacturerQueryOptions() {
       return +this.queryParams.fileType === 0 ? manufacturerTBox : +this.queryParams.fileType === 1 ? manufacturerBms : +this.queryParams.fileType === 2 ? manufacturerPcs : []
@@ -352,7 +353,7 @@ export default {
           this.base.manufacturer = 0
           this.base.subModule = ''
         } else {
-          this.disabledComp = true
+          this.disabledComp = +v !== 1;
           this.disabledManu = false
           this.disabledSubmodule = false
           this.base.manufacturer = ''

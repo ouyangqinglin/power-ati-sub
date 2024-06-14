@@ -234,6 +234,21 @@ export const comMType = [
   },
 ]
 
+export const bmsType = [
+  {
+    label: 'Low Voltage',
+    value: 0
+  },
+  {
+    label: 'High Voltage 16s',
+    value: 11
+  },
+  {
+    label: 'High Voltage 32s',
+    value: 13
+  },
+]
+
 export const applicationType = [
   {
     label: 'Boot',

@@ -2,10 +2,11 @@
 import inverterMixin from "@sub/utils/inverterMixin";
 import {deviceSet, getSettingInfo} from "@/api/device";
 let copyDeviceInfo = {}
-let statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
-let arrSwitch = [338, 340, 342, 343, 344, 347, 415, 416, 360, 370, 388, 398, 408, 414]
-let arrTime = [364, 365, 366, 367, 368, 369, 374, 375, 376, 377, 378, 379, 392, 393, 394, 395, 396, 397, 404, 405, 406, 407]
-let inputList = [334, 337, 345, 349, 353, 354, 356, 355, 357, 358, 361, 362, 363, 373, 371, 372, 380, 381, 387, 385, 383, 386, 384, 389, 391, 390, 399, 400, 401, 402, 403, 409, 410, 412, 411, 413]
+const statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
+const arrSwitch = [338, 340, 342, 343, 344, 347, 415, 416, 360, 370, 388, 398, 408, 414]
+const arrTime = [364, 365, 366, 367, 368, 369, 374, 375, 376, 377, 378, 379, 392, 393, 394, 395, 396, 397, 404, 405, 406, 407]
+const inputList = [334, 337, 345, 349, 353, 354, 356, 355, 357, 358, 361, 362, 363, 373, 371, 372, 380, 381, 387, 385, 383, 386, 384, 389, 391, 390, 399, 400, 401, 402, 403, 409, 410, 412, 411, 413]
+const coefficientList = [337, 349, 354, 355, 380, 381, 385, 386]
 export default {
   name: "luxPower",
   mixins: [inverterMixin],
@@ -220,6 +221,9 @@ export default {
         if (this.deviceBase[type]) data.baseParam = 1
         else data.baseParam = 0
       }
+      if (coefficientList.includes(+type)) {
+        data.baseParam = (+data.baseParam) * 10
+      }
       deviceSet(data).then(res => {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
@@ -241,7 +245,7 @@ export default {
       const position = str.length - 2; // 从后面第2位
       let hourStr = str.slice(0, position)
       if (hourStr.length === 1) hourStr = '0' + hourStr // 给小时位置补0
-      return hourStr + ':' + str.slice(position);
+      return hourStr + str.slice(position);
     },
     getDeviceSet() {
       getSettingInfo({ siteCode: this.siteCode }).then(res => {
@@ -250,6 +254,7 @@ export default {
           if (i.param !== null && typeof i.param !== 'undefined') {
             if (arrSwitch.includes(+i.type)) item[+i.type] = +i.param === 1
             else if (arrTime.includes(+i.type)) item[+i.type] = this.insertSymbol(i.param)
+            else if (coefficientList.includes(+i.type)) item[+i.type] = (+i.param) / 10
             else item[i.type] = +i.param
           } else item[i.type] = ''
         })
@@ -294,7 +299,7 @@ export default {
       <el-row :gutter="16">
         <el-col :span="8">
           <el-form-item label="Start PV Volt(V)" prop="337">
-            <el-input @blur="inputVerify(90, 500, 337)" v-model="deviceBase[337]" style="width: 60%" placeholder="[90, 500]"></el-input>
+            <el-input @blur="inputVerify(9, 50, 337)" v-model="deviceBase[337]" style="width: 60%" placeholder="[9, 50]"></el-input>
             <el-button :disabled="!deviceBase[337]" type="primary" plain class="ml10" @click="setDevice(337)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -391,7 +396,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="Max. AC Input Power" prop="349">
-            <el-input @blur="inputVerify(0, 6553.5, 349)" v-model="deviceBase[349]" style="width: 60%" placeholder="[0, 6553.5]"></el-input>
+            <el-input @blur="inputVerify(0, 655.35, 349)" v-model="deviceBase[349]" style="width: 60%" placeholder="[0, 655.35]"></el-input>
             <el-button :disabled="!deviceBase[349]" type="primary" plain class="ml10" @click="setDevice(349)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -439,7 +444,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="Charge Start Volt(V)" prop="354">
-            <el-input @blur="inputVerify(40, 59, 354)" v-model="deviceBase[354]" style="width: 60%" placeholder="[40, 59]"></el-input>
+            <el-input @blur="inputVerify(4, 5.9, 354)" v-model="deviceBase[354]" style="width: 60%" placeholder="[4, 5.9]"></el-input>
             <el-button :disabled="!deviceBase[354]" type="primary" plain class="ml10" @click="setDevice(354)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -453,7 +458,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="Charge End Volt(V)" prop="355">
-            <el-input @blur="inputVerify(40, 59, 355)" v-model="deviceBase[355]" style="width: 60%" placeholder="[40, 59]"></el-input>
+            <el-input @blur="inputVerify(4, 5.9, 355)" v-model="deviceBase[355]" style="width: 60%" placeholder="[4, 5.9]"></el-input>
             <el-button :disabled="!deviceBase[355]" type="primary" plain class="ml10" @click="setDevice(355)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -581,8 +586,8 @@ export default {
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="Charge First Power(kW)" prop="373">
-                <el-input @blur="inputVerify(0, 25.5, 373)" v-model="deviceBase[373]" style="width: 60%" placeholder="[0, 25.5]"></el-input>
+              <el-form-item label="Charge First Power(%)" prop="373">
+                <el-input @blur="inputVerify(0, 100, 373)" v-model="deviceBase[373]" style="width: 60%" placeholder="[0, 100]"></el-input>
                 <el-button :disabled="!deviceBase[373]" type="primary" plain class="ml10" @click="setDevice(373)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -654,13 +659,13 @@ export default {
           <el-row>
             <el-col :span="8">
               <el-form-item label="EqualVolt(V)" prop="380">
-                <el-input @blur="inputVerify(50, 59, 380)" v-model="deviceBase[380]" style="width: 60%" placeholder="[50, 59]"></el-input>
+                <el-input @blur="inputVerify(5, 5.9, 380)" v-model="deviceBase[380]" style="width: 60%" placeholder="[5, 5.9]"></el-input>
                 <el-button :disabled="!deviceBase[380]" type="primary" plain class="ml10" @click="setDevice(380)">Set</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="FloatVolt(V)" prop="381">
-                <el-input @blur="inputVerify(50, 59, 381)" v-model="deviceBase[381]" style="width: 60%" placeholder="[50, 59]"></el-input>
+                <el-input @blur="inputVerify(5, 5.9, 381)" v-model="deviceBase[381]" style="width: 60%" placeholder="[5, 5.9]"></el-input>
                 <el-button :disabled="!deviceBase[381]" type="primary" plain class="ml10" @click="setDevice(381)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -689,7 +694,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="On-Grid Cut-Off Volt(V)" prop="385">
-            <el-input @blur="inputVerify(40, 56, 385)" v-model="deviceBase[385]" style="width: 60%" placeholder="[40, 56]"></el-input>
+            <el-input @blur="inputVerify(4, 5.6, 385)" v-model="deviceBase[385]" style="width: 60%" placeholder="[4, 5.6]"></el-input>
             <el-button :disabled="!deviceBase[385]" type="primary" plain class="ml10" @click="setDevice(385)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -703,7 +708,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="Off-Grid Cut-Off Volt(V)" prop="386">
-            <el-input @blur="inputVerify(40, 56, 386)" v-model="deviceBase[386]" style="width: 60%" placeholder="[40, 56]"></el-input>
+            <el-input @blur="inputVerify(4, 5.6, 386)" v-model="deviceBase[386]" style="width: 60%" placeholder="[4, 5.6]"></el-input>
             <el-button :disabled="!deviceBase[386]" type="primary" plain class="ml10" @click="setDevice(386)">Set</el-button>
           </el-form-item>
         </el-col>
