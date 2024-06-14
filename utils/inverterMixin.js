@@ -49,12 +49,12 @@ export default {
       return this.$modal.msgError('Timeout')
     },
     // 重读请求 设置间隔时间防止重复提交警告
-    getRepeatQuest(type) {
+    getRepeatQuest(type, params) {
       setTimeout(() => {
-        this.getOrderRes(type)
+        this.getOrderRes(type, params)
       }, 2000)
     },
-    getOrderRes(type) {
+    getOrderRes(type, params) {
       clearInterval(timeCount)
       resTime = 0
       timeCount = setInterval(() => {
@@ -71,10 +71,10 @@ export default {
             // 判断重复几次 > 3次直接timeout
             if (requestTimes < 3) {
               // 重复
-              this.getRepeatQuest(type)
+              this.getRepeatQuest(type, params)
             } else {
               // > 3次重新下发指令
-              this.setRepeatQuest(type)
+              this.setRepeatQuest(type, params)
               requestTimes = 0
             }
           } else { // 返回值状态
@@ -91,36 +91,31 @@ export default {
           // < 3次 重复指令
           if (requestTimes < 3) {
             // 重复
-            this.getRepeatQuest(type)
+            this.getRepeatQuest(type, params)
           } else {
             // > 3次重新下发指令
-            this.setRepeatQuest(type)
+            this.setRepeatQuest(type, params)
             requestTimes = 0
           }
         }
       })
     },
-    setRepeatQuest(type) {
+    setRepeatQuest(type, params) {
       setDeviceTimes++
       if (setDeviceTimes > 3) return this.timeOut()
       setTimeout(() => {
-        this.repeatSetDevice(type)
+        this.repeatSetDevice(type, params)
       }, 1000)
     },
-    repeatSetDevice(type) {
-      let data = {
-        siteCode: this.siteCode,
-        type,
-        baseParam: this.deviceBase[type]
-      }
-      deviceSet(data).then(res => {
+    repeatSetDevice(type, params) {
+      deviceSet(params).then(res => {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
           this.$modal.msgError(res.msg)
           this.getDeviceSet()
           this.$modal.closeLoading()
         } else {
           if (+res.data === 3) {
-            this.getOrderRes(type)
+            this.getOrderRes(type, params)
           } else {
             this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()

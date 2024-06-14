@@ -230,7 +230,7 @@ export default {
         } else {
           if (+res.data === 3) {
             this.$modal.loading()
-            this.getOrderRes(34)
+            this.getOrderRes(34, params)
           } else {
             this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()
@@ -266,7 +266,7 @@ export default {
         } else {
           if (+res.data === 3) {
             this.$modal.loading()
-            this.getOrderRes(type)
+            this.getOrderRes(type, data)
           } else {
             this.$modal.msgError(statusList[+res.data])
             this.getDeviceSet()
