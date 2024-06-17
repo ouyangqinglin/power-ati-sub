@@ -218,6 +218,7 @@ import {
   manufacturerPcs,
   manufacturerBms,
   submoduleBms,
+  submoduleSignalBms,
   submodulePcs, bmsType
 } from '@sub/utils/dict'
 
@@ -318,7 +319,12 @@ export default {
       return +this.queryParams.fileType === 0 ? [] : +this.queryParams.fileType === 1 ? submoduleBms : +this.queryParams.fileType === 2 ? submodulePcs : []
     },
     submoduleOptions() {
-      return +this.base.fileType === 0 ? [] : +this.base.fileType === 1 ? submoduleBms : +this.base.fileType === 2 ? submodulePcs : []
+      const bmsMap = {
+        0: submoduleSignalBms,
+        11: submoduleBms,
+        13: submoduleBms
+      }
+      return +this.base.fileType === 0 ? [] : +this.base.fileType === 1 ? bmsMap[+this.base.component] : +this.base.fileType === 2 ? submodulePcs : []
     }
   },
   watch: {
@@ -360,6 +366,11 @@ export default {
           this.base.component = ''
           this.base.subModule = ''
         }
+      }
+    },
+    'base.component': {
+      handler(v) {
+        this.base.subModule = ''
       }
     }
   },

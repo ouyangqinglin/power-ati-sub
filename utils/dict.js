@@ -208,6 +208,13 @@ export const submoduleBms = [
   }
 ]
 
+export const submoduleSignalBms = [
+  {
+    label: '48V BMS',
+    value: 0
+  }
+]
+
 export const submodulePcs = [
   {
     label: 'ARM',

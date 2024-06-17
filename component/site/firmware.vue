@@ -154,6 +154,7 @@ import {
   manufacturerPcs,
   manufacturerBms,
   submoduleBms,
+  submoduleSignalBms,
   submodulePcs,
   upgradeResStatus,
   bmsType
@@ -238,7 +239,12 @@ export default {
       return +this.toastData.fileType === 0 ? manufacturerTBox : +this.toastData.fileType === 1 ? manufacturerBms : +this.toastData.fileType === 2 ? manufacturerPcs : []
     },
     submoduleOptions() {
-      return +this.toastData.fileType === 0 ? [] : +this.toastData.fileType === 1 ? submoduleBms : +this.toastData.fileType === 2 ? submodulePcs : []
+      const bmsMap = {
+        0: submoduleSignalBms,
+        11: submoduleBms,
+        13: submoduleBms
+      }
+      return +this.toastData.fileType === 0 ? [] : +this.toastData.fileType === 1 ? bmsMap[+this.toastData.component] : +this.toastData.fileType === 2 ? submodulePcs : []
     }
   },
   watch: {
@@ -267,6 +273,11 @@ export default {
           this.toastData.component = ''
           this.toastData.subModule = ''
         }
+      }
+    },
+    'toastData.component': {
+      handler(v) {
+        this.toastData.subModule = ''
       }
     }
   },
