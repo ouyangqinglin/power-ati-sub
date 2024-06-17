@@ -86,18 +86,18 @@
               </el-form-item>
             </el-col>
             <el-col :span="10">
-              <el-form-item :label="$t('upgrade.componentS')" prop="component">
-                <el-select style="width: 100%" v-model="toastData.component" :placeholder="$t('common.pleaseSelect')" :disabled="disabledComp" @change="getVersionList()">
-                  <el-option v-for="i of compSOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+              <el-form-item :label="$t('common.manufacturer')" prop="manufacturer">
+                <el-select style="width: 100%" v-model="toastData.manufacturer" :placeholder="$t('common.pleaseSelect')" :disabled="disabledManu" @change="getVersionList()">
+                  <el-option v-for="i of manufacturerOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="24">
             <el-col :span="10">
-              <el-form-item :label="$t('common.manufacturer')" prop="manufacturer">
-                <el-select style="width: 100%" v-model="toastData.manufacturer" :placeholder="$t('common.pleaseSelect')" :disabled="disabledManu" @change="getVersionList()">
-                  <el-option v-for="i of manufacturerOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
+              <el-form-item :label="$t('upgrade.componentS')" prop="component">
+                <el-select style="width: 100%" v-model="toastData.component" :placeholder="$t('common.pleaseSelect')" :disabled="disabledComp" @change="getVersionList()">
+                  <el-option v-for="i of compSOptions" :key="i.value" :label="i.label" :value="i.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
