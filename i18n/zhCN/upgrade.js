@@ -30,4 +30,5 @@ export default {
   'upgrade.fail.reason.manu': '固件商非列表范围内',
   'upgrade.fail.reason.extern': '存储区擦除失败',
   'upgrade.fail.reason.md': 'MD5校验错误',
+  'upgrade.fail.reason.timeout': '超时',
 }

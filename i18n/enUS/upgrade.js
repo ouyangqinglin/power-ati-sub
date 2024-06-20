@@ -30,4 +30,5 @@ export default {
   'upgrade.fail.reason.manu': 'Manufacturer not in list',
   'upgrade.fail.reason.extern': 'extern flash erase fail',
   'upgrade.fail.reason.md': 'MD5 code check error',
+  'upgrade.fail.reason.timeout': 'Timeout',
 }

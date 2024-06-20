@@ -114,4 +114,5 @@ export const updateFailReasonMap = {
   5: I18n.t('upgrade.fail.reason.manu'),
   6: I18n.t('upgrade.fail.reason.extern'),
   7: I18n.t('upgrade.fail.reason.md'),
+  999: I18n.t('upgrade.fail.reason.timeout')
 }
