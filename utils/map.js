@@ -114,5 +114,8 @@ export const updateFailReasonMap = {
   5: I18n.t('upgrade.fail.reason.manu'),
   6: I18n.t('upgrade.fail.reason.extern'),
   7: I18n.t('upgrade.fail.reason.md'),
-  999: I18n.t('upgrade.fail.reason.timeout')
+  996: 'OTA total timeout',
+  997: 'Tbox publish progress timeout',
+  998: 'Tbox response timeout',
+  999: I18n.t('upgrade.fail.reason.timeout'),
 }
