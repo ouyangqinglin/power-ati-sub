@@ -58,6 +58,7 @@ export default {
   'common.email': 'E-mail',
   'common.basicInfo': 'Basic Info',
   'common.status': 'Status',
+  'common.loginStatus': 'Login Status',
   'common.serialNumber': 'Serial number',
   'common.softwareVersion': 'Software version',
   'common.hardwareVersion': 'Hardware version',

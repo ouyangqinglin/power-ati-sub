@@ -58,6 +58,7 @@ export default {
   'common.email': '邮箱',
   'common.basicInfo': '基本信息',
   'common.status': '状态',
+  'common.loginStatus': '在线状态',
   'common.serialNumber': 'SN',
   'common.softwareVersion': '软件版本',
   'common.hardwareVersion': '硬件版本',

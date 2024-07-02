@@ -8,17 +8,23 @@
         </common-flex>
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
+            <el-col :span="10">
+              <el-form-item :label="$t('common.loginStatus')">
+                <el-input disabled type="text" />
+                <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="curDevInfo.net"/>
+              </el-form-item>
+            </el-col>
 <!--            自发自用字段-->
             <el-col :span="10"><el-form-item :label="$t('site.currentWorkingMode')"><el-input v-model="curDevInfo.workMode"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item :label="$t('common.lifetime')"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
             <el-col :span="10">
               <el-form-item :label="$t('site.newInstallation')">
                 <el-input disabled type="text" />
                 <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="newInstall" :value="curDevInfo.installation"/>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row type="flex" :gutter="60">
-            <el-col :span="10"><el-form-item :label="$t('common.lifetime')"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
@@ -136,7 +142,7 @@
 </template>
 
 <script>
-import { gridStatus, newInstall } from '@sub/utils/dict'
+import { gridStatus, newInstall, networkStatus } from '@sub/utils/dict'
 export default {
   name: 'comp-inverter',
   props: {
@@ -156,6 +162,7 @@ export default {
     return {
       gridStatus,
       newInstall,
+      networkStatus,
       name: 'grid',
     }
   }

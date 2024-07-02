@@ -13,7 +13,7 @@
         <el-form disabled style="padding-right: 24px; flex-grow: 1" label-width="260px" label-position="top">
           <el-row type="flex" :gutter="60">
             <el-col :span="10">
-              <el-form-item :label="$t('site.communication')">
+              <el-form-item :label="$t('common.loginStatus')">
                 <el-input disabled type="text" />
                 <dict-tag class="posa" style="bottom: 0; left: 20px; color: #C0C4CC" :options="networkStatus" :value="curDevInfo.net"/>
               </el-form-item>
@@ -475,6 +475,7 @@ export default {
           resStr += `${data.periodDay} Days ${data.periodMonth} Months ${data.periodYear} Year`
           data.lifetime = resStr
         }
+        if (data.version) data.version = data.version.replace(/;/g, '\n')
         if (data.upgradeTime) data.upgradeTime = this.DATE_FORMAT('M/d/yyyy hh:mm', data.upgradeTime * 1000)
         batteryStorage[this.sn] = data
         this.batteryInfo = batteryStorage[this.sn]
