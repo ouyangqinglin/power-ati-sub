@@ -37,7 +37,7 @@
         <el-row type="flex" :gutter="24">
           <el-col :span="8"><el-form-item :label="$t('common.sn')"><el-input readonly v-model="batteryInfo.serialNumber"></el-input></el-form-item></el-col>
           <el-col :span="8"><el-form-item :label="$t('common.hardwareVersion')"><el-input readonly v-model="batteryInfo.hardVersion"></el-input></el-form-item></el-col>
-          <el-col :span="8"><el-form-item :label="$t('common.softwareVersion')"><el-input readonly v-model="batteryInfo.version" type="textarea"></el-input></el-form-item></el-col>
+          <el-col :span="8"><el-form-item :label="$t('common.softwareVersion')"><el-input readonly v-model="batteryInfo.version" type="textarea" :rows="versionNum"></el-input></el-form-item></el-col>
         </el-row>
         <el-row type="flex" :gutter="24">
           <el-col :span="8"><el-form-item :label="$t('common.lastVersionUpgradeTime')"><el-input readonly v-model="batteryInfo.upgradeTime"></el-input></el-form-item></el-col>
@@ -242,6 +242,13 @@ export default {
       }
     },
     show: Boolean
+  },
+  computed: {
+    versionNum() {
+      if (this.batteryInfo?.version) return this.batteryInfo?.version.split('\n').length
+      else return 1
+
+    }
   },
   watch: {
     dialogHisData() {
