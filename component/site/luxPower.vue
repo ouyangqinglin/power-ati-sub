@@ -303,7 +303,7 @@ export default {
       <el-row :gutter="16">
         <el-col :span="8">
           <el-form-item label="Start PV Volt(V)" prop="337">
-            <el-input @blur="inputVerify(9, 50, 337)" v-model="deviceBase[337]" style="width: 60%" placeholder="[9, 50]"></el-input>
+            <el-input @blur="inputVerify(90, 500, 337)" v-model="deviceBase[337]" style="width: 60%" placeholder="[90, 500]"></el-input>
             <el-button :disabled="!deviceBase[337]" type="primary" plain class="ml10" @click="setDevice(337)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -400,7 +400,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="Max. AC Input Power" prop="349">
-            <el-input @blur="inputVerify(0, 655.35, 349)" v-model="deviceBase[349]" style="width: 60%" placeholder="[0, 655.35]"></el-input>
+            <el-input @blur="inputVerify(0, 6553.5, 349)" v-model="deviceBase[349]" style="width: 60%" placeholder="[0, 6553.5]"></el-input>
             <el-button :disabled="!deviceBase[349]" type="primary" plain class="ml10" @click="setDevice(349)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -448,7 +448,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="Charge Start Volt(V)" prop="354">
-            <el-input @blur="inputVerify(4, 5.9, 354)" v-model="deviceBase[354]" style="width: 60%" placeholder="[4, 5.9]"></el-input>
+            <el-input @blur="inputVerify(40, 59, 354)" v-model="deviceBase[354]" style="width: 60%" placeholder="[40, 59]"></el-input>
             <el-button :disabled="!deviceBase[354]" type="primary" plain class="ml10" @click="setDevice(354)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -462,7 +462,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="Charge End Volt(V)" prop="355">
-            <el-input @blur="inputVerify(4, 5.9, 355)" v-model="deviceBase[355]" style="width: 60%" placeholder="[4, 5.9]"></el-input>
+            <el-input @blur="inputVerify(40, 59, 355)" v-model="deviceBase[355]" style="width: 60%" placeholder="[40, 59]"></el-input>
             <el-button :disabled="!deviceBase[355]" type="primary" plain class="ml10" @click="setDevice(355)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -663,13 +663,13 @@ export default {
           <el-row>
             <el-col :span="8">
               <el-form-item label="EqualVolt(V)" prop="380">
-                <el-input @blur="inputVerify(5, 5.9, 380)" v-model="deviceBase[380]" style="width: 60%" placeholder="[5, 5.9]"></el-input>
+                <el-input @blur="inputVerify(50, 59, 380)" v-model="deviceBase[380]" style="width: 60%" placeholder="[50, 59]"></el-input>
                 <el-button :disabled="!deviceBase[380]" type="primary" plain class="ml10" @click="setDevice(380)">Set</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="FloatVolt(V)" prop="381">
-                <el-input @blur="inputVerify(5, 5.9, 381)" v-model="deviceBase[381]" style="width: 60%" placeholder="[5, 5.9]"></el-input>
+                <el-input @blur="inputVerify(50, 56, 381)" v-model="deviceBase[381]" style="width: 60%" placeholder="[50, 56]"></el-input>
                 <el-button :disabled="!deviceBase[381]" type="primary" plain class="ml10" @click="setDevice(381)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -698,7 +698,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="On-Grid Cut-Off Volt(V)" prop="385">
-            <el-input @blur="inputVerify(4, 5.6, 385)" v-model="deviceBase[385]" style="width: 60%" placeholder="[4, 5.6]"></el-input>
+            <el-input @blur="inputVerify(40, 56, 385)" v-model="deviceBase[385]" style="width: 60%" placeholder="[40, 56]"></el-input>
             <el-button :disabled="!deviceBase[385]" type="primary" plain class="ml10" @click="setDevice(385)">Set</el-button>
           </el-form-item>
         </el-col>
