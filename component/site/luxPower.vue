@@ -5,8 +5,8 @@ let copyDeviceInfo = {}
 const statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
 const arrSwitch = [338, 340, 342, 343, 344, 347, 415, 416, 360, 370, 388, 398, 408, 414]
 const arrTime = [364, 365, 366, 367, 368, 369, 374, 375, 376, 377, 378, 379, 392, 393, 394, 395, 396, 397, 404, 405, 406, 407]
-const inputList = [334, 337, 345, 349, 353, 354, 356, 355, 357, 358, 361, 362, 363, 373, 371, 372, 380, 381, 387, 385, 383, 386, 384, 389, 391, 390, 399, 400, 401, 402, 403, 409, 410, 412, 411, 413]
-const coefficientList = [337, 349, 354, 355, 380, 381, 385, 386]
+const inputList = [334, 337, 345, 349, 352, 353, 354, 356, 355, 357, 358, 361, 362, 363, 373, 371, 372, 380, 381, 387, 385, 383, 386, 384, 389, 391, 390, 399, 400, 401, 402, 403, 409, 410, 412, 411, 413]
+const coefficientList = [337, 354, 355, 380, 381, 385, 386, 411, 410, 400, 391, 372, 363]
 export default {
   name: "luxPower",
   mixins: [inverterMixin],
@@ -400,7 +400,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="Max. AC Input Power" prop="349">
-            <el-input @blur="inputVerify(0, 6553.5, 349)" v-model="deviceBase[349]" style="width: 60%" placeholder="[0, 6553.5]"></el-input>
+            <el-input @blur="inputVerify(0, 65535, 349)" v-model="deviceBase[349]" style="width: 60%" placeholder="[0, 65535]"></el-input>
             <el-button :disabled="!deviceBase[349]" type="primary" plain class="ml10" @click="setDevice(349)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -435,20 +435,20 @@ export default {
     <el-form label-position="top" :model="deviceBase" :rules="rules" size="small" hide-required-asterisk>
       <el-row :gutter="16">
         <el-col :span="8">
-          <el-form-item label="Batt Charge Current Limit(A)" prop="353">
-            <el-input @blur="inputVerify(0, 250, 353)" v-model="deviceBase[353]" style="width: 60%" placeholder="[0, 250]"></el-input>
-            <el-button :disabled="!deviceBase[353]" type="primary" plain class="ml10" @click="setDevice(353)">Set</el-button>
+          <el-form-item label="Batt Charge Current Limit(A)" prop="352">
+            <el-input @blur="inputVerify(0, 250, 352)" v-model="deviceBase[352]" style="width: 60%" placeholder="[0, 250]"></el-input>
+            <el-button :disabled="!deviceBase[352]" type="primary" plain class="ml10" @click="setDevice(352)">Set</el-button>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="Gen Rated Power(kW)" prop="353">
-            <el-input @blur="inputVerify(0, 25.5, 353)" v-model="deviceBase[353]" style="width: 60%" placeholder="[0, 25.5]"></el-input>
+            <el-input @blur="inputVerify(0, 65535, 353)" v-model="deviceBase[353]" style="width: 60%" placeholder="[0, 65535]"></el-input>
             <el-button :disabled="!deviceBase[353]" type="primary" plain class="ml10" @click="setDevice(353)">Set</el-button>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="Charge Start Volt(V)" prop="354">
-            <el-input @blur="inputVerify(40, 59, 354)" v-model="deviceBase[354]" style="width: 60%" placeholder="[40, 59]"></el-input>
+            <el-input @blur="inputVerify(38.4, 52, 354)" v-model="deviceBase[354]" style="width: 60%" placeholder="[38.4, 52]"></el-input>
             <el-button :disabled="!deviceBase[354]" type="primary" plain class="ml10" @click="setDevice(354)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -462,7 +462,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <el-form-item label="Charge End Volt(V)" prop="355">
-            <el-input @blur="inputVerify(40, 59, 355)" v-model="deviceBase[355]" style="width: 60%" placeholder="[40, 59]"></el-input>
+            <el-input @blur="inputVerify(48, 59, 355)" v-model="deviceBase[355]" style="width: 60%" placeholder="[48, 59]"></el-input>
             <el-button :disabled="!deviceBase[355]" type="primary" plain class="ml10" @click="setDevice(355)">Set</el-button>
           </el-form-item>
         </el-col>
@@ -827,7 +827,7 @@ export default {
             </el-col>
             <el-col :span="8">
               <el-form-item label="Start Peak-Shaving Volt 1(V)" prop="400">
-                <el-input @blur="inputVerify(40, 59, 400)" v-model="deviceBase[400]" style="width: 60%" placeholder="[40, 59]"></el-input>
+                <el-input @blur="inputVerify(48, 59, 400)" v-model="deviceBase[400]" style="width: 60%" placeholder="[48, 59]"></el-input>
                 <el-button :disabled="!deviceBase[400]" type="primary" plain class="ml10" @click="setDevice(400)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -841,7 +841,7 @@ export default {
           <el-row>
             <el-col :span="8">
               <el-form-item label="Start Peak-Shaving Volt 2(V)" prop="402">
-                <el-input @blur="inputVerify(40, 59, 402)" v-model="deviceBase[402]" style="width: 60%" placeholder="[40, 59]"></el-input>
+                <el-input @blur="inputVerify(480, 590, 402)" v-model="deviceBase[402]" style="width: 60%" placeholder="[480, 590]"></el-input>
                 <el-button :disabled="!deviceBase[402]" type="primary" plain class="ml10" @click="setDevice(402)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -904,7 +904,7 @@ export default {
             </el-col>
             <el-col :span="8">
               <el-form-item label="Smart Load Start Volt(V)" prop="410">
-                <el-input @blur="inputVerify(40, 59, 410)" v-model="deviceBase[410]" style="width: 60%" placeholder="[40, 59]"></el-input>
+                <el-input @blur="inputVerify(48, 59, 410)" v-model="deviceBase[410]" style="width: 60%" placeholder="[48, 59]"></el-input>
                 <el-button :disabled="!deviceBase[410]" type="primary" plain class="ml10" @click="setDevice(410)">Set</el-button>
               </el-form-item>
             </el-col>
@@ -918,7 +918,7 @@ export default {
           <el-row>
             <el-col :span="8">
               <el-form-item label="Smart Load End Volt(V)" prop="411">
-                <el-input @blur="inputVerify(40, 59, 411)" v-model="deviceBase[411]" style="width: 60%" placeholder="[40, 59]"></el-input>
+                <el-input @blur="inputVerify(40, 52, 411)" v-model="deviceBase[411]" style="width: 60%" placeholder="[40, 52]"></el-input>
                 <el-button :disabled="!deviceBase[411]" type="primary" plain class="ml10" @click="setDevice(411)">Set</el-button>
               </el-form-item>
             </el-col>
