@@ -202,7 +202,11 @@ export default {
         this.rules[+type][0].required = true
       } else if (+this.deviceBase[type] > max || +this.deviceBase[type] < min) {
         this.deviceBase[type] = ''
-        this.rules[+type][0].message = `Please enter the number in [${min}.0, ${max}.0]`
+        let errMsg = `Please enter the number in`
+        let minMsg = (min+'').includes('.') ? `${min}` : `${min}.0`
+        let maxMsg = (max+'').includes('.') ? `${max}` : `${max}.0`
+        errMsg = errMsg + `[${minMsg}, ${maxMsg}]`
+        this.rules[+type][0].message = errMsg
         this.rules[+type][0].required = true
       } else {
         this.rules[+type][0].required = false
