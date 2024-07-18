@@ -96,6 +96,6 @@ export default {
   'common.systemTips': 'System tips',
   'common.loading': 'Loading',
   'common.choose': 'Choose',
-
+  'common.networkType': 'Network type',
 
 }

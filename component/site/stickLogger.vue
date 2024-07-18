@@ -25,6 +25,7 @@
           </el-row>
           <el-row type="flex" :gutter="60">
             <el-col :span="10"><el-form-item :label="$t('common.lifetime')"><el-input v-model="curDevInfo.lifetime"></el-input></el-form-item></el-col>
+            <el-col :span="10" v-if="curDevInfo.net === 1"><el-form-item :label="$t('common.networkType')"><el-input v-model="netType"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
@@ -227,6 +228,7 @@ export default {
       inverterVersion,
       networkStatus,
       loading: false,
+      netType: '',
       dataHis: {
         batteryType: 'Voltage',
         dateVal: new Date(that.UTC_START_OF(this.base.timeZone))
@@ -238,6 +240,7 @@ export default {
       immediate: true,
       handler(v) {
         console.log('stickInfo', v)
+        this.netType = v.networkSetting ? (JSON.parse(v.networkSetting))['netType'] : ''
         if ([1, 2].includes(+this.curDevInfo.type)) this.getWifiData()
       }
     }

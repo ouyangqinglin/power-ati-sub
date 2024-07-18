@@ -95,5 +95,6 @@ export default {
   'common.systemTips': '系统提示',
   'common.loading': '加载中...',
   'common.choose': '选择',
+  'common.networkType': '网络类型',
 
 }
