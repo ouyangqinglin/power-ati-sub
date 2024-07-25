@@ -75,6 +75,16 @@ export default {
           value: 2
         }
       ],
+      reactiveTypeOption: [
+        {
+          label: 'Power Factor',
+          value: 0
+        },
+        {
+          label: 'React Power',
+          value: 1
+        }
+      ],
       gridOption: [
         {
           label: 'Australia',
@@ -152,6 +162,12 @@ export default {
           { required: false, message: '', trigger: ['blur', 'change'] }
         ],
         4: [
+          { required: false, message: '', trigger: ['blur', 'change'] }
+        ],
+        5: [
+          { required: false, message: '', trigger: ['blur', 'change'] }
+        ],
+        6: [
           { required: false, message: '', trigger: ['blur', 'change'] }
         ],
         7: [
@@ -606,6 +622,28 @@ export default {
               <el-form-item prop="8" label="Grid Voltage high(V)">
                 <el-input @blur="inputVerify(240, 280, 8)" v-model.trim="deviceBase[8]" type="primary" plain style="width: 60%" placeholder="[240,280]"></el-input>
                 <el-button type="primary" plain style="margin-left: 10px" :disabled="!deviceBase[8]" @click="setDevice(8)">Set</el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="26" label="Reactive Type">
+                <el-select v-model="deviceBase[26]" style="width: 60%">
+                  <el-option v-for="(i, k) of reactiveTypeOption" :value="i.value" :label="i.label" :key="k"></el-option>
+                </el-select>
+                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(26)">Set</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-form-item prop="5" label="Power Factor">
+                <el-input @blur="inputVerify(-99, 100, 5)" v-model.trim="deviceBase[5]" type="primary" plain style="width: 60%" placeholder="[-99,100]"></el-input>
+                <el-button type="primary" plain style="margin-left: 10px" :disabled="!deviceBase[5]" @click="setDevice(5)">Set</el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="6" label="Reactive Power">
+                <el-input @blur="inputVerify(-65, 65, 6)" v-model.trim="deviceBase[6]" type="primary" plain style="width: 60%" placeholder="[-65,65]"></el-input>
+                <el-button type="primary" plain style="margin-left: 10px" :disabled="!deviceBase[6]" @click="setDevice(6)">Set</el-button>
               </el-form-item>
             </el-col>
           </el-row>
