@@ -78,11 +78,11 @@ export default {
       reactiveTypeOption: [
         {
           label: 'Power Factor',
-          value: 0
+          value: '0'
         },
         {
           label: 'React Power',
-          value: 1
+          value: '1'
         }
       ],
       gridOption: [
