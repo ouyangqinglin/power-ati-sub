@@ -635,13 +635,13 @@ export default {
           </el-row>
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-form-item prop="5" label="Power Factor">
+              <el-form-item prop="5" label="Power Factor(%)">
                 <el-input @blur="inputVerify(-99, 100, 5)" v-model.trim="deviceBase[5]" type="primary" plain style="width: 60%" placeholder="[-99,100]"></el-input>
                 <el-button type="primary" plain style="margin-left: 10px" :disabled="!deviceBase[5]" @click="setDevice(5)">Set</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item prop="6" label="Reactive Power">
+              <el-form-item prop="6" label="Reactive Power(%)">
                 <el-input @blur="inputVerify(-65, 65, 6)" v-model.trim="deviceBase[6]" type="primary" plain style="width: 60%" placeholder="[-65,65]"></el-input>
                 <el-button type="primary" plain style="margin-left: 10px" :disabled="!deviceBase[6]" @click="setDevice(6)">Set</el-button>
               </el-form-item>
