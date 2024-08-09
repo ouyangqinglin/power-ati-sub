@@ -51,6 +51,47 @@ export default {
           value: 2
         },
       ],
+      remoteSwitchOptions: [
+        {
+          label: 'disable',
+          value: 0
+        },
+        {
+          label: 'enable',
+          value: 1
+        },
+      ],
+      remoteSwitchTypeOptions: [
+        {
+          label: 'armtwisting',
+          value: 1
+        },
+        {
+          label: 'daily',
+          value: 2
+        },
+        {
+          label: 'date',
+          value: 3
+        },
+      ],
+      remoteSwitchTypeOneOptions: [
+        {
+          label: 'Off',
+          value: 170
+        },
+        {
+          label: 'On',
+          value: 85
+        },
+      ],
+      dailyOn: '',
+      dailyOff: '',
+      dateOn: '',
+      dateOff: '',
+      remoteSwitchIsAble: '',
+      remoteSwitchType: '',
+      isArmtwisting: '',
       batTypeOption: [
         {
           label: 'DC-source',
@@ -149,6 +190,50 @@ export default {
         {
           label: 'Japan',
           value: 15
+        },
+      ],
+      gridSetOptions: [
+        {
+          value: '0',
+          label: 'single phase'
+        },
+        {
+          value: '1',
+          label: 'split phase'
+        },
+        {
+          value: '2',
+          label: 'US208V'
+        },
+        {
+          value: '3',
+          label: 'JP120V'
+        },
+      ],
+      usGridClassOptions: [
+        {
+          value: '0',
+          label: 'UL1741&IEEE1547.2020'
+        },
+        {
+          value: '1',
+          label: 'Rule21'
+        },
+        {
+          value: '2',
+          label: 'SRD-UL1741 1.0'
+        },
+        {
+          value: '3',
+          label: 'UL1741 SB'
+        },
+        {
+          value: '4',
+          label: 'UL1741 SA'
+        },
+        {
+          value: '5',
+          label: 'Heco 2.0'
         },
       ],
       rules: {
@@ -262,7 +347,7 @@ export default {
     },
     setDevice(type) {
       if (copyDeviceInfo[type] === this.deviceBase[type]) {
-        if (![22, 23].includes(+type)) return this.$modal.confirm('Value not changed')
+        if (![22, 23, 101].includes(+type)) return this.$modal.confirm('Value not changed')
       }
       let data = {
         siteCode: this.siteCode,
@@ -273,6 +358,26 @@ export default {
       if (arr.includes(+type)) {
         if (this.deviceBase[type]) data.baseParam = 1
         else data.baseParam = 0
+      }
+      if(type === 101) {
+        const specialParams = {
+          isAble: this.remoteSwitchIsAble,
+          isArmtwisting: this.isArmtwisting,
+          powerOffTime: '',
+          powerOnTime: '',
+          type: this.remoteSwitchType
+        }
+        if (this.remoteSwitchType === 2) {
+          specialParams.powerOffTime = this.dailyOff
+          specialParams.powerOnTime = this.dailyOn
+        }
+        if (this.remoteSwitchType === 3) {
+          let timeOn = this.dateOn.split(' ')
+          let timeOff = this.dateOff.split(' ')
+          specialParams.powerOnTime = timeOn[0].split('-').join(':') + ':' + timeOn[1]
+          specialParams.powerOffTime = timeOff[0].split('-').join(':') + ':' + timeOff[1]
+        }
+        data.baseParam = JSON.stringify(specialParams)
       }
       deviceSet(data).then(res => {
         if ([1002, 10030, 10031, 10032, 10033].includes(+res.code)) {
@@ -311,6 +416,26 @@ export default {
             this.peakShaving[`dischargeS${index+1}`] = i.dischargeStartTime
             this.peakShaving[`dischargeE${index+1}`] = i.dischargeEndTime
           })
+        }
+        if (this.deviceBase[101]) {
+          const remoteSwitch = JSON.parse(this.deviceBase[101])
+          this.remoteSwitchIsAble = remoteSwitch.isAble
+          this.isArmtwisting = remoteSwitch.isArmtwisting
+          this.remoteSwitchType = remoteSwitch.type
+          if (+this.remoteSwitchType === 3) {
+            if (remoteSwitch.powerOnTime) {
+              const dateOnList = remoteSwitch.powerOnTime?.split(':')
+              this.dateOn = dateOnList.slice(0, 3).join('-') + ' ' + dateOnList[3]
+            }
+            if (remoteSwitch.powerOffTime) {
+              const dateOffList = remoteSwitch.powerOffTime?.split(':')
+              this.dateOff = dateOffList.slice(0, 3).join('-') + ' ' + dateOffList[3]
+            }
+          }
+          if (+this.remoteSwitchType === 2) {
+            if (remoteSwitch.powerOnTime) this.dailyOn = remoteSwitch.powerOnTime
+            if (remoteSwitch.powerOffTime) this.dailyOff = remoteSwitch.powerOffTime
+          }
         }
         copyDeviceInfo = JSON.parse(JSON.stringify(this.deviceBase))
       })
@@ -522,10 +647,10 @@ export default {
             <el-col :span="4">
               <el-form-item prop="25" label="Battery awaken"><el-switch v-model="deviceBase[25]" @change="setDevice(25)" /></el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item prop="13" label="Anti reflux/Disable Grid Sell">
+            <el-col :span="4">
+              <el-form-item prop="13" label="Grid Sell">
                 <common-flex slot="label">
-                  <span>Anti reflux/Disable Grid Sell</span>
+                  <span>Grid Sell</span>
                   <el-tooltip effect="dark" placement="top">
                           <span slot="content">
                             Enable Anti reflux/Disable Grid Sell: indicates that electricity sales are not allowed
@@ -650,6 +775,78 @@ export default {
         </el-form>
       </div>
       <div class="set-part">
+        <div class="set-type">Remote switch Settings</div>
+        <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-form-item label="Remote switch Settings Enabled">
+                <el-select v-model="remoteSwitchIsAble" style="width: 60%">
+                  <el-option v-for="(i, k) of remoteSwitchOptions" :value="i.value" :label="i.label" :key="k"></el-option>
+                </el-select>
+                <el-button v-if="+remoteSwitchIsAble === 0" type="primary" plain style="margin-left: 10px" @click="setDevice(101)">Set</el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" v-if="+remoteSwitchIsAble === 1">
+              <el-form-item label="Remote switch Settings Type">
+                <el-select v-model="remoteSwitchType" style="width: 60%">
+                  <el-option v-for="(i, k) of remoteSwitchTypeOptions" :value="i.value" :label="i.label" :key="k"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" v-if="+remoteSwitchIsAble === 1 && +remoteSwitchType === 1">
+              <el-form-item label="Remote switch Settings Params">
+                <el-select v-model="isArmtwisting" style="width: 60%">
+                  <el-option v-for="(i, k) of remoteSwitchTypeOneOptions" :value="i.value" :label="i.label" :key="k"></el-option>
+                </el-select>
+                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(101)" :disabled="!isArmtwisting">Set</el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" v-if="+remoteSwitchIsAble === 1 && +remoteSwitchType === 2">
+              <el-form-item label="Remote switch Settings Params">
+                <el-time-picker v-model="dailyOn"
+                                style="width: 160px"
+                                size="small"
+                                value-format="H:m"
+                                format="H:m"
+                                placeholder="选择开机时间">
+                </el-time-picker>
+                <el-time-picker v-model="dailyOff"
+                                size="small"
+                                style="width: 160px"
+                                format="H:m"
+                                value-format="H:m"
+                                placeholder="选择关机时间">
+                </el-time-picker>
+                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(101)" :disabled="!(dailyOff && dailyOn)">Set</el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" v-if="+remoteSwitchIsAble === 1 && +remoteSwitchType === 3">
+              <el-form-item label="Remote switch Settings Params">
+                <el-date-picker
+                  v-model="dateOn"
+                  size="small"
+                  style="width: 160px"
+                  type="datetime"
+                  format="yyyy-MM-dd HH"
+                  value-format="yyyy-M-d H"
+                  placeholder="选择开机日期">
+                </el-date-picker>
+                <el-date-picker
+                  size="small"
+                  style="width: 160px"
+                  v-model="dateOff"
+                  type="datetime"
+                  format="yyyy-MM-dd HH"
+                  value-format="yyyy-M-d H"
+                  placeholder="选择关机日期">
+                </el-date-picker>
+                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(101)" :disabled="!(dateOff && dateOn)">Set</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+      <div class="set-part">
         <div class="set-type">{{ $t('device.gridStandard') }}</div>
         <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="20">
@@ -659,6 +856,22 @@ export default {
                   <el-option v-for="(i, k) of gridOption" :value="i.label" :label="i.label" :key="k"></el-option>
                 </el-select>
                 <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(19)">Set</el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="37" label="Grid Set">
+                <el-select v-model="deviceBase[37]" style="width: 60%">
+                  <el-option v-for="(i, k) of gridSetOptions" :value="i.value" :label="i.label" :key="k"></el-option>
+                </el-select>
+                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(37)">Set</el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="39" label="US Grid Class">
+                <el-select v-model="deviceBase[39]" style="width: 60%">
+                  <el-option v-for="(i, k) of usGridClassOptions" :value="i.value" :label="i.label" :key="k"></el-option>
+                </el-select>
+                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(39)">Set</el-button>
               </el-form-item>
             </el-col>
           </el-row>
