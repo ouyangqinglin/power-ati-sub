@@ -356,8 +356,10 @@ export default {
       }
       let arr = [13, 21, 25, 31, 38]
       if (arr.includes(+type)) {
-        if (this.deviceBase[type]) data.baseParam = 1
-        else data.baseParam = 0
+        if (this.deviceBase[type]) {
+          if(type === 13) data.baseParam = 0
+          else data.baseParam = 1
+        } else data.baseParam = 0
       }
       if(type === 101) {
         const specialParams = {
@@ -404,7 +406,8 @@ export default {
         let arr = [13, 21, 25, 31, 38]
         res.data.forEach(i => {
           if (arr.includes(+i.type)) {
-            item[+i.type] = +i.param === 1
+            if(i.type === 13) item[+i.type] = +i.param !== 1
+            else item[+i.type] = +i.param === 1
           } else item[i.type] = i.param
         })
         this.deviceBase = item
