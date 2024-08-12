@@ -52,7 +52,7 @@ export default {
     getRepeatQuest(type, params) {
       setTimeout(() => {
         this.getOrderRes(type, params)
-      }, 3000)
+      }, 5000)
     },
     getOrderRes(type, params) {
       clearInterval(timeCount)
@@ -102,7 +102,7 @@ export default {
     },
     setRepeatQuest(type, params) {
       setDeviceTimes++
-      if (setDeviceTimes > 3) return this.timeOut()
+      if (setDeviceTimes > 1) return this.timeOut()
       setTimeout(() => {
         this.repeatSetDevice(type, params)
       }, 3000)
