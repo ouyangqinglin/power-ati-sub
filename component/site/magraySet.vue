@@ -278,7 +278,7 @@ export default {
           value: '0',
           label: 'UL1741&IEEE1547.2020'
       }
-      return +this.deviceBase[19] === 8 ? arr.unshift(item) : arr
+      return +this.deviceBase[19] === 8 ? [item, ...arr] : arr
     },
   },
   methods: {
@@ -858,7 +858,7 @@ export default {
             <el-col :span="8">
               <el-form-item prop="19" label="Grid Standard">
                 <el-select v-model="deviceBase[19]" style="width: 60%">
-                  <el-option v-for="(i, k) of gridOption" :value="i.label" :label="i.label" :key="k"></el-option>
+                  <el-option v-for="(i, k) of gridOption" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
                 <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(19)">Set</el-button>
               </el-form-item>
