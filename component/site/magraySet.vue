@@ -129,67 +129,67 @@ export default {
       gridOption: [
         {
           label: 'Australia',
-          value: 0
+          value: '0'
         },
         {
           label: 'West Australia',
-          value: 1
+          value: '1'
         },
         {
           label: 'New Zealand',
-          value: 2
+          value: '2'
         },
         {
           label: 'United Kingdom',
-          value: 3
+          value: '3'
         },
         {
           label: 'Pakistan',
-          value: 4
+          value: '4'
         },
         {
           label: 'Korea',
-          value: 5
+          value: '5'
         },
         {
           label: 'The Philippines',
-          value: 6
+          value: '6'
         },
         {
           label: 'China',
-          value: 7
+          value: '7'
         },
         {
           label: 'The United States',
-          value: 8
+          value: '8'
         },
         {
           label: 'Thailand',
-          value: 9
+          value: '9'
         },
         {
           label: 'South Africa',
-          value: 10
+          value: '10'
         },
         {
           label: 'Custom',
-          value: 11
+          value: '11'
         },
         {
           label: 'Poland',
-          value: 12
+          value: '12'
         },
         {
           label: 'EN50549',
-          value: 13
+          value: '13'
         },
         {
           label: 'VDE4105',
-          value: 14
+          value: '14'
         },
         {
           label: 'Japan',
-          value: 15
+          value: '15'
         },
       ],
       gridSetOptions: [
@@ -208,6 +208,32 @@ export default {
         {
           value: '3',
           label: 'JP120V'
+        },
+      ],
+      usGridClassOptions: [
+        {
+          value: '0',
+          label: 'UL1741&IEEE1547.2020'
+        },
+        {
+          value: '1',
+          label: 'Rule21'
+        },
+        {
+          value: '2',
+          label: 'SRD-UL1741 1.0'
+        },
+        {
+          value: '3',
+          label: 'UL1741 SB'
+        },
+        {
+          value: '4',
+          label: 'UL1741 SA'
+        },
+        {
+          value: '5',
+          label: 'Heco 2.0'
         },
       ],
       rules: {
@@ -249,37 +275,6 @@ export default {
         ],
       }
     }
-  },
-  computed: {
-    usGridClassOptions() {
-      const arr = [
-        {
-          value: '1',
-          label: 'Rule21'
-        },
-        {
-          value: '2',
-          label: 'SRD-UL1741 1.0'
-        },
-        {
-          value: '3',
-          label: 'UL1741 SB'
-        },
-        {
-          value: '4',
-          label: 'UL1741 SA'
-        },
-        {
-          value: '5',
-          label: 'Heco 2.0'
-        },
-      ]
-      const item = {
-          value: '0',
-          label: 'UL1741&IEEE1547.2020'
-      }
-      return +this.deviceBase[19] === 8 ? [item, ...arr] : arr
-    },
   },
   methods: {
     inputVerify(min, max, type) {
@@ -856,14 +851,6 @@ export default {
         <el-form :model="deviceBase" label-position="top" :rules="rules" size="small" hide-required-asterisk>
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-form-item prop="19" label="Grid Standard">
-                <el-select v-model="deviceBase[19]" style="width: 60%">
-                  <el-option v-for="(i, k) of gridOption" :value="i.value" :label="i.label" :key="k"></el-option>
-                </el-select>
-                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(19)">Set</el-button>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
               <el-form-item prop="37" label="Grid Set">
                 <el-select v-model="deviceBase[37]" style="width: 60%">
                   <el-option v-for="(i, k) of gridSetOptions" :value="i.value" :label="i.label" :key="k"></el-option>
@@ -872,6 +859,14 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
+              <el-form-item prop="19" label="Grid Standard">
+                <el-select v-model="deviceBase[19]" style="width: 60%">
+                  <el-option v-for="(i, k) of gridOption" :value="i.value" :label="i.label" :key="k"></el-option>
+                </el-select>
+                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(19)">Set</el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" v-if="+deviceBase[19] === 8">
               <el-form-item prop="39" label="US Grid Class">
                 <el-select v-model="deviceBase[39]" style="width: 60%">
                   <el-option v-for="(i, k) of usGridClassOptions" :value="i.value" :label="i.label" :key="k"></el-option>
