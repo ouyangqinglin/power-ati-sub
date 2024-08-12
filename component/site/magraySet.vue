@@ -356,10 +356,8 @@ export default {
       }
       let arr = [13, 21, 25, 31, 38]
       if (arr.includes(+type)) {
-        if (this.deviceBase[type]) {
-          if(type === 13) data.baseParam = 0
-          else data.baseParam = 1
-        } else data.baseParam = 0
+        if (type === 13) data.baseParam = this.deviceBase[type] ? 0 : 1
+        else data.baseParam = this.deviceBase[type] ? 1 : 0
       }
       if(type === 101) {
         const specialParams = {
