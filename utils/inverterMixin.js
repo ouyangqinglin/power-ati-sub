@@ -66,7 +66,7 @@ export default {
       orderRes(data).then(res => {
         clearInterval(timeCount)
         requestTimes++
-        if (resTime < 10) { // 响应时间
+        if (resTime < 15) { // 响应时间
           if (+res.data === 3) {
             // 判断重复几次 > 3次直接timeout
             if (requestTimes < 3) {

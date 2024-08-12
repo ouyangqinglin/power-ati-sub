@@ -210,32 +210,6 @@ export default {
           label: 'JP120V'
         },
       ],
-      usGridClassOptions: [
-        {
-          value: '0',
-          label: 'UL1741&IEEE1547.2020'
-        },
-        {
-          value: '1',
-          label: 'Rule21'
-        },
-        {
-          value: '2',
-          label: 'SRD-UL1741 1.0'
-        },
-        {
-          value: '3',
-          label: 'UL1741 SB'
-        },
-        {
-          value: '4',
-          label: 'UL1741 SA'
-        },
-        {
-          value: '5',
-          label: 'Heco 2.0'
-        },
-      ],
       rules: {
         1: [
           { required: false, message: '', trigger: ['blur', 'change'] }
@@ -275,6 +249,37 @@ export default {
         ],
       }
     }
+  },
+  computed: {
+    usGridClassOptions() {
+      const arr = [
+        {
+          value: '1',
+          label: 'Rule21'
+        },
+        {
+          value: '2',
+          label: 'SRD-UL1741 1.0'
+        },
+        {
+          value: '3',
+          label: 'UL1741 SB'
+        },
+        {
+          value: '4',
+          label: 'UL1741 SA'
+        },
+        {
+          value: '5',
+          label: 'Heco 2.0'
+        },
+      ]
+      const item = {
+          value: '0',
+          label: 'UL1741&IEEE1547.2020'
+      }
+      return +this.deviceBase[19] === 8 ? arr.unshift(item) : arr
+    },
   },
   methods: {
     inputVerify(min, max, type) {
