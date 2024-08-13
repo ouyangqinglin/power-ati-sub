@@ -78,7 +78,7 @@ export default {
       remoteSwitchTypeOneOptions: [
         {
           label: 'Off',
-          value: 170
+          value: -86
         },
         {
           label: 'On',
