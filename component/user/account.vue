@@ -5,7 +5,7 @@
         <el-tab-pane :label="$t('common.customer')" name="1"></el-tab-pane>
         <el-tab-pane :label="$t('task.installer')" name="2"></el-tab-pane>
         <el-tab-pane :label="$t('common.agency')" name="3"></el-tab-pane>
-        <el-tab-pane v-if="+($store.state.user.userType) !== 3" :label="$t('common.administrator')" name="5"></el-tab-pane>
+        <el-tab-pane v-if="+($store.state.user.userType) === 4" :label="$t('common.administrator')" name="5"></el-tab-pane>
       </el-tabs>
     </el-card>
     <el-card class="pages-user-account-card pane">
