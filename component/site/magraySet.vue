@@ -809,14 +809,14 @@ export default {
                                 size="small"
                                 value-format="H:m"
                                 format="H:m"
-                                placeholder="选择开机时间">
+                                :placeholder="$t('site.setting.onTime')">
                 </el-time-picker>
                 <el-time-picker v-model="dailyOff"
                                 size="small"
                                 style="width: 160px"
                                 format="H:m"
                                 value-format="H:m"
-                                placeholder="选择关机时间">
+                                :placeholder="$t('site.setting.offTime')">
                 </el-time-picker>
                 <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(101)" :disabled="!(dailyOff && dailyOn)">Set</el-button>
               </el-form-item>

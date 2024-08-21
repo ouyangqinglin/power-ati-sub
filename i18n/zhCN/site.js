@@ -76,7 +76,7 @@ export default {
   'site.pleaseEnterCapacity': '请输入容量',
   'site.pleaseEnterRatedPower': '请输入额定功率',
   'site.threeSignificantDecimals': '最多三个有效小数',
-
-
+  'site.setting.onTime': '选择开机时间',
+  'site.setting.offTime': '选择关机时间',
 
 }

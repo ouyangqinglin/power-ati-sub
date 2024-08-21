@@ -76,6 +76,7 @@ export default {
   'site.pleaseEnterCapacity': 'please enter capacity',
   'site.pleaseEnterRatedPower': 'please enter rated power',
   'site.threeSignificantDecimals': 'At most three significant decimals',
-
+  'site.setting.onTime': 'Select boot time',
+  'site.setting.offTime': 'Select shutdown time',
 
 }
