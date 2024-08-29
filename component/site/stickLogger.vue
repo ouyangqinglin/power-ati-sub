@@ -43,6 +43,14 @@
           </el-row>
           <el-row type="flex" :gutter="60">
             <el-col :span="10"><el-form-item :label="$t('site.deviceModel')"><el-input readonly v-model="inverterVersion[+curDevInfo.type]"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('site.monitorModuleSoftwareVersion')"><el-input readonly v-model="slaveInfo['LCD_SVer']"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item :label="$t('site.monitorModuleHardwareVersion')"><el-input readonly v-model="slaveInfo['LCD_HVer']"></el-input></el-form-item></el-col>
+            <el-col :span="10"><el-form-item :label="$t('site.bleWifiModuleVersion')"><el-input readonly v-model="slaveInfo['BLE_WIFI_FW']"></el-input></el-form-item></el-col>
+          </el-row>
+          <el-row type="flex" :gutter="60">
+            <el-col :span="10"><el-form-item :label="$t('site.4GModuleVersion')"><el-input readonly v-model="slaveInfo['_4G_FW']"></el-input></el-form-item></el-col>
           </el-row>
         </el-form>
       </common-flex>
@@ -243,6 +251,11 @@ export default {
         this.netType = v.networkSetting ? (JSON.parse(v.networkSetting))['netType'] : ''
         if ([1, 2].includes(+this.curDevInfo.type)) this.getWifiData()
       }
+    }
+  },
+  computed: {
+    slaveInfo() {
+      return this.curDevInfo.slaveInfo ? JSON.parse(this.curDevInfo.slaveInfo) : {}
     }
   },
   beforeDestroy() {
