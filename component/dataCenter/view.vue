@@ -23,7 +23,7 @@
       <el-row :gutter="24">
         <el-col :span="8">
           <el-form-item :label="$t('dataCenter.port')" prop="api">
-            <el-input :placeholder="$t('common.pleaseEnter')" v-model="addBase.api" show-word-limit maxlength="50"></el-input>
+            <el-input :placeholder="$t('common.pleaseEnter')" v-model="addBase.api"></el-input>
           </el-form-item>
         </el-col>
         <!--          <el-col :span="9">-->
