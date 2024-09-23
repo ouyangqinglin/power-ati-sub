@@ -124,7 +124,7 @@
           <el-table-column :label="$t('common.sn')" prop="serialNumber">
             <template slot-scope="{ row }">
               <common-flex align="center" @click.native="+row.type === 1 ? details(row.serialNumber) : ''" :style="{cursor: +row.type === 1 ? 'pointer' : 'not-allowed'}">
-                <span class="dot" :style="{backgroundColor: ['#AAB2BC', '#8BEA91'][+curDevInfo.net]}"></span>
+                <span class="dot" :style="{backgroundColor: ['#AAB2BC', '#8BEA91'][+row.net]}"></span>
                 <span class="themeColor">{{ row.serialNumber }}</span>
               </common-flex>
             </template>
