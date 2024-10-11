@@ -626,6 +626,7 @@ export default {
       this.delShow = false
       this.delSubType = ''
       this.addSubType = true
+      this.cancelDelete()
     },
     fillAddDialog() {
       let haveTypeList = [4, 1, 2, 6, 3]
