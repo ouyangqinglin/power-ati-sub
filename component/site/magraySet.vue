@@ -116,6 +116,16 @@ export default {
           value: 2
         }
       ],
+      gridFunctionOption: [
+        {
+          label: 'disabled',
+          value: 0
+        },
+        {
+          label: 'No battery system function',
+          value: 2048
+        }
+      ],
       reactiveTypeOption: [
         {
           label: 'Power Factor',
@@ -770,6 +780,14 @@ export default {
               <el-form-item prop="6" label="Reactive Power(%)">
                 <el-input @blur="inputVerify(-65, 65, 6)" v-model.trim="deviceBase[6]" type="primary" plain style="width: 60%" placeholder="[-65,65]"></el-input>
                 <el-button type="primary" plain style="margin-left: 10px" :disabled="!deviceBase[6]" @click="setDevice(6)">Set</el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="40" label="Grid Function">
+                <el-select v-model="deviceBase[40]" style="width: 60%">
+                  <el-option v-for="(i, k) of gridFunctionOption" :value="i.value" :label="i.label" :key="k"></el-option>
+                </el-select>
+                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(40)">Set</el-button>
               </el-form-item>
             </el-col>
           </el-row>
