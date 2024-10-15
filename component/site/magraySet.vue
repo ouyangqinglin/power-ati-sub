@@ -118,11 +118,11 @@ export default {
       ],
       gridFunctionOption: [
         {
-          label: 'disabled',
+          label: 'bat func offline',
           value: '0'
         },
         {
-          label: 'No battery system function',
+          label: 'bat func online',
           value: '2048'
         }
       ],
