@@ -119,11 +119,11 @@ export default {
       gridFunctionOption: [
         {
           label: 'disabled',
-          value: 0
+          value: '0'
         },
         {
           label: 'No battery system function',
-          value: 2048
+          value: '2048'
         }
       ],
       reactiveTypeOption: [
