@@ -119,11 +119,11 @@ export default {
       gridFunctionOption: [
         {
           label: 'bat func offline',
-          value: '0'
+          value: '2048'
         },
         {
           label: 'bat func online',
-          value: '2048'
+          value: '0'
         }
       ],
       reactiveTypeOption: [
