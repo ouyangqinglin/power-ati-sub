@@ -783,11 +783,11 @@ export default {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item prop="40" label="Grid Function">
-                <el-select v-model="deviceBase[40]" style="width: 60%">
+              <el-form-item prop="20" label="Grid Function">
+                <el-select v-model="deviceBase[20]" style="width: 60%">
                   <el-option v-for="(i, k) of gridFunctionOption" :value="i.value" :label="i.label" :key="k"></el-option>
                 </el-select>
-                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(40)">Set</el-button>
+                <el-button type="primary" plain style="margin-left: 10px" @click="setDevice(20)">Set</el-button>
               </el-form-item>
             </el-col>
           </el-row>
