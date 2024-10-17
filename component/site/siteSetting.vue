@@ -17,7 +17,7 @@
 <!--              没有特定字符串值表示为设备1.0类型，直接展示麦格瑞能逆变器设置界面-->
               <MagraySet v-else :base="base" />
             </template>
-<!--            ATI逆变器设置界面-->
+<!--            ATI逆变器设置界面11111-->
             <MagraySet v-else :base="base" />
           </template>
           <template v-else-if="+active === 2">
