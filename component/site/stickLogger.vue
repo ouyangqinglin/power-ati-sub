@@ -124,7 +124,7 @@ const optionBat = {
       show: false,
       boundaryGap: true,
       data: [], // 接受接口时间点
-      position: 'bottom'
+      position: 'bottom',
     },
     {
       type: 'category',
