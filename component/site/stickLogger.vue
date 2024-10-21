@@ -15,7 +15,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="10">
-              <el-form-item :label="$t('site.wirelessStrength')" v-if="[1, 2].includes(+curDevInfo.type)">
+              <el-form-item :label="$t('site.wirelessStrength')" v-if="[1, 2].includes(+curDevInfo.type) && netType === 'WiFi'">
                 <div class="posr">
                   <el-input v-model="curDevInfo.wifi"></el-input>
                   <img class="posa wifi-img" :src="require('./img/device-wifi.svg')" alt="">
@@ -56,7 +56,7 @@
       </common-flex>
     </div>
 
-    <div class="part" style="margin-top: 24px" v-if="[1, 2].includes(+curDevInfo.type)">
+    <div class="part" style="margin-top: 24px" v-if="[1, 2].includes(+curDevInfo.type) && netType === 'WiFi'">
       <div class="part-title">{{ $t('common.historicalInformation') }}</div>
       <common-flex justify="space-between" align="center">
         <div></div>
@@ -249,7 +249,7 @@ export default {
       handler(v) {
         console.log('stickInfo', v)
         this.netType = v.networkSetting ? (JSON.parse(v.networkSetting))['netType'] : ''
-        if ([1, 2].includes(+this.curDevInfo.type)) this.getWifiData()
+        if ([1, 2].includes(+this.curDevInfo.type) && this.netType === 'WiFi') this.getWifiData()
       }
     }
   },
