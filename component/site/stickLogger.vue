@@ -122,9 +122,9 @@ const optionBat = {
     {
       type: 'category',
       show: false,
-      boundaryGap: true,
+      // boundaryGap: true,
       data: [], // 接受接口时间点
-      position: 'bottom',
+      position: 'bottom'
     },
     {
       type: 'category',
