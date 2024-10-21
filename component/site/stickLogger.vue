@@ -133,7 +133,7 @@ const optionBat = {
       position: 'bottom',
       axisLine: {
         lineStyle: {
-          color: '#E7E7E7'
+          color: '#E7E7E7'1
         }
       },
       axisLabel: {
