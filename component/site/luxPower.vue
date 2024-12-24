@@ -1,6 +1,6 @@
 <script>
 import inverterMixin from "@sub/utils/inverterMixin";
-import {deviceSet, getSettingInfo} from "@/api/device"
+import {deviceSet, getSettingInfo} from "@/api/device";
 let copyDeviceInfo = {}
 const statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
 const arrSwitch = [338, 340, 342, 343, 344, 347, 415, 416, 360, 370, 388, 398, 408, 414]
