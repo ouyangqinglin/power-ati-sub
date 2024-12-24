@@ -19,6 +19,7 @@
 import DateTypePicker from "@/components/common/dateTypePicker.vue";
 import * as echarts from "echarts";
 let pileInstance = null
+// sadjnlk
 let option = {
   color: ['#68B4FF', '#FFC96B', '#FF6464'],
   tooltip: {
