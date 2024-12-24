@@ -1,12 +1,12 @@
 <script>
 import inverterMixin from "@sub/utils/inverterMixin";
 import {deviceSet, getSettingInfo} from "@/api/device";
-let copyDeviceInfo = {}
-const statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
-const arrSwitch = [338, 340, 342, 343, 344, 347, 415, 416, 360, 370, 388, 398, 408, 414]
-const arrTime = [364, 365, 366, 367, 368, 369, 374, 375, 376, 377, 378, 379, 392, 393, 394, 395, 396, 397, 404, 405, 406, 407]
+let copyDeviceInfo = {};
+const statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH'];
+const arrSwitch = [338, 340, 342, 343, 344, 347, 415, 416, 360, 370, 388, 398, 408, 414];
+const arrTime = [364, 365, 366, 367, 368, 369, 374, 375, 376, 377, 378, 379, 392, 393, 394, 395, 396, 397, 404, 405, 406, 407];
 const inputList = [334, 337, 345, 349, 352, 353, 354, 356, 355, 357, 358, 361, 362, 363, 373, 371, 372, 380, 381, 387, 385, 383, 386, 384, 389, 391, 390, 399, 400, 401, 402, 403, 409, 410, 412, 411, 413]
-const coefficientList = [337, 354, 355, 380, 381, 385, 386, 411, 410, 400, 391, 372, 363]
+const coefficientList = [337, 354, 355, 380, 381, 385, 386, 411, 410, 400, 391, 372, 363];
 export default {
   name: "luxPower",
   mixins: [inverterMixin],
@@ -40,7 +40,7 @@ export default {
       pvInputModeOptions: [
         {
           label: 'No PV plug in',
-          value: 0
+          value: 0,
         },
         {
           label: 'PV1 plug in',
