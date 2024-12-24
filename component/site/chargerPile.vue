@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import {orderRes, stopCharge, chargeSet, getChargeSet} from "@/api/device"
+import {orderRes, stopCharge, chargeSet, getChargeSet} from "@/api/device";
 import { networkStatus, newInstall } from '@sub/utils/dict'
 const statusList = ['NO_RESPONSE', 'SUCCESS', 'ERROR', 'EXECUTING', 'NOT_ONLINE', 'UN_EXIST_FILE', 'SUBMIT_SUCCESS', 'NO_MATCH']
 let timerInter = null, times = 1
