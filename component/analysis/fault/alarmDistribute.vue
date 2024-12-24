@@ -15,6 +15,7 @@
 </template>
 
 <script>
+// dsfkjiosdflkj
 import DateTypePicker from "@/components/common/dateTypePicker.vue";
 import * as echarts from "echarts";
 let pileInstance = null
